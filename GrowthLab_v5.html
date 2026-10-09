@@ -1168,7 +1168,7 @@ html.gx-lock,html.gx-lock body{overflow:hidden!important}
 .gv-ehero{position:relative;border-radius:18px;overflow:hidden;border:1px solid #333;background:#d9d9d9;aspect-ratio:64/30;width:min(100%,820px);margin:0 auto;isolation:isolate}
 .gv-ebig{position:absolute;inset:0;z-index:5;display:grid;place-items:center;font:400 clamp(2.4rem,8vw,5.6rem)/1 var(--serif);text-transform:uppercase;letter-spacing:.06em;color:#fff;opacity:0;transform:scale(1.08);transition:opacity 1.6s ease .3s,transform 2.4s ease .3s;text-shadow:0 2px 0 rgba(0,0,0,.4)}
 .gv-end.go .gv-ebig{opacity:1;transform:none}
-.gv-end.t-win .gv-ebig{color:#0b0b0b;text-shadow:none}
+.gv-end.t-win .gv-ebig{color:#0b0b0b;text-shadow:0 0 18px #fff,0 0 4px #fff}.gv-end:not(.t-fail) .gv-ebig{place-items:end center;padding-bottom:3%}
 .gv-end.t-fail .gv-ehero::after{content:"";position:absolute;inset:0;z-index:4;background:#000;opacity:0;transition:opacity 1.6s ease}
 .gv-end.t-fail.go .gv-ehero::after{opacity:.72}
 .gv-end.t-fail .gv-ebig{color:#e9e9e9;letter-spacing:.14em;font-size:clamp(2rem,7vw,4.8rem)}
@@ -1893,8 +1893,64 @@ const SIM=[
   {id:"eskalasi",type:"fail",w:{pita:[3]},t:"Konflik yang membesar",x:"Reaksi yang defensif dan konfrontatif membuat masalah kecil menjadi konflik. Ingat, kritik atas pekerjaan bukan serangan pribadi. Coba lagi dengan jeda, menyimak, lalu klarifikasi."},
   {id:"lewat",type:"fail",w:{pita:[2],f:"abaikan"},t:"Masukan yang terlewat",x:"Kamu sempat bertahan, tetapi akhirnya mengabaikan masukan. Tanpa rencana perbaikan, kesalahan yang sama mudah terulang di tempat kerja berikutnya."},
   {id:"belajar",type:"mid",t:"Masih belajar membaca situasi",x:"Kamu tidak memperburuk keadaan, tetapi beberapa responsmu masih defensif atau belum menghasilkan perbaikan yang jelas. Latih jeda, klarifikasi, dan rencana yang spesifik."}]},
-{id:"s3",cv:1,soon:true,t:"Tenggat proyek tim",aspek:"Thinking Skill & Pemecahan Masalah",w:.30,ilus:"team",les:[[0,3],[2,0],[2,2],[2,3]],
- intro:"Kamu staf junior di sebuah agensi digital. Timmu terdiri atas empat orang."}
+{id:"s3",cv:1,t:"Tenggat proyek tim",aspek:"Thinking Skill & Pemecahan Masalah",w:.30,ilus:"team",les:[[0,3],[2,0],[2,2],[2,3]],
+ intro:"Kamu staf junior di sebuah agensi digital. Timmu terdiri atas empat orang.",
+ hero:{lan:true},endScene:"rapat",meters:[{k:"tim",t:"Kekompakan tim"},{k:"progres",t:"Progres proyek"}],start:"n1",
+ /* konsekuensi tertunda: flag "akar" (akar masalah ditemukan di situasi 2) membuka solusi terbaik di situasi 4 */
+ nodes:{
+  n1:{lv:1,sc:"rapat",who:"tim",x:"Timmu harus menyelesaikan materi kampanye klien dalam lima hari. Di hari kedua, baru 20% pekerjaan selesai. Ketua tim sakit dan kamu diminta mengoordinasikan tim. Di rapat pagi, anggota tim saling menyalahkan: “Ini gara-gara desainnya telat!” Apa langkah pertamamu?",c:[
+   {t:"Menghentikan saling menyalahkan dengan mengajak tim memetakan fakta: apa yang sudah selesai, apa yang belum, dan apa kendalanya.",s:95,n:"n2a",rx:"nod",m:[10,6],fb:"Kamu menggeser diskusi dari opini dan tuduhan ke fakta. Ini dasar untuk merumuskan masalah secara objektif."}, // REVIEW skor
+   {t:"Langsung membagi sisa pekerjaan sama rata tanpa membahas kendalanya.",s:60,n:"n2b",rx:"walk",m:[0,8],fb:"Semua orang mendapat tugas, tetapi penyebab keterlambatan belum tersentuh."}, // REVIEW skor
+   {t:"Ikut menunjuk siapa yang paling lambat supaya jelas siapa yang salah.",s:20,n:"n2b",rx:"angry-tense",m:[-14,-4],fb:"Mencari kambing hitam memperburuk suasana tim dan tidak menyelesaikan masalah."}, // REVIEW skor
+   {t:"Mengerjakan sendiri bagian yang tertinggal sambil lembur.",s:35,n:"n2b",rx:"walk",m:[-6,6],fb:"Niatmu baik, tetapi kamu kelelahan dan anggota tim tidak tahu apa yang harus mereka lakukan."}]}, // REVIEW skor
+  n2a:{lv:2,sc:"rapat",who:"tim",x:"Dari pemetaan, tim menemukan gejalanya: banyak desain harus dikerjakan ulang. Bagaimana kamu mencari akar masalahnya?",c:[
+   {t:"Bertanya “mengapa” berulang (5 Whys): mengapa dikerjakan ulang? Karena brief berubah. Mengapa berubah? Karena brief tidak pernah dikunci bersama klien.",s:96,n:"n3a",rx:"thinking",m:[6,8],set:["akar"],fb:"5 Whys membawa tim dari gejala ke akar masalah, yaitu brief yang tidak pernah dikunci."}, // REVIEW skor
+   {t:"Menyimpulkan bahwa desainer kurang teliti.",s:30,n:"n3b",rx:"shake",m:[-10,-2],set:["plester"],fb:"Ini asumsi, belum fakta. Menyalahkan orang membuat akar masalah yang sebenarnya terlewat."}, // REVIEW skor
+   {t:"Mencatat semua keluhan anggota tim tanpa mengelompokkannya.",s:60,n:"n3b",rx:"idle",m:[2,0],set:["plester"],fb:"Keluhan tercatat, tetapi tanpa analisis, gejala dan penyebab tetap bercampur."}, // REVIEW skor
+   {t:"Membandingkan catatan revisi dengan email klien untuk melihat kapan dan mengapa brief berubah.",s:90,n:"n3a",rx:"thinking",m:[4,8],set:["akar"],fb:"Memeriksa data sebelum menyimpulkan adalah ciri berpikir kritis: kamu memisahkan fakta dari opini dan asumsi."}]}, // REVIEW skor
+  n2b:{lv:2,sc:"rapat",who:"tim",x:"Hari ketiga, progres baru 45%. Dua anggota tim mengeluh, “Tugas kami tumpang tindih!” Klien juga kembali meminta revisi. Apa yang kamu lakukan?",c:[
+   {t:"Berhenti sejenak dan menganalisis akar masalah bersama tim dengan teknik 5 Whys.",s:85,n:"n3a",rx:"thinking",m:[6,6],set:["akar"],fb:"Lebih baik terlambat menemukan akar masalah daripada terus menambal gejala."}, // REVIEW skor
+   {t:"Menambah jam lembur untuk semua orang.",s:40,n:"n3b",rx:"walk",m:[-10,6],set:["plester"],fb:"Lembur adalah solusi plester: gejalanya ditambal, penyebabnya tetap ada, dan tim makin lelah."}, // REVIEW skor
+   {t:"Mengirim pekerjaan apa adanya ke klien supaya cepat selesai.",s:20,n:"n3b",rx:"shake",m:[-6,-10],set:["plester"],fb:"Keputusan yang tidak realistis ini berisiko membuat klien kecewa dan revisi bertambah."}, // REVIEW skor
+   {t:"Membagi ulang tugas sesuai keahlian, tetapi tanpa membahas mengapa revisi terus datang.",s:65,n:"n3b",rx:"nod",m:[6,4],set:["plester"],fb:"Tumpang tindih berkurang, tetapi akar masalahnya, brief yang berubah-ubah, belum tersentuh."}]}, // REVIEW skor
+  n3a:{lv:3,sc:"rapat",who:"tim",x:"Akar masalahnya sudah jelas. Sekarang tim perlu mencari alternatif solusi. Seorang anggota bertanya, “Jadi kita mulai dari mana?” Bagaimana kamu memimpin sesi ini?",c:[
+   {t:"Brainstorming tanpa menghakimi: semua ide ditulis dulu, baru dinilai belakangan.",s:95,n:"n4a",rx:"happy",m:[10,4],fb:"Memisahkan tahap mencari ide dari menilai ide membuat tim berani mengusulkan solusi kreatif."}, // REVIEW skor
+   {t:"Langsung memakai ide pertama yang muncul supaya hemat waktu.",s:55,n:"n4a",rx:"walk",m:[0,6],fb:"Cepat, tetapi alternatif yang mungkin lebih baik tidak sempat muncul."}, // REVIEW skor
+   {t:"Menolak setiap ide yang menurutmu kurang bagus saat itu juga.",s:30,n:"n4b",rx:"shake",m:[-12,0],fb:"Menghakimi ide terlalu dini membuat anggota tim enggan berpendapat."}, // REVIEW skor
+   {t:"Meminta setiap anggota menulis dua ide di kertas tempel, lalu mengelompokkannya bersama.",s:90,n:"n4a",rx:"thinking",m:[8,4],fb:"Teknik ini memberi semua orang kesempatan bicara dan menghasilkan alternatif yang beragam."}]}, // REVIEW skor
+  n3b:{lv:3,sc:"rapat",who:"tim",x:"Tenggat tinggal dua hari. Tim menunggu keputusanmu tentang langkah berikutnya. Apa yang kamu lakukan?",
+   v:[{w:{f:"plester"},x:"Tenggat tinggal dua hari. Revisi masih terus datang karena penyebabnya belum dibereskan. Tim menunggu keputusanmu. Apa yang kamu lakukan?"}],c:[
+   {t:"Mengajak tim mengumpulkan beberapa alternatif solusi dalam 15 menit sebelum memutuskan.",s:85,n:"n4a",rx:"thinking",m:[6,4],fb:"Meski waktu sempit, membandingkan beberapa alternatif lebih aman daripada menebak."}, // REVIEW skor
+   {t:"Memutuskan sendiri tanpa mendengar pendapat tim.",s:40,n:"n4b",rx:"angry-tense",m:[-10,4],fb:"Keputusannya cepat, tetapi kamu kehilangan masukan dan dukungan tim."}, // REVIEW skor
+   {t:"Menunggu ketua tim sembuh agar tidak salah langkah.",s:15,n:"n4b",rx:"sad",m:[-4,-12],fb:"Menunda keputusan saat tenggat sudah dekat memperburuk keadaan."}, // REVIEW skor
+   {t:"Meminta satu ide dari setiap anggota, lalu memilih yang paling sering disebut.",s:60,n:"n4a",rx:"nod",m:[6,2],fb:"Ada partisipasi tim, tetapi suara terbanyak belum tentu solusi yang paling layak."}]}, // REVIEW skor
+  n4a:{lv:4,sc:"rapat",who:"tim",x:"Beberapa alternatif sudah tertulis di papan. Bagaimana kamu memilih solusinya?",
+   v:[{w:{nf:"akar"},x:"Beberapa alternatif sudah tertulis di papan. Karena akar masalah tidak pernah dipetakan, tidak ada yang terpikir untuk menghentikan perubahan brief. Bagaimana kamu memilih solusinya?"}],c:[
+   {t:"Menilai tiap alternatif dengan matriks feasibility dan impact, lalu memilih: kunci brief bersama klien dan buat satu dokumen revisi bersama.",s:98,n:"n5a",rx:"happy",m:[8,12],req:{f:"akar"},fb:"Solusi ini menyasar akar masalah dan dipilih dengan kriteria yang terukur. Inilah keputusan yang akurat."}, // REVIEW skor
+   {t:"Menilai alternatif yang ada dengan matriks feasibility dan impact, lalu memilih yang skornya tertinggi.",s:80,n:"n5a",rx:"thinking",m:[6,8],req:{nf:"akar"},fb:"Cara memilihmu sudah terstruktur, tetapi tanpa akar masalah, solusi terbaik tidak ada di daftar pilihan."}, // REVIEW skor
+   {t:"Memilih alternatif yang disukai anggota tim paling senior.",s:50,n:"n5b",rx:"nod",m:[2,2],fb:"Keputusannya cepat, tetapi belum tentu paling efektif dan layak."}, // REVIEW skor
+   {t:"Menjalankan semua alternatif sekaligus supaya aman.",s:30,n:"n5b",rx:"walk",m:[-10,-4],fb:"Sumber daya terpecah dan tim kewalahan, sehingga tidak ada solusi yang dikerjakan dengan baik."}, // REVIEW skor
+   {t:"Memilih alternatif yang paling cepat tanpa mempertimbangkan risikonya.",s:55,n:"n5b",rx:"walk",m:[0,6],fb:"Pekerjaan bergerak cepat, tetapi risiko yang terlewat bisa muncul belakangan."}]}, // REVIEW skor
+  n4b:{lv:4,sc:"kantor",who:"atasan",x:"Suasana tim tegang. Hari keempat, manajer klien menelepon dan bertanya, “Bagaimana progresnya?” Apa yang kamu sampaikan dan putuskan?",c:[
+   {t:"Menyampaikan progres apa adanya, lalu menawarkan rencana: kunci brief hari ini dan kirim draf akhir lusa.",s:88,n:"n5a",rx:"nod",m:[8,10],fb:"Jujur tentang kondisi sambil menawarkan rencana konkret membangun kepercayaan klien."}, // REVIEW skor
+   {t:"Mengatakan semuanya lancar, padahal belum.",s:20,n:"n5b",rx:"sad",m:[-6,-10],fb:"Menutupi masalah membuat klien kehilangan kesempatan membantu dan memperbesar risiko di akhir."}, // REVIEW skor
+   {t:"Meminta tenggat diundur tanpa menjelaskan rencana.",s:45,n:"n5b",rx:"shake",m:[0,-4],fb:"Klien ragu karena belum melihat rencana perbaikan yang jelas."}, // REVIEW skor
+   {t:"Menyalahkan klien karena brief yang berubah-ubah.",s:15,n:"n5b",rx:"angry-tense",m:[-12,-8],fb:"Menyalahkan pihak lain merusak hubungan kerja dan tidak menyelesaikan masalah."}]}, // REVIEW skor
+  n5a:{lv:5,sc:"rapat",who:"tim",x:"Solusi sudah dipilih. Bagaimana kamu menjalankan dan mengevaluasinya?",c:[
+   {t:"Menyusun action plan (siapa mengerjakan apa dan kapan), mengecek progres 10 menit setiap hari, lalu melakukan review dan iterasi setelah proyek selesai.",s:96,n:null,rx:"happy",m:[10,12],fb:"Action plan yang jelas ditambah review dan iterasi membuat solusinya terukur dan bisa terus diperbaiki."}, // REVIEW skor
+   {t:"Membagikan tugas lewat grup chat tanpa tenggat yang jelas.",s:55,n:null,rx:"idle",m:[-2,2],fb:"Tugas tersampaikan, tetapi tanpa penanggung jawab dan tenggat yang jelas, progres sulit dipantau."}, // REVIEW skor
+   {t:"Menjalankan rencana tanpa evaluasi, karena yang penting selesai.",s:60,n:null,rx:"walk",m:[0,6],fb:"Proyek bisa selesai, tetapi pelajaran untuk proyek berikutnya hilang."}, // REVIEW skor
+   {t:"Saat evaluasi, menceritakan prosesnya dengan metode STAR (situasi, tugas, aksi, hasil), ditambah pelajaran untuk proyek berikutnya.",s:94,n:null,rx:"nod",m:[8,10],fb:"STAR membuat refleksimu runtut dan bisa dipakai ulang tim di proyek lain."}]}, // REVIEW skor
+  n5b:{lv:5,sc:"rapat",who:"tim",x:"Tenggat tinggal sehari dan pekerjaan belum rapi. Seorang anggota bertanya, “Kita harus bagaimana sekarang?” Apa langkah terakhirmu?",c:[
+   {t:"Memprioritaskan bagian terpenting, membuat action plan per jam, dan jujur kepada klien tentang bagian yang menyusul.",s:82,n:null,rx:"nod",m:[8,10],fb:"Prioritas dan komunikasi yang jujur menyelamatkan apa yang masih bisa diselamatkan."}, // REVIEW skor
+   {t:"Lembur semalaman bersama tim tanpa rencana.",s:35,n:null,rx:"walk",m:[-12,6],fb:"Kerja keras tanpa rencana membuat tim kelelahan dan kesalahan kecil bermunculan."}, // REVIEW skor
+   {t:"Menyerahkan pekerjaan apa adanya dan menyalahkan ketua tim yang sakit.",s:15,n:null,rx:"angry-tense",m:[-14,-10],fb:"Menyalahkan orang yang tidak hadir merusak kepercayaan tim dan tidak memperbaiki hasil."}, // REVIEW skor
+   {t:"Mengirim hasil seadanya, lalu mengusulkan sesi evaluasi bersama tim setelahnya.",s:60,n:null,rx:"thinking",m:[2,0],fb:"Ada niat untuk belajar, meski hasilnya belum maksimal."}]}}, // REVIEW skor
+ endings:[
+  {id:"tepat",type:"win",w:{pita:[0,1],f:"akar"},t:"Solusi yang tepat sasaran",x:"Kamu memisahkan gejala dari akar masalah, memilih solusi dengan kriteria terukur, dan menjalankannya dengan action plan yang jelas. Proyek selesai tepat waktu dengan revisi minimal."},
+  {id:"terbakar",type:"fail",w:{pita:[3]},t:"Proyek yang terbakar",x:"Keputusan yang reaktif dan tidak realistis membuat tenggat terlewat dan tim kelelahan. Mulailah dari fakta, cari akar masalah dengan 5 Whys, lalu pilih solusi dengan matriks."},
+  {id:"tambal",type:"mid",w:{f:"plester"},t:"Menambal gejala",x:"Proyek berjalan, tetapi masalah intinya tidak pernah dibereskan, jadi revisi dan lembur terus datang. Solusi plester terasa cepat, tetapi mahal di belakang."},
+  {id:"rapi",type:"mid",t:"Selesai, tapi belum rapi",x:"Kamu menemukan arah yang benar, tetapi beberapa langkah belum terstruktur. Rencana yang lebih terukur dan evaluasi yang konsisten akan membuat hasilnya jauh lebih baik."}]}
 ];
 
 /* deskriptor level per aspek (dari rubrik) */
