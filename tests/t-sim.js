@@ -45,10 +45,19 @@ const V1 = { v: 1, kuis: { best: { all: { score: 88.2, benar: 30, n: 34, t: 1 } 
   await go(page, "#/latihan/sim");
   await page.evaluate(() => localStorage.clear()); await go(page, "#/latihan/sim");
   const cards = await page.$$eval(".gs-file", e => e.map(x => x.textContent.replace(/\s+/g, " ")));
-  ok(cards.length === 3 && /Situasi 0\/5/.test(cards[0]) && /Segera hadir/.test(cards[1]) && /Segera hadir/.test(cards[2]), "kartu: Kasus 1 Situasi 0/5, Kasus 2–3 segera hadir");
+  const soon = await page.evaluate(() => GLD.SIM.map(c => !!c.soon));
+  ok(cards.length === 3 && cards.every((t, i) => soon[i] ? /Segera hadir/.test(t) : /Situasi 0\/5/.test(t)), "kartu awal: Situasi 0/5 (atau segera hadir)");
   const sw = await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1); ok(sw, "tanpa scroll horizontal (daftar kasus)");
-  await page.click('.gs-file[data-id="s2"]', { force: true }); await sl(300); ok(!(await page.$(".gs-title")), "kasus segera hadir tidak bisa dibuka");
-
+  const soonId = await page.evaluate(() => (GLD.SIM.find(c => c.soon) || {}).id);
+  if (soonId) { await page.click(`.gs-file[data-id="${soonId}"]`, { force: true }); await sl(300); ok(!(await page.$(".gs-title")), "kasus segera hadir tidak bisa dibuka") }
+  /* B0. setiap kasus yang bisa dimainkan: jalur terbaik sampai tamat → ending win, skor tersimpan */
+  for (const cid of await page.evaluate(() => GLD.SIM.filter(c => !c.soon).map(c => c.id).filter(id => id !== "s1"))) {
+    await page.click(`.gs-file[data-id="${cid}"]`); await page.waitForSelector('[data-sm="go"]'); await page.click('[data-sm="go"]');
+    const pk = []; for (let k = 1; k <= 5; k++) { pk.push(await playOne(page, "best", k % 2 ? "key" : "click")); await finishOne(page, k % 2 === 0) }
+    await page.waitForSelector(".gv-end"); const dd = await store(page), ex = Math.round(pk.reduce((a, b) => a + b.s, 0) / 5 * 10) / 10;
+    ok(dd.sim[cid].best.score === ex && !!(await page.$(".gv-end.t-win")), `${cid}: jalur terbaik ${pk.map(p => p.s).join("+")} → ${ex}, ending berhasil`);
+    await page.click('.gv-end [data-sm="home"]'); await page.waitForSelector(".gs-file");
+  }
   /* B. main penuh Kasus 1 (jalur terbaik), campuran klik/keyboard/lewati */
   await page.click('.gs-file[data-id="s1"]'); await page.waitForSelector('[data-sm="go"]'); await page.click('[data-sm="go"]');
   const picks = [];
@@ -68,7 +77,7 @@ const V1 = { v: 1, kuis: { best: { all: { score: 88.2, benar: 30, n: 34, t: 1 } 
   ok((await page.$$(".gv-trail li")).length === 5, "ringkasan jalur berisi 5 situasi + feedback");
   const sw3 = await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1); ok(sw3, "tanpa scroll horizontal (hasil)");
   await page.click('.gv-end [data-sm="home"]'); await page.waitForSelector(".gs-file");
-  ok(/Selesai · ending 1\/4/.test(await page.textContent('.gs-file[data-id="s1"]')) && /Terbaik/.test(await page.textContent('.gs-file[data-id="s1"]')), "kartu berubah: skor terbaik + ending ditemukan");
+  ok(/Selesai · ending 1\/\d/.test(await page.textContent('.gs-file[data-id="s1"]')) && /Terbaik/.test(await page.textContent('.gs-file[data-id="s1"]')), "kartu berubah: skor terbaik + ending ditemukan");
 
   /* C. refresh di tengah permainan → lanjutkan, pilihan tidak berubah */
   await page.click('.gs-file[data-id="s1"]'); await page.click('[data-sm="restart"],[data-sm="go"]');

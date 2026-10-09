@@ -1213,7 +1213,7 @@ html.gx-lock,html.gx-lock body{overflow:hidden!important}
 .gvs .glow{transition:opacity .9s}[data-mood=bad] .gvs .glow{opacity:.3}
 /* tokoh */
 .ch,.ch *{transform-box:fill-box}
-.ch .ch-sh{fill:rgba(0,0,0,.2)}
+.ch .ch-sh{fill:rgba(0,0,0,.2)}.ch .o{stroke:#151515;stroke-width:3.5;stroke-linejoin:round}
 .ch-b,.tr,.hd{transform-origin:50% 100%}.ar{transform-origin:50% 6%}.lg{transform-origin:50% 0}.tb,.xm{transform-origin:50% 100%}
 .ch .ey-c,.ch .ey-w,.ch .bw-u,.ch .bw-s,.ch .bw-a,.ch .mo-s,.ch .mo-f,.ch .mo-o,.ch .mo-t,.ch .sw,.ch .tb,.ch .xm,.ch .bl{opacity:0}
 .ch .ey-o,.ch .ey-c,.ch .ey-w,.ch .ln>path,.ch .mo-o,.ch .sw,.ch .tb,.ch .xm,.ch .bl{transition:opacity .2s,transform .3s}
@@ -1835,8 +1835,64 @@ const SIM=[
   {id:"terjebak",type:"fail",w:{pita:[3]},t:"Terjebak di pikiranmu sendiri",x:"Kali ini emosi dan jebakan pikiran mengambil alih. Ingat, kegagalan adalah peristiwa, bukan identitas. Ulangi kasus ini dan coba langkah Catch it, Check it, Change it."},
   {id:"berhenti",type:"fail",w:{pita:[2],f:"menyerah"},t:"Berhenti sebelum garis akhir",x:"Kamu sempat bangkit, tetapi akhirnya memilih berhenti. Daya juang tumbuh dari langkah kecil yang konsisten, bukan dari menunggu rasa takut hilang."},
   {id:"persimpangan",type:"mid",t:"Masih di persimpangan",x:"Kamu tidak terpuruk, tetapi beberapa keputusanmu masih reaktif atau belum terarah. Perbaikan kecil yang konsisten akan membuat hasilmu jauh lebih baik."}]},
-{id:"s2",cv:1,soon:true,t:"Kritik keras dari atasan saat magang",aspek:"Kecerdasan Emosional & Komunikasi",w:.35,ilus:"boss",les:[[1,0],[1,1],[1,3]],
- intro:"Kamu peserta magang di divisi pemasaran sebuah perusahaan, bertugas sebagai staf administrasi."},
+{id:"s2",cv:1,t:"Kritik keras dari atasan saat magang",aspek:"Kecerdasan Emosional & Komunikasi",w:.35,ilus:"boss",les:[[1,0],[1,1],[1,3]],
+ intro:"Kamu peserta magang di divisi pemasaran sebuah perusahaan, bertugas sebagai staf administrasi.",
+ hero:{lan:true},endScene:"kantor",meters:[{k:"emosi",t:"Kendali emosi"},{k:"percaya",t:"Kepercayaan atasan"}],start:"n1",
+ nodes:{
+  n1:{lv:1,sc:"kantor",who:"atasan",x:"Kamu menyerahkan rekap data penjualan. Di depan tim, supervisor berkata tegas: “Ini berantakan. Banyak angka salah dan formatnya tidak sesuai template. Saya butuh yang benar sebelum jam 3.” Wajahmu terasa panas. Apa yang terjadi dalam tiga detik pertama?",c:[
+   {t:"Menarik napas dalam dan menyadari, “Aku sedang tersinggung. Tahan dulu, dengarkan isinya.”",s:95,n:"n2a",rx:"thinking",m:[12,4],fb:"Jeda reaktif (pause) memberi ruang antara emosi dan respons. Kamu memilih mendengar dulu sebelum bereaksi."}, // REVIEW skor
+   {t:"Langsung memotong ucapan supervisor untuk menjelaskan bahwa template baru dikirim kemarin.",s:35,n:"n2b",rx:"angry-tense",m:[-10,-10],set:["defensif"],fb:"Menyela saat dikritik terdengar defensif. Penjelasanmu mungkin benar, tetapi waktunya membuat pesan utama tidak terdengar."}, // REVIEW skor
+   {t:"Menunduk menahan malu sambil memikirkan apa yang dipikirkan rekan-rekan tentangmu.",s:50,n:"n2b",rx:"sad",m:[-8,-2],fb:"Fokus pada rasa malu dan mind reading membuatmu tidak menangkap isi kritiknya."}, // REVIEW skor
+   {t:"Mencatat poin-poin yang disebutkan supervisor sambil mendengarkan sampai selesai.",s:92,n:"n2a",rx:"nod",m:[8,10],fb:"Mencatat membantumu memisahkan pesan dari cara penyampaiannya, sekaligus menunjukkan bahwa kamu serius."}]}, // REVIEW skor
+  n2a:{lv:2,sc:"kantor",who:"atasan",x:"Supervisor selesai bicara dan menunggu jawabanmu: “Jadi, bagaimana?” Rekan-rekan memperhatikan. Apa yang kamu katakan?",c:[
+   {t:"“Baik, Bu. Supaya saya tidak salah lagi, bagian mana yang paling perlu diperbaiki dulu?”",s:95,n:"n3a",rx:"nod",m:[8,12],fb:"Respons yang tenang dan asertif: kamu menerima kritik sekaligus mengarahkan percakapan ke solusi."}, // REVIEW skor
+   {t:"“Baik, Bu,” lalu kembali ke meja tanpa bertanya apa pun.",s:65,n:"n3b",rx:"idle",m:[4,0],fb:"Kamu tenang, tetapi belum jelas apa yang perlu diperbaiki, sehingga risiko salah lagi masih ada."}, // REVIEW skor
+   {t:"“Saya sudah berusaha keras, Bu. Kenapa harus ditegur di depan semua orang?”",s:30,n:"n3b",rx:"angry-tense",m:[-12,-14],set:["defensif"],fb:"Perasaanmu valid, tetapi menyampaikannya di depan umum saat emosi sedang tinggi memicu eskalasi."}, // REVIEW skor
+   {t:"“Terima kasih masukannya, Bu. Saya revisi sekarang dan kirim sebelum jam 3.”",s:85,n:"n3a",rx:"nod",m:[6,10],fb:"Kamu menerima kritik dengan profesional dan berkomitmen pada tenggat. Akan lebih kuat bila kamu juga mengklarifikasi bagian yang perlu diperbaiki."}]}, // REVIEW skor
+  n2b:{lv:2,sc:"kantor",who:"atasan",x:"Supervisor berhenti sejenak: “Saya tidak sedang mencari siapa yang salah.” Suasana menjadi canggung. Apa responsmu?",
+   v:[{w:{f:"defensif"},x:"Supervisor menatapmu: “Saya tidak sedang mencari siapa yang salah. Saya butuh datanya benar.” Suasana menjadi canggung. Apa responsmu?"}],c:[
+   {t:"Meminta maaf atas nada tadi, lalu bertanya bagian mana yang perlu diperbaiki.",s:88,n:"n3a",rx:"nod",m:[10,10],fb:"Mengakui nada yang kurang tepat lalu kembali ke isi adalah cara dewasa untuk meredakan konflik."}, // REVIEW skor
+   {t:"Tetap bersikukuh bahwa itu bukan salahmu.",s:20,n:"n3b",rx:"angry-tense",m:[-14,-14],set:["defensif"],fb:"Bersikukuh saat suasana memanas memicu eskalasi. Fokus bergeser dari memperbaiki data ke membela diri."}, // REVIEW skor
+   {t:"Diam, lalu mengerjakan ulang tanpa bertanya.",s:55,n:"n3b",rx:"sad",m:[-2,-2],fb:"Konflik tidak membesar, tetapi kamu masih menebak-nebak apa yang diminta."}, // REVIEW skor
+   {t:"Mengangguk dan berkata, “Baik, Bu. Saya catat dulu poin-poinnya.”",s:80,n:"n3a",rx:"nod",m:[8,8],fb:"Kamu menurunkan ketegangan dan kembali fokus pada isi pesan."}]}, // REVIEW skor
+  n3a:{lv:3,sc:"kantor",who:"atasan",x:"Satu jam kemudian kamu mendatangi meja supervisor untuk menindaklanjuti. Beliau bertanya, “Ada yang mau ditanyakan?” Apa yang kamu lakukan?",c:[
+   {t:"Meminta contoh konkret, misalnya rumus mana yang salah dan template versi berapa yang benar, lalu mengulanginya dengan kata-katamu sendiri.",s:96,n:"n4a",rx:"thinking",m:[6,12],set:["contoh"],fb:"Bertanya untuk klarifikasi lalu memparafrasekan adalah active listening. Kritik berubah menjadi actionable insight."}, // REVIEW skor
+   {t:"Menunjukkan revisi setengah jadi dan bertanya apakah arahnya sudah benar.",s:85,n:"n4a",rx:"nod",m:[4,10],fb:"Meminta umpan balik lebih awal mencegah kesalahan berulang dan membangun kepercayaan."}, // REVIEW skor
+   {t:"Membuka pembicaraan dengan menjelaskan panjang lebar mengapa kesalahan itu terjadi.",s:45,n:"n4b",rx:"shake",m:[-2,-6],fb:"Penjelasan boleh, tetapi kalau mendominasi, kesannya mencari pembenaran, bukan perbaikan."}, // REVIEW skor
+   {t:"Mengurungkan niat karena takut ditegur lagi.",s:35,n:"n4b",rx:"sad",m:[-6,-6],fb:"Menghindar membuat kesalahpahaman tetap ada. Klarifikasi singkat justru mengurangi kecemasan."}]}, // REVIEW skor
+  n3b:{lv:3,sc:"pantry",who:"rekan",x:"Di pantry, rekan magangmu, Tio, berbisik: “Supervisor itu memang galak. Kantor ini toxic. Mending kita komplain di grup magang.” Bagaimana tanggapanmu?",c:[
+   {t:"“Nadanya memang keras, tapi isinya soal data yang salah. Aku mau klarifikasi dulu ke beliau.”",s:92,n:"n4a",rx:"shake",m:[8,8],fb:"Kamu membedakan masukan profesional dari serangan pribadi, lalu memilih jalur yang konstruktif."}, // REVIEW skor
+   {t:"Ikut mengeluh dan menyebut supervisor tidak profesional.",s:25,n:"n4b",rx:"angry-tense",m:[-10,-10],set:["toxic"],fb:"Menyebut lingkungan kerja toxic hanya karena satu teguran keras adalah generalisasi. Kritik profesional tidak sama dengan perlakuan tidak wajar."}, // REVIEW skor
+   {t:"Mendengarkan cerita Tio, memvalidasi perasaannya, lalu mengajaknya menyiapkan pertanyaan untuk supervisor.",s:88,n:"n4a",rx:"nod",m:[8,6],fb:"Kamu berempati dan mendengarkan secara aktif, sekaligus mengarahkan energi ke solusi."}, // REVIEW skor
+   {t:"Diam saja dan kembali bekerja sambil memendam kesal.",s:50,n:"n4b",rx:"idle",m:[-6,0],fb:"Kamu tidak memperkeruh suasana, tetapi emosi yang dipendam mudah meledak di lain waktu."}]}, // REVIEW skor
+  n4a:{lv:4,sc:"kantor",who:"atasan",x:"Sore itu revisimu diterima. Lalu supervisor berkata, “Mulai besok kamu lembur sampai jam 10 malam setiap hari, tanpa catatan jam kerja.” Padahal kontrak magangmu menyebut jam kerja sampai pukul 17.00. Bagaimana responsmu?",c:[
+   {t:"Dengan tenang menyampaikan bahwa kamu siap membantu saat tenggat, sambil menanyakan bagaimana pencatatan jamnya sesuai kontrak magang.",s:95,n:"n5a",rx:"nod",m:[8,8],set:["batas"],fb:"Ini batas yang asertif: kamu tetap kooperatif sekaligus menegaskan hak sesuai aturan. Lembur tanpa batas berbeda dari kritik profesional."}, // REVIEW skor
+   {t:"Menerima saja tanpa bertanya karena takut dianggap tidak loyal.",s:45,n:"n5a",rx:"sad",m:[-6,4],fb:"Menuruti semua permintaan tanpa batas berisiko membuatmu kelelahan. Menetapkan batas dengan sopan tidak berarti tidak loyal."}, // REVIEW skor
+   {t:"Membalas dengan nada tinggi di depan tim bahwa permintaan itu eksploitatif.",s:30,n:"n5b",rx:"angry-tense",m:[-14,-12],set:["defensif"],fb:"Isinya mungkin benar, tetapi cara yang konfrontatif memicu eskalasi. Batas lebih efektif disampaikan dengan tenang dan berdasar aturan."}, // REVIEW skor
+   {t:"Mencatat permintaan itu, lalu berkonsultasi dengan pembimbing magang atau HR untuk memastikan aturannya.",s:88,n:"n5a",rx:"thinking",m:[6,6],set:["batas"],fb:"Kamu mencari informasi dan jalur resmi sebelum bereaksi. Ini cara objektif membedakan tuntutan wajar dari yang tidak wajar."}]}, // REVIEW skor
+  n4b:{lv:4,sc:"kantor",who:"atasan",x:"Keesokan harinya supervisor kembali menegur, kali ini soal laporan mingguan yang terlambat: “Laporan harus masuk tiap Jumat pukul 12. Tolong dibiasakan.” Bagaimana kamu memaknai teguran ini?",
+   v:[{w:{f:"toxic"},x:"Keesokan harinya kabar keluhan di grup magang sampai ke supervisor. Beliau menegurmu soal laporan mingguan yang terlambat: “Laporan harus masuk tiap Jumat pukul 12. Tolong dibiasakan.” Bagaimana kamu memaknai teguran ini?"}],c:[
+   {t:"Menganggapnya masukan profesional yang jelas karena ada tenggat dan standar, lalu memasang pengingat di kalender.",s:90,n:"n5a",rx:"nod",m:[10,10],fb:"Kamu memisahkan isi dari nada dan langsung mengubahnya menjadi kebiasaan kerja yang lebih baik."}, // REVIEW skor
+   {t:"Menganggap supervisor sengaja mencari-cari kesalahanmu.",s:25,n:"n5b",rx:"angry-tense",m:[-10,-10],fb:"Mind reading dan personalization membuat setiap masukan terasa seperti serangan pribadi."}, // REVIEW skor
+   {t:"Menerima teguran, tetapi malamnya mengeluh panjang di media sosial.",s:30,n:"n5b",rx:"sad",m:[-8,-8],set:["toxic"],fb:"Mengeluh di ruang publik bisa merusak kepercayaan dan reputasi profesionalmu."}, // REVIEW skor
+   {t:"Meminta waktu lima menit untuk menyepakati format dan jadwal laporan yang jelas.",s:85,n:"n5a",rx:"thinking",m:[6,10],fb:"Mengklarifikasi standar kerja adalah langkah komunikasi yang konstruktif."}]}, // REVIEW skor
+  n5a:{lv:5,sc:"kantor",x:"Akhir minggu, kamu menyusun langkah setelah semua masukan pekan ini. Apa rencanamu?",
+   v:[{w:{f:"contoh"},x:"Akhir minggu, kamu membuka catatan contoh kesalahan yang kamu minta dari supervisor. Apa rencanamu?"}],c:[
+   {t:"Menyusun growth plan dari contoh-contoh itu: cek rumus dua kali, pakai template terbaru, dan minta review singkat setiap Kamis.",s:98,n:null,rx:"happy",m:[10,12],req:{f:"contoh"},fb:"Kritik diubah menjadi rencana yang spesifik dan terukur. Inilah wujud nyata menerima masukan secara objektif."}, // REVIEW skor
+   {t:"Membuat daftar perbaikan dari ingatanmu, lalu meminta supervisor mengeceknya.",s:85,n:null,rx:"nod",m:[6,10],req:{nf:"contoh"},fb:"Rencanamu baik, meski akan lebih tepat bila berdasar contoh konkret dari supervisor."}, // REVIEW skor
+   {t:"Berjanji dalam hati akan lebih teliti, tanpa menulis rencana apa pun.",s:55,n:null,rx:"idle",m:[0,2],fb:"Niat baik tanpa rencana tertulis sulit diukur dan mudah terlupa."}, // REVIEW skor
+   {t:"Fokus menyelesaikan magang saja tanpa memperbaiki cara kerja.",s:30,n:null,rx:"sad",m:[-6,-10],set:["abaikan"],fb:"Mengabaikan masukan membuat kesalahan yang sama berpotensi terulang."}, // REVIEW skor
+   {t:"Meminta umpan balik dua arah: menanyakan cara supervisor ingin menerima laporan, dan menyampaikan bahwa kamu lebih mudah memahami masukan yang spesifik.",s:90,n:null,rx:"nod",m:[8,10],fb:"Komunikasi asertif dua arah membangun hubungan kerja yang sehat."}]}, // REVIEW skor
+  n5b:{lv:5,sc:"pantry",who:"rekan",x:"Akhir minggu, suasana kerjamu terasa berat. Tio bertanya, “Jadi, kamu mau gimana sekarang?” Apa yang kamu lakukan?",c:[
+   {t:"Mengakui bahwa reaksimu kemarin kurang tepat, lalu menyusun daftar perbaikan dan meminta waktu bicara dengan supervisor.",s:85,n:null,rx:"nod",m:[10,10],fb:"Refleksi dan inisiatif memperbaiki hubungan menunjukkan kecerdasan emosional yang tumbuh."}, // REVIEW skor
+   {t:"Memutuskan berhenti magang karena merasa semua orang memusuhimu.",s:15,n:null,rx:"sad",m:[-10,-14],set:["abaikan"],fb:"Keputusan besar yang diambil saat emosi negatif sering tidak berdasar fakta."}, // REVIEW skor
+   {t:"Tetap bekerja seperti biasa tanpa membahas apa pun.",s:50,n:null,rx:"idle",m:[0,-2],fb:"Situasi tidak memburuk, tetapi juga tidak ada yang berubah."}, // REVIEW skor
+   {t:"Meminta saran pembimbing magang tentang cara menyampaikan keberatan dengan sopan.",s:80,n:null,rx:"thinking",m:[6,6],fb:"Perspektif orang yang lebih berpengalaman membantumu merespons secara konstruktif."}]}}, // REVIEW skor
+ endings:[
+  {id:"matang",type:"win",w:{pita:[0,1],nf:"abaikan"},t:"Komunikator yang matang",x:"Kamu menerima kritik dengan objektif, mendengarkan secara aktif, dan menetapkan batas dengan asertif. Hubunganmu dengan supervisor justru membaik setelah minggu yang berat ini."},
+  {id:"eskalasi",type:"fail",w:{pita:[3]},t:"Konflik yang membesar",x:"Reaksi yang defensif dan konfrontatif membuat masalah kecil menjadi konflik. Ingat, kritik atas pekerjaan bukan serangan pribadi. Coba lagi dengan jeda, menyimak, lalu klarifikasi."},
+  {id:"lewat",type:"fail",w:{pita:[2],f:"abaikan"},t:"Masukan yang terlewat",x:"Kamu sempat bertahan, tetapi akhirnya mengabaikan masukan. Tanpa rencana perbaikan, kesalahan yang sama mudah terulang di tempat kerja berikutnya."},
+  {id:"belajar",type:"mid",t:"Masih belajar membaca situasi",x:"Kamu tidak memperburuk keadaan, tetapi beberapa responsmu masih defensif atau belum menghasilkan perbaikan yang jelas. Latih jeda, klarifikasi, dan rencana yang spesifik."}]},
 {id:"s3",cv:1,soon:true,t:"Tenggat proyek tim",aspek:"Thinking Skill & Pemecahan Masalah",w:.30,ilus:"team",les:[[0,3],[2,0],[2,2],[2,3]],
  intro:"Kamu staf junior di sebuah agensi digital. Timmu terdiri atas empat orang."}
 ];
@@ -2750,24 +2806,24 @@ const NPC={
  ibu:{hair:"#8a8a8a",hs:"bun",shirt:"#7a7a7a",pants:"#4d4d4d"},
  teman:{hair:"#333",hs:"cap",shirt:"#c4c4c4",pants:"#555"},
  atasan:{hair:"#555",hs:"short",shirt:"#4f4f4f",pants:"#2f2f2f",glass:true,tie:true},
- rekan:{hair:"#2e2e2e",hs:"long",shirt:"#d4d4d4",pants:"#6a6a6a",lan:true},
- rekan2:{hair:"#6a6a6a",hs:"short",shirt:"#9c9c9c",pants:"#444",glass:true,lan:true}};
+ rekan:{hair:"#2e2e2e",hs:"short",shirt:"#d4d4d4",pants:"#6a6a6a",lan:true},
+ rekan2:{hair:"#5a5a5a",hs:"long",shirt:"#9c9c9c",pants:"#444",glass:true,lan:true}};
 const HAIR={
- short:h=>`<path d="M-28 -172q-2-36 28-36t28 36q-6-16-28-17t-28 17z" fill="${h}"/>`,
- long:h=>`<path d="M-29 -174q-2-36 29-36t29 36q-8-17-29-18t-29 18z" fill="${h}"/>`,
- bun:h=>`<circle cx="0" cy="-206" r="11" fill="${h}"/><path d="M-28 -172q-2-34 28-34t28 34q-6-15-28-16t-28 16z" fill="${h}"/>`,
- cap:h=>`<path d="M-28 -172q-2-36 28-36t28 36q-6-16-28-17t-28 17z" fill="${h}"/><path d="M-29 -182q1-27 29-27t29 27z" fill="#222"/><rect x="-4" y="-186" width="46" height="8" rx="4" fill="#222"/>`};
-const HAIRBACK={long:h=>`<path d="M-31 -176q0-34 31-34t31 34v40q-7 6-14 0v-34h-34v34q-7 6-14 0z" fill="${h}"/>`};
+ short:h=>`<path class="o" d="M-28 -172q-2-36 28-36t28 36q-6-16-28-17t-28 17z" fill="${h}"/>`,
+ long:h=>`<path class="o" d="M-29 -174q-2-36 29-36t29 36q-8-17-29-18t-29 18z" fill="${h}"/>`,
+ bun:h=>`<circle class="o" cx="0" cy="-206" r="11" fill="${h}"/><path class="o" d="M-28 -172q-2-34 28-34t28 34q-6-15-28-16t-28 16z" fill="${h}"/>`,
+ cap:h=>`<path class="o" d="M-28 -172q-2-36 28-36t28 36q-6-16-28-17t-28 17z" fill="${h}"/><path d="M-29 -182q1-27 29-27t29 27z" fill="#222"/><rect x="-4" y="-186" width="46" height="8" rx="4" fill="#222"/>`};
+const HAIRBACK={long:h=>`<path class="o" d="M-31 -176q0-34 31-34t31 34v40q-7 6-14 0v-34h-34v34q-7 6-14 0z" fill="${h}"/>`};
 function tokoh(id,o){const p=Object.assign({},NPC[o.who||id]||NPC.hero,o),{x,y=FLOOR,s=1,flip=false,skin="#ececec"}=p;
  return `<g class="chw" transform="translate(${x} ${y}) scale(${flip?-s:s} ${s})"><g class="ch pose-idle ex-neutral${o.still?" still":""}" data-ch="${id}">
 <ellipse class="ch-sh" cx="0" cy="2" rx="44" ry="7"/>
 <g class="ch-b">
- <g class="lg lg-l"><rect x="-21" y="-76" width="17" height="72" rx="8" fill="${p.pants}"/><rect x="-26" y="-10" width="25" height="12" rx="6" fill="#222"/></g>
- <g class="lg lg-r"><rect x="4" y="-76" width="17" height="72" rx="8" fill="${p.pants}"/><rect x="1" y="-10" width="25" height="12" rx="6" fill="#222"/></g>
- <g class="tr"><path d="M-34 -118q0-25 25-25h18q25 0 25 25v50h-68z" fill="${p.shirt}"/>${p.tie?`<path d="M0 -141l-6 9 6 32 6-32z" fill="#2a2a2a"/>`:""}${p.lan?`<path d="M-12 -142L0 -104 12 -142" fill="none" class="acs" stroke-width="4"/><rect x="-9" y="-106" width="18" height="22" rx="3" fill="#fff"/>`:""}</g>
- <g class="ar ar-l"><rect x="-48" y="-138" width="15" height="64" rx="7.5" fill="${p.shirt}"/><circle cx="-40.5" cy="-73" r="8.5" fill="${skin}"/></g>
- <g class="ar ar-r"><rect x="33" y="-138" width="15" height="64" rx="7.5" fill="${p.shirt}"/><circle cx="40.5" cy="-73" r="8.5" fill="${skin}"/></g>
- <g class="hd">${(HAIRBACK[p.hs]||(()=>""))(p.hair)}<rect x="-8" y="-152" width="16" height="14" fill="${skin}"/><circle cx="0" cy="-175" r="28" fill="${skin}"/>${HAIR[p.hs](p.hair)}
+ <g class="lg lg-l"><rect class="o" x="-21" y="-76" width="17" height="72" rx="8" fill="${p.pants}"/><rect x="-26" y="-10" width="25" height="12" rx="6" fill="#222"/></g>
+ <g class="lg lg-r"><rect class="o" x="4" y="-76" width="17" height="72" rx="8" fill="${p.pants}"/><rect x="1" y="-10" width="25" height="12" rx="6" fill="#222"/></g>
+ <g class="tr"><path class="o" d="M-34 -118q0-25 25-25h18q25 0 25 25v50h-68z" fill="${p.shirt}"/>${p.tie?`<path d="M0 -141l-6 9 6 32 6-32z" fill="#2a2a2a"/>`:""}${p.lan?`<path d="M-12 -142L0 -104 12 -142" fill="none" class="acs" stroke-width="4"/><rect x="-9" y="-106" width="18" height="22" rx="3" fill="#fff"/>`:""}</g>
+ <g class="ar ar-l"><rect class="o" x="-48" y="-138" width="15" height="64" rx="7.5" fill="${p.shirt}"/><circle class="o" cx="-40.5" cy="-73" r="8.5" fill="${skin}"/></g>
+ <g class="ar ar-r"><rect class="o" x="33" y="-138" width="15" height="64" rx="7.5" fill="${p.shirt}"/><circle class="o" cx="40.5" cy="-73" r="8.5" fill="${skin}"/></g>
+ <g class="hd">${(HAIRBACK[p.hs]||(()=>""))(p.hair)}<rect x="-8" y="-152" width="16" height="14" fill="${skin}"/><circle class="o" cx="0" cy="-175" r="28" fill="${skin}"/>${HAIR[p.hs](p.hair)}
   <g class="ey-o"><ellipse cx="-9.5" cy="-175" rx="3.4" ry="4.4"/><ellipse cx="9.5" cy="-175" rx="3.4" ry="4.4"/></g>
   <g class="ey-c ln"><path d="M-14 -174q4.5-6 9 0M5 -174q4.5-6 9 0"/></g>
   <g class="ey-w"><circle cx="-9.5" cy="-175" r="5.8" fill="#fff" stroke="${K}" stroke-width="2.4"/><circle cx="9.5" cy="-175" r="5.8" fill="#fff" stroke="${K}" stroke-width="2.4"/><circle cx="-9.5" cy="-175" r="2.3"/><circle cx="9.5" cy="-175" r="2.3"/></g>
@@ -2803,13 +2859,13 @@ const SC={
  pantry:{ac:"#14b8a6",wall:"#d4d4d4",d:()=>`${box(40,40,200,70,"#ededed",6)}<path d="M140 40v70" stroke="${K}" stroke-width="4"/>${box(30,180,300,70,"#9a9a9a",6)}<rect x="30" y="180" width="300" height="14" fill="#bdbdbd" stroke="${K}" stroke-width="4"/>
   ${box(70,126,56,54,"#555",6)}<rect x="84" y="140" width="28" height="14" class="acf"/>${box(150,154,22,26,"#fff",4)}${box(184,158,22,22,"#fff",4)}${box(520,50,80,190,"#cfcfcf",6)}<path d="M520 120h80M590 74v24M590 140v30" stroke="${K}" stroke-width="4"/>`}};
 /* adegan → letak tokoh */
-function sceneSVG(sc,who,o={}){const S=SC[sc]||SC.kamar,two=!!who,hx=o.hx||(two?250:320),still=!!o.still;
+function sceneSVG(sc,who,o={}){const HO=o.heroOpt||{};const S=SC[sc]||SC.kamar,two=!!who,hx=o.hx||(two?250:320),still=!!o.still;
  const npc=who==="tim"?[["rekan",430,.86],["rekan2",520,.8]]:who?[[who,420,1]]:[];
  return `<svg class="gvs${S.dark?" dark":""}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" style="--ac:${S.ac}" aria-hidden="true">
  <rect width="${W}" height="${FLOOR}" fill="${S.wall}"/><rect y="${FLOOR}" width="${W}" height="${H-FLOOR}" fill="${S.dark?"#6f6f6f":"#b4b4b4"}"/><path d="M0 ${FLOOR}H${W}" stroke="${K}" stroke-width="4"/>
  <g class="bgd">${S.d()}</g>
  ${npc.map(([id,x,s])=>tokoh("npc-"+id,{who:id,x,s,flip:true,still})).join("")}
- ${o.hero===false?"":tokoh("hero",{x:hx,still})}
+ ${o.hero===false?"":tokoh("hero",Object.assign({},HO,{x:hx,still}))}
  <g class="bb" opacity="0"><path class="bbt" d=""/><rect class="bbr" rx="12"/><text class="bbx"></text></g>
  <rect class="at at-d" width="${W}" height="${H}" fill="#000"/><rect class="at at-l" width="${W}" height="${H}" fill="#fff"/>
 </svg><canvas class="gv-pc" aria-hidden="true"></canvas>`}
@@ -2851,12 +2907,12 @@ function bubble(svg,who,text,instant){const g=svg&&svg.querySelector(".bb");if(!
  g.setAttribute("opacity","1");g.classList.remove("in");void g.getBoundingClientRect();g.classList.add("in");
  if(instant||rmq())return;const sp=[...t.children];let i=0,c=0;const step=()=>{if(i>=sp.length)return;const s=sp[i],f=s.dataset.full;c++;s.textContent=f.slice(0,c);if(c>=f.length){i++;c=0}later(step,22)};step()}
 const quote=x=>{const m=String(x||"").match(/“([^”]+)”/);if(!m)return "";const q=m[1];return q.length>70?q.slice(0,68).replace(/\s\S*$/,"")+"…":q};
-function headPt(svg,who,cv){const ch=svg&&svg.querySelector(`[data-ch="${who}"] .hd`);if(!ch||!cv)return null;const a=ch.getBoundingClientRect(),b=cv.getBoundingClientRect();return{x:a.left-b.left+a.width/2,y:a.top-b.top+a.height*.3}}
+function headPt(svg,who,cv){const ch=svg&&svg.querySelector(`[data-ch="${who}"] .hd`);if(!ch||!cv)return null;const a=ch.getBoundingClientRect(),b=cv.getBoundingClientRect();return{x:a.left-b.left+a.width/2,y:a.top-b.top+a.height*.3,w:a.width/2}}
 const NODEWHO=n=>n&&n.who;
 
 return{
- thumb(c){const n=c.nodes?c.nodes[c.start]:null;return sceneSVG(n?n.sc:({mail:"kamar",boss:"kantor",team:"rapat"}[c.ilus]||"kamar"),n?n.who:null,{still:true}).replace('<canvas class="gv-pc" aria-hidden="true"></canvas>',"")},
- scene(c,n,st){return sceneSVG(n.sc,NODEWHO(n))},
+ thumb(c){const n=c.nodes?c.nodes[c.start]:null;return sceneSVG(n?n.sc:({mail:"kamar",boss:"kantor",team:"rapat"}[c.ilus]||"kamar"),n?n.who:null,{still:true,heroOpt:c.hero}).replace('<canvas class="gv-pc" aria-hidden="true"></canvas>',"")},
+ scene(c,n,st){return sceneSVG(n.sc,NODEWHO(n),{heroOpt:c.hero})},
  enter(el,c,n,st,still){this.stop();EL=el;if(!el)return;const svg=el.querySelector(".gvs");
   const avg=st.scores.length?st.scores.reduce((a,b)=>a+b,0)/st.scores.length:null;el.dataset.mood=avg==null?"":["good","good","mid","bad"][GLS.score.pita(avg)];
   const hero=svg.querySelector('[data-ch="hero"]');pose(hero,st.ids.length?"idle":"walkin",still);
@@ -2866,11 +2922,11 @@ return{
  react(rx,tone,ch){const el=EL;if(!el)return;const svg=el.querySelector(".gvs"),cv=el.querySelector(".gv-pc"),hero=svg.querySelector('[data-ch="hero"]');
   pose(hero,rx);bubble(svg,"hero",LINE[rx]||"");
   const npcs=[...svg.querySelectorAll('[data-ch^="npc-"]')];later(()=>npcs.forEach(n=>pose(n,NPCR[tone]||"idle")),380);
-  later(()=>{const p=headPt(svg,"hero",cv);if(!p)return;if(rx==="angry-tense"||(tone==="bad"&&rx!=="sad"))PC.emit(cv,"sweat",p.x,p.y,7);else if(rx==="happy"||tone==="good")PC.emit(cv,"stars",p.x,p.y-10,tone==="good"?12:6);else if(rx==="sad")PC.emit(cv,"sweat",p.x,p.y+6,3)},420)},
+  later(()=>{const p=headPt(svg,"hero",cv);if(!p)return;if(rx==="angry-tense"||(tone==="bad"&&rx!=="sad"))PC.emit(cv,"sweat",p.x,p.y,7);else if(rx==="happy"||tone==="good"){const n=tone==="good"?6:3;PC.emit(cv,"stars",p.x-p.w*1.4,p.y+p.w*1.6,n);PC.emit(cv,"stars",p.x+p.w*1.4,p.y+p.w*1.6,n)}else if(rx==="sad")PC.emit(cv,"sweat",p.x,p.y+6,3)},420)},
  mood(tone){if(EL)EL.dataset.mood=tone||""},
  settle(rx,tone){const el=EL;if(!el)return;this.stop();EL=el;const svg=el.querySelector(".gvs");pose(svg.querySelector('[data-ch="hero"]'),rx,true);
   svg.querySelectorAll('[data-ch^="npc-"]').forEach(n=>pose(n,NPCR[tone]||"idle",true));bubble(svg,"hero",LINE[rx]||"",true);el.dataset.mood=tone||""},
- ending(c,type){const sc=c.endScene||"lobi";return sceneSVG(sc,null,{hx:320})},
+ ending(c,type){const sc=c.endScene||"lobi";return sceneSVG(sc,null,{hx:320,heroOpt:c.hero})},
  endingPlay(el,type){this.stop();EL=el;if(!el)return;const svg=el.querySelector(".gvs"),cv=el.querySelector(".gv-pc"),hero=svg&&svg.querySelector('[data-ch="hero"]');
   el.dataset.mood=type==="win"?"good":type==="fail"?"bad":"";pose(hero,type==="win"?"happy":type==="fail"?"sad":"idle");
   if(type==="win")later(()=>{const p=headPt(svg,"hero",cv);if(p){PC.emit(cv,"confetti",p.x-120,p.y+60,36);PC.emit(cv,"confetti",p.x+120,p.y+60,36)}},350);
