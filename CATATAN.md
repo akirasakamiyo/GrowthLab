@@ -249,7 +249,14 @@ Dikerjakan di branch git `feat/simulasi-branching` (repo dibuat 9 Okt 2026; comm
 **Checklist deploy (situs Netlify `growth-lab-motion`, diunggah manual)**
 1. `node tests/t-core.js` dan, dengan `node tests/serve.js` berjalan, `node tests/t-qa.js chrome` → semua lolos.
 2. `git switch main && git merge --ff-only feat/simulasi-branching`.
-3. Salin `GrowthLab_v5.html` sebagai `index.html` ke folder kosong, lalu deploy folder itu ke situs Netlify (Netlify Drop / CLI / Netlify MCP).
+3. Salin `GrowthLab_v5.html` sebagai `index.html` **dan folder `assets/`** (tanpa `assets/sim/src`) ke folder kosong, lalu deploy folder itu ke situs Netlify (Netlify Drop / CLI / Netlify MCP).
 4. Buka situs live, cek `#/latihan/sim` dan Nilai Akhir.
 
 **Rollback**: di Netlify, buka **Deploys**, pilih deploy sebelumnya, lalu **Publish deploy**. Di git: `git revert` commit terkait atau `git switch main && git reset --hard <commit>` sebelum deploy ulang.
+
+### 9a. Pembaruan v8.1: simulasi berwarna + latar ilustrasi AI
+- Tema panel simulasi berubah dari monokrom menjadi berwarna (navy dengan aksen kuning, hijau, oranye). Setiap kasus punya warna khas: Kasus 1 teal, Kasus 2 coral, Kasus 3 ungu. Umpan balik dan stempel level juga berwarna sesuai kualitas pilihan (hijau baik, kuning cukup, merah perlu bimbingan).
+- **9 latar adegan dibuat dengan AI** (model `gpt-image-2.5`, penerus DALL·E, lewat Figma AI memakai kredit plan "murdo's team"): kamar (siang & malam), ruang keluarga, teras, meja belajar, lobi kantor, kantor divisi pemasaran, pantry, dan ruang rapat. Gambar dibuat tanpa orang dan tanpa tulisan, lalu tokoh SVG yang beranimasi diletakkan di depannya.
+- File: `assets/sim/*.jpg` (total ±1,1 MB, 1280 px, kualitas 72). Gambar asli PNG ada di `assets/sim/src/` (tidak dimasukkan ke git). **Folder `assets/` wajib ikut diunggah ke Netlify** bersama `index.html`. Jika gambar gagal dimuat, latar SVG berwarna di bawahnya tetap tampil.
+- Tokoh diwarnai (warna kulit sawo matang, baju warna-warni, ibu berhijab, topi merah Raka, dasi merah atasan), tetap dengan outline hitam tebal dan semua pose/ekspresi.
+- Perlu ditinjau tim: kecocokan tiap latar dengan cerita. Untuk mengganti satu latar, simpan gambar baru dengan nama yang sama di `assets/sim/` (rasio 16:9, area tengah kosong, lantai di ±25% bawah).
