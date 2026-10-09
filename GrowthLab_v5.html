@@ -19,6 +19,7 @@ body{margin:0;background:var(--bg);color:var(--fg);font:400 1.0625rem/1.6 var(--
 button,a{font:inherit;color:inherit}a{text-decoration:none}
 :focus-visible{outline:2px solid var(--acc);outline-offset:3px}
 #gl{position:fixed;inset:0;width:100%;height:100%;z-index:0;transition:opacity .8s var(--e);pointer-events:none}
+#gl{display:none!important}
 body[data-view=course] #gl{opacity:.55}body[data-view=lesson] #gl{opacity:0}
 main,header,footer{position:relative;z-index:2}
 .wrap{width:min(1180px,100% - 40px);margin-inline:auto}
@@ -516,7 +517,7 @@ body.zload .hero .rv:not(h1){opacity:0!important;transform:translateY(26px)!impo
 .zp{display:inline-block;font:400 clamp(2.6rem,min(8.5vw,13svh),8.5rem)/1 var(--serif);text-transform:uppercase;padding:.08em .34em .02em;border:3px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink);white-space:nowrap;box-shadow:0 30px 60px -30px rgba(0,0,0,.55)}
 .zp.y{background:var(--sun)}.zp.o{background:var(--acc);color:#fff}
 /* teks horizontal digeser scroll */
-#geser{--b:#e6ecff;--prev:#0a1a6b;height:360svh}#geser .zstk{display:flex;align-items:center}
+#geser{--b:#e6ecff;--prev:#0a1a6b;height:160svh}#geser .zstk{display:flex;align-items:center}
 #discover{--prev:#e6ecff}
 .zrow{display:flex;align-items:center;gap:.22em;white-space:nowrap;font:400 clamp(6rem,24vw,22rem)/.9 var(--serif);text-transform:uppercase;color:var(--ink);will-change:transform}
 .zrow .ol{color:transparent;-webkit-text-stroke:3px var(--ink)}
@@ -3760,7 +3761,8 @@ $("#pg").addEventListener("pointerout",e=>{const c=e.target.closest(".card");if(
 /* ---------- WebGL: one shared loop, flat paper/shape field with scroll depth ---------- */
 let active=0,setActive=i=>{active=i};
 const canvas=$("#gl"),cur_=$("#cur");let R;
-try{R=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true})}catch(e){document.body.classList.add("nogl")}
+/* v8.2: latar bentuk 3D melayang dimatikan atas permintaan pengguna (mengganggu mata). Kerumunan 3D di hero tidak terpengaruh. */
+const BG3D=false;if(BG3D)try{R=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true})}catch(e){document.body.classList.add("nogl")}
 if(R){
  const mobile=innerWidth<760,rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
  R.setPixelRatio(Math.min(devicePixelRatio||1,1.5));
