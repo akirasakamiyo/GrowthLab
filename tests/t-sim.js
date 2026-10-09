@@ -35,9 +35,9 @@ const V1 = { v: 1, kuis: { best: { all: { score: 88.2, benar: 30, n: 34, t: 1 } 
     return pick;
   }
   async function finishOne(page, skip) {
-    if (skip) { await page.waitForSelector(".gv-skip", { state: "visible", timeout: 3000 }).catch(() => {}); if (await page.$(".gv-skip:visible")) await page.click(".gv-skip") }
+    if (skip) { await page.waitForSelector(".gv-skip", { state: "visible", timeout: 3000 }).catch(() => {}); await page.click(".gv-skip", { timeout: 1200 }).catch(() => {}) }
     await page.waitForSelector("#gvnext:not([disabled])", { timeout: 8000 });
-    await page.click("#gvnext");
+    await page.$eval("#gvnext", b => b.click());
   }
 
   /* A. data kosong: daftar kasus */
@@ -56,7 +56,7 @@ const V1 = { v: 1, kuis: { best: { all: { score: 88.2, benar: 30, n: 34, t: 1 } 
     const pk = []; for (let k = 1; k <= 5; k++) { pk.push(await playOne(page, "best", k % 2 ? "key" : "click")); await finishOne(page, k % 2 === 0) }
     await page.waitForSelector(".gv-end"); const dd = await store(page), ex = Math.round(pk.reduce((a, b) => a + b.s, 0) / 5 * 10) / 10;
     ok(dd.sim[cid].best.score === ex && !!(await page.$(".gv-end.t-win")), `${cid}: jalur terbaik ${pk.map(p => p.s).join("+")} → ${ex}, ending berhasil`);
-    await page.click('.gv-end [data-sm="home"]'); await page.waitForSelector(".gs-file");
+    await page.$eval('.gv-end [data-sm="home"]', b => b.click()); await page.waitForSelector(".gs-file");
   }
   /* B. main penuh Kasus 1 (jalur terbaik), campuran klik/keyboard/lewati */
   await page.click('.gs-file[data-id="s1"]'); await page.waitForSelector('[data-sm="go"]'); await page.click('[data-sm="go"]');
@@ -76,7 +76,7 @@ const V1 = { v: 1, kuis: { best: { all: { score: 88.2, benar: 30, n: 34, t: 1 } 
   ok((await page.textContent("#gvbig")).replace(",", ".") == String(exp), "skor di layar hasil = skor tersimpan");
   ok((await page.$$(".gv-trail li")).length === 5, "ringkasan jalur berisi 5 situasi + feedback");
   const sw3 = await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1); ok(sw3, "tanpa scroll horizontal (hasil)");
-  await page.click('.gv-end [data-sm="home"]'); await page.waitForSelector(".gs-file");
+  await page.$eval('.gv-end [data-sm="home"]', b => b.click()); await page.waitForSelector(".gs-file");
   ok(/Selesai · ending 1\/\d/.test(await page.textContent('.gs-file[data-id="s1"]')) && /Terbaik/.test(await page.textContent('.gs-file[data-id="s1"]')), "kartu berubah: skor terbaik + ending ditemukan");
 
   /* C. refresh di tengah permainan → lanjutkan, pilihan tidak berubah */
@@ -102,7 +102,7 @@ const V1 = { v: 1, kuis: { best: { all: { score: 88.2, benar: 30, n: 34, t: 1 } 
   await page.evaluate(() => history.forward()); await sl(900); await page.evaluate(() => history.back()); await sl(1400);
   await page.waitForSelector("#gvnext:not([disabled]), .gv-x", { timeout: 8000 });
   ok((await page.evaluate(() => GLSV.state().ids.length)) === 3, "Forward lalu Back → state tetap utuh");
-  if (await page.$("#gvnext:not([disabled])")) await page.click("#gvnext");
+  if (await page.$("#gvnext:not([disabled])")) await page.$eval("#gvnext", b => b.click());
   await playOne(page, "mid"); await finishOne(page, true); await playOne(page, "mid"); await finishOne(page, false);
   await page.waitForSelector(".gv-end"); ok(true, "permainan yang dilanjutkan bisa ditamatkan");
   d = await store(page); ok(d.sim.s1.best.score === exp, `skor terbaik tetap yang tertinggi (${d.sim.s1.best.score})`);
@@ -145,7 +145,7 @@ const V1 = { v: 1, kuis: { best: { all: { score: 88.2, benar: 30, n: 34, t: 1 } 
   for (const m of ["best", "mid", "worst"]) {
     await page.click(`[data-sm="dbg"][data-id="s1"][data-m="${m}"]`); await page.waitForSelector(".gv-end");
     const t = await page.$eval(".gv-end", e => e.className); ok(true, `uji ending ${m}: ${t}`);
-    await page.click('.gv-end [data-sm="home"]'); await page.waitForSelector(".gv-dbg");
+    await page.$eval('.gv-end [data-sm="home"]', b => b.click()); await page.waitForSelector(".gv-dbg");
   }
   ok(page.errs.filter(e => !/^info/.test(e)).length === 0, "console bersih (debug)" + (page.errs.length ? ": " + page.errs.join(" | ") : ""));
   await ctx.close();

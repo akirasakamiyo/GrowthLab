@@ -202,3 +202,54 @@ Hanya **fitur dan tampilan** latihan yang diubah. Isi soal, set drag & drop, ske
 **Motion lain:** perpindahan tab, angka nilai akhir yang menghitung naik, dan bilah kontribusi. Semua animasi otomatis dikurangi jika perangkat memakai `prefers-reduced-motion`.
 
 **Hasil pengecekan v7 (Playwright, Chrome + WebKit):** kuis (nilai, poin, keluar–lanjutkan, waktu habis), keenam set drag & drop (mouse, ketuk, panah, keyboard, sentuh tahan-lalu-seret), ketiga skenario (skor = rata-rata jalur), dan nilai akhir (Gabungan 100 + simulasi) lolos di 375, 768, dan 1280 px, termasuk mode reduced-motion. Semua halaman lain terbuka tanpa error console di http maupun `file://`. Catatan: beranda di 1280 px punya pita marquee miring yang melebar 40 px di luar layar sejak versi sebelumnya; tidak bisa digeser pengguna karena `body` memakai `overflow-x:hidden`.
+
+---
+
+## 9. Pembaruan v8: simulasi cerita bercabang (Oktober 2026)
+
+Dikerjakan di branch git `feat/simulasi-branching` (repo dibuat 9 Okt 2026; commit awal = kondisi sebelum rombakan).
+
+**Apa yang berubah**
+- Tiga kasus simulasi ditulis ulang menjadi cerita bercabang: setiap jalur **tepat 5 situasi**, 3–4 pilihan per situasi, pilihan **terkunci** setelah diklik, 2 meter per kasus (hanya umpan balik visual dan pemilih varian narasi), flag konsekuensi tertunda, dan 4 ending per kasus (berhasil, tengah, gagal).
+- Animasi 2D: tokoh SVG reusable (9 pose + ekspresi), 9 latar flat abu-abu + 1 aksen, bubble dialog, partikel Canvas, suasana redup/cerah, layar ending beranimasi. Animasi hanya `transform`/`opacity`; `prefers-reduced-motion` menghentikan gerakan.
+- Progres tersimpan setelah setiap pilihan, jadi refresh atau Back/Forward melanjutkan dari situasi terakhir.
+
+**Lokasi kode** (semua di `GrowthLab_v5.html`)
+| Blok | Isi |
+|---|---|
+| `script#gl-data` → `SIM` | Data cerita 3 kasus (format dijelaskan di komentar di atas `SIM`). Skor bertanda `// REVIEW` (113 titik: Kasus 1 baris ±1781–1832, Kasus 2 ±1843–1890, Kasus 3 ±1902–1948). |
+| `script#gl-sim-core` → `GLS` | **Satu-satunya tempat rumus nilai** (`GLS.score`), penyimpanan berversi (`GLS.db`, skema v2), engine cerita (`GLS.eng`), validator (`GLS.validate`), tes (`GLS.tests`). |
+| `script#gl-sim-view` → `GLSV` | State machine permainan dan layar (daftar kasus, pembuka, situasi, hasil, panel debug). |
+| `script#gl-sim-stage` → `GLSTG` | Panggung animasi (tokoh, latar, partikel). |
+| `style#gl8`, `style#gl9` | Gaya simulasi dan panggung. |
+
+**Perubahan logika dan alasannya**
+1. `GLX.hitung()` sekarang memanggil `GLS.score` (rumus tidak lagi tersebar). Angkanya sama dengan versi lama; diuji dengan contoh di §7.
+2. Penyimpanan `gl-latihan` naik ke **skema v2** dengan validasi setiap bagian, cadangan di memori bila localStorage diblokir/penuh, dan **migrasi v1**: skor kuis dan drag & drop dipertahankan; skor simulasi lama dipertahankan sebagai **"versi lama"** (tetap dihitung di Nilai Akhir) dan otomatis diganti hasil pertama di versi baru. Data rusak atau versi tak dikenal dibuang tanpa error.
+3. Permainan yang sedang berjalan disimpan sebagai daftar id pilihan + versi konten (`cv`). Saat dilanjutkan, jalur diputar ulang lewat engine; kalau tidak cocok (misalnya konten berubah), jalur dibuang dengan aman.
+4. Batas lulus: tidak ditemukan angka 76 di kode. Semua logika memakai `GLD.PASS_MCQ = 70`. Teks yang tadinya menulis angka manual (label pita/kategori di halaman Alur & Nilai Akhir, jawaban chat) kini dibangkitkan dari konstanta.
+5. Ending dipilih berurutan dari aturan di data: berhasil jika pita rata-rata Sangat Baik/Baik dan tanpa flag "menyerah/abaikan" (Kasus 3: wajib flag `akar`), gagal jika ≤ 55 atau berhenti di tengah, sisanya tengah.
+
+**Bug lama yang ditemukan dan diperbaiki**
+- `load()` lama tidak memvalidasi isi penyimpanan; data rusak bisa membuat Latihan/Beranda error.
+- Di Safari privat (penyimpanan diblokir), skor hilang di sesi yang sama sehingga Nilai Akhir tidak pernah muncul.
+- Panjang jalur simulasi lama 3–4 keputusan (tidak sesuai "Situasi n/5").
+- Widget "Napas kotak" dan "Brainstorming" menambah listener `hashchange` setiap pelajaran dibuka.
+- Animasi masuk dengan `fill: both` menahan opacity/transform sehingga efek hover kartu kasus dan kartu mode kuis tidak jalan.
+
+**Cara mengetes tiap ending**
+- Cepat: buka `GrowthLab_v5.html?debug=1#/latihan/sim`. Panel Debug menampilkan hasil validator dan tes, plus tombol **Uji ending** (terbaik/tengah/terburuk) per kasus. Tombol ini mengisi skor sungguhan; pakai tombol "Hapus semua hasil latihan" setelahnya.
+- Manual, Kasus 1: semua pilihan terbaik → *Bangkit lebih kuat*; jawaban sedang (mis. berpikir positif saja, jawaban "belum rezeki") → *Masih di persimpangan*; berhenti di situasi 4/5 dengan rata-rata 56–70 → *Berhenti sebelum garis akhir*; pilihan impulsif → *Terjebak di pikiranmu sendiri*.
+- Kasus 2: tenang + minta contoh konkret + batas asertif → *Komunikator yang matang*; respons defensif → *Konflik yang membesar*; mengabaikan masukan di akhir → *Masukan yang terlewat*; campuran → *Masih belajar membaca situasi*.
+- Kasus 3: 5 Whys di situasi 2 lalu matriks → *Solusi yang tepat sasaran*; lewati akar masalah → *Menambal gejala* (opsi solusi terbaik di situasi 4 tidak muncul); keputusan reaktif → *Proyek yang terbakar*; akar masalah ditemukan tetapi eksekusi kurang rapi → *Selesai, tapi belum rapi*.
+- Otomatis: `node tests/t-qa.js chrome` memainkan ke-12 ending lewat UI.
+
+**Hasil validator dan tes (9 Okt 2026)**: validator 3 kasus × 1.024 jalur, 0 error, semua 12 ending tercapai; 65 tes unit lolos; tes E2E simulasi, QA akhir, kuis/drag-drop, sentuh, dan smoke semua halaman lolos di Chrome & WebKit, 360/768/1280 px, reduced-motion, serta `file://`.
+
+**Checklist deploy (situs Netlify `growth-lab-motion`, diunggah manual)**
+1. `node tests/t-core.js` dan, dengan `node tests/serve.js` berjalan, `node tests/t-qa.js chrome` → semua lolos.
+2. `git switch main && git merge --ff-only feat/simulasi-branching`.
+3. Salin `GrowthLab_v5.html` sebagai `index.html` ke folder kosong, lalu deploy folder itu ke situs Netlify (Netlify Drop / CLI / Netlify MCP).
+4. Buka situs live, cek `#/latihan/sim` dan Nilai Akhir.
+
+**Rollback**: di Netlify, buka **Deploys**, pilih deploy sebelumnya, lalu **Publish deploy**. Di git: `git revert` commit terkait atau `git switch main && git reset --hard <commit>` sebelum deploy ulang.
