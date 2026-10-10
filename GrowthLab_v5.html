@@ -3757,7 +3757,7 @@ function bindEL(){let q="",cat="Semua",st="Semua status";const cats=["Semua",...
 $("#pg").addEventListener("click",e=>{const a=e.target.closest("[data-act]"),s=e.target.closest("[data-sc]");
  if(a){e.preventDefault();if(A.sync){boom(e.clientX,e.clientY);toast("Tercatat di akunmu.")}else if(LOCAL){boom(e.clientX,e.clientY);toast("Mode lokal: progres dan nilaimu tersimpan di browser ini.")}else{toast("Buat akun atau masuk dulu untuk mendaftar.");openAuth("register")}}
  if(s){e.preventDefault();document.getElementById(s.dataset.sc)?.scrollIntoView({behavior:"smooth"})}});
-$("#pg").addEventListener("pointermove",e=>{const c=e.target.closest(".card");if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty("--ry",((e.clientX-r.left)/r.width-.5)*8+"deg");c.style.setProperty("--rx",-((e.clientY-r.top)/r.height-.5)*8+"deg")});
+$("#pg").addEventListener("pointermove",e=>{const c=e.target.closest(".card");if(!c)return;const r=c.getBoundingClientRect(),w=c.offsetWidth||r.width,h=c.offsetHeight||r.height,cl=v=>Math.max(-.5,Math.min(.5,v));c.style.setProperty("--ry",(cl((e.clientX-r.left-r.width/2)/w)*8).toFixed(2)+"deg");c.style.setProperty("--rx",(-cl((e.clientY-r.top-r.height/2)/h)*8).toFixed(2)+"deg")});
 $("#pg").addEventListener("pointerout",e=>{const c=e.target.closest(".card");if(c){c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")}});
 /* ---------- WebGL: one shared loop, flat paper/shape field with scroll depth ---------- */
 let active=0,setActive=i=>{active=i};
@@ -3823,7 +3823,7 @@ if(R){
  document.addEventListener("visibilitychange",kick);["scroll","pointermove","hashchange","resize"].forEach(ev=>addEventListener(ev,kick,{passive:true}));
  const _s=setActive;setActive=i=>{_s(i);kick()};kick();
 }
-$("#grid").addEventListener("pointermove",e=>{const c=e.target.closest(".card");if(!c)return;const r=c.getBoundingClientRect();c.style.setProperty("--ry",((e.clientX-r.left)/r.width-.5)*7+"deg");c.style.setProperty("--rx",-((e.clientY-r.top)/r.height-.5)*7+"deg")});
+$("#grid").addEventListener("pointermove",e=>{const c=e.target.closest(".card");if(!c)return;const r=c.getBoundingClientRect(),w=c.offsetWidth||r.width,h=c.offsetHeight||r.height,cl=v=>Math.max(-.5,Math.min(.5,v));c.style.setProperty("--ry",(cl((e.clientX-r.left-r.width/2)/w)*7).toFixed(2)+"deg");c.style.setProperty("--rx",(-cl((e.clientY-r.top-r.height/2)/h)*7).toFixed(2)+"deg")});
 $("#grid").addEventListener("pointerout",e=>{const c=e.target.closest(".card");if(c){c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")}});
 renderDiscover();renderPath();GLU.home();/* isi beranda sejak awal agar animasi v9 (kartu bertingkat) punya target walau halaman dibuka di rute lain */
 route();
@@ -4289,7 +4289,17 @@ const go=()=>{if(!tk)tk=requestAnimationFrame(draw)};
 addEventListener("scroll",go,{passive:true});addEventListener("resize",go);addEventListener("hashchange",()=>setTimeout(go,300));
 addEventListener("pointermove",e=>{mx=e.clientX/innerWidth-.5;my=e.clientY/innerHeight-.5;go()},{passive:true});
 /* tombol magnetik */
-let mb=null;document.addEventListener("pointermove",e=>{if(rm||e.pointerType==="touch")return;const b=e.target.closest&&e.target.closest(".btn,.lb");if(mb&&mb!==b){mb.style.translate="";mb=null}if(b){const r=b.getBoundingClientRect();b.style.translate=((e.clientX-r.left-r.width/2)*.2)+"px "+((e.clientY-r.top-r.height/2)*.3)+"px";mb=b}},{passive:true});
+/* posisi dihitung dari pusat tombol TANPA geseran magnet (dulu memakai rect yang sudah tergeser, jadi tombol bergetar), lalu dihaluskan per frame */
+let mb=null,mt={x:0,y:0},mc={x:0,y:0},mraf=0;const mclr=b=>{b.style.translate="";b.__mg=null};
+const mstep=()=>{mraf=0;mc.x+=(mt.x-mc.x)*.22;mc.y+=(mt.y-mc.y)*.22;const done=Math.abs(mt.x-mc.x)<.05&&Math.abs(mt.y-mc.y)<.05;if(done){mc.x=mt.x;mc.y=mt.y}
+ const b=mb||mstep.last;if(b){if(!mb&&done&&!mt.x&&!mt.y){mclr(b);mstep.last=null;return}b.style.translate=mc.x.toFixed(2)+"px "+mc.y.toFixed(2)+"px";b.__mg=mc}if(!done)mraf=requestAnimationFrame(mstep)};
+const mgo=()=>{if(!mraf)mraf=requestAnimationFrame(mstep)};
+document.addEventListener("pointermove",e=>{if(rm||e.pointerType==="touch")return;const b=e.target.closest&&e.target.closest(".btn,.lb");
+ if(mb&&mb!==b){mstep.last=mb;mb=null;mt={x:0,y:0};if(b){mclr(mstep.last);mstep.last=null;mc={x:0,y:0}}}
+ if(b){mb=b;const r=b.getBoundingClientRect(),g=b.__mg||{x:0,y:0},cx=r.left+r.width/2-g.x,cy=r.top+r.height/2-g.y;
+  mt={x:Math.max(-10,Math.min(10,(e.clientX-cx)*.2)),y:Math.max(-8,Math.min(8,(e.clientY-cy)*.3))}}
+ mgo()},{passive:true});
+document.documentElement.addEventListener("mouseleave",()=>{if(mb){mstep.last=mb;mb=null;mt={x:0,y:0};mgo()}});
 window.observe();draw();
 }catch(e){console.warn("oblo layer",e)}})();
 </script>
@@ -4365,7 +4375,7 @@ if(window.Lenis){
  lenis.on("scroll",ScrollTrigger.update);
  gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0);
  const siv=Element.prototype.scrollIntoView;
- Element.prototype.scrollIntoView=function(o){if(lenis&&!this.closest("[data-lenis-prevent]")){lenis.scrollTo(this,{offset:-96,immediate:!(o&&o.behavior==="smooth")});return}return siv.call(this,o)};
+ Element.prototype.scrollIntoView=function(o){if(lenis&&!this.closest("[data-lenis-prevent]")){lenis.scrollTo(this,{offset:-96,immediate:!(o&&o.behavior==="smooth"),force:true});return}return siv.call(this,o)};
  addEventListener("hashchange",()=>{lenis.stop();setTimeout(()=>{lenis.start();lenis.resize();ScrollTrigger.refresh()},650)});
  window.__lenis=lenis;
 }
@@ -4501,6 +4511,53 @@ setTimeout(tip,1500);setTimeout(tip,4000);
 document.addEventListener("click",e=>{const c=e.target.closest&&e.target.closest(".zcue .zrg");if(c){const t=document.getElementById("stats");t&&t.scrollIntoView({behavior:"smooth"})}});
 const zr=document.querySelector(".zcue .zrg");if(zr)zr.title="Gulir ke isi";
 document.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const g=e.target.closest&&e.target.closest("[data-go][role=link]");if(g){e.preventDefault();g.click()}});
+})();
+</script>
+<script id="gl-hover">
+/* ---------- v8.2: klik & hover stabil (anti getar) ----------
+ Elemen yang bergeser/miring saat di-hover dulu bergetar bila kursor di pinggirnya: elemen menjauh dari kursor,
+ hover lepas, elemen kembali, hover lagi, begitu terus. Perbaikannya: setiap ":hover" di CSS ditulis ulang jadi
+ ":is(:hover,.hv)", lalu kelas .hv dipertahankan selama kursor masih di dalam kotak ASAL elemen (sebelum bergeser).
+ Klik di celah itu diteruskan ke elemennya. Hanya aktif di perangkat dengan mouse. */
+/* Link/logo ke halaman yang sedang dibuka dulu tidak berbuat apa-apa (hash sama = tidak ada hashchange). Sekarang menggulir ke atas. */
+document.addEventListener("click",e=>{if(e.button)return;const a=e.target.closest&&e.target.closest('a[href^="#/"],[data-go]');if(!a)return;
+ const want=a.matches("[data-go]")?"#/":a.getAttribute("href"),now=location.hash||"#/";if(want!==now||scrollY<4)return;
+ const rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
+ try{window.__lenis?window.__lenis.scrollTo(0,{duration:1,immediate:rm,force:true}):scrollTo({top:0,behavior:rm?"auto":"smooth"})}catch(_){scrollTo(0,0)}});
+(()=>{if(!matchMedia("(hover:hover) and (pointer:fine)").matches)return;
+const GEO=/^(transform|translate|rotate|scale|padding|margin|top|left|right|bottom|inset|width|height)/,bases=new Set(),done=new WeakSet();
+const fix=rules=>{for(const r of [...rules]){if(r.cssRules&&!r.selectorText){fix(r.cssRules);continue}
+ const sel=r.selectorText;if(!sel||sel.indexOf(":hover")<0||sel.indexOf(".hv")>=0)continue;
+ let geo=false;for(let i=0;i<r.style.length;i++)if(GEO.test(r.style[i])){geo=true;break}
+ /* yang dilacak hanya elemen yang dirinya sendiri bergeser (selektor berakhir di :hover) */
+ if(geo)sel.split(",").forEach(t=>{const m=t.trim().match(/^(.*?):hover((?::not\([^()]*\))*)(?:::?(?:before|after))?$/);if(m&&m[1]&&!/:not\($/.test(m[1]))bases.add(m[1]+m[2])});
+ try{r.selectorText=sel.replace(/:hover/g,":is(:hover,.hv)")}catch(e){}}};
+let SEL="";
+const scan=()=>{for(const sh of document.styleSheets){if(done.has(sh))continue;try{fix(sh.cssRules)}catch(e){}done.add(sh)}
+ SEL=[...bases].filter(b=>{try{document.querySelector(b);return true}catch(e){return false}}).join(",")};
+scan();addEventListener("load",scan);setTimeout(scan,2500);
+let cur=null,box=null,lx=-1,ly=-1;
+/* kotak asal = ukuran tanpa transform, dipusatkan di posisi sekarang dikurangi geseran translate */
+const home=el=>{const r=el.getBoundingClientRect(),cs=getComputedStyle(el);let dx=0,dy=0;
+ const m=cs.transform;if(m&&m!=="none"){const v=(m.match(/-?[\d.]+(?:e-?\d+)?/g)||[]).map(Number);if(v.length===6){dx=v[4];dy=v[5]}else if(v.length===16){dx=v[12];dy=v[13]}}
+ const tr=cs.translate;if(tr&&tr!=="none"){const q=tr.split(" ").map(parseFloat);dx+=q[0]||0;dy+=q[1]||0}
+ const w=el.offsetWidth||r.width,h=el.offsetHeight||r.height,cx=r.left+r.width/2-dx+scrollX,cy=r.top+r.height/2-dy+scrollY;
+ return{l:cx-w/2-1,r:cx+w/2+1,t:cy-h/2-1,b:cy+h/2+1}};
+const inBox=()=>!!box&&lx+scrollX>=box.l&&lx+scrollX<=box.r&&ly+scrollY>=box.t&&ly+scrollY<=box.b;
+const drop=()=>{if(cur){cur.classList.remove("hv");cur=null;box=null}};
+const check=t=>{if(cur&&!cur.isConnected)drop();
+ const el=SEL&&t&&t.closest?t.closest(SEL):null;
+ if(el&&el!==cur&&!(cur&&el.contains(cur)&&inBox())){drop();cur=el;box=home(el);el.classList.add("hv");return}
+ if(cur&&!(t&&cur.contains(t))&&!inBox())drop()};
+const mv=e=>{if(e.pointerType==="touch")return;lx=e.clientX;ly=e.clientY;check(e.target)};
+document.addEventListener("pointerover",mv,{passive:true});document.addEventListener("pointermove",mv,{passive:true});
+addEventListener("scroll",()=>{if(cur&&!inBox()){const t=document.elementFromPoint(lx,ly);if(!t||!cur.contains(t))drop()}},{passive:true});
+document.documentElement.addEventListener("mouseleave",drop);addEventListener("blur",drop);addEventListener("hashchange",drop);
+addEventListener("pointerdown",e=>{if(e.pointerType==="touch")drop()},true);
+document.addEventListener("click",e=>{if(!cur||!e.isTrusted||cur.contains(e.target)||!inBox())return;
+ if(e.target.closest&&e.target.closest("a,button,input,select,textarea,label,summary,[role=button],[role=tab],[tabindex]"))return;
+ e.preventDefault();e.stopPropagation();cur.click()},true);
+window.__hv={get sel(){return SEL},get cur(){return cur}};
 })();
 </script>
 </body>

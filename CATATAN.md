@@ -260,3 +260,11 @@ Dikerjakan di branch git `feat/simulasi-branching` (repo dibuat 9 Okt 2026; comm
 - File: `assets/sim/*.jpg` (total ±1,1 MB, 1280 px, kualitas 72). Gambar asli PNG ada di `assets/sim/src/` (tidak dimasukkan ke git). **Folder `assets/` wajib ikut diunggah ke Netlify** bersama `index.html`. Jika gambar gagal dimuat, latar SVG berwarna di bawahnya tetap tampil.
 - Tokoh diwarnai (warna kulit sawo matang, baju warna-warni, ibu berhijab, topi merah Raka, dasi merah atasan), tetap dengan outline hitam tebal dan semua pose/ekspresi.
 - Perlu ditinjau tim: kecocokan tiap latar dengan cerita. Untuk mengganti satu latar, simpan gambar baru dengan nama yang sama di `assets/sim/` (rasio 16:9, area tengah kosong, lantai di ±25% bawah).
+
+### 9b. Perbaikan v8.2: UI tidak bergetar & klik yang tidak berefek (10 Oktober 2026)
+- **Getar saat kursor di pinggir elemen.** Kartu, tombol, opsi kuis, dan kartu langkah bergeser/miring saat di-hover. Akibatnya, kalau kursor di pinggir, elemen menjauh, hover lepas, lalu elemen kembali, dan ini berulang terus. Perbaikannya ada di `<script id="gl-hover">` (akhir file). Setiap `:hover` di CSS ditulis ulang saat halaman dimuat menjadi `:is(:hover,.hv)`. Kelas `.hv` dipertahankan selama kursor masih di kotak **asal** elemen (posisi sebelum bergeser). Klik di celah itu diteruskan ke elemennya. Fitur ini hanya aktif di perangkat ber-mouse. Gaya hover baru tidak perlu diubah karena ikut otomatis.
+- **Tombol magnetik** (`.btn`, `.lb`) dulu menghitung posisi dari tombol yang sudah tergeser, sehingga terjadi umpan balik dan tombol bergetar. Sekarang posisi dihitung dari pusat asli, dibatasi ±10 px, dan dihaluskan per frame.
+- **Kartu miring 3D** (`--rx/--ry`) sekarang dihitung dari pusat dan ukuran tanpa transform, jadi tidak lagi bergetar di tepi.
+- **`scrollIntoView` versi Lenis** diberi `force:true`. Sebelumnya, perintah ini diabaikan selama Lenis berhenti (±0,65 detik setelah pindah halaman dan saat preloader).
+- **Link ke halaman yang sedang dibuka** (logo "Ke beranda", menu Beranda, dan sebagainya) dulu tidak berbuat apa-apa. Sekarang link itu menggulir halus ke atas.
+- Uji getar dan klik mati dijalankan dengan skrip Playwright sementara (di luar repo). Semua halaman bersih, kecuali pil fisika di beranda yang memang bergerak.
