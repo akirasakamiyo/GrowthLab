@@ -1257,6 +1257,35 @@ html.gx-lock,html.gx-lock body{overflow:hidden!important}
 @media(max-width:560px){.gv-stage{aspect-ratio:16/11;width:100%}}
 @media(prefers-reduced-motion:reduce){.ch,.ch *{animation:none!important;transition:none!important}.gvs .bb.in{animation:none}.gvs .at,.gvs .glow{transition:opacity .3s}}
 </style>
+<style id="gl-ill">
+/* v8.4: animasi ilustrasi materi. Jalan hanya saat terlihat (.on), mati untuk prefers-reduced-motion */
+svg.ill .a{transform-box:fill-box;transform-origin:50% 50%;animation-duration:var(--t,3s);animation-delay:var(--d,0s);animation-iteration-count:infinite;animation-timing-function:ease-in-out;animation-play-state:paused}
+svg.ill.on .a{animation-play-state:running}
+svg.ill .a-bob{animation-name:iBob}@keyframes iBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+svg.ill .a-spin{animation-name:iSpin;animation-timing-function:linear;--t:10s}@keyframes iSpin{to{transform:rotate(360deg)}}
+svg.ill .a-rev{animation-direction:reverse}
+svg.ill .a-pulse{animation-name:iPulse;--t:2.4s}@keyframes iPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+svg.ill .a-beat{animation-name:iBeat;--t:1.4s}@keyframes iBeat{0%,40%,100%{transform:scale(1)}12%{transform:scale(1.2)}26%{transform:scale(1.08)}}
+svg.ill .a-blink{animation-name:iBlink;--t:2s}@keyframes iBlink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.15;transform:scale(.6)}}
+svg.ill .a-swing{animation-name:iSwing;--t:2.6s;animation-direction:alternate}@keyframes iSwing{from{transform:rotate(-55deg)}to{transform:rotate(55deg)}}
+svg.ill .a-wig{animation-name:iWig;--t:1.6s}@keyframes iWig{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+svg.ill .a-pop{animation-name:iPop;--t:3s}@keyframes iPop{0%{transform:scale(0);opacity:0}10%{transform:scale(1.18);opacity:1}18%,88%{transform:scale(1);opacity:1}100%{transform:scale(0);opacity:0}}
+svg.ill .a-draw{animation-name:iDraw;--t:3s}@keyframes iDraw{0%{stroke-dasharray:1;stroke-dashoffset:1}45%,90%{stroke-dasharray:1;stroke-dashoffset:0;opacity:1}100%{stroke-dasharray:1;stroke-dashoffset:0;opacity:0}}
+svg.ill .a-grow{animation-name:iGrow;--t:4s}@keyframes iGrow{0%{transform:scaleY(.15)}40%,88%{transform:scaleY(1)}100%{transform:scaleY(.15)}}
+svg.ill .a-up{animation-name:iUp;--t:3s;animation-timing-function:ease-out}@keyframes iUp{0%{transform:translateY(6px);opacity:0}20%{opacity:1}100%{transform:translateY(-34px);opacity:0}}
+svg.ill .a-fade{animation-name:iFade;--t:5s}svg.ill .a-fade2{animation-name:iFade2;--t:5s}
+@keyframes iFade{0%,40%{opacity:1;transform:translateY(0)}50%,90%{opacity:0;transform:translateY(6px)}100%{opacity:1}}
+@keyframes iFade2{0%,40%{opacity:0;transform:scale(.4)}50%,90%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.4)}}
+svg.ill .a-snap{animation-name:iSnap;--t:3.6s}@keyframes iSnap{0%,100%{transform:translate(30px,22px) rotate(14deg)}35%,85%{transform:none}}
+svg.ill .a-breath{animation-name:iBreath;--t:5s}@keyframes iBreath{0%,100%{transform:scale(.78)}50%{transform:scale(1.08)}}
+svg.ill .a-charge{animation-name:iCharge;--t:4s}@keyframes iCharge{0%{transform:scaleX(.12);fill:#ff5a3c}45%{fill:#ffc83d}80%,100%{transform:scaleX(1);fill:#14b8a6}}
+svg.ill .a-scanY{animation-name:iScanY;--t:4s}@keyframes iScanY{0%,100%{transform:translate(0,0)}25%{transform:translate(30px,18px)}50%{transform:translate(0,40px)}75%{transform:translate(28px,58px)}}
+svg.ill .a-flip{animation-name:iFlip;--t:3.4s}@keyframes iFlip{0%,15%{transform:scaleX(1)}50%,65%{transform:scaleX(-1)}100%{transform:scaleX(1)}}
+svg.ill .a-fly{animation-name:iFly;--t:3s;animation-timing-function:ease-in}@keyframes iFly{0%{transform:translate(-50px,30px) rotate(-10deg);opacity:0}15%{opacity:1}80%{opacity:1}100%{transform:translate(18px,-18px) rotate(6deg);opacity:0}}
+svg.ill .a-hit{animation-name:iHit;--t:3s}@keyframes iHit{0%{transform:translate(70px,-24px);opacity:0}10%{opacity:1}30%{transform:none}34%{transform:rotate(-3deg)}38%,90%{transform:none;opacity:1}100%{opacity:0}}
+svg.ill .a-slide{animation-name:iSlide;--t:1.8s;animation-direction:alternate}@keyframes iSlide{from{transform:translateX(-8px)}to{transform:translateX(8px)}}
+@media (prefers-reduced-motion:reduce){svg.ill .a{animation:none!important}}
+</style>
 </head>
 <body data-view="home" class="zload glocal">
 <div id="zpre" aria-hidden="true"><div class="zc"><i class="zd"></i><b class="zl"></b></div><span class="zn">000</span></div>
@@ -3395,10 +3424,10 @@ function renderDiscover(){
  const cats=["Semua",...C.chapters.map(c=>c.t)];if(!cats.includes(cat))cat="Semua";
  $("#chips").innerHTML=cats.map(k=>`<button class="chip" aria-pressed="${k===cat}">${esc(k)}</button>`).join("");
  $$("#chips .chip").forEach((b,i)=>b.onclick=()=>{cat=cats[i];renderDiscover()});
- const f=C;$("#feat").innerHTML=`<div class="art" style="--c1:${f.c1}">${ART(0)}</div><div class="body"><div><span class="mono">Unggulan · ${esc(f.k)} · ${esc(f.media)}</span><h3 style="font-size:clamp(2.2rem,4vw,3.4rem);margin:12px 0">${esc(f.t)}</h3><p style="color:var(--mut)">${esc(f.d)}</p></div><div class="tags"><span>${C.chapters.length} bab</span><span>${total} pelajaran</span><span>${GLX.nQuiz} soal</span><span>${GLX.nSim} simulasi</span></div></div>`;
+ const f=C;$("#feat").innerHTML=`<div class="art" style="--c1:${f.c1}">${ILL("course")}</div><div class="body"><div><span class="mono">Unggulan · ${esc(f.k)} · ${esc(f.media)}</span><h3 style="font-size:clamp(2.2rem,4vw,3.4rem);margin:12px 0">${esc(f.t)}</h3><p style="color:var(--mut)">${esc(f.d)}</p></div><div class="tags"><span>${C.chapters.length} bab</span><span>${total} pelajaran</span><span>${GLX.nQuiz} soal</span><span>${GLX.nSim} simulasi</span></div></div>`;
  $("#feat").setAttribute("aria-label","Buka kursus "+f.t);
  $("#grid").innerHTML=C.chapters.map((c,i)=>({c,i})).filter(o=>cat==="Semua"||o.c.t===cat).map(({c,i})=>{const n=c.l.filter((_,j)=>done.has(i+"-"+j)).length;
-  return `<a class="card" href="${goC(i+1)}"><div class="art" style="--c1:${c.c1}">${ART(i+1)}<em class="no">${p2(i+1)}</em></div><div class="body"><span class="mono">Bab ${p2(i+1)}</span><h3>${esc(c.t)}</h3><p style="color:var(--mut);font-size:.95rem">${esc(c.d)}</p><div class="tags"><span>${c.l.length} pelajaran</span><span>${n}/${c.l.length} selesai</span></div></div></a>`}).join("");
+  return `<a class="card" href="${goC(i+1)}"><div class="art" style="--c1:${c.c1}">${ILL("c"+i)}<em class="no">${p2(i+1)}</em></div><div class="body"><span class="mono">Bab ${p2(i+1)}</span><h3>${esc(c.t)}</h3><p style="color:var(--mut);font-size:.95rem">${esc(c.d)}</p><div class="tags"><span>${c.l.length} pelajaran</span><span>${n}/${c.l.length} selesai</span></div></div></a>`}).join("");
  phase();$("#feat").onclick=()=>location.hash="#/course";$("#feat").onkeydown=e=>{if(e.key==="Enter")location.hash="#/course"};
 }
 function renderPath(){
@@ -3412,7 +3441,7 @@ function renderPath(){
 }
 let open_=0;
 function renderCourse(){
- $("#cart").innerHTML=ART(0);$("#ckat").textContent=C.k+" · "+C.media;$("#ctitle").textContent=C.t;$("#cdesc").textContent=C.d;
+ $("#cart").innerHTML=ILL("course");$("#ckat").textContent=C.k+" · "+C.media;$("#ctitle").textContent=C.t;$("#cdesc").textContent=C.d;
  $("#cmeta").textContent=`${C.chapters.length} bab · ${total} pelajaran · ${GLX.nQuiz} soal · ${GLX.nSim} simulasi`;
  $("#chaps").innerHTML=C.chapters.map((c,i)=>{const n=c.l.filter((_,j)=>done.has(i+"-"+j)).length;
   return `<div class="chap ${i===open_?"open":""}"><button data-i="${i}" aria-expanded="${i===open_}"><span class="mono">${p2(i+1)}</span><h3>${esc(c.t)}</h3><span class="mono">${n}/${c.l.length}</span><svg class="chev" viewBox="0 0 18 18"><path d="M3 6l6 6 6-6"/></svg></button><div class="lessons"><div>${c.l.map((l,j)=>`<button class="les ${done.has(i+"-"+j)?"done":""}" data-k="${i}-${j}"><span class="mono">${p2(j+1)}</span><span>${esc(l.t)}${l.draft?' <small class="mono">· draf</small>':""}</span><b></b></button>`).join("")}${(()=>{const nj=c.l.findIndex((_,j)=>!done.has(i+"-"+j));return `<div class="chact"><span class="chbar" aria-hidden="true"><i style="--p:${n/c.l.length}"></i></span><a class="btn p" href="#/lesson/${i}-${nj<0?0:nj}">${nj<0?"Ulas bab":n?"Lanjut bab":"Mulai bab"}</a><a class="btn" href="#/latihan/kuis/b${i}">Kuis Bab ${i+1}</a></div>`})()}</div></div></div>`}).join("")
@@ -3492,6 +3521,183 @@ const ART=k=>`<svg viewBox="0 0 200 140" preserveAspectRatio="xMidYMid slice" ar
 `<path d="M52 84V70a48 48 0 0 1 96 0v14" fill="none" stroke-width="8"/><rect x="40" y="76" width="22" height="40" rx="9" fill="${Y}"/><rect x="138" y="76" width="22" height="40" rx="9" fill="${Y}"/><rect x="88" y="52" width="24" height="42" rx="12" fill="${W}"/><path d="M100 94v22M84 118h32" fill="none"/>`,
 `<rect x="36" y="22" width="128" height="86" rx="6" fill="${W}"/><rect rx="4" x="54" y="68" width="16" height="30" fill="${O}"/><rect rx="4" x="80" y="52" width="16" height="46" fill="${T}"/><rect rx="4" x="106" y="38" width="16" height="60" fill="${Y}"/><path d="M74 118l-10 14M126 118l10 14M100 108v22" fill="none"/><path d="M150 120l26-26 8 8-26 26-10 2z" fill="${Y}"/>`,
 `<rect x="44" y="30" width="112" height="72" rx="6" fill="${W}"/><path d="M60 82l22-20 18 12 28-30" fill="none" stroke="${O}"/><rect x="28" y="102" width="144" height="10" rx="5" fill="${V}"/><path d="M168 24l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="${Y}"/>`][k%4]}</g></svg>`;
+/* ---------- v8.4: ilustrasi bergerak sesuai materi ----------
+ ILL(kunci) menggantikan ikon umum ART(k). Gaya sama (garis navy 3px, warna datar), tapi tiap gambar mewakili isinya
+ dan beranimasi. Elemen yang beranimasi selalu dibungkus <g transform> agar posisi tidak tertimpa transform CSS.
+ Animasi berhenti saat gambar di luar layar dan mati untuk prefers-reduced-motion (lihat <style id="gl-ill">). */
+const ILLX=(()=>{
+const g=(x,y,b)=>`<g transform="translate(${x} ${y})">${b}</g>`;
+const A=(c,b,st="")=>`<g class="a ${c}"${st?` style="${st}"`:""}>${b}</g>`;
+const heart=(f=O)=>`<path d="M0 7C-11-1-13-10-7-14-3-16 0-13 0-10 0-13 3-16 7-14 13-10 11-1 0 7Z" fill="${f}"/>`;
+const star=(r,f=Y)=>{let d="";for(let i=0;i<10;i++){const a=Math.PI/5*i-Math.PI/2,q=i%2?r*.45:r;d+=(i?"L":"M")+(Math.cos(a)*q).toFixed(1)+" "+(Math.sin(a)*q).toFixed(1)}return`<path d="${d}Z" fill="${f}"/>`};
+const spark=(f=W)=>`<path d="M0-7 2-2 7 0 2 2 0 7-2 2-7 0-2-2Z" fill="${f}"/>`;
+const face=(r=10,hair=K)=>`<circle r="${r}" fill="${SK}"/><path d="M${-r} -1Q${-r} ${-r-2} 0 ${-r-2}Q${r} ${-r-2} ${r} -1Q${r*.5} ${-r*.55} 0 ${-r*.55}Q${-r*.5} ${-r*.55} ${-r} -1Z" fill="${hair}"/><circle cx="${-r*.35}" cy="${r*.15}" r="1.6" fill="${K}" stroke="none"/><circle cx="${r*.35}" cy="${r*.15}" r="1.6" fill="${K}" stroke="none"/><path d="M${-r*.3} ${r*.45}Q0 ${r*.75} ${r*.3} ${r*.45}" fill="none" stroke-width="2"/>`;
+const bust=(c,hair=K,r=10)=>`<path d="M${-r*1.7} ${r*3}Q${-r*1.7} ${r*1.3} 0 ${r*1.3}Q${r*1.7} ${r*1.3} ${r*1.7} ${r*3}Z" fill="${c}"/>${face(r,hair)}`;
+const txt=(x,y,s,t,f=K)=>`<text x="${x}" y="${y}" font-size="${s}" font-weight="800" font-family="system-ui,-apple-system,sans-serif" text-anchor="middle" fill="${f}" stroke="none">${t}</text>`;
+const bulb=(r=26,f=Y)=>`<circle r="${r}" fill="${f}"/><rect x="${-r*.45}" y="${r*.85}" width="${r*.9}" height="${r*.55}" rx="3" fill="${W}"/><path d="M${-r*.45} ${r*1.1}h${r*.9}" fill="none" stroke-width="2"/>`;
+const gear=(r,f=W)=>`<circle r="${r+3}" fill="none" stroke-width="7" stroke-dasharray="4.5 4"/><circle r="${r}" fill="${f}"/><circle r="${r*.35}" fill="${K}" stroke="none"/>`;
+const rays=(r1,r2,n=8)=>{let d="";for(let i=0;i<n;i++){const a=Math.PI*2/n*i;d+=`M${(Math.cos(a)*r1).toFixed(1)} ${(Math.sin(a)*r1).toFixed(1)}L${(Math.cos(a)*r2).toFixed(1)} ${(Math.sin(a)*r2).toFixed(1)}`}return`<path d="${d}" fill="none"/>`};
+const cloud=f=>`<path d="M-18 8Q-30 8-30-2Q-30-12-19-12Q-16-24-2-22Q8-30 19-20Q30-20 30-8Q38-6 36 2Q34 8 26 8Z" fill="${f}"/>`;
+const tick=(d=0)=>A("a-draw",`<path d="M-6 0l4 5 9-10" fill="none" stroke="${K}" stroke-width="3.5" pathLength="1"/>`,`--d:${d}s`);
+const dot=(dur,path,f=Y,r=6)=>`<circle r="${r}" fill="${f}"><animateMotion dur="${dur}s" repeatCount="indefinite" path="${path}"/></circle>`;
+const L={
+/* ===== kursus & bab ===== */
+course:`<path d="M10 128h180" fill="none"/>
+ <rect x="36" y="100" width="40" height="28" fill="${O}"/><rect x="76" y="78" width="40" height="50" fill="${Y}"/><rect x="116" y="56" width="40" height="72" fill="${T}"/>
+ ${g(150,56,`<path d="M0 0V-40" fill="none"/>`+A("a-wig",`<path d="M0-40h26l-6 8 6 8H0z" fill="${O}"/>`,"transform-origin:0% 50%"))}
+ ${g(96,52,A("a-bob",bust(V,K,8)))}
+ ${g(56,92,A("a-pop",`<rect x="-9" y="-7" width="18" height="13" rx="2" fill="${W}"/><path d="M-4-7v-3h8v3" fill="none" stroke-width="2"/>`,"--d:.3s;--t:4s"))}
+ ${g(176,22,A("a-blink",spark(W)))}${g(26,40,A("a-blink",spark(Y),"--d:1s"))}`,
+c0:`<rect x="20" y="22" width="48" height="62" rx="5" fill="${W}"/>
+ ${[0,1,2].map(i=>g(32,38+i*16,tick(i*.5))+`<path d="M44 ${38+i*16}h16" fill="none" stroke-width="2.5"/>`).join("")}
+ ${g(166,34,A("a-pulse",`<circle r="15" fill="${Y}"/>`))}${g(166,34,A("a-spin",rays(20,26,10)))}
+ <path d="M96 104h48l-6 26h-36z" fill="${O}"/>
+ ${g(120,104,A("a-grow",`<path d="M0 0V-38" fill="none"/><path d="M0-14Q-22-16-24-36-4-34 0-14z" fill="${T}"/><path d="M0-24Q20-28 22-46 2-44 0-24z" fill="${T}"/>`,"transform-origin:50% 100%"))}`,
+c1:`${g(56,78,bust(T,K,16))}${g(144,78,bust(V,"#7a3b1d",16))}
+ ${g(100,48,A("a-beat",`<g transform="scale(1.6)">${heart(O)}</g>`))}
+ ${g(78,40,A("a-up",`<g transform="scale(.6)">${heart(Y)}</g>`))}${g(124,44,A("a-up",`<g transform="scale(.5)">${heart(W)}</g>`,"--d:1.4s"))}
+ <path d="M70 116q30 10 60 0" fill="none" stroke-dasharray="5 6"/>`,
+c2:`${g(100,56,bulb(32))}
+ ${g(90,50,A("a-spin",gear(9),"--t:6s"))}${g(112,64,A("a-spin a-rev",gear(6,O),"--t:6s"))}
+ ${g(100,56,A("a-blink",rays(40,50,10)))}
+ ${g(30,104,A("a-bob",`<rect x="-14" y="-10" width="28" height="20" rx="4" fill="${W}"/>`+txt(0,5,12,"?")))}${g(170,100,A("a-bob",`<rect x="-14" y="-10" width="28" height="20" rx="4" fill="${T}"/>`+txt(0,5,12,"!",W),"--d:1s"))}`,
+/* ===== Bab 1: Self-Management ===== */
+"0-0":`<path d="M100 18l36 12v30c0 26-18 42-36 50-18-8-36-24-36-50V30z" fill="${V}"/>
+ ${g(100,62,A("a-pulse",star(20,Y)))}
+ ${[["S",34,34],["I",166,34],["G",34,104],["N",166,104]].map(([t,x,y],i)=>g(x,y,A("a-pop",`<circle r="14" fill="${[O,T,Y,W][i]}"/>`+txt(0,5,14,t),`--d:${i*.6}s;--t:4s`))).join("")}`,
+"0-1":`<path d="M100 26L150 98H50Z" fill="none" stroke-dasharray="7 7"/>
+ ${g(100,26,`<circle r="17" fill="${W}"/><circle cx="-7" r="2.5" fill="${K}"/><circle r="2.5" fill="${K}"/><circle cx="7" r="2.5" fill="${K}"/>`)}
+ ${g(50,98,`<circle r="17" fill="${O}"/><g transform="scale(.75)">${heart(W)}</g>`)}
+ ${g(150,98,`<circle r="17" fill="${T}"/><path d="M-7 0h12M1-6l6 6-6 6" fill="none" stroke="${W}"/>`)}
+ ${dot(4.5,"M100 26L150 98H50Z",Y,7)}
+ ${txt(152,30,10,"PIKIRAN",W)}${txt(50,130,10,"PERASAAN",W)}${txt(150,130,10,"TINDAKAN",W)}`,
+"0-2":`${g(42,112,face(18))}<circle cx="66" cy="92" r="4" fill="${W}"/><circle cx="78" cy="80" r="6" fill="${W}"/>
+ <path d="M86 74Q66 74 66 56Q66 38 86 40Q92 20 116 24Q130 12 148 26Q170 24 172 44Q186 50 180 64Q176 76 160 74Z" fill="${W}"/>
+ ${g(124,50,A("a-fade",cloud("#a7b0d8")+`<path d="M-12 14l-3 8M0 14l-3 8M12 14l-3 8" fill="none" stroke-width="2.5"/>`))}
+ ${g(124,48,A("a-fade2",`<circle r="13" fill="${Y}"/>`+rays(17,23,8)))}`,
+"0-3":`${g(64,34,`<rect width="36" height="36" fill="${O}"/><circle cx="36" cy="18" r="6" fill="${O}"/>`)}
+ ${g(100,34,`<rect width="36" height="36" fill="${T}"/><circle cx="18" cy="36" r="6" fill="${T}"/>`)}
+ ${g(64,70,`<rect width="36" height="36" fill="${V}"/><circle cx="18" cy="0" r="6" fill="${V}"/>`)}
+ ${g(100,70,A("a-snap",`<rect width="36" height="36" fill="${Y}"/><circle cx="0" cy="18" r="6" fill="${Y}"/>`))}
+ ${g(160,30,A("a-blink",spark(W),"--d:1.2s"))}${g(40,116,A("a-blink",spark(Y),"--d:1.6s"))}`,
+"0-4":`${g(100,60,A("a-breath",`<circle r="38" fill="${W}" opacity=".4" stroke="none"/>`))}
+ ${g(100,60,`<circle r="24" fill="${W}"/><path d="M-8 8Q-12-10 8-12Q10 6-8 8z" fill="${T}"/><path d="M-8 8L4-4" fill="none" stroke-width="2"/>`)}
+ ${A("a-draw",`<path d="M14 118H62l7-14 8 26 8-20 6 8H186" fill="none" stroke="${O}" stroke-width="4" pathLength="1"/>`,"--t:3.5s")}
+ ${g(164,40,`<path d="M-11-14l3 30h16l3-30z" fill="${W}"/><path d="M-9-2h18l-1 14h-16z" fill="#8fd3ff"/>`)}${g(36,40,A("a-bob",`<path d="M0-10Q8 0 8 5A8 8 0 0 1-8 5Q-8 0 0-10z" fill="#8fd3ff"/>`))}`,
+/* ===== Bab 2: Emotional Intelligence ===== */
+"1-0":`<path d="M40 104A60 60 0 0 1 70 52" fill="none" stroke="${O}" stroke-width="16"/><path d="M70 52A60 60 0 0 1 130 52" fill="none" stroke="${Y}" stroke-width="16"/><path d="M130 52A60 60 0 0 1 160 104" fill="none" stroke="${T}" stroke-width="16"/>
+ <path d="M30 104A70 70 0 0 1 170 104M50 104A50 50 0 0 1 150 104" fill="none"/>
+ ${g(100,104,A("a-swing",`<path d="M0 0V-50" fill="none" stroke-width="5"/>`,"transform-origin:50% 100%"))}<circle cx="100" cy="104" r="8" fill="${K}"/>
+ ${g(30,124,`<circle r="9" fill="${W}"/><path d="M-4 5q4-4 8 0" fill="none" stroke-width="2"/><circle cx="-3" cy="-2" r="1.3" fill="${K}"/><circle cx="3" cy="-2" r="1.3" fill="${K}"/>`)}
+ ${g(170,124,`<circle r="9" fill="${W}"/><path d="M-4 2q4 4 8 0" fill="none" stroke-width="2"/><circle cx="-3" cy="-2" r="1.3" fill="${K}"/><circle cx="3" cy="-2" r="1.3" fill="${K}"/>`)}`,
+"1-1":`${g(64,46,A("a-bob",`<path d="M-44-24h88a10 10 0 0 1 10 10v26a10 10 0 0 1-10 10h-62l-14 12v-12h-12a10 10 0 0 1-10-10v-26a10 10 0 0 1 10-10z" fill="${W}"/>`+[-16,0,16].map((x,i)=>g(x,-1,A("a-blink",`<circle r="5" fill="${K}" stroke="none"/>`,`--d:${i*.25}s;--t:1.2s`))).join("")))}
+ ${g(136,96,A("a-bob",`<path d="M-44-24h88a10 10 0 0 1 10 10v26a10 10 0 0 1-10 10h-12v12l-14-12h-62a10 10 0 0 1-10-10v-26a10 10 0 0 1 10-10z" fill="${Y}"/>`+g(0,-2,A("a-beat",heart(O))),"--d:1.5s"))}`,
+"1-2":`<rect x="46" y="40" width="100" height="58" rx="9" fill="${W}"/><rect x="146" y="58" width="10" height="22" rx="2" fill="${K}"/>
+ ${g(55,49,A("a-charge",`<rect width="82" height="40" rx="4" fill="${T}" stroke="none"/>`,"transform-origin:0% 50%"))}
+ ${g(96,69,A("a-pulse",`<path d="M4-20L-12 4h10l-4 16L14-4H4z" fill="${Y}"/>`))}
+ <path d="M46 70H30Q18 70 18 84v30" fill="none"/><rect x="10" y="112" width="16" height="12" rx="2" fill="${O}"/>
+ ${g(166,28,A("a-up",txt(0,0,14,"z",W)))}${g(178,40,A("a-up",txt(0,0,10,"z",W),"--d:1s"))}`,
+"1-3":`<rect x="22" y="20" width="156" height="104" rx="8" fill="${W}"/><path d="M34 106h134M34 106V32" fill="none" stroke-width="2"/>
+ ${A("a-draw",`<path d="M40 44L70 92 96 72 120 86 160 36" fill="none" stroke="${O}" stroke-width="5" pathLength="1"/>`,"--t:4s")}
+ ${g(160,36,A("a-pop",`<path d="M-12 0L0-12 2 4z" fill="${O}" transform="rotate(10)"/>`+g(6,-14,star(9,Y)),"--d:1.6s;--t:4s"))}
+ ${g(70,92,`<circle r="5" fill="${K}" stroke="none"/>`)}`,
+"1-4":`${g(100,66,A("a-spin",rays(36,48,12),"--t:16s"))}${g(100,66,`<circle r="28" fill="${Y}"/><circle cx="-9" cy="-4" r="3" fill="${K}" stroke="none"/><circle cx="9" cy="-4" r="3" fill="${K}" stroke="none"/><path d="M-12 7Q0 19 12 7" fill="none"/><circle cx="-16" cy="6" r="4" fill="${O}" stroke="none" opacity=".6"/><circle cx="16" cy="6" r="4" fill="${O}" stroke="none" opacity=".6"/>`)}
+ ${g(34,118,A("a-up",heart(O)))}${g(168,120,A("a-up",heart(V),"--d:1.2s"))}${g(58,122,A("a-up",`<g transform="scale(.6)">${heart(W)}</g>`,"--d:2s"))}`,
+/* ===== Bab 3: Thinking Skill ===== */
+"2-0":`<circle cx="100" cy="70" r="44" fill="none" stroke-dasharray="6 7"/>
+ ${dot(5,"M100 26A44 44 0 1 1 99.9 26",W,5)}
+ ${[[100,26,O],[144,70,Y],[100,114,T],[56,70,V]].map(([x,y,c],i)=>g(x,y,A("a-pulse",`<circle r="13" fill="${c}"/>`,`--d:${i*.5}s`))).join("")}
+ ${g(100,70,A("a-spin",gear(9,W),"--t:7s"))}`,
+"2-1":`<rect x="26" y="20" width="98" height="104" rx="6" fill="${W}"/>
+ ${[0,1,2,3,4].map(i=>`<path d="M38 ${40+i*18}h${[70,56,74,48,64][i]}" fill="none" stroke-width="3"/>`).join("")}
+ ${g(160,44,A("a-pop",`<rect x="-28" y="-11" width="56" height="22" rx="11" fill="${T}"/>`+txt(0,4,10,"FAKTA",W),"--t:4s"))}
+ ${g(160,80,A("a-pop",`<rect x="-28" y="-11" width="56" height="22" rx="11" fill="${Y}"/>`+txt(0,4,10,"OPINI"),"--d:1s;--t:4s"))}
+ ${g(160,114,A("a-pop",`<rect x="-28" y="-11" width="56" height="22" rx="11" fill="${O}"/>`+txt(0,4,10,"ASUMSI",W),"--d:2s;--t:4s"))}
+ ${g(66,48,A("a-scanY",`<circle r="17" fill="#ffffff" fill-opacity=".45"/><path d="M12 12l14 14" fill="none" stroke-width="6"/>`))}`,
+"2-2":`<rect x="18" y="16" width="164" height="110" rx="8" fill="${W}"/>
+ ${A("a-draw",`<path d="M36 108Q60 70 92 96T150 46" fill="none" stroke="${V}" stroke-width="4" stroke-dasharray="1" pathLength="1"/>`,"--t:4s")}
+ <circle cx="36" cy="108" r="7" fill="${O}"/>
+ ${g(150,46,`<path d="M0 0V-26" fill="none"/>`+A("a-wig",`<path d="M0-26h20l-5 7 5 7H0z" fill="${O}"/>`,"transform-origin:0% 50%"))}
+ ${g(72,46,`<path d="M-10 10L0-10 10 10z" fill="${T}"/>`)}${g(120,104,`<path d="M-8 8L0-8 8 8z" fill="${T}"/>`)}${g(132,104,`<circle r="5" fill="${Y}"/>`)}`,
+"2-3":`<rect x="34" y="20" width="88" height="104" rx="6" fill="${W}"/>${[0,1,2,3,4,5].map(i=>`<circle cx="34" cy="${30+i*17}" r="4" fill="${Y}"/>`).join("")}
+ ${[0,1,2,3].map(i=>A("a-draw",`<path d="M48 ${46+i*18}h${[60,48,62,40][i]}" fill="none" stroke-width="3" pathLength="1"/>`,`--d:${i*.6}s;--t:4s`)).join("")}
+ ${g(156,50,A("a-spin",`<path d="M0-22A22 22 0 0 1 22 0M0 22A22 22 0 0 1-22 0" fill="none" stroke-width="4"/><path d="M22 0l-6-6M22 0l6-6M-22 0l-6 6M-22 0l6 6" fill="none" stroke-width="4"/>`,"--t:6s"))}
+ ${g(156,50,`<circle r="9" fill="${O}"/>`)}${g(156,104,A("a-bob",txt(0,0,11,"STAR",W)))}`,
+"2-4":`${[[40,34,O],[160,34,T],[34,104,V],[166,104,W],[100,128,O]].map(([x,y,c],i)=>A("a-draw",`<path d="M100 66L${x} ${y}" fill="none" stroke-width="3" pathLength="1"/>`,`--d:${i*.3}s;--t:4.5s`)+g(x,y,A("a-pop",`<circle r="12" fill="${c}"/>`,`--d:${i*.3+.4}s;--t:4.5s`))).join("")}
+ ${g(100,60,bulb(20))}${g(150,64,A("a-blink",spark(Y)))}${g(56,70,A("a-blink",spark(W),"--d:.8s"))}`,
+/* ===== kartu fitur beranda ===== */
+u0:`<rect x="40" y="96" width="120" height="18" rx="3" fill="${O}"/><rect x="48" y="78" width="104" height="18" rx="3" fill="${T}"/>
+ <path d="M100 74V28Q80 20 52 26v48Q80 68 100 74Q120 68 148 74V26Q120 20 100 28" fill="${W}"/>
+ ${g(100,28,A("a-flip",`<path d="M0 0Q20-8 46-2v48Q20 40 0 46z" fill="${Y}"/>`,"transform-origin:0% 50%"))}`,
+u1:`<rect x="30" y="22" width="140" height="88" rx="8" fill="${W}"/>${g(100,62,A("a-pulse",`<circle r="22" fill="${O}"/><path d="M-6-11l17 11-17 11z" fill="${W}"/>`))}
+ <rect x="44" y="96" width="112" height="6" rx="3" fill="#dfe3f5" stroke="none"/>${g(44,96,A("a-charge",`<rect width="112" height="6" rx="3" fill="${T}" stroke="none"/>`,"transform-origin:0% 50%"))}<path d="M84 112l-6 16M116 112l6 16M70 128h60" fill="none"/>`,
+u2:`<rect x="40" y="14" width="120" height="114" rx="8" fill="${W}"/>
+ ${["A","B","C","D"].map((t,i)=>`<rect x="52" y="${26+i*25}" width="96" height="19" rx="9" fill="${i===1?Y:"#eef1fb"}"/>${txt(64,40+i*25,10,t)}`).join("")}
+ ${g(134,61,tick(.2))}${g(160,16,A("a-pop",star(12,O),"--t:3s"))}`,
+u3:`${g(40,70,`<rect x="-18" y="-14" width="36" height="28" rx="4" fill="${O}"/><path d="M-8-14v-5h16v5" fill="none"/>`)}
+ ${["M58 70Q100 70 108 30","M58 70H120","M58 70Q100 70 108 110"].map((d,i)=>A("a-draw",`<path d="${d}" fill="none" stroke-width="3" pathLength="1"/>`,`--d:${i*.4}s;--t:4s`)).join("")}
+ ${[[136,30,T],[148,70,Y],[136,110,V]].map(([x,y,c],i)=>g(x,y,A("a-pop",`<rect x="-22" y="-12" width="44" height="24" rx="12" fill="${c}"/>`+txt(0,4,10,["A","B","C"][i],c===Y?K:W),`--d:${i*.4+.6}s;--t:4s`))).join("")}`,
+u4:`${g(100,68,`<circle r="44" fill="${W}"/>`+[0,1,2,3,4,5,6,7,8,9,10,11].map(i=>`<path d="M0-38v${i%3?3:7}" transform="rotate(${i*30})" fill="none" stroke-width="2.5"/>`).join(""))}
+ ${g(100,68,A("a-spin",`<path d="M0 0V-32" fill="none" stroke-width="3.5" stroke="${O}"/>`,"transform-origin:50% 100%;--t:4s"))}
+ ${g(100,68,A("a-spin",`<path d="M0 0V-22" fill="none" stroke-width="5"/>`,"transform-origin:50% 100%;--t:48s"))}<circle cx="100" cy="68" r="5" fill="${K}"/>`,
+/* ===== katalog & halaman ===== */
+el:`<rect x="30" y="16" width="140" height="92" rx="8" fill="${W}"/><path d="M14 108h172l-10 16H24z" fill="${V}"/>
+ ${[0,1,2].map(i=>g(46+i*38,34,A("a-bob",`<rect width="32" height="58" rx="5" fill="${[O,Y,T][i]}"/><rect x="5" y="40" width="22" height="5" rx="2" fill="${W}" stroke="none"/>`,`--d:${i*.4}s`))).join("")}`,
+kontak:`<rect x="34" y="50" width="96" height="66" rx="6" fill="${W}"/><path d="M34 54l48 34 48-34" fill="none"/>
+ ${g(146,40,A("a-fly",`<path d="M-20 4L22-14 6 18 0 6z" fill="${Y}"/><path d="M0 6L22-14" fill="none" stroke-width="2"/>`))}
+ ${A("a-draw",`<path d="M64 36Q100 6 128 34" fill="none" stroke-dasharray="1" stroke-width="2" pathLength="1"/>`,"--t:3s")}`,
+team:`${[[52,O,K],[100,T,"#7a3b1d"],[148,V,K]].map(([x,c,h],i)=>g(x,72,A("a-bob",bust(c,h,14),`--d:${i*.5}s`))).join("")}
+ ${g(100,24,A("a-pop",`<rect x="-24" y="-12" width="48" height="24" rx="12" fill="${W}"/>`+g(0,1,`<g transform="scale(.6)">${heart(O)}</g>`),"--t:3.5s"))}`,
+faq:`${g(92,60,A("a-wig",`<path d="M-50-38h100a12 12 0 0 1 12 12v44a12 12 0 0 1-12 12h-58l-18 16v-16h-24a12 12 0 0 1-12-12v-44a12 12 0 0 1 12-12z" fill="${W}"/>`+txt(0,16,46,"?",V),"--t:2.4s"))}
+ ${g(162,100,A("a-pop",`<circle r="15" fill="${Y}"/>`+txt(0,6,16,"!"),"--t:3s"))}${g(34,112,A("a-pop",`<circle r="11" fill="${O}"/>`+txt(0,4,12,"?",W),"--d:1s;--t:3s"))}`,
+tujuan:`${g(84,72,`<circle r="48" fill="${O}"/><circle r="36" fill="${W}"/><circle r="24" fill="${O}"/><circle r="12" fill="${Y}"/>`)}
+ ${g(84,72,A("a-hit",`<path d="M0 0L96-30" fill="none" stroke-width="4"/><path d="M96-30l-14 0 4-8zM96-30l-6 12 10 0z" fill="${T}"/><path d="M0 0" />`))}`,
+petunjuk:`<path d="M100 130V30" fill="none" stroke-width="6"/>
+ ${g(100,40,A("a-wig",`<path d="M-4-12h56l12 12-12 12H-4z" fill="${Y}"/>`,"transform-origin:0% 50%"))}
+ ${g(100,74,A("a-wig",`<path d="M4-12h-56l-12 12 12 12H4z" fill="${T}"/>`,"transform-origin:100% 50%;--d:.6s"))}
+ ${g(100,104,A("a-wig",`<path d="M-4-10h44l10 10-10 10H-4z" fill="${O}"/>`,"transform-origin:0% 50%;--d:1.2s"))}<path d="M70 130h60" fill="none"/>`,
+alur:`<path d="M24 104Q50 40 80 80T140 60 180 40" fill="none" stroke-dasharray="6 7"/>
+ ${[[24,104,O,"1"],[80,80,Y,"2"],[140,60,T,"3"],[180,40,V,"4"]].map(([x,y,c,t])=>g(x,y,`<circle r="13" fill="${c}"/>`+txt(0,5,13,t,c===Y?K:W))).join("")}
+ ${dot(5,"M24 104Q50 40 80 80T140 60 180 40",W,6)}`,
+peta:`${[[50,72],[150,72],[100,122]].map(([x,y],i)=>A("a-draw",`<path d="M100 30L${x} ${y}" fill="none" pathLength="1"/>`,`--d:${i*.3}s;--t:4.5s`)).join("")}
+ ${[[30,118],[70,118]].map(([x,y],i)=>A("a-draw",`<path d="M50 72L${x} ${y}" fill="none" pathLength="1"/>`,`--d:${.9+i*.3}s;--t:4.5s`)).join("")}
+ ${g(100,30,`<rect x="-26" y="-13" width="52" height="26" rx="13" fill="${Y}"/>`)}
+ ${[[50,72,O],[150,72,T],[100,122,V],[30,118,W],[70,118,W]].map(([x,y,c],i)=>g(x,y,A("a-pop",`<circle r="${i<3?13:9}" fill="${c}"/>`,`--d:${i*.3+.3}s;--t:4.5s`))).join("")}${g(150,72,tick(1.5))}`,
+glosarium:`<path d="M100 40Q74 26 30 32v80q44-6 70 8q26-14 70-8V32q-44-6-70 8z" fill="${W}"/><path d="M100 40v80" fill="none"/>
+ ${g(64,74,A("a-pop",txt(0,10,34,"A",O),"--t:3s"))}${g(136,74,A("a-pop",txt(0,10,34,"Z",V),"--d:1.5s;--t:3s"))}
+ ${g(100,40,A("a-flip",`<path d="M0 0q26-14 60-10v76q-34-4-60 10z" fill="${Y}" opacity=".9"/>`,"transform-origin:0% 50%;--t:4s"))}`,
+latihan:`${g(70,74,`<circle r="40" fill="${W}"/><rect x="-8" y="-52" width="16" height="10" rx="2" fill="${O}"/>`)}
+ ${g(70,74,A("a-spin",`<path d="M0 0V-30" fill="none" stroke-width="4" stroke="${O}"/>`,"transform-origin:50% 100%;--t:3s"))}<circle cx="70" cy="74" r="5" fill="${K}"/>
+ <rect x="124" y="30" width="60" height="84" rx="6" fill="${Y}"/>${[0,1,2].map(i=>g(140,52+i*22,tick(i*.5))+`<path d="M152 ${52+i*22}h22" fill="none" stroke-width="2.5"/>`).join("")}`,
+shield:`<path d="M100 16l44 14v36c0 30-22 48-44 56-22-8-44-26-44-56V30z" fill="${T}"/>
+ ${g(100,68,A("a-draw",`<path d="M-18 0l12 12 26-26" fill="none" stroke="${W}" stroke-width="8" pathLength="1"/>`,"--t:3.5s"))}
+ ${g(160,30,A("a-blink",spark(W)))}${g(40,108,A("a-blink",spark(Y),"--d:1s"))}`,
+/* ===== kegiatan belajar bareng ===== */
+k0:`<rect x="40" y="16" width="96" height="112" rx="6" fill="${W}"/><rect x="40" y="16" width="96" height="26" rx="6" fill="${O}"/>${txt(88,34,13,"LOKER",W)}
+ ${[0,1,2,3].map(i=>`<path d="M54 ${58+i*16}h${[66,50,60,40][i]}" fill="none" stroke-width="3"/>`).join("")}
+ ${g(160,96,A("a-blink",`<path d="M0-18L18 14H-18z" fill="${Y}"/>`+txt(0,10,16,"!")))}
+ ${g(88,66,A("a-scanY",`<circle r="16" fill="#ffffff" fill-opacity=".45"/><path d="M11 11l14 14" fill="none" stroke-width="6"/>`))}`,
+k1:`${g(52,82,bust(T,K,15))}${g(148,82,bust(O,"#7a3b1d",15))}<path d="M20 130h160" fill="none"/>
+ ${g(70,30,A("a-pop",`<rect x="-30" y="-14" width="60" height="28" rx="14" fill="${W}"/>`+txt(0,5,11,"KENAPA?"),"--t:4s"))}
+ ${g(132,30,A("a-pop",`<rect x="-30" y="-14" width="60" height="28" rx="14" fill="${Y}"/>`+txt(0,5,11,"STAR"),"--d:2s;--t:4s"))}`,
+k2:`<circle cx="100" cy="70" r="40" fill="none" stroke-dasharray="6 7"/>
+ ${g(100,70,A("a-spin",`<path d="M40 0l-7-8M40 0l7-8M-40 0l-7 8M-40 0l7 8" fill="none" stroke-width="3.5"/>`,"--t:8s"))}
+ ${[[100,30,O],[140,70,Y],[100,110,T],[60,70,V]].map(([x,y,c],i)=>g(x,y,A("a-bob",`<circle r="14" fill="${c}"/>`+g(0,1,`<g transform="scale(.55)">${face(14)}</g>`),`--d:${i*.4}s`))).join("")}`,
+k3:`${[[46,O],[100,T],[154,V]].map(([x,c],i)=>g(x,84,bust(c,K,13))+g(x,30,A("a-pop",star(13,[Y,W,Y][i]),`--d:${i*.5}s;--t:4s`))).join("")}`,
+k4:`<path d="M100 36Q76 24 36 30v84q40-6 64 6q24-12 64-6V30q-40-6-64 6z" fill="${W}"/><path d="M100 36v84" fill="none"/>
+ ${g(68,62,A("a-beat",heart(O)))}
+ ${[0,1,2].map(i=>A("a-draw",`<path d="M112 ${58+i*16}h${[40,30,36][i]}" fill="none" stroke-width="3" pathLength="1"/>`,`--d:${i*.6}s;--t:4s`)).join("")}
+ ${g(160,100,A("a-slide",`<path d="M0 0l20-20 6 6-20 20-8 2z" fill="${Y}"/>`))}`
+};
+L.k5=L["2-4"];L.komunitas=L.team;L.tentang=L.team;
+/* kartu fitur memakai indeks; halaman lama memakai kunci */
+return k=>{const b=L[k]||L.course;return`<svg class="ill" viewBox="0 0 200 140" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g stroke="${K}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">${b}</g></svg>`}})();
+const ILL=k=>ILLX(String(k));
+/* animasi hanya berjalan untuk gambar yang terlihat (hemat baterai & tetap mulus) */
+(()=>{const RMI=matchMedia("(prefers-reduced-motion:reduce)").matches;
+ const io="IntersectionObserver" in window?new IntersectionObserver(es=>es.forEach(e=>{const v=e.isIntersecting&&!RMI;e.target.classList.toggle("on",v);try{v?e.target.unpauseAnimations():e.target.pauseAnimations()}catch(_){}}),{rootMargin:"60px"}):null;
+ let q=0;const scan=()=>{q=0;document.querySelectorAll("svg.ill:not([data-io])").forEach(s=>{s.setAttribute("data-io","");if(io){try{s.pauseAnimations()}catch(_){}io.observe(s)}else if(!RMI)s.classList.add("on")})};
+ new MutationObserver(()=>{if(!q)q=requestAnimationFrame(scan)}).observe(document.body,{childList:true,subtree:true});scan()})();
 const G=(f,i,b,r,a=12)=>`<g data-par="${f}"${r?` data-rot="${r}"`:""}><g class="pop" style="--i:${i}"><g class="fl" style="--d:${i*1.7};--a:${a}">${b}</g></g></g>`;
 $("#hero-art").innerHTML=`<svg viewBox="0 0 600 520"><g stroke="${K}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
 ${G(.25,0,`<ellipse cx="310" cy="280" rx="230" ry="215" fill="${Y}" stroke="none"/>`,0,4)}
@@ -3545,9 +3751,9 @@ const FAQ=[
  ["Apa arti kategori kelulusan?","86–100 Sangat Siap Kerja, 71–85 Siap Kerja, 56–70 Cukup Siap / Perlu Latihan Lanjutan, dan di bawah 56 Belum Siap Kerja. Batas lulus pilihan ganda adalah 70."],
  ["Apakah ada sertifikat?","Prototipe ini belum menerbitkan sertifikat. Kategori kelulusanmu tampil di kartu Nilai Akhir pada menu Latihan."],
  ["Siapa yang membuat GrowthLab?","Kelompok 8 Program Studi Teknologi Pendidikan FIP UNJ (2024) sebagai tugas mata kuliah Pengembangan Multimedia Pendidikan. Materinya merujuk pada artikel MySkill di Medium."]];
-$("#usp").innerHTML=[[C.chapters.length,"Bab materi","#/course"],[C.chapters.reduce((a,c)=>a+c.l.length,0),"Pelajaran soft skill","#/e-learning"],[GLX.nQuiz,"Soal kuis pilihan ganda","#/latihan/kuis"],[GLX.nSim,"Skenario simulasi kerja","#/latihan/sim"],["Mandiri","Belajar mandiri, kapan saja","#/petunjuk"]].map(([v,t,hf],i)=>`<a class="us" href="${hf}"><div class="ic" style="background:${BGC[i]}">${ART(i)}</div><strong>${v}</strong><span>${t}</span></a>`).join("");
-$("#el-art").innerHTML=`<div class="frame" style="--c1:${CO[0]};width:100%">${ART(3)}</div>`;
-$("#kom").innerHTML=Array.from({length:6},(_,i)=>`<div data-par="${i%2?-.05:.06}"><a class="ph" href="#/komunitas/${i}" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="pic" style="--c1:${CO[i]}">${ART(i)}</div><p>${KOMT[i]}</p></a></div>`).join("");
+$("#usp").innerHTML=[[C.chapters.length,"Bab materi","#/course"],[C.chapters.reduce((a,c)=>a+c.l.length,0),"Pelajaran soft skill","#/e-learning"],[GLX.nQuiz,"Soal kuis pilihan ganda","#/latihan/kuis"],[GLX.nSim,"Skenario simulasi kerja","#/latihan/sim"],["Mandiri","Belajar mandiri, kapan saja","#/petunjuk"]].map(([v,t,hf],i)=>`<a class="us" href="${hf}"><div class="ic" style="background:${BGC[i]}">${ILL("u"+i)}</div><strong>${v}</strong><span>${t}</span></a>`).join("");
+$("#el-art").innerHTML=`<div class="frame" style="--c1:${CO[0]};width:100%">${ILL("el")}</div>`;
+$("#kom").innerHTML=Array.from({length:6},(_,i)=>`<div data-par="${i%2?-.05:.06}"><a class="ph" href="#/komunitas/${i}" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="pic" style="--c1:${CO[i]}">${ILL("k"+i)}</div><p>${KOMT[i]}</p></a></div>`).join("");
 $("#fq").innerHTML=FAQ.slice(0,5).map(([q,a],i)=>`<details${i?"":" open"}><summary>${q}</summary><p>${a}</p></details>`).join("");
 function pin(){const p=$("#program");if(!p)return;const r=p.getBoundingClientRect();if(r.height<10)return;const pr=Math.min(1,Math.max(0,-r.top/(r.height-innerHeight))),a=Math.min(2,Math.floor(pr*3));
  if(a!==pa_){pa_=a;$$("#program [data-i]").forEach(e=>{const i=+e.dataset.i;e.classList.toggle("on",i===a);e.classList.toggle("off",i<a)});burst=1}}
@@ -3689,52 +3895,52 @@ const crumb=a=>`<nav class="crumb2 mono" aria-label="Breadcrumb"><a href="#/">Be
 const hero=(bg,cr,kick,title,lead,btns,art)=>`<section class="blk phr" style="--b:${bg};--prev:transparent"><div class="wrap phg"><div>${crumb(cr)}<span class="mono rv" style="display:block;margin-top:20px">${kick}</span><h1 class="rv">${title}</h1><p class="lead rv" style="--d:.1s">${lead}</p><div class="row rv" style="--d:.18s">${btns}</div></div>${art}</div></section>`;
 const sec=(bg,prev,inner,x="")=>`<section class="blk sc2" style="--b:${bg};--prev:${prev};${x}"><div class="wrap">${inner}</div></section>`;
 const cta=(prev,t,b)=>sec("#ff5a3c",prev,`<div class="ctab"><h2 class="rv">${t}</h2><div class="rv">${b}</div></div>`,"--fg:#fff");
-const fr=(c,k)=>`<div data-par=".05"><div class="rv" data-in="z"><div class="frame" style="--c1:${c}">${ART(k)}</div></div></div>`;
+const fr=(c,k)=>`<div data-par=".05"><div class="rv" data-in="z"><div class="frame" style="--c1:${c}">${ILL(k)}</div></div></div>`;
 const LES=C.chapters.flatMap((ch,i)=>ch.l.map((l,j)=>({i,j,ch,l,n:i*5+j})));
 const lesLink=(i,j)=>`<a href="#/lesson/${i}-${j}">${esc(C.chapters[i].l[j].t)}</a>`;
-const cardL=o=>`<a class="card" href="#/lesson/${o.i}-${o.j}"><div class="art" style="--c1:${o.ch.c1}">${ART(o.n)}<em class="no">${p2(o.n+1)}</em></div><div class="body"><span class="mono">Bab ${p2(o.i+1)} · ${esc(o.ch.t)}</span><h3>${esc(o.l.t)}</h3><p style="color:var(--mut);font-size:.92rem">${esc(strip(o.l.judul))}</p><div class="tags"><span>${done.has(o.i+"-"+o.j)?"Selesai ✓":"Belum selesai"}</span>${o.l.draft?"<span>Draf</span>":""}</div></div></a>`;
-const polK=i=>`<a class="ph" href="#/komunitas/${i}" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="pic" style="--c1:${CO[i]}">${ART(i)}</div><p>${KOMT[i]}</p></a>`;
+const cardL=o=>`<a class="card" href="#/lesson/${o.i}-${o.j}"><div class="art" style="--c1:${o.ch.c1}">${ILL(o.i+"-"+o.j)}<em class="no">${p2(o.n+1)}</em></div><div class="body"><span class="mono">Bab ${p2(o.i+1)} · ${esc(o.ch.t)}</span><h3>${esc(o.l.t)}</h3><p style="color:var(--mut);font-size:.92rem">${esc(strip(o.l.judul))}</p><div class="tags"><span>${done.has(o.i+"-"+o.j)?"Selesai ✓":"Belum selesai"}</span>${o.l.draft?"<span>Draf</span>":""}</div></div></a>`;
+const polK=i=>`<a class="ph" href="#/komunitas/${i}" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="pic" style="--c1:${CO[i]}">${ILL("k"+i)}</div><p>${KOMT[i]}</p></a>`;
 const faqL=n=>`<div class="fq rv">${FAQ.slice(0,n).map(([q,a],i)=>`<details${i?"":" open"}><summary>${q}</summary><p>${a}</p></details>`).join("")}</div>`;
 const stp=(a)=>`<div class="stg rv">${a.map(([t,d],i)=>`<div class="stp"><b>${p2(i+1)}</b><h3>${t}</h3><p>${d}</p></div>`).join("")}</div>`;
 const lg2=a=>`<div class="lg2">${a.map(([t,d],i)=>`<h3 class="rv">${i+1}. ${t}</h3><p class="rv">${d}</p>`).join("")}</div>`;
 const kt=a=>`<div class="kt rv">${a.map(([b,t])=>`<div><b>${b}</b><span>${t}</span></div>`).join("")}</div>`;
 function renderPage(h){const[s,x,y]=h.split("/"),n=+x||0;let H="";const nQ=GLX.nQuiz,nS=GLX.nSim,nD=GLD.DND.length;
- if(s==="e-learning")H=hero(LT[0],[["Katalog pelajaran"]],"Materi","Katalog <em>pelajaran</em>",`Telusuri ${total} pelajaran di ${C.chapters.length} bab. Cari berdasarkan judul atau kata kunci, atau saring per bab.`,A_("#/course","Buka ringkasan kursus","p")+A_("#/peta","Peta konsep"),fr(CO[0],3))
+ if(s==="e-learning")H=hero(LT[0],[["Katalog pelajaran"]],"Materi","Katalog <em>pelajaran</em>",`Telusuri ${total} pelajaran di ${C.chapters.length} bab. Cari berdasarkan judul atau kata kunci, atau saring per bab.`,A_("#/course","Buka ringkasan kursus","p")+A_("#/peta","Peta konsep"),fr(CO[0],"el"))
   +sec(CR,LT[0],`<div class="sbar rv"><input id="q" type="search" placeholder="Cari pelajaran, misalnya: stres, STAR, empati…" aria-label="Cari pelajaran"><div class="chips" id="pchips" role="group" aria-label="Saring bab"></div></div><div class="el-top"><div class="chips" id="pst" role="group" aria-label="Saring status" style="margin:0"></div><span class="mono" id="ecount" aria-live="polite"></span></div><div class="grid" id="elg"></div><p id="none" hidden>Tidak ada pelajaran yang cocok. Coba kata kunci lain.</p>`)
   +sec("#3b2a8c",CR,`<h2 class="rv">Kenapa belajar di sini</h2><ul class="chk rv" style="color:#fff"><li>Materi disusun dari GBIM dan jabaran materi tim pengembang</li><li>Contoh kasus seputar melamar kerja, wawancara, dan magang</li><li>Kuis, drag &amp; drop, dan simulasi dengan nilai akhir yang transparan</li></ul>`,"--fg:#fff")
   +cta("#3b2a8c","Siap mulai belajar?",A_("#/course/1","Mulai dari Bab 1"));
- else if(s==="kontak")H=hero(LT[0],[["Kontak"]],"Kontak","Hubungi <em>tim</em>","Punya masukan untuk GrowthLab? Tulis pesanmu di bawah. Karena ini prototipe tugas kuliah, pesan belum dikirim ke mana pun.",A_("#/faq","Lihat FAQ","p"),fr(CO[0],0))
+ else if(s==="kontak")H=hero(LT[0],[["Kontak"]],"Kontak","Hubungi <em>tim</em>","Punya masukan untuk GrowthLab? Tulis pesanmu di bawah. Karena ini prototipe tugas kuliah, pesan belum dikirim ke mana pun.",A_("#/faq","Lihat FAQ","p"),fr(CO[0],"kontak"))
   +sec(CR,LT[0],`<h2 class="rv" id="kontak">Kirim pesan</h2><div class="fm rv"><label>Nama<input id="f1" autocomplete="name"></label><label>Email<input id="f3" type="email" autocomplete="email"></label><label>Pesan<textarea id="f4" rows="4"></textarea></label><button class="btn p" id="fs">Kirim pesan</button><small>Prototipe: pesan tidak dikirim dan tidak disimpan.</small></div>`);
- else if(s==="komunitas"&&!x)H=hero(LT[1],[["Belajar bareng"]],"Belajar bareng","Belajar <em>bareng</em> teman","Enam ide kegiatan kelompok untuk kelas atau teman belajar. Setiap ide terhubung ke pelajaran di GrowthLab.",A_("#/course","Buka materi","p"),fr(CO[4],1))
+ else if(s==="komunitas"&&!x)H=hero(LT[1],[["Belajar bareng"]],"Belajar bareng","Belajar <em>bareng</em> teman","Enam ide kegiatan kelompok untuk kelas atau teman belajar. Setiap ide terhubung ke pelajaran di GrowthLab.",A_("#/course","Buka materi","p"),fr(CO[4],"komunitas"))
   +sec("#ffc83d",LT[1],`<div class="pol">${KOMD.map((_,i)=>polK(i)).join("")}</div>`);
- else if(s==="komunitas"){const i=Math.min(n,KOMD.length-1),k=KOMD[i];H=hero("#ffc83d",[["Belajar bareng","#/komunitas"],[k.t]],"Ide kegiatan "+p2(i+1),k.t,k.d,A_(`#/lesson/${k.les[0][0]}-${k.les[0][1]}`,"Pelajari materinya","p")+A_("#/komunitas","Semua ide kegiatan"),fr(CO[i],i))
+ else if(s==="komunitas"){const i=Math.min(n,KOMD.length-1),k=KOMD[i];H=hero("#ffc83d",[["Belajar bareng","#/komunitas"],[k.t]],"Ide kegiatan "+p2(i+1),k.t,k.d,A_(`#/lesson/${k.les[0][0]}-${k.les[0][1]}`,"Pelajari materinya","p")+A_("#/komunitas","Semua ide kegiatan"),fr(CO[i],"k"+i))
   +sec(CR,"#ffc83d",`<h2 class="rv">Langkah kegiatan</h2>${stp(k.s.map((t,j)=>["Langkah "+(j+1),t]))}<h2 class="rv" style="margin-top:44px">Pelajaran terkait</h2><ul class="chk rv">${k.les.map(([a,b])=>`<li>${lesLink(a,b)} · ${esc(C.chapters[a].t)}</li>`).join("")}</ul><p class="rv lead2" style="margin-top:18px">Saran pelaksanaan: 3–5 orang, 30–45 menit.</p>`)}
- else if(s==="faq")H=hero(LT[0],[["FAQ"]],"Bantuan","Yang sering <em>ditanyakan</em>","Belum menemukan jawabannya? Tanyakan ke asisten chat atau kirim pesan ke tim.",A_("#/kontak","Hubungi tim","p"),fr(CO[0],0))+sec(CR,LT[0],faqL(FAQ.length))+cta(CR,"Masih ada pertanyaan?",A_("#/kontak","Kirim pesan"));
- else if(s==="tujuan")H=hero(LT[2],[["Tujuan belajar"]],"Panduan · Tujuan belajar","Tujuan <em>belajar</em>","Setelah menyelesaikan GrowthLab, kamu diharapkan mampu menerapkan soft skill untuk menghadapi proses mencari kerja dan dunia kerja.",A_("#/petunjuk","Petunjuk penggunaan","p")+A_("#/course","Mulai belajar"),fr(CO[2],2))
+ else if(s==="faq")H=hero(LT[0],[["FAQ"]],"Bantuan","Yang sering <em>ditanyakan</em>","Belum menemukan jawabannya? Tanyakan ke asisten chat atau kirim pesan ke tim.",A_("#/kontak","Hubungi tim","p"),fr(CO[0],"faq"))+sec(CR,LT[0],faqL(FAQ.length))+cta(CR,"Masih ada pertanyaan?",A_("#/kontak","Kirim pesan"));
+ else if(s==="tujuan")H=hero(LT[2],[["Tujuan belajar"]],"Panduan · Tujuan belajar","Tujuan <em>belajar</em>","Setelah menyelesaikan GrowthLab, kamu diharapkan mampu menerapkan soft skill untuk menghadapi proses mencari kerja dan dunia kerja.",A_("#/petunjuk","Petunjuk penggunaan","p")+A_("#/course","Mulai belajar"),fr(CO[2],"tujuan"))
   +sec(CR,LT[2],`<h2 class="rv">Tujuan umum</h2><p class="rv lead2">Peserta didik SMK kelas XII dan <i>fresh graduate</i> mampu mengembangkan diri (soft skill) melalui pengelolaan diri, kecerdasan emosional, dan keterampilan berpikir, sehingga lebih siap menghadapi proses rekrutmen dan dunia kerja.</p>
    <h2 class="rv" style="margin-top:40px">Tujuan per bab</h2><div class="tj rv">${C.chapters.map((ch,i)=>`<div><span class="mono">TIK/KD ${i+1}</span><h3>${esc(ch.t)}</h3><p style="margin-bottom:12px">Peserta didik mampu:</p><ol>${ch.l.map((l,j)=>`<li>${l.tuj} <small>(${lesLink(i,j)})</small></li>`).join("")}</ol></div>`).join("")}</div>`)
   +sec(LT[3],CR,`<h2 class="rv">Kompetensi yang dinilai</h2><p class="rv lead2">Pemahaman konsep diukur dengan kuis pilihan ganda (bobot 30%). Penerapan diukur lewat simulasi kasus dunia kerja (bobot 70%) pada tiga aspek:</p>${kt(GLD.SIM.map(sm=>[Math.round(sm.w*100)+"%",`<b style="font:700 1rem var(--sans)">${esc(sm.aspek)}</b>`]))}`)
   +cta(LT[3],"Siap mencapai tujuanmu?",A_("#/course/1","Mulai dari Bab 1"));
- else if(s==="petunjuk")H=hero(LT[0],[["Petunjuk penggunaan"]],"Panduan · Petunjuk penggunaan","Petunjuk <em>penggunaan</em>","Ikuti empat langkah berikut agar belajarmu di GrowthLab lancar.",A_("#/course","Mulai belajar","p")+A_("#/peta","Peta konsep")+A_("#/glosarium","Glosarium"),fr(CO[1],1))
+ else if(s==="petunjuk")H=hero(LT[0],[["Petunjuk penggunaan"]],"Panduan · Petunjuk penggunaan","Petunjuk <em>penggunaan</em>","Ikuti empat langkah berikut agar belajarmu di GrowthLab lancar.",A_("#/course","Mulai belajar","p")+A_("#/peta","Peta konsep")+A_("#/glosarium","Glosarium"),fr(CO[1],"petunjuk"))
   +sec(CR,LT[0],`<h2 class="rv">Langkah demi langkah</h2>${stp([["Pilih bab","Buka menu <b>Materi</b>, lalu pilih salah satu dari tiga bab. Kamu juga bisa memilih bab dari kartu di beranda."],["Baca dan tandai selesai","Baca uraian, konsep penting, diagram, dan contohnya. Tekan <b>Tandai selesai</b> atau <b>Pelajaran berikut</b>."],["Progres tersimpan","Progresmu tersimpan otomatis di browser ini. Ring progres, bilah di menu, dan jalur belajar ikut terisi."],["Kerjakan latihan","Buka menu <b>Latihan</b>: kuis, drag &amp; drop, dan simulasi. Nilaimu muncul di kartu <b>Nilai Akhir</b>."]])}`)
   +sec(LT[3],CR,`<h2 class="rv">Tips dan navigasi</h2><ul class="chk rv"><li>Di HP, tombol <b>Menu</b> membuka navigasi Materi, Latihan, dan Panduan.</li><li>Daftar pelajaran di sisi kiri halaman pelajaran memudahkanmu berpindah materi dalam satu bab.</li><li>Drag &amp; drop bisa dikerjakan dengan mouse, sentuhan, atau keyboard: pilih kartu (Tab lalu Enter), kemudian pilih kotak tujuan.</li><li>Pada tab Latihan, tombol panah kiri dan kanan berpindah antartab.</li><li>Tanyakan bab, latihan, atau cara menghitung nilai ke asisten chat (tombol <b>Tanya AI</b>). Di mode demo, jawabannya terbatas.</li><li>Progres hanya tersimpan di browser dan perangkat ini. Jangan hapus data situs jika ingin melanjutkan.</li></ul>`)
   +sec(LT[2],LT[3],`<h2 class="rv">Arti ikon dan tombol</h2><div class="ik rv">${[["up","Tombol bulat kiri bawah","Menggulir ke bawah, atau kembali ke atas setelah kamu menggulir jauh. Lingkarannya menunjukkan posisi baca.",""],["chat","Tanya AI","Asisten chat untuk pertanyaan seputar bab, latihan, dan nilai.",""],["bar","Progres kamu","Bilah di menu atas terisi sesuai pelajaran yang selesai. Klik untuk membuka ringkasan kursus.","#/course"],["chev","Panah bab","Membuka atau menutup daftar pelajaran pada halaman kursus.","#/course"],["check","Centang","Menandai pelajaran yang sudah selesai di daftar, peta konsep, dan jalur belajar.","#/peta"],["spark","Coba sendiri","Aktivitas interaktif di dalam pelajaran, misalnya simulator, kuis mini, dan alat bantu.","#/lesson/0-1"],["quiz","Cek cepat","Soal benar/salah di akhir setiap pelajaran untuk mengecek pemahamanmu.","#/lesson/0-0"],["note","Catatan pribadiku","Kolom catatan di setiap pelajaran yang tersimpan otomatis di browser.","#/lesson/0-0"],["map","Peta konsep","Peta seluruh isi GrowthLab. Klik simpulnya untuk membuka halaman terkait.","#/peta"],["abc","Glosarium","Arti istilah asing yang dipakai di materi.","#/glosarium"]].map(([ic,t,d,hf])=>`<div>${GLU.ico(ic,"ico ibg")}<div><b>${t}</b><p>${d}</p>${hf?`<a href="${hf}">Coba lihat →</a>`:""}</div></div>`).join("")}</div>`)
   +cta(LT[2],"Sudah siap?",A_("#/course/1","Mulai dari Bab 1"));
- else if(s==="alur")H=hero(LT[3],[["Alur belajar"]],"Panduan · Alur belajar","Alur <em>belajar</em>","Belajar di GrowthLab mengikuti empat tahap: materi, latihan soal, simulasi, lalu nilai akhir.",A_("#/course","Mulai dari materi","p")+A_("#/latihan","Ke Latihan"),fr(CO[3],3))
+ else if(s==="alur")H=hero(LT[3],[["Alur belajar"]],"Panduan · Alur belajar","Alur <em>belajar</em>","Belajar di GrowthLab mengikuti empat tahap: materi, latihan soal, simulasi, lalu nilai akhir.",A_("#/course","Mulai dari materi","p")+A_("#/latihan","Ke Latihan"),fr(CO[3],"alur"))
   +sec(CR,LT[3],`<h2 class="rv">Empat tahap</h2>${stp([["Materi",`${C.chapters.length} bab, ${total} pelajaran: ${C.chapters.map(c=>esc(c.t)).join(", ")}.`],["Latihan soal",`Kuis pilihan ganda (${nQ} soal) dan drag &amp; drop (${nD} set) untuk menguji pemahaman konsep.`],["Simulasi",`${nS} skenario kasus dunia kerja dengan alur bercabang, satu skenario per aspek penilaian.`],["Nilai akhir","Gabungan nilai kuis (30%) dan simulasi (70%), lengkap dengan kategori kesiapan kerja."]])}`)
   +sec(LT[2],CR,`<h2 class="rv">Cara menghitung nilai</h2>${kt([["Kuis",`Benar = 1, salah = 0. Nilai = benar ÷ jumlah soal × 100. Batas lulus <b>${GLD.PASS_MCQ}</b>. Yang masuk nilai akhir adalah skor terbaik mode Gabungan.`],["Simulasi","Setiap pilihan bernilai 0–100. Skor aspek = rata-rata skor jalur yang kamu pilih. Nilai simulasi = (Aspek 1 × 0,35) + (Aspek 2 × 0,35) + (Aspek 3 × 0,30)."],["Akhir","Nilai Akhir = (Nilai Pilihan Ganda × 0,30) + (Nilai Simulasi × 0,70)."]])}
    <h2 class="rv" style="margin-top:44px">Kategori kelulusan</h2>${kt(GLD.KATEGORI.map(([t,m,d],i)=>[esc(GLS.score.katLabel(i)),`<b style="font:700 1rem var(--sans)">${esc(t)}</b><br>${esc(d)}`]))}
    <h2 class="rv" style="margin-top:44px">Level tiap aspek simulasi</h2>${kt(GLD.LEVEL.map(([t],i)=>[GLS.score.pitaLabel(i),t]))}
    <h2 class="rv" style="margin-top:44px">Rubrik penilaian simulasi</h2><div class="fq rv">${GLD.SIM.map((sm,i)=>`<details${i?"":" open"}><summary>Aspek ${i+1}: ${esc(sm.aspek)} (bobot ${Math.round(sm.w*100)}%)</summary><p>${GLD.DESK[sm.aspek].map((d,k)=>`<b>${GLD.LEVEL[k][0]} (${GLS.score.pitaLabel(k)}):</b> ${esc(d)}`).join("<br><br>")}</p></details>`).join("")}</div>`)
   +cta(LT[2],"Mulai dari tahap pertama",A_("#/course","Buka materi"));
- else if(s==="peta")H=hero(LT[1],[["Peta konsep"]],"Panduan · Peta konsep","Peta <em>konsep</em>","Seluruh isi GrowthLab dalam satu peta, mengikuti peta konsep tim. Klik simpul mana pun untuk langsung membukanya. Simpul bertanda centang sudah kamu selesaikan.",A_("#/course","Buka materi","p")+A_("#/glosarium","Glosarium"),fr(CO[3],2))
+ else if(s==="peta")H=hero(LT[1],[["Peta konsep"]],"Panduan · Peta konsep","Peta <em>konsep</em>","Seluruh isi GrowthLab dalam satu peta, mengikuti peta konsep tim. Klik simpul mana pun untuk langsung membukanya. Simpul bertanda centang sudah kamu selesaikan.",A_("#/course","Buka materi","p")+A_("#/glosarium","Glosarium"),fr(CO[3],"peta"))
   +sec(CR,LT[1],GLU.peta())+cta(CR,"Mulai menjelajah",A_("#/course/1","Mulai dari Bab 1"));
- else if(s==="glosarium")H=hero(LT[0],[["Glosarium"]],"Panduan · Glosarium","Glosarium <em>istilah</em>",`${GLD.GLOS.length} istilah asing yang dipakai di materi, lengkap dengan artinya dan tautan ke pelajarannya.`,A_("#/e-learning","Katalog pelajaran","p")+A_("#/peta","Peta konsep"),fr(CO[5],0))
+ else if(s==="glosarium")H=hero(LT[0],[["Glosarium"]],"Panduan · Glosarium","Glosarium <em>istilah</em>",`${GLD.GLOS.length} istilah asing yang dipakai di materi, lengkap dengan artinya dan tautan ke pelajarannya.`,A_("#/e-learning","Katalog pelajaran","p")+A_("#/peta","Peta konsep"),fr(CO[5],"glosarium"))
   +sec(CR,LT[0],GLU.glos());
- else if(s==="latihan")H=hero(LT[2],[["Latihan"]],"Latihan","Uji <em>kesiapanmu</em>","Kerjakan kuis pilihan ganda, drag &amp; drop, dan simulasi kasus dunia kerja. Nilai Akhir = (Pilihan Ganda × 0,30) + (Simulasi × 0,70).",`<a class="btn p" href="#/latihan" data-sc="nilai-sec">Lihat nilai akhir</a>`+A_("#/alur","Cara menghitung nilai"),fr(CO[2],2))
+ else if(s==="latihan")H=hero(LT[2],[["Latihan"]],"Latihan","Uji <em>kesiapanmu</em>","Kerjakan kuis pilihan ganda, drag &amp; drop, dan simulasi kasus dunia kerja. Nilai Akhir = (Pilihan Ganda × 0,30) + (Simulasi × 0,70).",`<a class="btn p" href="#/latihan" data-sc="nilai-sec">Lihat nilai akhir</a>`+A_("#/alur","Cara menghitung nilai"),fr(CO[2],"latihan"))
   +sec(CR,LT[2],GLX.tabsHTML())
   +`<section class="blk sc2" id="nilai-sec" style="--b:#0a1a6b;--prev:${CR};--fg:#fff"><div class="wrap"><h2 class="rv">Nilai akhir</h2><div id="nilai"></div></div></section>`;
- else if(s==="tentang")H=hero(LT[0],[["Tentang"]],"Tentang","Tentang <em>GrowthLab</em>","GrowthLab adalah prototipe media pembelajaran interaktif berbasis website yang dikembangkan sebagai tugas mata kuliah Pengembangan Multimedia Pendidikan.",A_("#/tujuan","Tujuan belajar","p")+A_("#/course","Buka materi"),fr(CO[0],1))
+ else if(s==="tentang")H=hero(LT[0],[["Tentang"]],"Tentang","Tentang <em>GrowthLab</em>","GrowthLab adalah prototipe media pembelajaran interaktif berbasis website yang dikembangkan sebagai tugas mata kuliah Pengembangan Multimedia Pendidikan.",A_("#/tujuan","Tujuan belajar","p")+A_("#/course","Buka materi"),fr(CO[0],"tentang"))
   +sec(CR,LT[0],`<h2 class="rv">Garis besar isi media</h2><table class="gb rv"><tbody>${[["Nama media",GLD.GBIM.media],["Judul proyek",GLD.GBIM.judul],["Media",GLD.GBIM.jenis],["Sasaran",GLD.GBIM.sasaran],["Topik",GLD.GBIM.topik],["Isi",`${C.chapters.length} bab, ${total} pelajaran, ${nQ} soal kuis, ${nD} set drag &amp; drop, ${nS} skenario simulasi`]].map(([a,b])=>`<tr><th scope="row">${a}</th><td>${b}</td></tr>`).join("")}</tbody></table>`)
   +sec(LT[1],CR,`<h2 class="rv">Tim pengembang</h2><p class="rv lead2">Dibuat oleh Kelompok 8, Program Studi Teknologi Pendidikan, Fakultas Ilmu Pendidikan, Universitas Negeri Jakarta, 2024.</p><div class="team rv">${["Adam Faruq","Muhammad Azriel","Rifa Haqi Putra Wibowo","Thumpal Alvin"].map((nm,i)=>`<div><span class="tm" aria-hidden="true" style="display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:${[Y,O,T,V][i]};color:#fff;font:400 1.4rem var(--serif);margin-bottom:12px">${nm.split(" ").map(w=>w[0]).slice(0,2).join("")}</span>${nm}</div>`).join("")}</div>
    <h2 class="rv" style="margin-top:44px">Sumber materi</h2><p class="rv lead2">Materi merujuk pada artikel MySkill di Medium (lihat bagian Pustaka di setiap pelajaran). Enam pelajaran yang belum memiliki uraian di jabaran materi ditulis oleh tim pengembang dan diberi label “Draf, perlu ditinjau tim”.</p>`)
@@ -3742,7 +3948,7 @@ function renderPage(h){const[s,x,y]=h.split("/"),n=+x||0;let H="";const nQ=GLX.n
  else{const T={terms:"Syarat &amp; ketentuan",privacy:"Kebijakan privasi"}[s]||"Informasi";
   const B=s==="privacy"?[["Data yang disimpan","Progres pelajaran (kunci <code>mer-done</code>) dan hasil latihan (kunci <code>gl-latihan</code>) disimpan di localStorage browser yang kamu pakai."],["Tidak dikirim ke server","Dalam mode lokal, tidak ada data yang dikirim ke server mana pun. Formulir kontak juga tidak mengirim pesan."],["Menghapus data","Gunakan tombol “Hapus semua hasil latihan” di menu Latihan, atau hapus data situs melalui pengaturan browser."],["Layanan pihak ketiga","Halaman memuat pustaka dan font dari CDN (cdnjs, jsDelivr, dan Google Fonts), sehingga penyedia tersebut dapat mencatat alamat IP-mu seperti saat membuka situs lain."],["Mode server (opsional)","Jika GrowthLab dijalankan bersama server akun dari versi sebelumnya, progres dapat disinkronkan ke akunmu setelah masuk."]]
    :[["Tujuan penggunaan","GrowthLab adalah prototipe media pembelajaran untuk keperluan pendidikan, bukan layanan komersial."],["Akses","Gratis untuk pembelajaran dan tidak memerlukan akun. Situs dapat dibuka langsung dari file maupun dari server sederhana."],["Konten","Materi disusun oleh Kelompok 8 berdasarkan GBIM dan merujuk artikel MySkill di Medium. Hak cipta artikel sumber tetap milik penulisnya. Pelajaran berlabel “Draf” masih perlu ditinjau tim."],["Penilaian","Nilai dan kategori di menu Latihan adalah umpan balik belajar mandiri, bukan sertifikasi resmi dan bukan jaminan diterima kerja."],["Tautan luar","Tautan Pustaka membuka situs pihak ketiga (Medium) di tab baru."]];
-  H=hero(LT[0],[[T]],"Informasi",T,s==="privacy"?"Bagaimana GrowthLab menyimpan dan memperlakukan datamu.":"Ketentuan penggunaan prototipe GrowthLab.",A_("#/","Kembali ke beranda","p"),fr(CO[0],1))+sec(CR,LT[0],lg2(B))}
+  H=hero(LT[0],[[T]],"Informasi",T,s==="privacy"?"Bagaimana GrowthLab menyimpan dan memperlakukan datamu.":"Ketentuan penggunaan prototipe GrowthLab.",A_("#/","Kembali ke beranda","p"),fr(CO[0],"shield"))+sec(CR,LT[0],lg2(B))}
  $("#pg").innerHTML=H;
  if(s==="e-learning")bindEL();
  if(s==="latihan")GLX.mount(x,y);
