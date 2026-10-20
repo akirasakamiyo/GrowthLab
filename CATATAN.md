@@ -295,3 +295,16 @@ Sesuai notulensi pertemuan 6 (hasil akhir harus bisa offline, tanpa tautan atau 
 
 **Deploy Netlify:** salin `GrowthLab_v5.html` sebagai `index.html` + folder `assets/` (tanpa `src`) + folder `vendor/`, atau cukup unggah `dist/GrowthLab_offline.html` sebagai `index.html`.
 
+
+---
+
+## 11. Materi disesuaikan dengan Jabaran Materi resmi (20 Oktober 2026)
+
+Sumber: Google Doc "KEL_9 Pengembangan Multimedia Pembelajaran", tab T2_Tahap Desain (GBIM, Rubrik, Jabaran Materi).
+
+- Enam pelajaran yang dulu berlabel "Draf, perlu ditinjau tim" (bagian 2a) sekarang ditulis ulang mengikuti JM, dengan judul sama persis dengan JM: Communicate with Empathy, System Thinking, Critical Thinking, Strategic Thinking, Reflective Thinking, Creative Thinking. Label draf dihapus.
+- Urutan Bab 2 mengikuti GBIM/JM: Emotional and Social Awareness, Facing Stress and Burnout, Criticism Weakness and Failure, Happiness in Life, **Communicate with Empathy** (dulu urutan kedua). Semua rujukan indeks ikut dipetakan ulang: QUIZ, CEK, GLOS, LABS, ilustrasi pelajaran, DND/SIM/ide kegiatan (`les`), diagnosis, dan tautan. `script#gl-migrate` memindahkan progres lama di browser (`mer-done`, catatan, cek cepat) satu kali (penanda `gl-ord=2`).
+- Glosarium Bab 3 disesuaikan: Leverage point → Iceberg Model, Delay, Unintended consequences; Halo effect → Bandwagon & Strawman fallacy; Plan B → Milestone & Agility; tambah Model Refleksi Gibbs & Action plan; SCAMPER → Lateral thinking, Combinatorial play, Incubation period. Bab 2: tambah Validasi emosi & Paraphrasing.
+- Aktivitas Creative Thinking: kartu SCAMPER diganti "kartu pemicu ide" sesuai JM (ide buruk dulu, inkubasi, ubah lingkungan, mind map, berpikir lateral, combinatorial play, uji adaptasi).
+- STAR tetap ada di Reflective Thinking sebagai bentuk rencana aksi untuk wawancara, karena indikator soal Thinking Skill di GBIM menyebut metode STAR.
+- Catatan untuk tim: di dokumen, batas lulus pilihan ganda ditulis 70%, tetapi kategori kelulusan menyebut "≥ 76%". Web memakai 70.
