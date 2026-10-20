@@ -569,7 +569,7 @@ figure.vis.dg{aspect-ratio:auto;display:block;padding:20px;margin:34px 0;backgro
 figure.vis.dg svg{display:block;width:100%;height:auto;max-height:420px}
 figure.vis.dg figcaption{margin-top:12px;font-size:.93rem;line-height:1.45;color:#2c3768;text-align:center}figure.vis.dg figcaption .mono{margin-right:6px}
 .pus{margin:36px 0 10px;padding:22px 26px;background:#fff4de;border-radius:22px;color:var(--ink)}.pus .mono{display:block;margin-bottom:6px}
-.pus a{font-weight:700;color:var(--ink);text-decoration:underline;text-decoration-color:var(--acc);text-underline-offset:4px;word-break:break-word}.pus a:hover{color:var(--acc)}.pus small{display:block;margin-top:6px;color:#3d4a86}
+.pus a{font-weight:700;color:var(--ink);text-decoration:underline;text-decoration-color:var(--acc);text-underline-offset:4px;word-break:break-word}.pus a:hover{color:var(--acc)}.pus .pref{font-weight:700;margin:0;color:var(--ink)}.pus small{display:block;margin-top:6px;color:#3d4a86}
 /* halaman dalam */
 .sc2 .lead2{max-width:46rem;color:#2c3768;font-size:1.08rem;margin-bottom:24px}
 .tj{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.tj>div{background:#fff;border-radius:28px;padding:26px;color:var(--ink);box-shadow:0 34px 60px -34px rgba(10,26,107,.55)}
@@ -1432,7 +1432,7 @@ svg.ill .a-slide{animation-name:iSlide;--t:1.8s;animation-direction:alternate}@k
    - GLD.PASS_MCQ : batas lulus pilihan ganda (default 70)
    ========================================================================== */
 const GLD=(()=>{
-const MD="https://medium.com/@myskill.id/";
+/* 2026-10-20: tautan pustaka eksternal (Medium) diganti kutipan teks biasa sesuai ketentuan proyek (tanpa tautan eksternal) */
 
 /* ---------- diagram SVG (palet situs: ink, acc, sun, blue) ---------- */
 const INK="#0a1a6b",ACC="#ff6b3d",SUN="#ffd23f",BLU="#2b55ff",WH="#fff",CRM="#fff4de",LBL="#dfe7ff";
@@ -1524,7 +1524,7 @@ const S1=[
  vis:{at:1,d:"sign",cap:"Kekuatan lahir dari bakat yang diberi investasi waktu. Empat tandanya: Success, Instinct, Growth, Needs."},
  contoh:{at:3,isi:"<p>Dina, lulusan SMK Multimedia, sedang menyusun CV. Ia mengingat masa praktik kerja lapangan: hasil desain posternya paling sering dipakai (<i>Success</i>), ia sudah bersemangat sejak brief diberikan (<i>Instinct</i>), cepat menguasai fitur baru aplikasi desain (<i>Growth</i>), dan justru merasa segar setelah selesai (<i>Needs</i>). Mentornya juga memuji kerapiannya.</p><p>Dina menonjolkan desain grafis sebagai kekuatan utama di CV dan melamar posisi desainer junior. Untuk kelemahannya dalam presentasi, ia berlatih bersama teman yang pandai berbicara.</p>"},
  poin:"Kekuatan adalah bakat yang terus dilatih. Kenali lewat S.I.G.N, lalu jadikan arah kariermu.",
- sumber:MD+"recognise-your-strength-eb7388067d11"},
+ sumber:"MySkill (Medium @myskill.id)"},
 {t:"Thoughts, Feelings, & What You Do",kw:["pikiran","perasaan","segitiga kognitif","self-talk","tindakan"],
  ind:["Konsep Segitiga Kognitif (Pikiran, Perasaan, Tindakan)","Dampak pola pikir terhadap munculnya emosi","Mengelola respons perilaku secara sadar"],
  judul:"Segitiga Kognitif: Memahami Siklus Pikiran, Perasaan, dan Perilaku",
@@ -1538,7 +1538,7 @@ const S1=[
  vis:{at:0,d:"segitiga",cap:"Segitiga kognitif: peristiwa yang netral dipersepsi lewat pikiran, yang memicu perasaan, lalu mendorong tindakan."},
  contoh:{at:1,isi:"<p>Besok Bayu ada tes wawancara kerja. Ia berpikir, “Pasti aku gagal lagi seperti kemarin” (pikiran). Ia jadi cemas dan gelisah (perasaan), lalu menghabiskan malam dengan bermain gim alih-alih menyiapkan jawaban (tindakan: <i>procrastination</i>).</p><p>Saat Bayu mengambil jeda dan mengganti pikirannya menjadi “Wawancara kemarin memberiku gambaran pertanyaan yang biasa muncul”, cemasnya berkurang dan ia mulai berlatih menjawab.</p>"},
  poin:"Bukan kejadiannya yang menentukan responsmu, melainkan cara kamu memikirkannya.",
- sumber:MD+"thoughts-feelings-what-you-do-507aa3e8c1fe"},
+ sumber:"MySkill (Medium @myskill.id)"},
 {t:"Change Your Thinking",kw:["thinking trap","jebakan pikiran","reframing","growth mindset","catch","mindset"],
  ind:["Mengenali distorsi atau jebakan pikiran (<i>Thinking Traps</i>)","Teknik merestrukturisasi pikiran (<i>Cognitive Reframing</i>)","Membangun <i>Growth Mindset</i>"],
  judul:"Restrukturisasi Kognitif: Mengatasi Jebakan Pikiran dan Membangun <i>Growth Mindset</i>",
@@ -1552,7 +1552,7 @@ const S1=[
  vis:{at:1,d:"ccc",cap:"Tiga langkah cognitive reframing: tangkap, uji, lalu ubah pikiran."},
  contoh:{at:3,isi:"<p>Raka menerima email penolakan dari perusahaan impiannya. Pikiran pertamanya: “Aku memang tidak akan pernah diterima di mana pun” (<i>All-or-Nothing</i> sekaligus <i>Catastrophizing</i>).</p><ul><li><b><i>Catch</i>:</b> Raka menyadari pikiran itu muncul.</li><li><b><i>Check</i>:</b> faktanya, ini baru satu penolakan, dan ia sempat lolos sampai tahap wawancara.</li><li><b><i>Change</i>:</b> “Penolakan ini menyakitkan, tetapi aku bisa meminta masukan, memperbaiki jawaban wawancaraku, dan melamar lagi.”</li></ul><p>Raka berhenti menyalahkan hal di luar kendalinya dan fokus pada hal yang bisa ia ubah. Cara pandang yang meyakini hasil dipengaruhi oleh usaha sendiri ini disebut <i>internal locus of control</i>.</p>"},
  poin:"Pikiran bukan fakta. Tangkap, uji, lalu ubah, dan percayalah kemampuanmu bisa terus tumbuh.",
- sumber:MD+"change-your-thinking-f412bbaaa144"},
+ sumber:"MySkill (Medium @myskill.id)"},
 {t:"Problem Solving",kw:["problem solving","masalah","akar masalah","5 whys","root cause","solusi"],
  ind:["Identifikasi akar masalah (<i>Root Cause Analysis</i>)","Perumusan dan pengembangan alternatif solusi","Evaluasi dan eksekusi penyelesaian masalah"],
  judul:"<i>Problem Solving</i> Strategis: Dari Analisis Akar Masalah hingga Eksekusi Solusi",
@@ -1566,7 +1566,7 @@ const S1=[
  vis:{at:3,d:"ps",cap:"Alur pemecahan masalah: temukan akar masalah, kumpulkan alternatif, evaluasi, eksekusi, lalu tinjau ulang."},
  contoh:{at:0,isi:"<p>Sari sudah mengirim 20 lamaran, tetapi belum ada satu pun panggilan. Ia mencoba <i>5 Whys</i>:</p><ul><li>Mengapa tidak ada panggilan? CV-nya tidak lolos penyaringan awal.</li><li>Mengapa tidak lolos? Isi CV tidak cocok dengan kebutuhan lowongan.</li><li>Mengapa tidak cocok? Ia mengirim CV yang sama untuk semua lowongan.</li><li>Mengapa sama? Ia tidak membaca deskripsi pekerjaan dengan teliti.</li><li>Mengapa tidak teliti? Ia mengejar jumlah lamaran, bukan kesesuaian.</li></ul><p><b>Rumusan masalah:</b> “CV belum disesuaikan dengan kata kunci tiap lowongan.” Rencana tindakannya: menyesuaikan tiga CV per minggu, meminta guru BK meninjau, lalu mengevaluasi hasilnya setelah dua minggu.</p>"},
  poin:"Selesaikan akar masalahnya, bukan gejalanya: analisis, kumpulkan ide, pilih, jalankan, lalu tinjau ulang.",
- sumber:MD+"problem-solving-46d258b9d59a"},
+ sumber:"MySkill (Medium @myskill.id)"},
 {t:"Keeping Well",kw:["well-being","kesejahteraan","self-care","istirahat","toxic productivity","sehat"],
  ind:["Konsep dasar kesejahteraan holistik (<i>Well-being</i>)","Keseimbangan antara aktivitas dan istirahat","Strategi membangun rutinitas <i>self-care</i> berkelanjutan"],
  judul:"Kesejahteraan Holistik: Strategi Menjaga Keseimbangan Hidup dan <i>Self-Care</i> Berkelanjutan",
@@ -1580,7 +1580,7 @@ const S1=[
  konsep:{at:1,isi:"<b><i>Self-care</i> sejati</b> adalah tindakan pemeliharaan diri dasar yang dilakukan secara sadar untuk merawat kesehatan fisik dan mental, bukan pelarian sementara."},
  contoh:{at:3,isi:"<p>Selama mencari kerja, Sinta begadang setiap malam mengirim lamaran. Ia mulai mudah marah dan sulit fokus saat psikotes daring. Sinta lalu memilih dua kebiasaan: tidur sebelum pukul 23.00 dan jalan kaki 15 menit setiap pagi. Ia juga membisukan akun yang membuatnya membandingkan diri dengan teman yang sudah bekerja.</p><p>Dua minggu kemudian, ia lebih tenang dan bisa menyelesaikan psikotes dengan fokus.</p>"},
  poin:"Istirahat bukan kemalasan. Kebiasaan kecil yang konsisten menjaga energimu untuk berjuang lebih lama.",
- sumber:MD+"keeping-well-6d4db20e6906"}];
+ sumber:"MySkill (Medium @myskill.id)"}];
 
 const S2=[
 {t:"Emotional and Social Awareness",kw:["kecerdasan emosional","eq","self-awareness","social awareness","emosi","trigger","reading the room"],
@@ -1595,7 +1595,7 @@ const S2=[
  vis:{at:2,d:"venn",cap:"Pertemuan kesadaran diri dan kesadaran sosial menghasilkan respons yang tepat dan hubungan yang sehat."},
  contoh:{at:1,isi:"<p>Dalam wawancara kelompok, Bima merasa jantungnya berdebar setiap kali peserta lain memotong pembicaraannya. Ia menamai perasaannya: bukan sekadar kesal, tetapi merasa tidak dihargai. Ia mengambil napas sebelum menanggapi.</p><p>Bima juga memperhatikan seorang peserta yang sejak awal diam dan menunduk, lalu mengajaknya menyampaikan pendapat. Pewawancara mencatat Bima sebagai kandidat yang tenang, peka, dan kolaboratif.</p>"},
  poin:"Kecerdasan emosional dimulai dari sadar: kenali emosimu, baca orang lain, lalu pilih respons terbaik.",
- sumber:MD+"emotional-and-social-awareness-3815fff6d97f"},
+ sumber:"MySkill (Medium @myskill.id)"},
 {t:"Communicate with Empathy",draft:true,kw:["empati","mendengarkan","active listening","asertif","komunikasi","welas asih"],
  ind:["Prinsip dasar empati dalam interaksi sosial","Teknik mendengarkan aktif (<i>Active Listening</i>) tanpa menghakimi","Strategi merespons lawan bicara secara asertif dan welas asih"],
  judul:"Komunikasi Empatik: Mendengar Aktif dan Merespons secara Asertif",
@@ -1608,7 +1608,7 @@ const S2=[
  vis:{at:1,d:"listen",cap:"Lima langkah mendengarkan aktif yang membuat lawan bicara merasa dipahami."},
  contoh:{at:2,isi:"<p>Saat magang, rekan setim Gita belum menyerahkan bagian laporannya, padahal tenggatnya besok.</p><ul><li><b>Agresif:</b> “Kamu selalu telat! Gara-gara kamu kita bisa kena tegur.”</li><li><b>Pasif:</b> Gita diam dan mengerjakan bagian rekannya sendirian sampai larut malam.</li><li><b>Asertif dan welas asih:</b> “Aku lihat kamu kelihatan capek akhir-akhir ini. Bagianmu belum masuk, dan aku khawatir laporan kita telat besok. Ada yang bisa kubantu supaya selesai sore ini?”</li></ul>"},
  poin:"Dengarkan untuk memahami, lalu sampaikan pendapatmu dengan tegas tanpa melukai.",
- sumber:MD+"communicate-with-empathy-9fbfc86572c4"},
+ sumber:"MySkill (Medium @myskill.id)"},
 {t:"Facing Stress and Burnout",kw:["stres","stress","burnout","coping","stressor","boundaries","energi"],
  ind:["Perbedaan antara stres situasional dan kelelahan kronis (<i>Burnout</i>)","Identifikasi pemicu stres (<i>stressors</i>) dan gejalanya","Strategi <i>coping mechanism</i> dan manajemen energi"],
  judul:"Manajemen Stres dan Pencegahan <i>Burnout</i>: Strategi Bertahan dan Memulihkan Energi",
@@ -1622,7 +1622,7 @@ const S2=[
  vis:{at:0,d:"stres",cap:"Stres yang kronis dan tidak tertangani bisa berubah menjadi burnout."},
  contoh:{at:3,isi:"<p>Bulan pertama bekerja, Fajar mendapat tiga tugas baru dengan tenggat yang sama. Kepalanya tegang dan tidurnya terganggu.</p><ul><li><b><i>Problem-focused</i>:</b> ia menyusun prioritas dan bertanya kepada atasan tugas mana yang paling mendesak.</li><li><b><i>Emotion-focused</i>:</b> malamnya ia berlatih napas dalam dan bercerita kepada kakaknya.</li><li><b>Batasan:</b> saat diminta mengambil tugas keempat, ia menjawab sopan, “Saya bisa mengerjakannya Senin depan setelah laporan ini selesai.”</li></ul>"},
  poin:"Kenali stresmu sebelum menjadi burnout: atasi masalahnya, rawat emosimu, dan jaga batas energimu.",
- sumber:MD+"facing-stress-and-burnout-2e6b11735278"},
+ sumber:"MySkill (Medium @myskill.id)"},
 {t:"Criticism, Weakness and Failure",kw:["kritik","kegagalan","gagal","resilience","resiliensi","feedback","kelemahan"],
  ind:["Mengelola respons emosional saat menerima kritik","Membangun ketahanan mental (<i>Resilience</i>) menghadapi kegagalan","Transformasi <i>feedback</i> dan kelemahan menjadi area pengembangan"],
  judul:"Ketahanan Mental: Seni Merespons Kritik dan Bangkit dari Kegagalan",
@@ -1635,7 +1635,7 @@ const S2=[
  konsep:{at:1,isi:"<b>Kegagalan adalah peristiwa (<i>event</i>), bukan identitas.</b> <i>Resilience</i> adalah kelenturan untuk bangkit kembali (<i>bounce back</i>) setelah kemunduran, bukan sekadar menahan rasa sakit."},
  contoh:{at:1,isi:"<p>Lia gagal di tahap psikotes sebuah BUMN. Awalnya ia berpikir, “Aku memang bodoh.” Ia lalu melakukan <i>post-mortem</i>:</p><ul><li><b>Apa yang meleset?</b> Ia kehabisan waktu di bagian hitungan dan tidak pernah berlatih soal berwaktu.</li><li><b>Apa pelajarannya?</b> Kecepatan bisa dilatih; ini soal persiapan, bukan identitas.</li><li><b>Apa yang diubah?</b> Latihan 20 soal berwaktu setiap hari selama dua minggu sebelum tes berikutnya.</li></ul>"},
  poin:"Kritik adalah data, kegagalan adalah peristiwa. Ambil pelajarannya, lalu bangkit lagi.",
- sumber:MD+"criticism-weakness-and-failure-d65ca5ae5bc8"},
+ sumber:"MySkill (Medium @myskill.id)"},
 {t:"Happiness in Life",kw:["bahagia","kebahagiaan","happiness","syukur","gratitude","bermakna"],
  ind:["Makna kebahagiaan sejati dan kepuasan hidup (<i>Life Satisfaction</i>)","Praktik rasa syukur (<i>Gratitude</i>) untuk kesejahteraan psikologis","Strategi menciptakan kebahagiaan yang bermakna (<i>Meaningful Life</i>)"],
  judul:"Psikologi Kebahagiaan: Mewujudkan Kepuasan Hidup dan Kesejahteraan yang Bermakna",
@@ -1648,7 +1648,7 @@ const S2=[
  vis:{at:2,d:"bahagia",cap:"Hidup bermakna ditopang tiga pilar, dengan rasa syukur sebagai fondasinya."},
  contoh:{at:2,isi:"<p>Tiga bulan setelah lulus, Arif merasa tertinggal karena teman-temannya sudah bekerja. Ia mulai menulis tiga hal yang disyukuri setiap malam, misalnya lolos seleksi berkas, masakan ibu, dan teman yang membantu meninjau CV.</p><p>Ia juga menyadari “mengapa”-nya: ia ingin bekerja di bidang kelistrikan karena senang memperbaiki alat dan ingin membantu keluarga. Sambil menunggu panggilan, ia menjadi relawan memperbaiki instalasi listrik di musala dekat rumah. Rasa tertinggalnya berganti menjadi rasa berarti.</p>"},
  poin:"Bahagia bukan selalu senang, melainkan hidup yang bermakna: bersyukur, terhubung, dan berkontribusi.",
- sumber:MD+"happiness-in-life-5318916b4f3a"}];
+ sumber:"MySkill (Medium @myskill.id)"}];
 
 const S3=[
 {t:"System Thinking",draft:true,kw:["system thinking","berpikir sistem","feedback loop","linear","holistik"],
@@ -1663,7 +1663,7 @@ const S3=[
  vis:{at:1,d:"sistem",cap:"Pola pikir linear melihat satu arah; berpikir sistem melihat lingkaran sebab-akibat yang saling menguatkan."},
  contoh:{at:2,isi:"<p>Di kafe tempat Nanda magang, pelanggan sering mengeluh pesanan lambat. Solusi linear: menambah kasir. Nanda memetakan sistemnya: pesanan daring menumpuk saat jam makan siang, barista kewalahan, pesanan salah, pesanan harus dibuat ulang, dan antrean makin panjang. Ini lingkaran penguat yang negatif.</p><p>Titik ungkitnya ternyata bukan kasir, melainkan menyiapkan bahan sebelum jam ramai dan membatasi pesanan daring pukul 12.00–13.00. Keluhan pun turun tanpa menambah karyawan.</p>"},
  poin:"Lihat hubungannya, bukan hanya potongannya. Solusi terbaik menyentuh titik ungkit sistem.",
- sumber:MD+"system-thinking-dd6d32120053"},
+ sumber:"MySkill (Medium @myskill.id)"},
 {t:"Critical Thinking",draft:true,kw:["critical thinking","berpikir kritis","fakta","opini","asumsi","bias","fallacy","hoaks","penipuan"],
  ind:["Fondasi berpikir kritis: membedakan fakta, opini, dan asumsi","Identifikasi bias kognitif dan kesesatan logika (<i>Logical Fallacy</i>)","Evaluasi informasi dan penyusunan argumen berbasis data dan bukti yang valid"],
  judul:"Berpikir Kritis: Memilah Informasi dan Menyusun Argumen yang Kuat",
@@ -1676,7 +1676,7 @@ const S3=[
  konsep:{at:0,isi:"<b>Fakta bisa dibuktikan. Opini adalah penilaian. Asumsi adalah dugaan yang belum dicek.</b> Sebelum percaya atau memutuskan, tanyakan: “Apa buktinya?”"},
  contoh:{at:2,isi:"<p>Dodi menerima pesan berantai: “PT Maju Sentosa buka lowongan admin, gaji Rp8 juta, tanpa pengalaman. Transfer Rp150.000 untuk seragam ke rekening berikut.”</p><ul><li><b>Fakta yang bisa dicek:</b> nama perusahaan dan nomor rekening.</li><li><b>Klaim yang meragukan:</b> gaji jauh di atas rata-rata posisi pemula.</li><li><b>Pengecekan:</b> situs resmi perusahaan tidak mencantumkan lowongan tersebut, dan perusahaan resmi tidak memungut biaya rekrutmen.</li></ul><p><b>Kesimpulan:</b> kemungkinan besar penipuan. Dodi tidak mentransfer dan memperingatkan temannya.</p>"},
  poin:"Sebelum percaya, tanyakan buktinya. Pisahkan fakta dari opini dan asumsi.",
- sumber:MD+"critical-thinking-2a6d25e0ed8"},
+ sumber:"MySkill (Medium @myskill.id)"},
 {t:"Strategic Thinking",draft:true,kw:["strategic thinking","berpikir strategis","strategi","visi","karier","tujuan","smart"],
  ind:["Konsep dasar visi jangka panjang dan perumusan pemikiran strategis","Analisis situasi (pemetaan peluang, tantangan, dan kapasitas sumber daya)","Perumusan langkah taktis untuk mencapai tujuan akhir yang efektif"],
  judul:"Berpikir Strategis: Dari Visi Karier ke Langkah Nyata",
@@ -1689,7 +1689,7 @@ const S3=[
  vis:{at:1,d:"strategi",cap:"Analisis situasi menjadi dasar langkah taktis yang bertahap menuju visi."},
  contoh:{at:2,isi:"<p>Yoga, lulusan SMK Teknik Komputer dan Jaringan, ingin menjadi <i>network engineer</i> dalam lima tahun.</p><ul><li><b>Peluang:</b> banyak penyedia internet lokal membutuhkan teknisi lapangan.</li><li><b>Tantangan:</b> perusahaan besar mensyaratkan sertifikasi dan pengalaman.</li><li><b>Sumber daya:</b> dasar jaringan yang kuat, tetapi tabungan terbatas.</li></ul><p><b>Keputusan realistis:</b> melamar sebagai teknisi lapangan di penyedia internet lokal sambil belajar materi sertifikasi dari kursus daring gratis, dengan target ujian dalam enam bulan. <b>Plan B:</b> magang di bagian TI perusahaan setempat.</p>"},
  poin:"Tentukan tujuan, baca situasi dengan jujur, lalu ambil langkah kecil yang paling berdampak.",
- sumber:MD+"strategic-thinking-90257bbc6a17"},
+ sumber:"MySkill (Medium @myskill.id)"},
 {t:"Reflective Thinking",draft:true,kw:["reflective thinking","refleksi","berpikir reflektif","star","kolb","jurnal","pengalaman"],
  ind:["Konsep siklus refleksi dan pembelajaran berbasis pengalaman (<i>Experiential Learning</i>)","Teknik introspeksi terstruktur melalui pertanyaan evaluasi diri","Transformasi wawasan dari pengalaman masa lalu menjadi rencana perbaikan nyata"],
  judul:"Berpikir Reflektif: Belajar dari Pengalaman untuk Terus Bertumbuh",
@@ -1703,7 +1703,7 @@ const S3=[
  vis:{at:0,d:"kolb",cap:"Siklus Kolb: pengalaman, observasi reflektif, konseptualisasi, lalu eksperimen aktif."},
  contoh:{at:3,isi:"<p>Pada wawancara pertamanya, Rina gugup ketika ditanya, “Ceritakan pengalamanmu bekerja dalam tim.” Malamnya ia berefleksi dan menyusun jawaban STAR dari masa PKL:</p><ul><li><b>S:</b> PKL di bengkel motor; pelanggan sering menunggu lebih dari dua jam.</li><li><b>T:</b> ia bertugas mencatat antrean servis.</li><li><b>A:</b> ia membuat jadwal antrean di <i>spreadsheet</i> dan mengirim pengingat lewat WhatsApp.</li><li><b>R:</b> waktu tunggu turun menjadi sekitar 45 menit, dan pemilik bengkel tetap memakai sistemnya.</li></ul>"},
  poin:"Pengalaman ditambah refleksi menjadi pembelajaran. Ubah setiap pengalaman menjadi cerita STAR dan rencana perbaikan.",
- sumber:MD+"reflective-thinking-8155a7734d58"},
+ sumber:"MySkill (Medium @myskill.id)"},
 {t:"Creative Thinking",draft:true,kw:["creative thinking","kreatif","kreativitas","brainstorming","mind map","ide kreatif","scamper"],
  ind:["Identifikasi dan cara mengatasi hambatan kreativitas (<i>Mental Blocks</i>)","Teknik generasi ide inovatif (seperti <i>Brainstorming</i> dan <i>Mind Mapping</i>)","Pengembangan alternatif solusi yang adaptif dan <i>out-of-the-box</i>"],
  judul:"Berpikir Kreatif: Mengatasi Hambatan dan Menghasilkan Ide Segar",
@@ -1716,7 +1716,7 @@ const S3=[
  vis:{at:1,d:"mind",cap:"Mind map: satu topik di tengah, lalu cabang-cabang ide di sekitarnya."},
  contoh:{at:2,isi:"<p>Tari, lulusan SMK Tata Boga, belum punya pengalaman kerja untuk dicantumkan di lamaran. Ia membuat <i>mind map</i> “Cara menunjukkan kemampuanku” dengan cabang media sosial, proyek kecil, dan acara sekolah.</p><p>Dengan teknik SCAMPER bagian gabungkan (<i>Combine</i>), ia menggabungkan resep andalannya dengan video pendek, lalu menjual kue di acara sekolah. Hasilnya berupa portofolio video dan testimoni pembeli yang ia lampirkan saat melamar ke toko roti.</p>"},
  poin:"Ide hebat lahir dari banyak ide. Lepaskan hambatan, petakan kemungkinan, lalu uji yang paling menjanjikan.",
- sumber:MD+"creative-thinking-427f7d0ab588"}];
+ sumber:"MySkill (Medium @myskill.id)"}];
 
 const COURSE={id:0,t:"Self Development for Job Seeker",media:"GrowthLab",k:"Soft Skill",c1:"#2b55ff",
  d:"Media pembelajaran interaktif berbasis website untuk meningkatkan soft skill fresh graduate saat mencari kerja. Kamu belajar mengelola diri, mengasah kecerdasan emosional, dan melatih keterampilan berpikir lewat 15 pelajaran, latihan soal, dan simulasi kasus dunia kerja.",
@@ -3456,7 +3456,7 @@ function lessonHTML(i,j,L){const ch=C.chapters[i],last=i===C.chapters.length-1&&
  <section class="cek" id="cek"></section>
  <div class="take"><span class="mono">Poin utama</span><p style="margin-top:8px;font-family:var(--serif);font-size:1.6rem;line-height:1.25">${L.poin}</p></div>
  <div class="note"></div>
- <div class="pus"><span class="mono">Pustaka</span><a href="${L.sumber}" target="_blank" rel="noopener">MySkill · ${esc(L.t)} (Medium) ↗</a><small>${esc(L.sumber.replace("https://",""))}</small></div>
+ <div class="pus"><span class="mono">Pustaka</span><p class="pref">MySkill. <i>${esc(L.t)}</i>. Artikel seri soft skill MySkill di Medium (@myskill.id).</p><small>Sumber rujukan materi; disebutkan sebagai teks, tanpa tautan.</small></div>
  <div class="next"><button class="btn" id="mark">Tandai selesai</button><button class="btn p" id="nextl">${last?"Lanjut ke Latihan":"Pelajaran berikut"} <svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5"/></svg></button></div>
  <div class="pnav">${pv?`<a href="#/lesson/${pv[0]}-${pv[1]}"><small>← Sebelumnya</small><b>${esc(C.chapters[pv[0]].l[pv[1]].t)}</b></a>`:`<a href="#/course"><small>← Kembali</small><b>Ringkasan kursus</b></a>`}${nx?`<a class="nx" href="#/lesson/${nx[0]}-${nx[1]}"><small>Berikutnya →</small><b>${esc(C.chapters[nx[0]].l[nx[1]].t)}</b></a>`:`<a class="nx" href="#/latihan"><small>Berikutnya →</small><b>Latihan &amp; nilai akhir</b></a>`}</div>`}
 function renderLesson(i,j){
