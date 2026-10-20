@@ -1085,7 +1085,7 @@ html.gx-lock,html.gx-lock body{overflow:hidden!important}
 /* ===== v8.1: simulasi cerita bercabang, tema berwarna. Animasi hanya transform & opacity. ===== */
 #ltp[data-cur=sim]{--sn:#151a45;--sn2:#1f2560;--sy:#ffd23f;--sg:#2ec27e;--sa:#ffb020;--sr:#ff5a5f;--sb:#4c7dff;--cc:#14b8a6;
  background:radial-gradient(900px 500px at 0% 0%,rgba(76,125,255,.35),transparent 60%),radial-gradient(800px 500px at 100% 100%,rgba(255,107,61,.28),transparent 60%),linear-gradient(160deg,var(--sn),var(--sn2));color:#eef1ff;box-shadow:0 40px 80px -40px rgba(10,16,60,.75);position:relative;overflow:hidden;overflow:clip;isolation:isolate}
-#ltp[data-cur=sim]::before{content:"";position:absolute;z-index:-1;pointer-events:none;width:340px;height:340px;right:-80px;top:-120px;border-radius:50%;border:48px solid rgba(255,210,63,.12);animation:gsSpin 40s linear infinite}
+/* 2026-10-20: cincin berputar di latar panel simulasi dihapus (latar bergerak dihilangkan atas permintaan pengguna) */
 #ltp[data-cur=sim]::after{content:"";position:absolute;z-index:-1;pointer-events:none;width:120px;height:120px;left:-30px;bottom:12%;border-radius:28px;background:rgba(46,194,126,.14);transform:rotate(18deg)}
 @keyframes gsSpin{to{transform:rotate(360deg)}}
 #ltp[data-cur=sim] p{color:#d7dcff}
@@ -4440,7 +4440,7 @@ const lab=()=>{go.firstChild.textContent=done.size>=total?'Ke Latihan ':done.siz
 <script>
 (()=>{try{
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],rm=matchMedia("(prefers-reduced-motion:reduce)").matches,p2=n=>String(n).padStart(2,"0");
-document.body.insertAdjacentHTML("beforeend",'<div id="sp"></div><div id="cnt"><b id="cn">01</b> <span>/ <i id="ct" style="font-style:normal">01</i></span></div><div id="cue"><i></i>Scroll</div><div id="fxl" aria-hidden="true"><u class="f1"></u><u class="f2"></u><u class="f3"></u><u class="f4"></u><u class="f5"></u><u class="f6"></u></div>');
+document.body.insertAdjacentHTML("beforeend",'<div id="sp"></div><div id="cnt"><b id="cn">01</b> <span>/ <i id="ct" style="font-style:normal">01</i></span></div><div id="cue"><i></i>Scroll</div>');
 const hero=$(".hero");
 if(hero&&!$(".band")){const t=["Belajar","Tumbuh","Berkarya","Berani"].map(x=>`<span>${x}</span>`).join("");hero.insertAdjacentHTML("afterend",`<div class="band" aria-hidden="true"><div class="mq">${t+t+t+t}</div></div>`)}
 const st=$("#stats");
@@ -4642,10 +4642,7 @@ function stair(){const g=$("#grid");if(!g)return;ScrollTrigger.getById("zstair")
 stair();new MutationObserver(stair).observe($("#grid")||document.createElement("i"),{childList:true});
 
 /* ---------- awan footer bergerak ---------- */
-if(ft&&$(".zcl")){
- gsap.fromTo(".zcl .zc1",{scaleY:.35},{scaleY:1,ease:"none",scrollTrigger:trg(ft,{start:"top bottom",end:"top 30%"})});
- gsap.fromTo(".zcl .zc2",{y:-50},{y:20,ease:"none",scrollTrigger:trg(ft,{start:"top bottom",end:"top 20%"})});
-}
+/* 2026-10-20: awan footer dibuat diam (latar bergerak dihilangkan atas permintaan pengguna) */
 
 /* ---------- pill fisika (Matter.js) di CTA akhir ---------- */
 const dn=$("#done");
