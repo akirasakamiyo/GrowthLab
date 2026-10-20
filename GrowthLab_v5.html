@@ -3766,35 +3766,23 @@ const ST=mkStore(()=>localStorage),SS=mkStore(()=>sessionStorage);
 const EMAIL=/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,norm=e=>(e||"").trim().toLowerCase();
 let CFG={googleClientId:"",requireVerified:false},RT="",UI=null;
 const FID={name:"an",email:"ae",password:"ap1",current:"acur",token:"aerr"};
-async function api(p,o={}){let r;
- try{r=await fetch("/api"+p,{method:o.method||"GET",credentials:"same-origin",headers:o.body?{"Content-Type":"application/json"}:{},body:o.body?JSON.stringify(o.body):undefined})}
- catch(e){const er=new Error("Tidak bisa terhubung ke server. Jalankan server (npm start) lalu buka lewat http://localhost:3000.");er.net=true;throw er}
- let d={};try{d=await r.json()}catch(e){}
- if(!r.ok){const er=new Error(d.error||"Terjadi kesalahan ("+r.status+").");er.field=FID[d.field];er.code=d.code;er.status=r.status;throw er}
- return d}
+/* 2026-10-20: mode server/akun dinonaktifkan; situs selalu berjalan lokal dan tidak memanggil jaringan apa pun */
+async function api(p,o={}){const er=new Error("Fitur akun tidak tersedia di versi offline.");er.net=true;throw er}
 const applyUser=u=>{UI=u;A={sync:true,id:u.id,name:u.name,email:u.email,color:u.color,verified:u.verified}};
 const resetA=()=>{UI=null;A={sync:false,name:"",email:"",id:null,color:"#6d4cff"};done=new Set();ST.del("mer-done")};
 let pt=0;
 function push(){if(!A.sync)return;clearTimeout(pt);pt=setTimeout(flush,500)}
 async function flush(){pt=0;if(!A.sync)return;try{await api("/progress",{method:"PUT",body:{done:[...done]}})}catch(e){if(e.status===401){resetA();renderAuth("login");refresh();toast("Sesi berakhir. Silakan masuk lagi.")}}}
-addEventListener("pagehide",()=>{if(A.sync&&pt){try{fetch("/api/progress",{method:"PUT",keepalive:true,credentials:"same-origin",headers:{"Content-Type":"application/json"},body:JSON.stringify({done:[...done]})})}catch(e){}}});
 function afterAuth(r,isNew){const u=r.user;done=new Set([...(r.done||[]),...done]);applyUser(u);ST.del("mer-done");
  flush();const first=u.name.split(" ")[0];renderAuth();refresh();closeAuth();boom(innerWidth/2,innerHeight/3,44);
  toast(isNew?`Selamat datang, ${first}! Akunmu sudah dibuat.`:`Selamat datang kembali, ${first}!`)}
 async function signOut(){try{await flush()}catch(e){}try{await api("/logout",{method:"POST",body:{}})}catch(e){}resetA();renderAuth("login");refresh();closeAuth();toast("Kamu sudah keluar dari akun.")}
 const strength=p=>{let n=0;if(p.length>=8)n++;if(p.length>=12)n++;if(/[a-z]/.test(p)&&/[A-Z]/.test(p))n++;if(/\d/.test(p))n++;if(/[^A-Za-z0-9]/.test(p))n++;return p.length<8?0:Math.min(4,Math.max(1,n-1))};
-/* Google Identity Services (aktif jika GOOGLE_CLIENT_ID diisi di server) */
-let gsiP=null;
-const loadGsi=()=>gsiP||(gsiP=new Promise((ok,no)=>{const s=document.createElement("script");s.src="https://accounts.google.com/gsi/client";s.async=true;s.onload=ok;s.onerror=()=>{gsiP=null;no()};document.head.appendChild(s)}));
-async function onGoogle(resp){try{const r=await api("/google",{method:"POST",body:{credential:resp.credential,remember:true}});afterAuth(r,false)}catch(e){const el=$("#aerr");if(el)el.textContent=e.message;else toast(e.message)}}
-function mountGoogle(label){const box=$("#agoogle");if(!box||!CFG.googleClientId)return;box.hidden=false;
- loadGsi().then(()=>{if(!window.google||!$("#agoogle"))return;google.accounts.id.initialize({client_id:CFG.googleClientId,callback:onGoogle});
-  google.accounts.id.renderButton($("#agbtn"),{theme:"outline",size:"large",shape:"pill",width:280,text:label,locale:"id"})}).catch(()=>{box.hidden=true})}
+async function onGoogle(){}
+function mountGoogle(){const box=$("#agoogle");if(box)box.hidden=true}
 /* boot: konfigurasi, sesi, tautan dari email (?verify= / ?reset=) */
 /* mode lokal: dibuka lewat file:// atau server statis (mis. python -m http.server) -> tanpa akun, semua tersimpan di browser */
-async function hasServer(){if(!/^https?:$/.test(location.protocol))return false;
- try{const r=await fetch(location.pathname||"/",{method:"HEAD",cache:"no-store"}),sv=r.headers.get("server")||"";await r.arrayBuffer();if(!r.ok||/SimpleHTTP|Python|Netlify|GitHub|Vercel|cloudflare/i.test(sv)||/\.netlify\.app$|\.github\.io$|\.vercel\.app$|\.pages\.dev$/.test(location.hostname))return false}catch(e){return false}
- try{CFG=await api("/config");return true}catch(e){return false}}
+async function hasServer(){return false}
 async function boot(){const q=new URLSearchParams(location.search),vt=q.get("verify"),rt=q.get("reset");
  if(vt||rt)history.replaceState(null,"",location.pathname+location.hash);
  LOCAL=!(await hasServer());document.body.classList.toggle("glocal",LOCAL);
@@ -4390,8 +4378,9 @@ document.addEventListener("visibilitychange",kick);size();
 <script>
 (()=>{
 const $=s=>document.querySelector(s),box=$("#chat"),fab=$("#chatfab"),cm=$("#cm"),inp=$("#cin"),cq=$("#cq");
-const EP=window.GL_CHAT_ENDPOINT||"";let hist=[],started=false,busy=false;
-if(!EP)$("#chmode").lastChild.textContent=" Mode demo · jawaban terbatas";
+/* 2026-10-20: asisten berjalan offline (jawaban dari materi & FAQ), tanpa layanan AI eksternal */
+let hist=[],started=false,busy=false;
+$("#chmode").lastChild.textContent=" Offline · jawaban dari materi GrowthLab";
 /* basis jawaban mode demo: diperbarui untuk GrowthLab v5 */
 const HASD=typeof GLD!=="undefined",NQ=HASD?GLD.QUIZ.length:0,NS=HASD?GLD.SIM.length:0,ND=HASD?GLD.DND.length:0;
 const KB=[
@@ -4429,11 +4418,8 @@ async function ask(text){
  if(busy||!text.trim())return;busy=true;add("me",{t:text});hist.push({role:"user",content:text});inp.value="";cq.hidden=true;
  const ty=typing();let out;
  try{
-  if(EP){const c=new AbortController(),to=setTimeout(()=>c.abort(),20000);
-   const res=await fetch(EP,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({messages:hist.slice(-12)}),signal:c.signal});clearTimeout(to);
-   if(!res.ok)throw 0;const j=await res.json();if(!j.reply)throw 0;out={t:String(j.reply)}}
-  else{await new Promise(r=>setTimeout(r,550+Math.random()*400));out=local(text)}
- }catch(e){out=local(text);out.t="(Asisten AI sedang tidak tersambung.) "+out.t}
+  await new Promise(r=>setTimeout(r,550+Math.random()*400));out=local(text)
+ }catch(e){out=local(text)}
  ty.remove();add("bot",out);hist.push({role:"assistant",content:out.t});busy=false;
  try{sessionStorage.setItem("gl-chat",JSON.stringify(hist.slice(-20)))}catch(e){}}
 function setOpen(o){box.classList.toggle("open",o);box.setAttribute("aria-hidden",!o);fab.setAttribute("aria-expanded",o);
