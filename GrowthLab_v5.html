@@ -13,7 +13,7 @@
 :root{--bg:#f5f7fc;--bg2:#e8eefc;--fg:#0e1a3a;--mut:#56638a;--line:rgba(14,26,58,.12);--acc:#2a56f5;--acc-ink:#fff;--sun:#ffb81f;
 --serif:"Instrument Serif","Iowan Old Style",Georgia,serif;--sans:Inter,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;--e:cubic-bezier(.2,.72,.24,1);color-scheme:light}
 body[data-view=lesson]{--bg:#fff;--bg2:#eef3ff}
-*{box-sizing:border-box}html{scroll-behavior:smooth}
+*{box-sizing:border-box}html{scroll-behavior:auto}
 body{margin:0;background:var(--bg);color:var(--fg);font:400 1.0625rem/1.6 var(--sans);-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background .6s var(--e),color .4s;padding-top:env(safe-area-inset-top,0)}
 [hidden]{display:none!important}
 button,a{font:inherit;color:inherit}a{text-decoration:none}
@@ -4568,7 +4568,8 @@ if(ft&&!$(".zcl")){const c=getComputedStyle($("#done")||ft).backgroundColor;
 
 /* ---------- Lenis: scroll halus ---------- */
 if(window.Lenis){
- lenis=new Lenis({lerp:.085,smoothWheel:true,wheelMultiplier:1});
+ /* 2026-10-20: scroll roda/trackpad dibuat native (tanpa efek halus/lambat) atas permintaan pengguna; Lenis tetap dipakai untuk scrollTo */
+ lenis=new Lenis({smoothWheel:false,syncTouch:false});
  lenis.on("scroll",ScrollTrigger.update);
  gsap.ticker.add(t=>lenis.raf(t*1000));gsap.ticker.lagSmoothing(0);
  const siv=Element.prototype.scrollIntoView;
