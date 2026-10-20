@@ -2944,12 +2944,14 @@ const SC={
   ${box(70,126,56,54,"#555",6)}<rect x="84" y="140" width="28" height="14" class="acf"/>${box(150,154,22,26,"#fff",4)}${box(184,158,22,22,"#fff",4)}${box(520,50,80,190,"#cfcfcf",6)}<path d="M520 120h80M590 74v24M590 140v30" stroke="${K}" stroke-width="4"/>`}};
 /* adegan → letak tokoh */
 /* latar ilustrasi (dibuat dengan gpt-image via Figma, disimpan di assets/sim). Jika file belum ada/gagal dimuat, latar SVG di bawahnya tetap terlihat. */
+/* paket offline (tools/build-offline.js) menanam gambar sebagai data URI di window.GL_SIMIMG; tanpa itu dipakai file di assets/sim */
+const SIMSRC=sc=>(window.GL_SIMIMG&&window.GL_SIMIMG[sc])||`assets/sim/${sc}.jpg`;
 const IMG=new Set(["kamar","kamar-malam","rumah","teras","meja","lobi","kantor","pantry","rapat"]);
 function sceneSVG(sc,who,o={}){const HO=o.heroOpt||{};const S=SC[sc]||SC.kamar,two=!!who,hx=o.hx||(two?250:320),still=!!o.still;
  const npc=who==="tim"?[["rekan",430,.86],["rekan2",520,.8]]:who?[[who,420,1]]:[];
  return `<svg class="gvs${S.dark?" dark":""}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" style="--ac:${S.ac}" aria-hidden="true">
  <rect width="${W}" height="${FLOOR}" fill="${S.wall}"/><rect y="${FLOOR}" width="${W}" height="${H-FLOOR}" fill="${S.dark?"#2a2d5a":"#e0b07a"}"/><path d="M0 ${FLOOR}H${W}" stroke="${K}" stroke-width="4"/>
- <g class="bgd">${S.d()}</g>${IMG.has(sc)?`<image class="bgi" href="assets/sim/${sc}.jpg" x="0" y="-42" width="${W}" height="360" preserveAspectRatio="xMidYMid slice" onerror="this.remove()"/>`:""}
+ <g class="bgd">${S.d()}</g>${IMG.has(sc)?`<image class="bgi" href="${SIMSRC(sc)}" x="0" y="-42" width="${W}" height="360" preserveAspectRatio="xMidYMid slice" onerror="this.remove()"/>`:""}
  ${npc.map(([id,x,s])=>tokoh("npc-"+id,{who:id,x,s,flip:true,still})).join("")}
  ${o.hero===false?"":tokoh("hero",Object.assign({},HO,{x:hx,still}))}
  <g class="bb" opacity="0"><path class="bbt" d=""/><rect class="bbr" rx="12"/><text class="bbx"></text></g>
@@ -3019,7 +3021,7 @@ return{
   if(type==="mid")later(()=>bubble(svg,"hero","Langkah kecil dulu, lalu konsisten.",false),700);
   if(type==="fail")later(()=>bubble(svg,"hero","Aku belajar dari sini.",false),1600)},
  stop(){T.forEach(clearTimeout);T.clear();PC.stop()},
- preload(c){try{new Set(Object.values(c.nodes).map(n=>n.sc).concat(c.endScene||"lobi")).forEach(sc=>{if(IMG.has(sc)){const i=new Image();i.src=`assets/sim/${sc}.jpg`}})}catch(e){}},
+ preload(c){try{new Set(Object.values(c.nodes).map(n=>n.sc).concat(c.endScene||"lobi")).forEach(sc=>{if(IMG.has(sc)){const i=new Image();i.src=SIMSRC(sc)}})}catch(e){}},
  tokoh,sceneSVG,SC:Object.keys(SC),POSES:Object.keys(EX)};
 })();
 </script>
@@ -4741,6 +4743,26 @@ document.addEventListener("click",e=>{if(!cur||!e.isTrusted||cur.contains(e.targ
  if(e.target.closest&&e.target.closest("a,button,input,select,textarea,label,summary,[role=button],[role=tab],[tabindex]"))return;
  e.preventDefault();e.stopPropagation();cur.click()},true);
 window.__hv={get sel(){return SEL},get cur(){return cur}};
+})();
+</script>
+<script id="gl-scorm">
+/* 2026-10-20: laporan ke LMS (SCORM 1.2). Hanya aktif bila halaman dibuka dari LMS yang menyediakan API SCORM;
+   di browser biasa skrip ini diam. Yang dikirim: nilai akhir (0–100) dan status selesai. Progres tetap di localStorage. */
+(()=>{
+const find=w=>{for(let n=0;w&&n<12;n++){try{if(w.API&&w.API.LMSInitialize)return w.API}catch(e){}if(w.parent===w)break;w=w.parent}return null};
+let api=find(window);try{if(!api&&window.opener)api=find(window.opener)}catch(e){}
+if(!api||String(api.LMSInitialize(""))!=="true")return;
+const get=k=>{try{return String(api.LMSGetValue(k)||"")}catch(e){return""}},set=(k,v)=>{try{api.LMSSetValue(k,String(v))}catch(e){}};
+if(/^(not attempted|)$/.test(get("cmi.core.lesson_status")))set("cmi.core.lesson_status","incomplete");
+set("cmi.core.score.min",0);set("cmi.core.score.max",100);api.LMSCommit("");
+let last="";
+function sync(){if(typeof GLX==="undefined"||!GLX.hitung)return;let H;try{H=GLX.hitung()}catch(e){return}
+ if(H.akhir==null)return;const v=String(Math.round(H.akhir));if(v===last)return;last=v;
+ set("cmi.core.score.raw",v);set("cmi.core.lesson_status","completed");api.LMSCommit("")}
+const t0=Date.now();let fin=false;
+function finish(){if(fin)return;fin=true;sync();const s=Math.round((Date.now()-t0)/1000),hh=String(Math.floor(s/3600)).padStart(2,"0"),mm=String(Math.floor(s%3600/60)).padStart(2,"0"),ss=String(s%60).padStart(2,"0");
+ set("cmi.core.session_time",`${hh}:${mm}:${ss}`);set("cmi.core.exit","suspend");try{api.LMSCommit("");api.LMSFinish("")}catch(e){}}
+setInterval(sync,10000);addEventListener("hashchange",()=>setTimeout(sync,800));addEventListener("pagehide",finish);addEventListener("beforeunload",finish);
 })();
 </script>
 </body>

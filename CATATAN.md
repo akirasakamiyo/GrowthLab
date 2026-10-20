@@ -20,7 +20,7 @@ python3 -m http.server 8000
 Lalu buka `http://localhost:8000/GrowthLab_v5.html`.
 
 Catatan:
-- Situs memuat pustaka dari CDN: Three.js, GSAP, Lenis, Matter.js, dan Google Fonts. Dengan internet, semua animasi tampil. Tanpa internet, isi materi, latihan, dan nilai tetap berjalan, tetapi animasi 3D, motion, dan font khusus tidak muncul.
+- Sejak 20 Oktober 2026 situs tidak memuat apa pun dari internet: Three.js, GSAP, Lenis, Matter.js, dan font disimpan di folder `vendor/`. Untuk membuka file sumber, folder `vendor/` dan `assets/` harus ikut bersama `GrowthLab_v5.html`. Paket satu file untuk dikumpulkan ada di bagian 10.
 - **Mode lokal** aktif otomatis jika situs dibuka lewat `file://` atau server statis seperti `python -m http.server`. Dalam mode ini, tombol "Masuk" disembunyikan, tidak ada panggilan ke `/api/...`, dan progres serta nilai tersimpan di browser.
 - **Mode server (opsional):** jika file disajikan oleh server akun versi sebelumnya (Node, `npm start`) yang menjawab `/api/config`, fitur akun lama (daftar, masuk, sinkron progres) aktif kembali seperti semula.
 - Data tersimpan di `localStorage` dengan kunci `mer-done` (pelajaran selesai, format `"bab-pelajaran"`, misalnya `"0-4"`) dan `gl-latihan` (skor terbaik serta riwayat kuis, drag & drop, simulasi, dan nilai akhir).
@@ -269,3 +269,29 @@ Dikerjakan di branch git `feat/simulasi-branching` (repo dibuat 9 Okt 2026; comm
 - **Link ke halaman yang sedang dibuka** (logo "Ke beranda", menu Beranda, dan sebagainya) dulu tidak berbuat apa-apa. Sekarang link itu menggulir halus ke atas.
 - Uji getar dan klik mati dijalankan dengan skrip Playwright sementara (di luar repo). Semua halaman bersih, kecuali pil fisika di beranda yang memang bergerak.
 - **Ilustrasi bergerak sesuai materi (v8.4)**: 4 ikon umum `ART(k)` diganti dengan `ILL(kunci)` (di bawah definisi `ART`, gaya di `<style id="gl-ill">`). Setiap gambar mewakili isinya. Kunci yang dipakai: `course` (ringkasan kursus), `c0`–`c2` (bab), `"0-0"`–`"2-4"` (15 pelajaran, misalnya S.I.G.N, segitiga kognitif, baterai burnout, lingkaran umpan balik, FAKTA/OPINI/ASUMSI), `u0`–`u4` (kartu angka di beranda), `el` (katalog), `k0`–`k5` (kegiatan Belajar bareng), serta halaman `kontak`, `faq`, `tujuan`, `petunjuk`, `alur`, `peta`, `glosarium`, `latihan`, `tentang`, `komunitas`, dan `shield` (privasi/ketentuan). Animasi hanya berjalan saat gambar terlihat (IntersectionObserver menambah kelas `.on`) dan mati bila prefers-reduced-motion. Untuk mengganti satu gambar, ubah entri kuncinya di objek `L`.
+
+---
+
+## 10. Paket offline untuk LMS (20 Oktober 2026)
+
+Sesuai notulensi pertemuan 6 (hasil akhir harus bisa offline, tanpa tautan atau layanan eksternal, semua aset dalam satu paket).
+
+**Membuat paket:** jalankan `node tools/build-offline.js`. Hasilnya di folder `dist/` (tidak disimpan di git, buat ulang setiap kali file sumber berubah):
+
+| File | Kegunaan |
+|---|---|
+| `dist/GrowthLab_offline.html` | Satu file berisi semuanya (pustaka JS, font, 9 gambar simulasi). Bisa dibuka dengan klik dua kali tanpa internet. |
+| `dist/GrowthLab_offline.zip` | File di atas sebagai `index.html`, untuk LMS yang menerima paket HTML/ZIP biasa. |
+| `dist/GrowthLab_SCORM12.zip` | `index.html` + `imsmanifest.xml` (SCORM 1.2), untuk Moodle dan LMS sejenis. |
+
+**Yang diubah di file sumber:**
+- Pustaka dan font dipindah ke `vendor/` (font Google: subset latin dan latin-ext, lisensi SIL OFL).
+- Bagian "Pustaka" di 15 pelajaran sekarang berupa kutipan teks (MySkill, Medium @myskill.id), tanpa tautan.
+- Mode server/akun, Google Sign-In, dan endpoint AI chat dinonaktifkan. Situs selalu berjalan lokal, dan asisten chat menjawab dari materi dan FAQ secara offline.
+- Gambar simulasi lewat fungsi `SIMSRC()`. Di paket offline gambar ditanam sebagai data URI (`window.GL_SIMIMG`), di file sumber tetap dari `assets/sim/`.
+- `script#gl-scorm`: bila dibuka dari LMS yang menyediakan API SCORM 1.2, situs mengirim status `incomplete`/`completed` dan nilai akhir (0–100) ke LMS. Di browser biasa skrip ini tidak melakukan apa pun. Progres tetap tersimpan di localStorage browser, tidak di LMS.
+
+**Hasil uji:** paket dibuka di WebKit dengan semua jaringan diblokir: 0 permintaan jaringan, animasi dan font tampil, gambar simulasi tampil. SCORM diuji dengan LMS tiruan: status dan nilai terkirim. `t-core`, `t-smoke`, `t-latihan`, dan `t-sim` (WebKit) lolos, `t-smoke` juga lolos untuk file paket.
+
+**Deploy Netlify:** salin `GrowthLab_v5.html` sebagai `index.html` + folder `assets/` (tanpa `src`) + folder `vendor/`, atau cukup unggah `dist/GrowthLab_offline.html` sebagai `index.html`.
+
