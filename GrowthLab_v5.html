@@ -1307,26 +1307,7 @@ svg.ill .a-slide{animation-name:iSlide;--t:1.8s;animation-direction:alternate}@k
 <main>
 <!-- HOME -->
 <div data-v="home">
-  <section class="blk hero"><canvas id="crowd" aria-hidden="true"></canvas><div class="wrap hg">
-    <div>
-      <span class="mono rv">Media pembelajaran · Soft skill siap kerja</span>
-      <h1 class="rv" style="margin:16px 0 22px"><span class="w" style="--i:0"><i>Belajar</i></span> <span class="w" style="--i:1"><i>sesuai</i></span> <span class="w" style="--i:2"><i><em>ritme</em></i></span> <span class="w" style="--i:3"><i><em>kamu.</em></i></span></h1>
-      <p class="lead rv" style="--d:.16s"><b>Self Development for Job Seeker.</b> Media belajar interaktif untuk siswa SMK kelas XII dan <i>fresh graduate</i> yang sedang bersiap mencari kerja: 15 pelajaran soft skill, latihan soal, dan simulasi kasus dunia kerja.</p>
-      <div class="row rv" style="--d:.24s">
-        <a class="btn p" href="#/course">Mulai belajar <svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5"/></svg></a>
-        <a class="btn" href="#/e-learning">Lihat katalog</a>
-      </div>
-      <div class="meta rv" style="--d:.32s">
-        <a class="mt" href="#/course" title="Buka daftar bab"><strong id="m1">3</strong><span class="mono">Bab</span></a>
-        <a class="mt" href="#/e-learning" title="Buka katalog pelajaran"><strong id="m2">0</strong><span class="mono">Pelajaran selesai</span></a>
-        <a class="mt" href="#/course" title="Lihat progres belajar"><strong id="m3">0%</strong><span class="mono">Progres</span></a>
-        <a class="mt" href="#/petunjuk" title="Petunjuk belajar mandiri"><strong>Mandiri</strong><span class="mono">Format</span></a>
-      </div>
-    </div>
-    <div id="hero-art" aria-hidden="true"></div>
-  </div>
-  </section>
-
+  <!-- hero "Belajar sesuai ritme kamu" dihapus atas permintaan pengguna (2026-10-20) -->
   <section class="blk" id="stats"><div class="wrap">
     <h2 class="rv" data-in="l" style="max-width:14ch;margin-bottom:48px">Isi GrowthLab</h2>
     <div class="usp rv" id="usp"></div>
@@ -1367,22 +1348,13 @@ svg.ill .a-slide{animation-name:iSlide;--t:1.8s;animation-direction:alternate}@k
     <div class="kilat rv" id="kilat"></div>
   </div></section>
 
-  <section class="blk" id="komunitas"><div class="wrap">
-    <div class="head"><h2 class="rv" data-in="l">Belajar bareng teman</h2><p class="rv">Ide kegiatan kelompok untuk kelas atau teman belajar. Setiap ide terhubung ke pelajaran di GrowthLab.</p><a class="btn rv" href="#/komunitas">Semua ide kegiatan</a></div>
-    <div class="pol" id="kom"></div>
-  </div></section>
-
+  <!-- bagian "Belajar bareng teman" dihapus atas permintaan pengguna (2026-10-20); halaman #/komunitas tetap ada -->
   <section class="blk" id="faq"><div class="wrap">
     <div class="head"><h2 class="rv" data-in="l">Yang sering ditanyakan</h2><a class="btn rv" href="#/faq">Semua pertanyaan</a></div>
     <div class="fq rv" id="fq"></div>
   </div></section>
 
-  <section class="blk" id="done"><div class="wrap">
-    <div id="cat3d" class="rv" data-in="z" aria-hidden="true"><canvas></canvas></div>
-    <div id="done-art" class="rv" data-in="z" aria-hidden="true"></div>
-    <h2 class="rv" id="dh" style="max-width:14ch;margin:0 auto 28px">Siap untuk langkah pertama?</h2>
-    <a class="btn p rv" href="#/course" id="cta2">Lanjut belajar</a>
-  </div></section>
+  <!-- penutup "Siap untuk langkah pertama?" dihapus atas permintaan pengguna (2026-10-20) -->
 </div>
 
 <!-- COURSE -->
@@ -3483,9 +3455,9 @@ function updateProgress(){
  $("#navbar").style.setProperty("--p",p);$("#sbar").style.setProperty("--p",p);
  $("#ring").style.setProperty("--p",p);$("#ringt").textContent=Math.round(p*100)+"%";
  $("#ringl").textContent=`${done.size} dari ${total} pelajaran selesai`;$("#sprog").textContent=`${done.size} / ${total} pelajaran`;
- $("#m1").textContent=C.chapters.length;$("#m2").textContent=done.size;$("#m3").textContent=Math.round(p*100)+"%";
+ if($("#m1")){$("#m1").textContent=C.chapters.length;$("#m2").textContent=done.size;$("#m3").textContent=Math.round(p*100)+"%"}
  $("#cont").firstChild.textContent=p>=1?"Lanjut ke Latihan ":done.size?"Lanjut belajar ":"Mulai kursus ";
- $("#dh").textContent=pct()>=1?"Materi selesai! Saatnya latihan.":"Siap untuk langkah pertama?";$("#cta2").textContent=p>=1?"Ke Latihan":done.size?"Lanjut belajar":"Mulai belajar";$("#cta2").href=p>=1?"#/latihan":"#/course";
+if($("#dh")){$("#dh").textContent=pct()>=1?"Materi selesai! Saatnya latihan.":"Siap untuk langkah pertama?";$("#cta2").textContent=p>=1?"Ke Latihan":done.size?"Lanjut belajar":"Mulai belajar";$("#cta2").href=p>=1?"#/latihan":"#/course"}
 }
 function markL(ev){const k=cur.join("-"),w=done.has(k);w?done.delete(k):done.add(k);save();renderLesson(...cur);if(!w){boom(ev.clientX,ev.clientY);toast(done.size>=total?"Semua pelajaran selesai! Lanjut ke Latihan.":`Pelajaran selesai! ${done.size}/${total}`)}}
 function nextL(ev){let[i,j]=cur;const w=done.has(i+"-"+j);done.add(i+"-"+j);save();boom(ev.clientX,ev.clientY);if(!w)toast(`Pelajaran selesai! ${done.size}/${total}`);j++;if(j>=C.chapters[i].l.length){i++;j=0}
@@ -3699,7 +3671,7 @@ const ILL=k=>ILLX(String(k));
  let q=0;const scan=()=>{q=0;document.querySelectorAll("svg.ill:not([data-io])").forEach(s=>{s.setAttribute("data-io","");if(io){try{s.pauseAnimations()}catch(_){}io.observe(s)}else if(!RMI)s.classList.add("on")})};
  new MutationObserver(()=>{if(!q)q=requestAnimationFrame(scan)}).observe(document.body,{childList:true,subtree:true});scan()})();
 const G=(f,i,b,r,a=12)=>`<g data-par="${f}"${r?` data-rot="${r}"`:""}><g class="pop" style="--i:${i}"><g class="fl" style="--d:${i*1.7};--a:${a}">${b}</g></g></g>`;
-$("#hero-art").innerHTML=`<svg viewBox="0 0 600 520"><g stroke="${K}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+($("#hero-art")||{}).innerHTML=`<svg viewBox="0 0 600 520"><g stroke="${K}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
 ${G(.25,0,`<ellipse cx="310" cy="280" rx="230" ry="215" fill="${Y}" stroke="none"/>`,0,4)}
 ${G(.4,1,`<path d="M150 70q0-26 30-26 8-24 40-16 24-4 34 16 30 2 28 26z" fill="${W}" stroke="none"/>`,0,6)}
 ${G(.07,2,`<path d="M40 410h520" /><rect x="60" y="404" width="480" height="16" rx="4" fill="${K}"/><path d="M90 420v70M510 420v70"/>
@@ -3717,7 +3689,7 @@ ${G(-.16,5,`<rect x="320" y="60" width="136" height="96" rx="8" fill="${W}"/><re
 ${G(-.28,6,`<g transform="rotate(-35 520 310)"><rect x="470" y="298" width="90" height="24" rx="4" fill="${Y}"/><path d="M560 298l28 12-28 12z" fill="${SK}"/><path d="M482 298v24" /></g>`,-4)}
 ${G(-.4,7,`<path d="M44 300l80-34-26 74-14-26z" fill="${T}"/><path d="M110 274l-26 40" fill="none"/>`,6)}
 </g></svg>`;
-$("#done-art").innerHTML=`<svg viewBox="0 0 400 270"><g stroke="${K}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+($("#done-art")||{}).innerHTML=`<svg viewBox="0 0 400 270"><g stroke="${K}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
 ${G(0,0,`<circle cx="200" cy="150" r="115" fill="${Y}" stroke="none"/>`,0,5)}
 ${G(0,1,`<path d="M176 160L136 96M224 160L264 96" fill="none" stroke="${V}" stroke-width="22"/><rect x="164" y="146" width="72" height="92" rx="26" fill="${V}"/><path d="M184 238v22M216 238v22" fill="none" stroke-width="8"/><circle cx="136" cy="92" r="11" fill="${SK}"/><circle cx="264" cy="92" r="11" fill="${SK}"/><circle cx="200" cy="112" r="32" fill="${SK}"/><path d="M168 108Q172 74 204 78 232 82 232 108 214 92 168 108z" fill="${K}"/><circle cx="190" cy="116" r="3.5" fill="${K}"/><circle cx="210" cy="116" r="3.5" fill="${K}"/><path d="M188 126Q200 138 212 126" fill="none" stroke-width="3"/>`,0,3)}
 ${G(0,2,`<path d="M200 6l10 22 24 3-18 16 5 24-21-12-21 12 5-24-18-16 24-3z" fill="${O}"/>`,0,8)}
@@ -3753,7 +3725,7 @@ const FAQ=[
  ["Siapa yang membuat GrowthLab?","Kelompok 8 Program Studi Teknologi Pendidikan FIP UNJ (2024) sebagai tugas mata kuliah Pengembangan Multimedia Pendidikan. Materinya merujuk pada artikel MySkill di Medium."]];
 $("#usp").innerHTML=[[C.chapters.length,"Bab materi","#/course"],[C.chapters.reduce((a,c)=>a+c.l.length,0),"Pelajaran soft skill","#/e-learning"],[GLX.nQuiz,"Soal kuis pilihan ganda","#/latihan/kuis"],[GLX.nSim,"Skenario simulasi kerja","#/latihan/sim"],["Mandiri","Belajar mandiri, kapan saja","#/petunjuk"]].map(([v,t,hf],i)=>`<a class="us" href="${hf}"><div class="ic" style="background:${BGC[i]}">${ILL("u"+i)}</div><strong>${v}</strong><span>${t}</span></a>`).join("");
 $("#el-art").innerHTML=`<div class="frame" style="--c1:${CO[0]};width:100%">${ILL("el")}</div>`;
-$("#kom").innerHTML=Array.from({length:6},(_,i)=>`<div data-par="${i%2?-.05:.06}"><a class="ph" href="#/komunitas/${i}" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="pic" style="--c1:${CO[i]}">${ILL("k"+i)}</div><p>${KOMT[i]}</p></a></div>`).join("");
+($("#kom")||{}).innerHTML=Array.from({length:6},(_,i)=>`<div data-par="${i%2?-.05:.06}"><a class="ph" href="#/komunitas/${i}" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="pic" style="--c1:${CO[i]}">${ILL("k"+i)}</div><p>${KOMT[i]}</p></a></div>`).join("");
 $("#fq").innerHTML=FAQ.slice(0,5).map(([q,a],i)=>`<details${i?"":" open"}><summary>${q}</summary><p>${a}</p></details>`).join("");
 function pin(){const p=$("#program");if(!p)return;const r=p.getBoundingClientRect();if(r.height<10)return;const pr=Math.min(1,Math.max(0,-r.top/(r.height-innerHeight))),a=Math.min(2,Math.floor(pr*3));
  if(a!==pa_){pa_=a;$$("#program [data-i]").forEach(e=>{const i=+e.dataset.i;e.classList.toggle("on",i===a);e.classList.toggle("off",i<a)});burst=1}}
@@ -4036,7 +4008,7 @@ route();
 </script>
 <script>
 (()=>{
-const cv=document.getElementById("crowd"),hero=cv.parentElement;let R;
+const cv=document.getElementById("crowd");if(!cv)return;const hero=cv.parentElement;let R;
 try{R=new THREE.WebGLRenderer({canvas:cv,antialias:true,alpha:true,powerPreference:"high-performance"})}catch(e){cv.remove();return}
 const rm=matchMedia("(prefers-reduced-motion:reduce)").matches;
 R.setPixelRatio(Math.min(devicePixelRatio||1,1.75));
@@ -4466,7 +4438,7 @@ document.body.insertAdjacentHTML("beforeend",'<div id="sp"></div><div id="cnt"><
 const hero=$(".hero");
 if(hero&&!$(".band")){const t=["Belajar","Tumbuh","Berkarya","Berani"].map(x=>`<span>${x}</span>`).join("");hero.insertAdjacentHTML("afterend",`<div class="band" aria-hidden="true"><div class="mq">${t+t+t+t}</div></div>`)}
 const st=$("#stats");
-if(st&&!$("#manifesto")){const W="Belajar yang hebat dimulai dari langkah kecil. Beri bobot pada kebiasaanmu, beri arah pada tujuanmu, lalu biarkan tumbuh.".split(" ");st.insertAdjacentHTML("afterend",`<section class="blk" id="manifesto"><div class="wrap"><span class="mono">Manifesto</span><p class="mf">${W.map((w,i)=>`<span${i>W.length-3?' class="y"':""}>${w}</span>`).join(" ")}</p></div></section>`)}
+/* manifesto "Belajar yang hebat dimulai dari langkah kecil" dihapus atas permintaan pengguna (2026-10-20) */
 const ft=$("footer");if(ft&&!$(".wm"))ft.insertAdjacentHTML("beforeend",`<div class="wm" aria-hidden="true">${[..."GROWTH LAB"].map((c,i)=>`<b style="--k:${i}">${c===" "?"&nbsp;":c}</b>`).join("")}</div>`);
 const sio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("sin","in");sio.unobserve(e.target)}}),{threshold:.2}),
 cio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in2");setTimeout(()=>e.target.classList.add("done"),1600);cio.unobserve(e.target)}}),{threshold:.1}),
