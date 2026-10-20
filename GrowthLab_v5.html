@@ -6,9 +6,8 @@
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%222%22 y=%222%22 width=%2260%22 height=%2260%22 rx=%2218%22 fill=%22%23ffc83d%22 stroke=%22%231b1740%22 stroke-width=%224%22/%3E%3Cg stroke=%22%231b1740%22 stroke-width=%223%22 stroke-linejoin=%22round%22 stroke-linecap=%22round%22%3E%3Cpath class=%22sp%22 d=%22M32 27V17%22 fill=%22none%22 stroke-width=%223.5%22/%3E%3Cpath class=%22sp%22 d=%22M32 21C24 22 19 17 19 11c7 0 12 4 13 10z%22 fill=%22%2314b8a6%22/%3E%3Cpath class=%22sp%22 d=%22M32 18c8 1 13-4 13-10-7 0-12 4-13 10z%22 fill=%22%236d4cff%22/%3E%3Cpath d=%22M26 27h12v8l9 15a5 5 0 0 1-4.3 7.5H21.3A5 5 0 0 1 17 50l9-15z%22 fill=%22%23fff%22/%3E%3Cpath d=%22M20.4 45h23.2l3.3 5.5a5 5 0 0 1-4.3 7.5H21.3A5 5 0 0 1 17 50.5z%22 fill=%22%23ff5a3c%22 stroke=%22none%22/%3E%3Ccircle class=%22bb%22 cx=%2229%22 cy=%2251%22 r=%221.8%22 fill=%22%23fff%22 stroke=%22none%22/%3E%3Ccircle class=%22bb b2%22 cx=%2236%22 cy=%2248%22 r=%221.4%22 fill=%22%23fff%22 stroke=%22none%22/%3E%3Cpath d=%22M26 27h12v8l9 15a5 5 0 0 1-4.3 7.5H21.3A5 5 0 0 1 17 50l9-15z%22 fill=%22none%22/%3E%3C/g%3E%3C/svg%3E">
 <meta name="theme-color" content="#ffc83d">
 <title>GrowthLab — Self Development for Job Seeker</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:wght@400;500;700&family=Anton&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<!-- 2026-10-20: font & pustaka disimpan lokal di vendor/ agar situs berjalan offline tanpa CDN -->
+<link href="vendor/fonts/fonts.css" rel="stylesheet">
 <style>
 :root{--bg:#f5f7fc;--bg2:#e8eefc;--fg:#0e1a3a;--mut:#56638a;--line:rgba(14,26,58,.12);--acc:#2a56f5;--acc-ink:#fff;--sun:#ffb81f;
 --serif:"Instrument Serif","Iowan Old Style",Georgia,serif;--sans:Inter,-apple-system,"Segoe UI",Helvetica,Arial,sans-serif;--e:cubic-bezier(.2,.72,.24,1);color-scheme:light}
@@ -1421,7 +1420,7 @@ svg.ill .a-slide{animation-name:iSlide;--t:1.8s;animation-direction:alternate}@k
  <div class="cq" id="cq"></div>
  <form class="cf2" id="cform" autocomplete="off"><input id="cin" type="text" maxlength="500" placeholder="Tulis pertanyaanmu…" aria-label="Pesan"><button class="btn p" type="submit" aria-label="Kirim">Kirim</button></form>
 </section>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="vendor/three.min.js"></script>
 <script id="gl-data">
 /* ==========================================================================
    GL v5 · DATA MATERI, SOAL, DRAG & DROP, DAN SIMULASI
@@ -4500,11 +4499,11 @@ document.documentElement.addEventListener("mouseleave",()=>{if(mb){mstep.last=mb
 window.observe();draw();
 }catch(e){console.warn("oblo layer",e)}})();
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/MotionPathPlugin.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script src="vendor/matter.min.js"></script>
 <script>
 /* ---------- v9: lapisan motion ala motion.zajno.com ---------- */
 (()=>{
