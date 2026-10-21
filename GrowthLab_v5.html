@@ -1332,9 +1332,10 @@ svg.ill .a-slide{animation-name:iSlide;--t:1.8s;animation-direction:alternate}@k
   </div></section>
 
   <section class="blk" id="panduan"><div class="wrap">
-    <div class="head"><h2 class="rv" data-in="l">Mulai dari sini</h2><p class="rv">Baca tujuan belajarnya, pahami cara memakai situs ini, lihat peta konsepnya, lalu cari tahu bab mana yang paling kamu butuhkan.</p><a class="btn rv" href="#/glosarium">Glosarium istilah</a></div>
+    <div class="head"><h2 class="rv" data-in="l">Mulai dari sini</h2><p class="rv">Baca tujuan belajarnya, pahami cara memakai situs ini, lalu lihat peta konsepnya sebelum mulai belajar.</p><a class="btn rv" href="#/glosarium">Glosarium istilah</a></div>
     <div class="stg pdn rv" id="pdn"></div>
-    <div class="pdn2 rv"><div id="lanjut"></div><div id="diag"></div></div>
+    <!-- 2026-10-21: kartu "Kenali kebutuhanmu" (#diag) dihapus atas permintaan pengguna -->
+    <div class="pdn2 rv" style="grid-template-columns:1fr"><div id="lanjut"></div></div>
   </div></section>
 
   <section class="blk" id="elearn"><div class="wrap pg">
@@ -3026,7 +3027,7 @@ return{
    GL v6 · UI INTERAKTIF
    - Aktivitas "Coba sendiri" di setiap pelajaran (LABS -> widget W.*)
    - Cek cepat (benar/salah), catatan pribadi, daftar isi, info waktu baca
-   - Beranda: kartu panduan, lanjutkan belajar, "Kenali kebutuhanmu", latihan, soal kilat
+   - Beranda: kartu panduan, lanjutkan belajar, latihan, soal kilat
    - Halaman peta konsep (#/peta) dan glosarium (#/glosarium)
    Masukan pengguna hanya ditulis lewat textContent/value. Data tersimpan di localStorage "gl-ui".
    ========================================================================== */
@@ -4392,7 +4393,7 @@ const KB=[
  [/peta|konsep map|mind ?map situs/,{t:"Peta konsep menampilkan seluruh isi GrowthLab: Beranda, Materi (3 bab, 15 pelajaran), dan Latihan. Klik simpulnya untuk membuka halaman terkait; simpul bercentang sudah selesai.",a:["Buka peta konsep","#/peta"]}],
  [/glosarium|istilah|arti kata|artinya/,{t:"Glosarium berisi arti istilah asing di materi, misalnya burnout, growth mindset, atau STAR, lengkap dengan tautan ke pelajarannya.",a:["Buka glosarium","#/glosarium"]}],
  [/coba sendiri|aktivitas|interaktif|simulator|jurnal|catatan/,{t:"Setiap pelajaran punya aktivitas “Coba sendiri” (misalnya simulator segitiga kognitif, tangga 5 Whys, latihan napas, penyusun jawaban STAR), soal cek cepat, dan kolom catatan pribadi yang tersimpan otomatis.",a:["Coba di pelajaran pertama","#/lesson/0-0"]}],
- [/rekomendasi|mulai dari mana|bab mana|kenali kebutuhan/,{t:"Isi “Kenali kebutuhanmu” di beranda: enam pernyataan singkat yang menyarankan bab dan pelajaran yang paling cocok untukmu.",a:["Ke bagian Mulai dari sini","#/panduan"]}],
+ [/rekomendasi|mulai dari mana|bab mana|kenali kebutuhan/,{t:"Mulailah dari Bab 1 Self-Management, lalu lanjutkan ke Bab 2 dan Bab 3. Lihat juga peta konsep untuk gambaran seluruh isi GrowthLab.",a:["Buka peta konsep","#/peta"]}],
  [/cetak|print|kartu hasil|rapor/,{t:"Di kartu Nilai Akhir (menu Latihan), isi namamu lalu tekan “Cetak kartu hasil” untuk mencetak atau menyimpan ringkasan nilaimu sebagai PDF.",a:["Buka Latihan","#/latihan"]}],
  [/tujuan|kompetensi|indikator/,{t:"Tujuan belajar per bab diturunkan dari GBIM. Lihat daftarnya di halaman Tujuan Belajar.",a:["Tujuan belajar","#/tujuan"]}],
  [/petunjuk|panduan|cara (pakai|guna)|bagaimana (memakai|menggunakan)/,{t:"Pilih bab di menu Materi, baca pelajarannya, tekan Tandai selesai, lalu kerjakan Latihan. Progres tersimpan otomatis di browser.",a:["Petunjuk penggunaan","#/petunjuk"]}],
