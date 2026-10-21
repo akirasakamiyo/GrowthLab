@@ -308,3 +308,14 @@ Sumber: Google Doc "KEL_9 Pengembangan Multimedia Pembelajaran", tab T2_Tahap De
 - Aktivitas Creative Thinking: kartu SCAMPER diganti "kartu pemicu ide" sesuai JM (ide buruk dulu, inkubasi, ubah lingkungan, mind map, berpikir lateral, combinatorial play, uji adaptasi).
 - STAR tetap ada di Reflective Thinking sebagai bentuk rencana aksi untuk wawancara, karena indikator soal Thinking Skill di GBIM menyebut metode STAR.
 - Catatan untuk tim: di dokumen, batas lulus pilihan ganda ditulis 70%, tetapi kategori kelulusan menyebut "≥ 76%". Web memakai 70.
+
+## 12. Publikasi lewat GitHub Pages (revisi dosen, 2026-10-21)
+
+Netlify tidak dipakai lagi (kredit akun habis, dosen minta pakai GitHub).
+
+- `tools/build-pages.sh` menyalin `GrowthLab_v5.html` → `index.html`, plus `vendor/`, `assets/sim/`, `assets/sb/`
+  ke `~/Desktop/growthlab-web` (repo git terpisah, branch `main`, ada `.nojekyll`).
+- Pertama kali: GitHub Desktop → File → Add Local Repository → pilih `growthlab-web` → Publish repository
+  (hapus centang "Keep this code private") → di github.com buka Settings → Pages → Source: Deploy from a branch,
+  Branch `main` / `(root)` → Save. Alamatnya `https://<username>.github.io/growthlab-web/`.
+- Setiap update: jalankan `./tools/build-pages.sh`, lalu di GitHub Desktop Commit → Push origin.
