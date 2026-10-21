@@ -314,7 +314,7 @@ Sumber: Google Doc "KEL_9 Pengembangan Multimedia Pembelajaran", tab T2_Tahap De
 Netlify tidak dipakai lagi (kredit akun habis, dosen minta pakai GitHub).
 
 - `tools/build-pages.sh` menyalin `GrowthLab_v5.html` → `index.html`, plus `vendor/`, `assets/sim/`, `assets/sb/`
-  ke `~/Desktop/growthlab-web` (repo git terpisah, branch `main`, ada `.nojekyll`).
+  (+ isi `dist/` ke `offline/`) ke `~/Desktop/growthlab-web` (repo git terpisah, branch `main`, ada `.nojekyll`).
 - Pertama kali: GitHub Desktop → File → Add Local Repository → pilih `growthlab-web` → Publish repository
   (hapus centang "Keep this code private") → di github.com buka Settings → Pages → Source: Deploy from a branch,
   Branch `main` / `(root)` → Save. Alamatnya `https://<username>.github.io/growthlab-web/`.
