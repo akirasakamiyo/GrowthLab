@@ -1301,6 +1301,17 @@ svg.ill .a-slide{animation-name:iSlide;--t:1.8s;animation-direction:alternate}@k
 @media(max-width:900px){.hero .hg{grid-template-columns:1fr!important}.hero #hero-art{display:none!important}}
 @media(max-width:700px){.wrap{width:calc(100% - 32px)}.nav .wrap{width:calc(100% - 20px)}}
 </style>
+<style id="gl-r3">
+/* lencana bab (5/5) */
+.medal{width:26px;height:30px;flex:none}
+.chbadge{display:inline-flex!important;align-items:center;gap:8px;background:linear-gradient(135deg,#fff4c2,#ffe07a);color:#7a4a00!important;border-radius:99px;padding:5px 14px 5px 8px;font-weight:800}
+.chbadge.new .medal{animation:gxPop .7s var(--spr) both}
+.chrew{display:flex;align-items:center;gap:18px;margin:18px 0 4px;padding:18px 22px;border-radius:22px;background:linear-gradient(135deg,#fff8d6,#ffe9a8);border:1.5px solid #ffd15c}
+.chrew .medal{width:52px;height:60px}.chrew.new .medal,.chap.open .chrew .medal{animation:gxPop .7s var(--spr) both}
+.chrew b{display:block;font-size:1.25rem;color:var(--ink)}.chrew p{margin:2px 0 0;color:#6b5a2a;font-size:.95rem}.chrew .mono{color:#b06a00}
+@media(max-width:800px){.chap>button .chbadge{display:inline-flex!important;padding:4px 8px;font-size:0}.chap>button .chbadge .medal{width:22px;height:26px}}
+@media(prefers-reduced-motion:reduce){.chbadge .medal,.chrew .medal{animation:none!important}}
+</style>
 </head>
 <body data-view="home" class="zload glocal">
 <div id="zpre" aria-hidden="true"><div class="zc"><i class="zd"></i><b class="zl"></b></div><span class="zn">000</span></div>
@@ -3446,13 +3457,21 @@ function renderPath(){
  $$(".step[data-x]").forEach(b=>{b.onmouseenter=b.onfocus=()=>moveW(b);b.onmouseleave=b.onblur=()=>moveW($(".step.act"))});requestAnimationFrame(()=>moveW($(".step.act")));
 }
 let open_=0;
+/* lencana bab: muncul setelah semua pelajaran dalam bab selesai (5/5) */
+const BADGE=[["Pengelola Diri","Kamu sudah menuntaskan semua pelajaran Self-Management."],["Peka Emosi","Kamu sudah menuntaskan semua pelajaran Emotional Intelligence."],["Pemikir Tajam","Kamu sudah menuntaskan semua pelajaran Thinking Skill."]];
+const chFull=i=>C.chapters[i].l.every((_,j)=>done.has(i+"-"+j));
+const MEDAL=`<svg class="medal" viewBox="0 0 48 56" aria-hidden="true"><path d="M14 2h8l6 16h-8z" fill="#3a4fd0"/><path d="M34 2h-8l-6 16h8z" fill="#ff6a3d"/><circle cx="24" cy="34" r="19" fill="#ffb11f"/><circle cx="24" cy="34" r="14.5" fill="#ffd84a" stroke="#e08e00" stroke-width="1.5"/><path d="M24 25l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2-4.5-4.4 6.2-.9z" fill="#fff"/></svg>`;
+const badgeSeen=()=>{try{return JSON.parse(localStorage.getItem("gl-badge")||"[]")}catch(e){return[]}};
+function badgeEarned(i){if(!BADGE[i])return;toast(`Lencana baru: “${BADGE[i][0]}”! Bab ${i+1} tuntas 5/5.`)}
 function renderCourse(){
  $("#cart").innerHTML=ILL("course");$("#ckat").textContent=C.k+" · "+C.media;$("#ctitle").textContent=C.t;$("#cdesc").textContent=C.d;
  $("#cmeta").textContent=`${C.chapters.length} bab · ${total} pelajaran · ${GLX.nQuiz} soal · ${GLX.nSim} simulasi`;
+ const seen=badgeSeen();
  $("#chaps").innerHTML=C.chapters.map((c,i)=>{const n=c.l.filter((_,j)=>done.has(i+"-"+j)).length;
-  return `<div class="chap ${i===open_?"open":""}"><button data-i="${i}" aria-expanded="${i===open_}"><span class="mono">${p2(i+1)}</span><h3>${esc(c.t)}</h3><span class="mono">${n}/${c.l.length}</span><svg class="chev" viewBox="0 0 18 18"><path d="M3 6l6 6 6-6"/></svg></button><div class="lessons"><div>${c.l.map((l,j)=>`<button class="les ${done.has(i+"-"+j)?"done":""}" data-k="${i}-${j}"><span class="mono">${p2(j+1)}</span><span>${esc(l.t)}${l.draft?' <small class="mono">· draf</small>':""}</span><b></b></button>`).join("")}${(()=>{const nj=c.l.findIndex((_,j)=>!done.has(i+"-"+j));return `<div class="chact"><span class="chbar" aria-hidden="true"><i style="--p:${n/c.l.length}"></i></span><a class="btn p" href="#/lesson/${i}-${nj<0?0:nj}">${nj<0?"Ulas bab":n?"Lanjut bab":"Mulai bab"}</a><a class="btn" href="#/latihan/kuis/b${i}">Kuis Bab ${i+1}</a></div>`})()}</div></div></div>`}).join("")
+  return `<div class="chap ${i===open_?"open":""}"><button data-i="${i}" aria-expanded="${i===open_}"><span class="mono">${p2(i+1)}</span><h3>${esc(c.t)}</h3>${n===c.l.length&&BADGE[i]?`<span class="mono chbadge ${seen.includes(i)?"":"new"}" title="Lencana ${esc(BADGE[i][0])}">${MEDAL}${n}/${c.l.length}</span>`:`<span class="mono">${n}/${c.l.length}</span>`}<svg class="chev" viewBox="0 0 18 18"><path d="M3 6l6 6 6-6"/></svg></button><div class="lessons"><div>${c.l.map((l,j)=>`<button class="les ${done.has(i+"-"+j)?"done":""}" data-k="${i}-${j}"><span class="mono">${p2(j+1)}</span><span>${esc(l.t)}${l.draft?' <small class="mono">· draf</small>':""}</span><b></b></button>`).join("")}${(()=>{const nj=c.l.findIndex((_,j)=>!done.has(i+"-"+j));return `${nj<0&&BADGE[i]?`<div class="chrew">${MEDAL}<div><span class="mono">Lencana diraih</span><b>${esc(BADGE[i][0])}</b><p>${esc(BADGE[i][1])}</p></div></div>`:""}<div class="chact"><span class="chbar" aria-hidden="true"><i style="--p:${n/c.l.length}"></i></span><a class="btn p" href="#/lesson/${i}-${nj<0?0:nj}">${nj<0?"Ulas bab":n?"Lanjut bab":"Mulai bab"}</a><a class="btn" href="#/latihan/kuis/b${i}">Kuis Bab ${i+1}</a></div>`})()}</div></div></div>`}).join("")
   +`<div class="chap"><a class="les" href="#/latihan" style="border:0;padding:30px 0"><span class="mono" style="font:400 2.4rem/1 var(--serif);color:var(--acc)">${p2(C.chapters.length+1)}</span><span><h3 style="font-size:clamp(1.8rem,3.4vw,2.8rem)">Latihan</h3><small>Kuis, drag &amp; drop, simulasi, dan nilai akhir</small></span><b></b></a></div>`;
  $$(".chap>button").forEach(b=>{b.onclick=()=>{open_=+b.dataset.i;setActive(open_);renderCourse()};});
+ try{localStorage.setItem("gl-badge",JSON.stringify(C.chapters.map((_,i)=>i).filter(chFull)))}catch(e){}
  $$(".les[data-k]").forEach(b=>b.onclick=()=>location.hash="#/lesson/"+b.dataset.k);
  $("#cart").onclick=()=>$("#cont").click();$("#cart").style.cursor="pointer";$("#cart").title="Lanjut belajar";
 }
@@ -3492,8 +3511,8 @@ function updateProgress(){
  $("#cont").firstChild.textContent=p>=1?"Lanjut ke Latihan ":done.size?"Lanjut belajar ":"Mulai kursus ";
 if($("#dh")){$("#dh").textContent=pct()>=1?"Materi selesai! Saatnya latihan.":"Siap untuk langkah pertama?";$("#cta2").textContent=p>=1?"Ke Latihan":done.size?"Lanjut belajar":"Mulai belajar";$("#cta2").href=p>=1?"#/latihan":"#/course"}
 }
-function markL(ev){const k=cur.join("-"),w=done.has(k);w?done.delete(k):done.add(k);save();renderLesson(...cur);if(!w){boom(ev.clientX,ev.clientY);toast(done.size>=total?"Semua pelajaran selesai! Lanjut ke Latihan.":`Pelajaran selesai! ${done.size}/${total}`)}}
-function nextL(ev){let[i,j]=cur;const w=done.has(i+"-"+j);done.add(i+"-"+j);save();boom(ev.clientX,ev.clientY);if(!w)toast(`Pelajaran selesai! ${done.size}/${total}`);j++;if(j>=C.chapters[i].l.length){i++;j=0}
+function markL(ev){const k=cur.join("-"),w=done.has(k);w?done.delete(k):done.add(k);save();renderLesson(...cur);if(!w){boom(ev.clientX,ev.clientY);toast(done.size>=total?"Semua pelajaran selesai! Lanjut ke Latihan.":`Pelajaran selesai! ${done.size}/${total}`);if(chFull(cur[0])&&done.size<total)badgeEarned(cur[0])}}
+function nextL(ev){let[i,j]=cur;const w=done.has(i+"-"+j);done.add(i+"-"+j);save();boom(ev.clientX,ev.clientY);if(!w){toast(`Pelajaran selesai! ${done.size}/${total}`);if(chFull(i))badgeEarned(i)}j++;if(j>=C.chapters[i].l.length){i++;j=0}
  location.hash=i>=C.chapters.length?"#/latihan":"#/lesson/"+i+"-"+j}
 $("#mark").onclick=markL;$("#nextl").onclick=nextL;
 $("#back").onclick=()=>location.hash="#/course";
