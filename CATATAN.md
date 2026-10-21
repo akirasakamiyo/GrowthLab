@@ -319,3 +319,6 @@ Netlify tidak dipakai lagi (kredit akun habis, dosen minta pakai GitHub).
   (hapus centang "Keep this code private") → di github.com buka Settings → Pages → Source: Deploy from a branch,
   Branch `main` / `(root)` → Save. Alamatnya `https://<username>.github.io/growthlab-web/`.
 - Setiap update: jalankan `./tools/build-pages.sh`, lalu di GitHub Desktop Commit → Push origin.
+- **Live (sejak 2026-10-21):** https://akirasakamiyo.github.io/GrowthLab/ — repo https://github.com/akirasakamiyo/GrowthLab
+  (`~/Desktop/growthlab-web` sudah tersambung ke repo ini sebagai `origin`). GitHub CLI (`gh`) sudah login di laptop ini,
+  jadi update juga bisa lewat: `./tools/build-pages.sh && cd ~/Desktop/growthlab-web && git add -A && git commit -m "update" && git push`.
