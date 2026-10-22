@@ -15,6 +15,7 @@ const kat = (a, pg) => { let k = r1(a) >= 86 ? 0 : r1(a) >= 71 ? 1 : r1(a) >= 56
   const browser = await (which === "webkit" ? webkit : chromium).launch(which === "chrome" ? { channel: "chrome" } : {});
   const mk = async (o = {}) => {
     const ctx = await browser.newContext({ viewport: { width: o.w || 1280, height: 820 } });
+    await ctx.addInitScript(() => { window.GL_NO_GATE = 1 });   // lewati saran urutan (gamifikasi fase 3)
     if (o.quota) await ctx.addInitScript(() => { const f = Storage.prototype.setItem; Storage.prototype.setItem = function (k, v) { if (k === "gl-latihan") throw new DOMException("penuh", "QuotaExceededError"); return f.call(this, k, v) } });
     if (o.seed) await ctx.addInitScript(s => { if (!sessionStorage.getItem("__s")) { localStorage.setItem("gl-latihan", s); sessionStorage.setItem("__s", "1") } }, JSON.stringify(o.seed));
     const page = await ctx.newPage(); page.errs = [];

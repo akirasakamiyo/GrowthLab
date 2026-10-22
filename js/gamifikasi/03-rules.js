@@ -8,7 +8,7 @@
   G.need = n => Math.round(C.level.a * Math.pow(Math.max(0, n - 1), C.level.p));   // XP kumulatif ke level n
   G.levelOf = xp => { let n = 1; while (G.need(n + 1) <= xp) n++; return n };
   G.tier = n => C.tiers.reduce((t, [m, nm]) => n >= m ? nm : t, C.tiers[0][1]);
-  G.total = () => G.state().ledger.reduce((a, e) => a + e.xp, 0);
+  G.total = () => Math.max(0, G.state().ledger.reduce((a, e) => a + e.xp, 0));
   G.info = () => {
     const xp = G.total(), level = G.levelOf(xp), from = G.need(level), to = G.need(level + 1);
     return { xp, level, tier: G.tier(level), from, to, p: (xp - from) / (to - from) };
@@ -52,8 +52,10 @@
     if (G.markDay) G.markDay();
     const e = R[type] ? R[type](d, factor) : null;
     const badges = G.checkBadges ? G.checkBadges() : [];
+    const quest = G.checkQuest ? G.checkQuest() : null;
+    const remedial = type === "quiz" && G.remedial ? G.remedial(d) : null;
     G.save();
-    return { e, badges, before, after: G.info() };
+    return { e, badges, quest, remedial, before, after: G.info() };
   };
 
   /* data lama → ledger (sekali, saat modul pertama kali aktif). Dihitung seperti percobaan pertama, tanpa notifikasi. */
@@ -161,4 +163,73 @@
     if (out.length) G.save();
     return out;
   };
+})();
+
+/* ==================================================================
+   Fase 3 · quest mingguan, skill map, remedial, petunjuk, unlock ringan
+   ================================================================== */
+(() => {
+  const G = window.GLG, C = G.CFG;
+  const lx = () => G.storage.get("gl-latihan") || {};
+  const PASS = () => (typeof GLD !== "undefined" && GLD.PASS_MCQ) || 70;
+  const inWeek = (t, wk) => G.weekKey(t) === wk;
+
+  /* ---------- quest ---------- */
+  const hash = s => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+  const lessonsLeft = () => { const d = new Set(G.storage.get("mer-done") || []); return GLD.COURSE.chapters.reduce((n, ch, i) => n + ch.l.filter((_, j) => !d.has(i + "-" + j)).length, 0) };
+  G.quest = (now = Date.now()) => {
+    const wk = G.weekKey(now), S = G.state(), Q = C.quest;
+    S.quests = S.quests || {};
+    if (!S.quests[wk]) {
+      /* pilih tujuan minggu ini sekali, lalu simpan agar tidak berubah walau kondisi berubah */
+      const pool = Q.goals.filter(g => g.type !== "lesson" || lessonsLeft() >= g.n);
+      const h = hash(wk), picked = [];
+      for (let k = 0; picked.length < Math.min(Q.pick, pool.length); k++) { const g = pool[(h + k * 7) % pool.length]; if (!picked.includes(g)) picked.push(g) }
+      S.quests[wk] = { goals: picked.map(g => g.type) };
+      G.save();
+    }
+    const ev = S.ledger.filter(e => !e.meta.awal && inWeek(e.t, wk));
+    const count = type => type === "days" ? S.days.filter(k => G.weekKey(new Date(k.replace(/-/g, "/"))) === wk).length : ev.filter(e => e.type === type).length;
+    const goals = S.quests[wk].goals.map(type => { const g = Q.goals.find(x => x.type === type); return { type, t: g.t, n: g.n, cur: Math.min(g.n, count(type)) } });
+    return { wk, goals, done: goals.every(g => g.cur >= g.n), claimed: G.has("quest:" + wk), xp: Q.xp };
+  };
+  G.checkQuest = () => { const q = G.quest(); if (q.done && !q.claimed) return G.add("quest", q.xp, "quest:" + q.wk, { label: "Quest mingguan selesai" }); return null };
+
+  /* ---------- skill map ---------- */
+  G.skills = () => {
+    const d = new Set(G.storage.get("mer-done") || []), L = lx(), W = C.skillWeight;
+    return C.skills.map(s => {
+      const ch = GLD.COURSE.chapters[s.bab], les = ch.l.filter((_, j) => d.has(s.bab + "-" + j)).length / ch.l.length;
+      const qb = (((L.kuis || {}).best || {})["b" + s.bab] || {}).score || 0;
+      const sm = ((((L.sim || {})[s.sim] || {}).best) || {}).score || 0;
+      return { t: s.t, v: Math.round((les * W.lesson + qb / 100 * W.quiz + sm / 100 * W.sim) * 100), les: Math.round(les * 100), quiz: qb, sim: sm };
+    });
+  };
+
+  /* ---------- remedial ---------- */
+  G.remedial = d => {
+    const S = G.state(); S.remedial = S.remedial || {};
+    if (!d || d.score >= PASS() || !Array.isArray(d.wrong)) { if (d) delete S.remedial[d.m]; G.save(); return null }
+    const n = {};
+    d.wrong.forEach(([b, l]) => { const k = b + "-" + l; n[k] = (n[k] || 0) + 1 });
+    const les = Object.entries(n).sort((a, b) => b[1] - a[1]).slice(0, C.remedial.max).map(([k, c]) => ({ k, c }));
+    S.remedial[d.m] = { t: Date.now(), score: d.score, les }; G.save();
+    return S.remedial[d.m];
+  };
+
+  /* ---------- petunjuk berbayar XP (boleh negatif; total tidak pernah di bawah 0) ---------- */
+  G.spend = (cost, key, meta) => {
+    if (G.has(key) || G.total() < cost) return null;
+    const e = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7), type: "hint", xp: -cost, t: Date.now(), key, meta: meta || {} };
+    G.state().ledger.push(e); G.save(); return e;
+  };
+
+  /* ---------- unlock ringan: simulasi bab i disarankan setelah lulus kuis bab i ---------- */
+  G.simGate = id => {
+    const i = GLD.SIM.findIndex(s => s.id === id), S = G.state();
+    if (i < 0 || (S.skip || {})[id]) return null;
+    const b = ((lx().kuis || {}).best || {})["b" + i];
+    return b && b.score >= PASS() ? null : { bab: i };
+  };
+  G.skipGate = id => { const S = G.state(); S.skip = S.skip || {}; S.skip[id] = Date.now(); G.save() };
 })();

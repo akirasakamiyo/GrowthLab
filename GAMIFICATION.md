@@ -5,7 +5,7 @@ Lapisan gamifikasi opsional di atas fitur belajar yang sudah ada. Prinsipnya:
 - **Bisa dimatikan.** Toggle "Mode gamifikasi" ada di panel detail (klik chip level di navbar, atau tombol *Detail* di kartu Progres halaman Materi; saat nonaktif, kartu itu menampilkan tautan *Atur* untuk menyalakannya lagi). Saat nonaktif, semua elemen gamifikasi tersembunyi dan situs berjalan seperti biasa. XP tetap dicatat diam-diam, jadi tidak hilang bila diaktifkan lagi.
 - **Tanpa leaderboard**, tanpa library tambahan, tanpa server.
 
-Status: **Fase 1** (XP, level, notifikasi) dan **Fase 2** (badge kompetensi, streak mingguan). Fase berikutnya: quest & skill map, ekspor/impor & sertifikat, log pengukuran.
+Status: **Fase 1** (XP, level, notifikasi), **Fase 2** (badge, streak mingguan), **Fase 3** (quest mingguan, profil kesiapan kerja, remedial & petunjuk, saran urutan simulasi). Fase berikutnya: ekspor/impor & sertifikat, log pengukuran.
 
 ## File
 
@@ -22,7 +22,8 @@ Status: **Fase 1** (XP, level, notifikasi) dan **Fase 2** (badge kompetensi, str
 | Tempat | Event |
 |---|---|
 | `js/09-app.js` `markL()` dan `nextL()` (tombol *Tandai selesai* / *Pelajaran berikut*) | `GLG.emit("lesson", {k})` |
-| `js/05-latihan.js` `qFinish()` (kuis selesai) | `GLG.emit("quiz", {m, score, benar, n})` |
+| `js/05-latihan.js` `qFinish()` (kuis selesai) | `GLG.emit("quiz", {m, score, benar, n, wrong})` (`wrong` = daftar [bab, pelajaran] soal yang salah) |
+| `js/05-latihan.js` `showQ()` (soal tampil) | `GLG.emit("qshow", {m, b, l, ok, run, i, box})` untuk petunjuk |
 | `js/05-latihan.js` `ddCheck()` (drag & drop dicek) | `GLG.emit("dnd", {id, benar, n})` |
 | `js/06-sim-view.js` `finalize()` (simulasi tamat) | `GLG.emit("sim", {id, score})` |
 
@@ -79,6 +80,31 @@ Badge yang syaratnya sudah terpenuhi sebelum fitur ini ada dicatat diam-diam saa
 - Bila putus, pesan yang tampil mengajak mulai lagi ("Belajar itu maraton, bukan sprint"), tanpa hukuman XP.
 - Streak dihitung ulang dari daftar `days` setiap kali, tanpa status tersembunyi.
 
+## Quest mingguan (Fase 3)
+
+- Setiap Senin dipilih 2 tujuan (`GLG.CFG.quest.pick`) dari daftar `quest.goals`, misalnya "Selesaikan 2 pelajaran" dan "Belajar di 3 hari berbeda". Tujuan yang tidak mungkin lagi (mis. pelajaran sudah habis) tidak dipilih.
+- Pilihan disimpan per minggu di `quests` supaya tidak berubah di tengah minggu. Selesai semua tujuan → **30 XP** sekali per minggu (key `quest:<senin>`).
+- Progres dihitung dari ledger minggu itu (pelajaran baru selesai, kuis/drag & drop/simulasi dikerjakan) dan daftar hari belajar. Tidak selesai = tidak ada hukuman.
+
+## Profil kesiapan kerja / skill map (Fase 3)
+
+Radar SVG 3 soft skill (satu per bab). Skor tiap skill 0–100 =
+`20% × pelajaran bab selesai + 40% × skor kuis bab terbaik + 40% × skor simulasi terbaik` (bobot di `GLG.CFG.skillWeight`, pemetaan bab↔simulasi di `GLG.CFG.skills`).
+
+## Remedial & petunjuk (Fase 3)
+
+- **Remedial:** bila skor kuis di bawah batas lulus (70), muncul kartu "Saran belajar ulang" berisi sampai 3 pelajaran dengan soal salah terbanyak (tautan langsung ke pelajarannya). Saran juga tersimpan di panel sampai kuis mode itu diulang dengan skor lulus.
+- **Petunjuk bertahap** (hanya kuis per bab; kuis Gabungan untuk nilai akhir tetap tanpa petunjuk):
+  tahap 1 (−2 XP) menampilkan poin utama pelajaran terkait, tahap 2 (−3 XP) menghilangkan satu jawaban salah.
+  Biaya dicatat sebagai event `hint` ber-XP negatif; total XP tidak pernah di bawah 0, dan tombol nonaktif bila XP belum cukup.
+
+## Saran urutan simulasi / unlock ringan (Fase 3)
+
+Simulasi kasus ke-*i* disarankan setelah lulus Kuis Bab *i*. Bila belum, membuka simulasi menampilkan dialog dengan dua pilihan:
+**Kerjakan Kuis Bab i** atau **Lewati, main sekarang** (pilihan lewati diingat per simulasi di `skip`). Tidak ada konten yang benar-benar dikunci,
+jadi nilai akhir tetap bisa diselesaikan dengan urutan apa pun. Saat gamifikasi nonaktif, dialog ini tidak muncul.
+Untuk tes otomatis, set `window.GL_NO_GATE = 1` sebelum halaman dimuat.
+
 ## Level
 
 XP kumulatif untuk mencapai level *n* = `55 × (n − 1)^1,5`.
@@ -111,6 +137,9 @@ Key **`gl-gami`** (key lama `mer-done`, `gl-latihan`, `gl-ui`, `gl-badge` tidak 
   "seenLevel": 2,
   "badges": { "bab1": 1761100000000 },
   "days": ["2026-10-20", "2026-10-22"],
+  "quests": { "2026-10-19": { "goals": ["days", "quiz"] } },
+  "remedial": { "b1": { "t": 1761100000000, "score": 40, "les": [{ "k": "1-0", "c": 3 }] } },
+  "skip": { "s2": 1761100000000 },
   "created": 1761100000000
 }
 ```
