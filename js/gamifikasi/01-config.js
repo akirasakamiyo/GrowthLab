@@ -50,5 +50,36 @@ GLG.CFG = {
      (pelajaran selesai, kuis, drag & drop, atau simulasi). Minggu "terpenuhi" bila hari belajar ≥ target.
      Hari libur: setiap `earnEvery` minggu terpenuhi memberi 1 jatah libur (maks `maxFreeze`);
      minggu yang terlewat otomatis ditutup jatah libur sehingga streak tidak putus.            */
-  streak: { target: 3, earnEvery: 2, maxFreeze: 2 }
+  streak: { target: 3, earnEvery: 2, maxFreeze: 2 },
+
+  /* ---------- quest mingguan (Fase 3) ----------
+     Tiap minggu dipilih `pick` tujuan dari daftar (tetap sama sepanjang minggu, dipilih dari yang masih bisa dikerjakan).
+     Quest selesai bila semua tujuannya tercapai → `xp` sekali per minggu.
+     type: lesson (pelajaran baru selesai) | quiz (kuis dikerjakan) | dnd (set dicek) | sim (simulasi tamat) | days (hari belajar) */
+  quest: {
+    xp: 30, pick: 2,
+    goals: [
+      { type: "lesson", n: 2, t: "Selesaikan 2 pelajaran" },
+      { type: "quiz", n: 1, t: "Kerjakan 1 kuis" },
+      { type: "dnd", n: 2, t: "Cek 2 set drag & drop" },
+      { type: "sim", n: 1, t: "Tamatkan 1 simulasi" },
+      { type: "days", n: 3, t: "Belajar di 3 hari berbeda" }
+    ]
+  },
+
+  /* ---------- profil kesiapan kerja / skill map (Fase 3) ----------
+     Skor tiap soft skill (0–100) = gabungan berbobot: pelajaran bab selesai (%), skor kuis bab terbaik, skor simulasi terbaik. */
+  skills: [
+    { t: "Self-Management", bab: 0, sim: "s1" },
+    { t: "Emotional Intelligence", bab: 1, sim: "s2" },
+    { t: "Thinking Skill", bab: 2, sim: "s3" }
+  ],
+  skillWeight: { lesson: 0.2, quiz: 0.4, sim: 0.4 },
+
+  /* ---------- remedial & petunjuk (Fase 3) ----------
+     Bila skor kuis di bawah batas lulus, tampilkan sampai `max` pelajaran yang paling banyak salahnya.
+     Petunjuk hanya di kuis per bab (kuis Gabungan untuk nilai akhir tetap tanpa petunjuk).
+     costs: biaya XP petunjuk tahap 1 (poin utama pelajaran terkait) dan tahap 2 (hilangkan satu jawaban salah). */
+  remedial: { max: 3 },
+  hint: { costs: [2, 3] }
 };

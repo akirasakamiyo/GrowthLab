@@ -208,7 +208,7 @@ function showQ(keep){const box=q("#gqin");if(!box)return;
  box.innerHTML=qHTML();OV.scrollTop=0;
  if(QZ.phase==="q"){A(q(".gq-qc"),[{opacity:0,transform:"translateY(-26px) scale(.96)"},{opacity:1,transform:"none"}],{duration:480,easing:SPR});
   qa(".gq-o").forEach((o,i)=>A(o,[{opacity:0,transform:"translateY(46px) scale(.9)"},{opacity:1,transform:"none"}],{duration:480,easing:SPR,delay:150+i*70}));
-  const f=q("#gqq");f&&f.focus({preventScroll:true});QZ.ready=performance.now()+(rmq()?0:420);QZ.ls=null;qTimerStart()}
+  const f=q("#gqq");f&&f.focus({preventScroll:true});QZ.ready=performance.now()+(rmq()?0:420);QZ.ls=null;qTimerStart();{const it=QZ.list[QZ.i];window.GLG&&GLG.emit("qshow",{m:QZ.m,b:it.x.b,l:it.x.l,ok:it.o.map(o=>!!o.ok),run:QZ.t0,i:QZ.i,box:q(".gq-qc")})}}
  else{const it=QZ.list[QZ.i],a=QZ.ans[QZ.i],ok=a>=0&&it.o[a].ok;QZ.phase="rev";sheet(ok,a,it.o.findIndex(o=>o.ok),true)}}
 function qTimerStart(){qTimerStop();let last=performance.now();const L=QZ.lim*1000;
  const fr=t=>{if(!QZ||QZ.phase!=="q"||!ovOn()){TQ=0;return}const dt=Math.min(t-last,120);last=t;
@@ -265,7 +265,7 @@ function usePU(k){if(!QZ||QZ.phase!=="q"||!(QZ.inv[k]>0))return;QZ.inv[k]--;SND.
 function qFinish(){qTimerStop();SND.music(null);const{n,ben,sc}=qScore(),d=load(),b=d.kuis.best[QZ.m];
  QZ.t1=Date.now();const rec={score:r1(sc),benar:ben,n,t:Date.now(),dur:QZ.t1-QZ.t0,poin:QZ.pts,streak:QZ.maxS};
  d.kuis.ptsBest=d.kuis.ptsBest||{};QZ.prevPts=d.kuis.ptsBest[QZ.m]||0;if(QZ.pts>QZ.prevPts)d.kuis.ptsBest[QZ.m]=QZ.pts;
- if(!b||rec.score>=b.score)d.kuis.best[QZ.m]=rec;d.kuis.hist.push(Object.assign({m:QZ.m},rec));cap(d.kuis.hist);save(d);window.GLG&&GLG.emit("quiz",{m:QZ.m,score:rec.score,benar:ben,n});QZ.done=true;QZ.phase="res";
+ if(!b||rec.score>=b.score)d.kuis.best[QZ.m]=rec;d.kuis.hist.push(Object.assign({m:QZ.m},rec));cap(d.kuis.hist);save(d);window.GLG&&GLG.emit("quiz",{m:QZ.m,score:rec.score,benar:ben,n,wrong:QZ.list.map((it,i)=>QZ.ans[i]>=0&&it.o[QZ.ans[i]].ok?null:[it.x.b,it.x.l]).filter(Boolean)});QZ.done=true;QZ.phase="res";
  paintRes(true);if(QZ.m==="all")nilai(true);drawQuiz()}
 function resHTML(){const{n,ben,sc}=qScore(),P=GLD.PASS_MCQ,ok=sc>=P,to=QZ.ans.filter(a=>a<0).length,avg=QZ.times.reduce((a,b)=>a+(b||0),0)/n;
  const bd=[[ben===n,"Sempurna","Semua jawaban benar"],[QZ.maxS>=5,"Beruntun "+QZ.maxS,"Lima jawaban benar berturut-turut atau lebih"],[avg<10000&&ok,"Kilat","Rata-rata kurang dari 10 detik per soal"],[ok,"Lulus","Nilai mencapai batas lulus "+P],[QZ.prevPts>0&&QZ.pts>QZ.prevPts,"Rekor poin baru","Melewati rekor poinmu sebelumnya"]].filter(x=>x[0]);
