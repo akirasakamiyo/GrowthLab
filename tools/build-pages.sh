@@ -13,4 +13,8 @@ for d in css js vendor assets/sim assets/sb; do rsync -a --delete --exclude src 
 if [ -d "$SRC/dist" ]; then rsync -a --delete "$SRC/dist/" "$OUT/offline/"; fi
 touch "$OUT/.nojekyll"
 echo "Selesai: $OUT"
-if [ -n "$PUSH" ]; then cd "$OUT" && git add -A && (git commit -q -m "Update GrowthLab $(date +%Y-%m-%d)" || true) && git push -q && echo "Sudah di-push ke GitHub"; fi
+if [ -n "$PUSH" ]; then
+  cd "$OUT" && git add -A
+  if git diff --cached --quiet; then echo "Tidak ada perubahan baru — GitHub sudah versi terbaru."
+  else git commit -q -m "Update GrowthLab $(date +%Y-%m-%d)" && git push -q && echo "Sudah di-push ke GitHub (tunggu 1–2 menit, lalu refresh web)."; fi
+fi
