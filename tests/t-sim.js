@@ -113,8 +113,9 @@ const V1 = { v: 1, kuis: { best: { all: { score: 88.2, benar: 30, n: 34, t: 1 } 
   ({ ctx, page } = await mk({ seed: V1 }));
   await go(page, "#/latihan/sim");
   ok(/versi lama/.test(await page.textContent('.gs-file[data-id="s1"]')), "skor v1 ditampilkan sebagai versi lama");
-  const H = await page.evaluate(() => { const h = GLX.hitung(); return [h.pg, h.sim, h.akhir, document.querySelector("#nilai .lx-big").dataset.cu] });
-  ok(Math.abs(H[1] - (38.3 * .35 + 43.8 * .35 + 55 * .3)) < 1e-9 && Math.abs(H[2] - (88.2 * .3 + H[1] * .7)) < 1e-9 && Math.abs(+H[3] - H[2]) < 1e-9, `Nilai Akhir dari data lama ${H.map(v => Math.round(v * 100) / 100).join(" / ")}`);
+  const H = await page.evaluate(() => { const h = GLX.hitung(); return [h.pg, h.sim, h.akhir] });
+  ok(Math.abs(H[1] - (38.3 * .35 + 43.8 * .35 + 55 * .3)) < 1e-9 && Math.abs(H[2] - (88.2 * .3 + H[1] * .7)) < 1e-9, `Nilai Akhir dari data lama ${H.map(v => Math.round(v * 100) / 100).join(" / ")}`);
+  ok(await page.evaluate(() => !!document.querySelector("#nilai .nl-lock") && !document.querySelector("#nilai .lx-big")), "drag & drop belum dikerjakan → nilai akhir masih terkunci");
   await page.click('.gs-file[data-id="s1"]'); await page.click('[data-sm="go"]');
   for (let k = 0; k < 5; k++) { await playOne(page, "worst"); await finishOne(page, true) }
   await page.waitForSelector(".gv-end.t-fail"); ok(true, "jalur terburuk → ending gagal (layar redup)");
@@ -134,7 +135,7 @@ const V1 = { v: 1, kuis: { best: { all: { score: 88.2, benar: 30, n: 34, t: 1 } 
   await page.click('.gs-file[data-id="s1"]'); await page.click('[data-sm="go"]');
   for (let k = 0; k < 5; k++) { await playOne(page, "best"); await finishOne(page, true) }
   await page.waitForSelector(".gv-end");
-  ok(await page.evaluate(() => { const r = document.querySelector('#nilai').textContent; return /Self-Management/.test(r) && GLX.hitung().asp[0].v > 80 }), "skor tetap terbaca (memori) di Nilai Akhir");
+  ok(await page.evaluate(() => { const r = document.querySelector('#nilai').textContent; return /Simulasi\s*1\/3/.test(r) && GLX.hitung().asp[0].v > 80 }), "skor tetap terbaca (memori) di Nilai Akhir");
   ok(page.errs.length === 0, "console bersih (penyimpanan diblokir)" + (page.errs.length ? ": " + page.errs.join(" | ") : ""));
   await ctx.close();
 

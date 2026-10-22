@@ -1312,6 +1312,19 @@ svg.ill .a-slide{animation-name:iSlide;--t:1.8s;animation-direction:alternate}@k
 @media(max-width:800px){.chap>button .chbadge{display:inline-flex!important;padding:4px 8px;font-size:0}.chap>button .chbadge .medal{width:22px;height:26px}}
 @media(prefers-reduced-motion:reduce){.chbadge .medal,.chrew .medal{animation:none!important}}
 </style>
+<style id="gl-r4">
+/* nilai akhir terkunci */
+.nl-lock{grid-template-columns:auto 1fr;align-items:start;gap:clamp(16px,3vw,32px)}
+.nl-lk-ic{width:clamp(56px,7vw,84px);aspect-ratio:1;border-radius:24px;background:#eef2ff;display:grid;place-items:center}
+.nl-lk-ic svg{width:58%;fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round}
+.nl-lock h3{font-size:clamp(1.5rem,2.6vw,2.1rem);margin:6px 0 6px}.nl-lock .mono{color:var(--acc)}
+.nl-req{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.nl-req li{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:18px;background:#f4f6ff;font-weight:700}
+.nl-req li small{margin-left:auto;color:#5a6390;font-weight:600}.nl-req li .chip{margin-left:6px}
+.nl-ck{width:26px;height:26px;flex:none;border-radius:50%;border:2px solid #b9c2e8;display:grid;place-items:center;font-size:.85rem;color:#fff}
+.nl-req li.ok{background:#e9f8ef}.nl-req li.ok .nl-ck{background:#1fa463;border-color:#1fa463}
+@media(max-width:600px){.nl-lock{grid-template-columns:1fr}.nl-req li{flex-wrap:wrap}.nl-req li small{margin-left:auto}}
+</style>
 </head>
 <body data-view="home" class="zload glocal">
 <div id="zpre" aria-hidden="true"><div class="zc"><i class="zd"></i><b class="zl"></b></div><span class="zn">000</span></div>
@@ -2666,7 +2679,15 @@ function ddKey(e){const c=e.target.closest&&e.target.closest(".gd-rank .gd-card"
 /* ==================================================================
    NILAI AKHIR
    ================================================================== */
-function nilaiHTML(){const d=load(),H=hitung(d),P=GLD.PASS_MCQ,K=H.ki!=null?GLD.KATEGORI[H.ki]:null;
+/* nilai akhir baru dibuka setelah kuis Gabungan, semua set drag & drop (minimal sekali dicek), dan ketiga simulasi selesai */
+function syarat(d){const H=hitung(d),dn=GLD.DND.filter(s=>d.dnd[s.id]&&d.dnd[s.id].n>0).length,sm=H.asp.filter(a=>a.v!=null).length;
+ const it=[["Kuis mode Gabungan",H.pg!=null?1:0,1,"#/latihan/kuis"],["Drag & Drop",dn,GLD.DND.length,"#/latihan/dnd"],["Simulasi",sm,GLD.SIM.length,"#/latihan/sim"]];
+ return {it,ok:it.every(x=>x[1]>=x[2])}}
+function lockHTML(d){const S=syarat(d),n=S.it.filter(x=>x[1]>=x[2]).length;
+ return `<div class="nilai nl-lock"><div class="nl-lk-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4"/></svg></div>
+  <div><span class="mono">Nilai akhir terkunci · ${n}/3 syarat</span><h3>Selesaikan semua latihan dulu, ya</h3><p>Nilai akhirmu akan muncul setelah kuis, drag &amp; drop, dan simulasi semuanya selesai.</p>
+  <ul class="nl-req">${S.it.map(([t,v,m,hf])=>`<li class="${v>=m?"ok":""}"><span class="nl-ck" aria-hidden="true">${v>=m?"✓":""}</span><span>${t}</span><small>${m>1?`${v}/${m}`:v?"selesai":"belum"}</small>${v>=m?"":`<a class="chip" href="${hf}">Kerjakan →</a>`}</li>`).join("")}</ul></div></div>`}
+function nilaiHTML(){const d=load();if(!syarat(d).ok)return lockHTML(d);const H=hitung(d),P=GLD.PASS_MCQ,K=H.ki!=null?GLD.KATEGORI[H.ki]:null;
  const miss=[];if(H.pg==null)miss.push("kuis mode Gabungan");H.asp.forEach((a,i)=>{if(a.v==null)miss.push("Skenario "+(i+1))});
  const hist=[].concat(d.kuis.hist.map(h=>({t:h.t,x:`Kuis ${h.m==="all"?"Gabungan":"Bab "+(+h.m.slice(1)+1)}: ${fmt(h.score)} (${h.benar}/${h.n})`})),
   ...GLD.SIM.map((s,i)=>((d.sim[s.id]||{}).hist||[]).map(h=>({t:h.t,x:`Skenario ${i+1}: ${fmt(h.score)} · ${GLD.LEVEL[level(h.score)][0]}${h.legacy?" (versi lama)":""}`}))),
@@ -2696,7 +2717,7 @@ function cetak(){const d=load(),H=hitung(d),K=H.ki!=null?GLD.KATEGORI[H.ki]:null
  document.body.append(c);const fin=()=>{c.remove();removeEventListener("afterprint",fin)};addEventListener("afterprint",fin);try{window.print()}catch(_){}}
 function nmFill(){const i=q("#nlname");if(i)try{i.value=JSON.parse(localStorage.getItem("gl-ui")||"{}").nama||""}catch(_){}}
 function nilai(celebrate){const box=q("#nilai");if(box){box.innerHTML=nilaiHTML();nmFill();nilaiFx(box)}
- const d=load(),H=hitung(d);if(H.akhir==null)return;const v=r1(H.akhir);
+ const d=load(),H=hitung(d);if(H.akhir==null||!syarat(d).ok)return;const v=r1(H.akhir);
  if(d.akhir.last!==v){d.akhir.last=v;d.akhir.hist.push({akhir:v,pg:H.pg,sim:r1(H.sim),kat:GLD.KATEGORI[H.ki][0],t:Date.now()});cap(d.akhir.hist,20);save(d);if(box){box.innerHTML=nilaiHTML();nmFill();nilaiFx(box)}
   if(celebrate&&v>=71){setTimeout(()=>{ping(innerWidth/2,innerHeight/2,48);say(`Nilai akhir ${fmt(v)}: ${GLD.KATEGORI[H.ki][0]}!`)},500)}}}
 function nilaiClick(e){const b=e.target.closest("[data-n]");if(b&&b.dataset.n==="print"){cetak();return}if(b&&b.dataset.n==="reset"){if(!confirm("Hapus semua skor dan riwayat latihan di browser ini?"))return;GLS.db.clear();QZ=null;DD=null;GLSV.reset();nilai();tab(cur);say("Hasil latihan dihapus.")}}
