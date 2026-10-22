@@ -12,4 +12,4 @@ Butuh Node.js. Untuk tes browser, pasang Playwright sekali: `npm i playwright@1.
 | `node tests/t-smoke.js chrome 1280` | Semua halaman tanpa error console |
 | `node tests/t-touch.js` | Gestur sentuh drag-and-drop |
 
-Argumen browser: `chrome` atau `webkit`; tambahkan `reduce` untuk prefers-reduced-motion. Di browser, buka `GrowthLab_v5.html?debug=1#/latihan/sim` untuk melihat hasil validator, tes, dan tombol uji ending.
+Argumen browser: `chrome` atau `webkit`; tambahkan `reduce` untuk prefers-reduced-motion. Di browser, buka `index.html?debug=1#/latihan/sim` untuk melihat hasil validator, tes, dan tombol uji ending.

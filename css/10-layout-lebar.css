@@ -1,0 +1,14 @@
+/* 2026-10-21 revisi dosen: konten memenuhi lebar layar 16:9 (tanpa ruang kosong besar di kiri-kanan) dan jarak antarbagian dirapatkan */
+.wrap{width:calc(100% - clamp(32px,5vw,96px))}
+.nav .wrap{width:calc(100% - clamp(24px,3vw,56px))}
+.blk{padding-top:clamp(56px,7vw,96px);padding-bottom:clamp(48px,6vw,84px)}
+.blk.hero{padding-top:clamp(96px,10vw,130px);padding-bottom:clamp(40px,5vw,72px)}
+.sc2{padding:clamp(44px,5vw,72px) 0 clamp(44px,5vw,72px)}
+.phr{padding:clamp(96px,9vw,120px) 0 clamp(36px,4vw,56px)}
+.gq-sh-in,.gq-res{width:100%}
+/* hero: ilustrasi diam di sisi kanan supaya tidak ada ruang kosong besar */
+.hero .hg{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)!important;align-items:center}
+.hero #hero-art{display:block!important;max-width:560px;justify-self:center;width:100%}
+#hero-art .fl,#hero-art .pop{animation:none!important}#hero-art [data-par]{transform:none!important}
+@media(max-width:900px){.hero .hg{grid-template-columns:1fr!important}.hero #hero-art{display:none!important}}
+@media(max-width:700px){.wrap{width:calc(100% - 32px)}.nav .wrap{width:calc(100% - 20px)}}

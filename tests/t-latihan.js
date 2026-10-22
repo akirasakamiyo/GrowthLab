@@ -1,7 +1,7 @@
 // Tes latihan v7: kuis ala Quizizz, drag & drop, simulasi monokrom, nilai akhir.
-// Pakai: BASE=http://localhost:8000/GrowthLab_v5.html node t-latihan.js [chrome|webkit] [w] [h] [reduce] [full]
+// Pakai: BASE=http://localhost:8000/index.html node t-latihan.js [chrome|webkit] [w] [h] [reduce] [full]
 const { chromium, webkit } = require("playwright");
-const BASE = process.env.BASE || "http://localhost:8000/GrowthLab_v5.html";
+const BASE = process.env.BASE || "http://localhost:8000/index.html";
 const [, , which = "chrome", W = "1280", H = "800", rm = "", full = ""] = process.argv;
 const sl = ms => new Promise(r => setTimeout(r, ms));
 const log = (...a) => console.log(`[${which} ${W}x${H}${rm ? " reduce" : ""}]`, ...a);

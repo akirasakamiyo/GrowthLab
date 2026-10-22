@@ -1,48 +1,41 @@
 #!/usr/bin/env node
-/* Membuat paket offline GrowthLab dari GrowthLab_v5.html.
+/* Membuat paket offline GrowthLab dari index.html + css/ + js/ + vendor/ + assets/.
+   Isi paket tetap modular (file-file terpisah, sama seperti di VS Code), tidak digabung jadi satu file.
    Hasil di dist/:
-   - GrowthLab_offline.html  : SATU file berisi semua (pustaka JS, font, gambar simulasi). Bisa dibuka langsung tanpa internet.
-   - GrowthLab_offline.zip   : file di atas sebagai index.html (untuk LMS yang menerima paket HTML/ZIP biasa).
-   - GrowthLab_SCORM12.zip   : index.html + imsmanifest.xml (paket SCORM 1.2 untuk Moodle dan LMS sejenis).
+   - GrowthLab_offline.zip : folder web lengkap. Ekstrak, lalu buka index.html di browser (tanpa internet).
+   - GrowthLab_SCORM12.zip : isi yang sama + imsmanifest.xml (paket SCORM 1.2 untuk Moodle dan LMS sejenis).
    Jalankan: node tools/build-offline.js */
 const fs = require("fs"), path = require("path"), { execFileSync } = require("child_process");
-const ROOT = path.join(__dirname, ".."), OUT = path.join(ROOT, "dist");
-const read = p => fs.readFileSync(path.join(ROOT, p));
-let html = read("GrowthLab_v5.html").toString("utf8");
+const ROOT = path.join(__dirname, ".."), OUT = path.join(ROOT, "dist"), STAGE = path.join(OUT, ".paket");
 
-/* 1. pustaka JS: <script src="vendor/x.js"> -> skrip inline */
-html = html.replace(/<script src="(vendor\/[^"]+\.js)"><\/script>/g, (m, src) =>
-  "<script>/* " + src + " */\n" + read(src).toString("utf8").replace(/<\/script/gi, "<\\/script") + "\n</script>");
+/* file yang masuk paket (assets/sim/src = PNG mentah, tidak ikut) */
+const list = [];
+const walk = rel => {
+  for (const e of fs.readdirSync(path.join(ROOT, rel), { withFileTypes: true })) {
+    const r = path.posix.join(rel, e.name);
+    if (e.name.startsWith(".") || r === "assets/sim/src") continue;
+    e.isDirectory() ? walk(r) : list.push(r);
+  }
+};
+list.push("index.html");
+["css", "js", "vendor", "assets/sim", "assets/sb"].forEach(d => fs.existsSync(path.join(ROOT, d)) && walk(d));
 
-/* 2. font: fonts.css -> <style> dengan woff2 sebagai data URI */
-html = html.replace('<link href="vendor/fonts/fonts.css" rel="stylesheet">', () => {
-  const css = read("vendor/fonts/fonts.css").toString("utf8").replace(/url\(([^)]+\.woff2)\)/g, (m, f) =>
-    "url(data:font/woff2;base64," + read("vendor/fonts/" + f).toString("base64") + ")");
-  return "<style id=\"gl-fonts\">\n" + css + "</style>";
-});
-
-/* 3. gambar latar simulasi -> window.GL_SIMIMG (dipakai SIMSRC di script#gl-sim-*) */
-const img = {};
-for (const f of fs.readdirSync(path.join(ROOT, "assets/sim")).filter(f => f.endsWith(".jpg")))
-  img[f.replace(/\.jpg$/, "")] = "data:image/jpeg;base64," + read("assets/sim/" + f).toString("base64");
-html = html.replace("</head>", () => "<script>window.GL_SIMIMG=" + JSON.stringify(img) + ";</script>\n</head>");
-
-/* pemeriksaan: tidak boleh ada sumber eksternal yang tersisa */
+/* pemeriksaan: tidak boleh ada sumber eksternal (http/https) yang dimuat halaman */
+const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
 const ext = [...html.matchAll(/(?:src|href)=["'](https?:\/\/[^"']+)/g)].map(m => m[1]);
-const vend = [...html.matchAll(/(?:src|href)="(vendor\/|assets\/)[^"]*"/g)].map(m => m[0]);
-if (ext.length || vend.length) { console.error("Masih ada sumber di luar paket:", ext, vend); process.exit(1); }
+const miss = [...html.matchAll(/(?:src|href)="((?:css|js|vendor|assets)\/[^"]+)"/g)].map(m => m[1]).filter(f => !list.includes(f));
+if (ext.length || miss.length) { console.error("Sumber eksternal / file hilang:", ext, miss); process.exit(1); }
 
 fs.rmSync(OUT, { recursive: true, force: true });
-fs.mkdirSync(OUT, { recursive: true });
-fs.writeFileSync(path.join(OUT, "GrowthLab_offline.html"), html);
+for (const f of list) {
+  const to = path.join(STAGE, f);
+  fs.mkdirSync(path.dirname(to), { recursive: true });
+  fs.copyFileSync(path.join(ROOT, f), to);
+}
+execFileSync("zip", ["-q", "-X", "-9", "-r", path.join(OUT, "GrowthLab_offline.zip"), ...list], { cwd: STAGE });
 
-/* ZIP biasa: index.html */
-const tmp = path.join(OUT, ".tmp");
-fs.mkdirSync(tmp);
-fs.writeFileSync(path.join(tmp, "index.html"), html);
-execFileSync("zip", ["-q", "-X", "-9", path.join(OUT, "GrowthLab_offline.zip"), "index.html"], { cwd: tmp });
-
-/* ZIP SCORM 1.2: index.html + imsmanifest.xml */
+/* SCORM 1.2: isi yang sama + imsmanifest.xml */
+const esc = s => s.replace(/&/g, "&amp;").replace(/"/g, "&quot;");
 const manifest = `<?xml version="1.0" encoding="UTF-8"?>
 <manifest identifier="growthlab-kelompok8" version="1.0"
   xmlns="http://www.imsproject.org/xsd/imscp_rootv1p1p2"
@@ -60,15 +53,15 @@ const manifest = `<?xml version="1.0" encoding="UTF-8"?>
   </organizations>
   <resources>
     <resource identifier="res-growthlab" type="webcontent" adlcp:scormtype="sco" href="index.html">
-      <file href="index.html"/>
+${list.map(f => `      <file href="${esc(f)}"/>`).join("\n")}
     </resource>
   </resources>
 </manifest>
 `;
-fs.writeFileSync(path.join(tmp, "imsmanifest.xml"), manifest);
-execFileSync("zip", ["-q", "-X", "-9", path.join(OUT, "GrowthLab_SCORM12.zip"), "imsmanifest.xml", "index.html"], { cwd: tmp });
-fs.rmSync(tmp, { recursive: true, force: true });
+fs.writeFileSync(path.join(STAGE, "imsmanifest.xml"), manifest);
+execFileSync("zip", ["-q", "-X", "-9", "-r", path.join(OUT, "GrowthLab_SCORM12.zip"), "imsmanifest.xml", ...list], { cwd: STAGE });
+fs.rmSync(STAGE, { recursive: true, force: true });
 
 const mb = f => (fs.statSync(path.join(OUT, f)).size / 1048576).toFixed(1) + " MB";
-console.log("Selesai:");
-for (const f of ["GrowthLab_offline.html", "GrowthLab_offline.zip", "GrowthLab_SCORM12.zip"]) console.log("  dist/" + f + "  " + mb(f));
+console.log(`Selesai (${list.length} file per paket):`);
+for (const f of ["GrowthLab_offline.zip", "GrowthLab_SCORM12.zip"]) console.log("  dist/" + f + "  " + mb(f));

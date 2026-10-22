@@ -1,0 +1,66 @@
+/* ===== v9: lapisan motion ala motion.zajno.com (GSAP + ScrollTrigger + Lenis + Matter) ===== */
+html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}.lenis.lenis-stopped{overflow:hidden}
+#cue{display:none!important}
+/* preloader: titik jatuh ke garis, garis membentang, tirai terangkat */
+#zpre{position:fixed;inset:0;z-index:200;background:var(--ink);color:#fff;display:grid;place-items:center;clip-path:inset(0 0 0 0);animation:zhide .01s 6s forwards}
+#zpre .zc{position:relative;display:grid;justify-items:center;gap:12px}
+#zpre .zd{width:16px;height:16px;border-radius:50%;background:var(--sun);transform:translateY(-70px) scale(0)}
+#zpre .zl{width:46px;height:2px;background:#fff;transform:scaleX(0)}
+#zpre .zn{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);font:400 1rem var(--serif);letter-spacing:.2em;opacity:.7}
+@keyframes zhide{to{opacity:0;visibility:hidden}}
+body.zload .hero .w>i{transform:translateY(110%)!important}
+body.zload .hero .rv:not(h1){opacity:0!important;transform:translateY(26px)!important}
+/* penanda scroll di hero: cincin + titik di atas garis */
+.zcue{position:absolute;left:0;right:0;bottom:22px;height:56px;z-index:3;pointer-events:none;color:#fff}
+.zcue .zln{position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(255,255,255,.45);transform-origin:center}
+.zcue .zrg{position:absolute;left:50%;top:50%;width:56px;height:56px;margin:-28px 0 0 -28px;border:1px solid #fff;border-radius:50%;display:grid;place-items:center;background:rgba(10,26,107,.35);backdrop-filter:blur(6px)}
+.zcue .zrg i{width:10px;height:10px;border-radius:50%;background:var(--sun);animation:zbob 1.8s var(--e) infinite}
+@keyframes zbob{0%{transform:translateY(-11px);opacity:0}30%{opacity:1}100%{transform:translateY(12px);opacity:0}}
+/* tab kecil di puncak tiap section */
+.ztab{position:absolute;top:22px;left:50%;width:76px;height:34px;margin-left:-38px;border:1.5px solid currentColor;border-radius:99px;display:grid;place-items:center;opacity:.45;z-index:3;pointer-events:none;color:var(--fg)}
+.ztab i{width:9px;height:9px;border-radius:50%;background:currentColor}
+/* section garis (line-art tergambar saat scroll) */
+#garis{overflow:clip;padding:0}.zstk{position:sticky;top:0;height:100svh;overflow:hidden}
+#garis{--b:#0a1a6b;--prev:#2b55ff;--fg:#fff;--mut:#cdd6ff;height:320svh;color:#fff}
+#elearn{--prev:#0a1a6b}
+#garis svg.zla{position:absolute;inset:0;width:100%;height:100%;display:block}
+.zla .zs{fill:none;stroke:#fff;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.zla .zs.f{stroke-opacity:.45}
+.zcap{position:absolute;left:0;right:0;top:clamp(96px,16vh,150px);z-index:2}
+.zcap h2{font-size:clamp(2.6rem,7vw,6.2rem);max-width:12ch;margin-top:12px}
+.zcap .mono{color:var(--sun)}
+/* section pill miring */
+#pil{--b:#fff4de;--prev:#ffd23f;--fg:var(--ink);height:280svh}
+.zpw{height:100svh;overflow:hidden;background:linear-gradient(174deg,#fff4de 0 50%,#0a1a6b calc(50% + 1px))}
+.zbig{position:absolute;left:0;right:0;top:9%;display:flex;justify-content:center;overflow:hidden;font:400 clamp(3.6rem,15vw,15rem)/.86 var(--serif);text-transform:uppercase;color:var(--ink);margin:0;max-width:none;padding:.04em 0}
+.zbig span{display:inline-block}
+.zpills{position:absolute;left:0;right:0;top:62%;display:grid;justify-items:center;gap:clamp(4px,1vw,14px);transform:translateY(-50%)}
+.zp{display:inline-block;font:400 clamp(2.6rem,min(8.5vw,13svh),8.5rem)/1 var(--serif);text-transform:uppercase;padding:.08em .34em .02em;border:3px solid var(--ink);border-radius:999px;background:#fff;color:var(--ink);white-space:nowrap;box-shadow:0 30px 60px -30px rgba(0,0,0,.55)}
+.zp.y{background:var(--sun)}.zp.o{background:var(--acc);color:#fff}
+#discover{--prev:#e6ecff}
+.zrow{display:flex;align-items:center;gap:.22em;white-space:nowrap;font:400 clamp(6rem,24vw,22rem)/.9 var(--serif);text-transform:uppercase;color:var(--ink);will-change:transform}
+.zrow .ol{color:transparent;-webkit-text-stroke:3px var(--ink)}
+.zrow i{flex:none;width:.7em;height:.7em;border-radius:50%;background:var(--sun);border:4px solid var(--ink);position:relative}
+.zrow i:after{content:"";position:absolute;left:22%;top:22%;width:22%;height:22%;border-radius:50%;background:var(--ink)}
+/* kartu bertingkat */
+.grid>.card{translate:0 var(--zy,0px)}
+/* awan di puncak footer */
+footer{padding-top:230px}
+.zcl{position:absolute;left:0;right:0;top:0;height:210px;pointer-events:none}
+.zcl svg{position:absolute;inset:0;width:100%;height:100%;display:block;overflow:visible}
+.zcl .zc1{transform-origin:50% 0}
+/* pill fisika di CTA */
+.zphys{position:absolute;inset:0;z-index:1;overflow:hidden;touch-action:pan-y}
+#done .wrap{pointer-events:none}#done .wrap a,#done .wrap button,#done .wrap canvas{pointer-events:auto}
+.zb{position:absolute;left:0;top:0;opacity:0;font:400 clamp(1.05rem,2.1vw,1.8rem)/1 var(--serif);text-transform:uppercase;letter-spacing:.02em;padding:.5em 1.05em .42em;border:2px solid var(--ink);border-radius:999px;white-space:nowrap;user-select:none;-webkit-user-select:none;cursor:grab;will-change:transform;color:var(--ink);background:#fff}
+.zb.y{background:var(--sun)}.zb.o{background:var(--acc);color:#fff}.zb.b{background:var(--blue);color:#fff}
+.zphys:active .zb{cursor:grabbing}
+/* tombol bulat kiri-bawah: progres + arah */
+#ztop{position:fixed;left:22px;bottom:20px;z-index:36;width:52px;height:52px;padding:0;border:0;border-radius:50%;background:rgba(10,26,107,.88);backdrop-filter:blur(8px);color:#fff;cursor:pointer;display:grid;place-items:center}
+#ztop svg{width:52px;height:52px;overflow:visible}
+#ztop circle{fill:none;stroke-width:2}#ztop .zt0{stroke:rgba(255,255,255,.25)}#ztop .zt1{stroke:var(--sun);stroke-dasharray:144.5;stroke-dashoffset:144.5;transform:rotate(-90deg);transform-origin:center}
+#ztop path{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform-origin:26px 26px;transition:transform .6s var(--e)}
+#ztop.up path{transform:rotate(180deg)}#ztop:hover{background:var(--acc)}
+body[data-view=lesson] #ztop{display:none}
+@media(max-width:760px){.zp{font-size:13vw}.zbig{font-size:19vw}#ztop{width:44px;height:44px;left:12px;bottom:14px}#ztop svg{width:44px;height:44px}.zcue{bottom:12px}.ztab{top:16px}.zrow .ol{-webkit-text-stroke-width:2px}footer{padding-top:170px}.zcl{height:150px}}
+@media(prefers-reduced-motion:reduce){#zpre{display:none}.zcue .zrg i{animation:none}}

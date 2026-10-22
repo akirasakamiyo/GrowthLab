@@ -7,7 +7,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? "ok: " : "GAGAL: ") + m);
   const ctx = await b.newContext({ viewport: { width: 375, height: 740 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 });
   const p = await ctx.newPage(); const errs = [];
   p.on("pageerror", e => errs.push(e.message));
-  await p.goto("http://localhost:8000/GrowthLab_v5.html?t=" + Date.now() + "#/latihan/dnd/stres");
+  await p.goto("http://localhost:8000/index.html?t=" + Date.now() + "#/latihan/dnd/stres");
   await p.waitForFunction(() => !document.getElementById("zpre") && document.querySelector(".gd-card"), null, { timeout: 15000 });
   await sl(1500);
   const cdp = await ctx.newCDPSession(p);

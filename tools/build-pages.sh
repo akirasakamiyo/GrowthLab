@@ -1,15 +1,16 @@
 #!/bin/sh
-# Menyalin versi web terbaru ke folder repo GitHub Pages (default: ~/Desktop/growthlab-web).
-# Setelah dijalankan: buka GitHub Desktop → Commit → Push origin.
+# Menyalin versi web terbaru ke folder repo GitHub Pages (default: ~/Desktop/growthlab-web),
+# lalu (opsional) commit + push: ./tools/build-pages.sh --push
 set -e
 SRC="$(cd "$(dirname "$0")/.." && pwd)"
-OUT="${1:-$HOME/Desktop/growthlab-web}"
+OUT="$HOME/Desktop/growthlab-web"
+PUSH=""
+for a in "$@"; do case "$a" in --push) PUSH=1;; *) OUT="$a";; esac; done
 mkdir -p "$OUT/assets"
-cp "$SRC/GrowthLab_v5.html" "$OUT/index.html"
-rsync -a --delete "$SRC/vendor/" "$OUT/vendor/"
-rsync -a --delete "$SRC/assets/sim/" "$OUT/assets/sim/"
-rsync -a --delete "$SRC/assets/sb/" "$OUT/assets/sb/"
+cp "$SRC/index.html" "$OUT/index.html"
+for d in css js vendor assets/sim assets/sb; do rsync -a --delete --exclude src --exclude .DS_Store "$SRC/$d/" "$OUT/$d/"; done
 # paket offline (hasil `node tools/build-offline.js`) untuk diunduh
 if [ -d "$SRC/dist" ]; then rsync -a --delete "$SRC/dist/" "$OUT/offline/"; fi
 touch "$OUT/.nojekyll"
 echo "Selesai: $OUT"
+if [ -n "$PUSH" ]; then cd "$OUT" && git add -A && (git commit -q -m "Update GrowthLab $(date +%Y-%m-%d)" || true) && git push -q && echo "Sudah di-push ke GitHub"; fi

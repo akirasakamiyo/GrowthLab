@@ -1,6 +1,7 @@
 // Jalankan validator + tes GLS di Node (tanpa browser)
-const fs=require("fs");const h=fs.readFileSync(process.argv[2]||require("path").join(__dirname,"..","GrowthLab_v5.html"),"utf8");
-const blk=id=>{const a=h.indexOf(`<script id="${id}">`)+`<script id="${id}">`.length;return h.slice(a,h.indexOf("</script>",a))};
+const fs=require("fs"),path=require("path"),ROOT=path.join(__dirname,"..");
+const h=fs.readFileSync(path.join(ROOT,"index.html"),"utf8");
+const blk=id=>{const m=h.match(new RegExp(`<script src="([^"]+)" id="${id}"></script>`));return fs.readFileSync(path.join(ROOT,m[1]),"utf8")};
 const window={localStorage:{getItem:()=>null,setItem:()=>{},removeItem:()=>{}}};
 const {GLD,GLS}=new Function("window","document",blk("gl-data")+";"+blk("gl-sim-core")+";return{GLD,GLS}")(window,{});
 let bad=0;

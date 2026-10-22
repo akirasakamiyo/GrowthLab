@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%222%22 y=%222%22 width=%2260%22 height=%2260%22 rx=%2218%22 fill=%22%23ffc83d%22 stroke=%22%231b1740%22 stroke-width=%224%22/%3E%3Cg stroke=%22%231b1740%22 stroke-width=%223%22 stroke-linejoin=%22round%22 stroke-linecap=%22round%22%3E%3Cpath class=%22sp%22 d=%22M32 27V17%22 fill=%22none%22 stroke-width=%223.5%22/%3E%3Cpath class=%22sp%22 d=%22M32 21C24 22 19 17 19 11c7 0 12 4 13 10z%22 fill=%22%2314b8a6%22/%3E%3Cpath class=%22sp%22 d=%22M32 18c8 1 13-4 13-10-7 0-12 4-13 10z%22 fill=%22%236d4cff%22/%3E%3Cpath d=%22M26 27h12v8l9 15a5 5 0 0 1-4.3 7.5H21.3A5 5 0 0 1 17 50l9-15z%22 fill=%22%23fff%22/%3E%3Cpath d=%22M20.4 45h23.2l3.3 5.5a5 5 0 0 1-4.3 7.5H21.3A5 5 0 0 1 17 50.5z%22 fill=%22%23ff5a3c%22 stroke=%22none%22/%3E%3Ccircle class=%22bb%22 cx=%2229%22 cy=%2251%22 r=%221.8%22 fill=%22%23fff%22 stroke=%22none%22/%3E%3Ccircle class=%22bb b2%22 cx=%2236%22 cy=%2248%22 r=%221.4%22 fill=%22%23fff%22 stroke=%22none%22/%3E%3Cpath d=%22M26 27h12v8l9 15a5 5 0 0 1-4.3 7.5H21.3A5 5 0 0 1 17 50l9-15z%22 fill=%22none%22/%3E%3C/g%3E%3C/svg%3E">
+<meta name="theme-color" content="#ffc83d">
+<title>GrowthLab — Self Development for Job Seeker</title>
+<!-- 2026-10-20: font & pustaka disimpan lokal di vendor/ agar situs berjalan offline tanpa CDN -->
+<link href="vendor/fonts/fonts.css" rel="stylesheet">
+<link rel="stylesheet" href="css/01-base.css">
+<link rel="stylesheet" href="css/02-oblo.css" id="oblo">
+<link rel="stylesheet" href="css/03-motion.css" id="zmotion">
+<link rel="stylesheet" href="css/04-materi.css" id="gl5">
+<link rel="stylesheet" href="css/05-interaktif.css" id="gl6">
+<link rel="stylesheet" href="css/06-latihan-game.css" id="gl7">
+<link rel="stylesheet" href="css/07-simulasi.css" id="gl8">
+<link rel="stylesheet" href="css/08-simulasi-panggung.css" id="gl9">
+<link rel="stylesheet" href="css/09-ilustrasi.css" id="gl-ill">
+<link rel="stylesheet" href="css/10-layout-lebar.css" id="gl-r2">
+<link rel="stylesheet" href="css/11-lencana-bab.css" id="gl-r3">
+<link rel="stylesheet" href="css/12-nilai-terkunci.css" id="gl-r4">
+</head>
+<body data-view="home" class="zload glocal">
+<div id="zpre" aria-hidden="true"><div class="zc"><i class="zd"></i><b class="zl"></b></div><span class="zn">000</span></div>
+<script src="js/01-preloader-cadangan.js"></script>
+<div class="fb"></div><canvas id="gl" aria-hidden="true"></canvas><div class="cursor" id="cur"></div>
+
+
+<header class="nav"><div class="wrap">
+  <button class="brand" data-go="home" aria-label="GrowthLab, ke beranda"><span class="logo" data-logo aria-hidden="true"></span>GrowthLab</button>
+  <nav class="links" id="links" aria-label="Utama">
+    <a href="#/course" data-k="course" data-close>Materi</a>
+    <a href="#/latihan" data-k="latihan" data-close>Latihan</a>
+    <a href="#/petunjuk" data-k="petunjuk" data-close>Panduan</a>
+    <a href="#/course" class="pill" data-close>Progres kamu <b id="navbar"></b></a><button class="lb" id="lg">Masuk</button>
+  </nav>
+  <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">Menu</button>
+</div></header>
+
+<main>
+<!-- HOME -->
+<div data-v="home">
+  <section class="blk hero"><!-- kerumunan karakter 3D (#crowd) dihapus atas permintaan pengguna (2026-10-20) --><div class="wrap hg">
+    <div>
+      <span class="mono rv">Media pembelajaran · Soft skill siap kerja</span>
+      <h1 class="rv" style="margin:16px 0 22px"><span class="w" style="--i:0"><i>Belajar</i></span> <span class="w" style="--i:1"><i>sesuai</i></span> <span class="w" style="--i:2"><i><em>ritme</em></i></span> <span class="w" style="--i:3"><i><em>kamu.</em></i></span></h1>
+      <p class="lead rv" style="--d:.16s"><b>Self Development for Job Seeker.</b> Media belajar interaktif untuk siswa SMK kelas XII dan <i>fresh graduate</i> yang sedang bersiap mencari kerja: 15 pelajaran soft skill, latihan soal, dan simulasi kasus dunia kerja.</p>
+      <div class="row rv" style="--d:.24s">
+        <a class="btn p" href="#/course">Mulai belajar <svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5"/></svg></a>
+        <a class="btn" href="#/e-learning">Lihat katalog</a>
+      </div>
+      <div class="meta rv" style="--d:.32s">
+        <a class="mt" href="#/course" title="Buka daftar bab"><strong id="m1">3</strong><span class="mono">Bab</span></a>
+        <a class="mt" href="#/e-learning" title="Buka katalog pelajaran"><strong id="m2">0</strong><span class="mono">Pelajaran selesai</span></a>
+        <a class="mt" href="#/course" title="Lihat progres belajar"><strong id="m3">0%</strong><span class="mono">Progres</span></a>
+        <a class="mt" href="#/petunjuk" title="Petunjuk belajar mandiri"><strong>Mandiri</strong><span class="mono">Format</span></a>
+      </div>
+    </div>
+    <div id="hero-art" aria-hidden="true"></div>
+  </div>
+  </section>
+
+  <section class="blk" id="stats"><div class="wrap">
+    <h2 class="rv" data-in="l" style="max-width:14ch;margin-bottom:48px">Isi GrowthLab</h2>
+    <div class="usp rv" id="usp"></div>
+  </div></section>
+
+  <section class="blk" id="panduan"><div class="wrap">
+    <div class="head"><h2 class="rv" data-in="l">Mulai dari sini</h2><p class="rv">Baca tujuan belajarnya, pahami cara memakai situs ini, lalu lihat peta konsepnya sebelum mulai belajar.</p><a class="btn rv" href="#/glosarium">Glosarium istilah</a></div>
+    <div class="stg pdn rv" id="pdn"></div>
+    <!-- 2026-10-21: kartu "Kenali kebutuhanmu" (#diag) dihapus atas permintaan pengguna -->
+    <div class="pdn2 rv" style="grid-template-columns:1fr"><div id="lanjut"></div></div>
+  </div></section>
+
+  <section class="blk" id="elearn"><div class="wrap pg">
+    <div>
+      <span class="mono rv">Materi</span>
+      <h2 class="rv" data-in="l" style="font-size:clamp(2rem,4vw,3.2rem);margin:10px 0 22px">Belajar fleksibel, kapan saja</h2>
+      <p class="rv" style="color:var(--mut);max-width:30rem">Tiga bab soft skill yang disusun berurutan: Self-Management, Emotional Intelligence, dan Thinking Skill. Setiap pelajaran berisi konsep penting, diagram, contoh kasus melamar kerja atau magang, dan ringkasan.</p>
+      <ul class="chk rv" style="margin:18px 0 26px"><li>Belajar mandiri, kapan saja, tanpa akun</li><li>Kuis, drag &amp; drop, dan simulasi di menu Latihan</li><li>Progres dan nilai tersimpan otomatis di browser</li></ul>
+      <a class="btn p rv" href="#/e-learning">Lihat katalog pelajaran</a>
+    </div>
+    <div class="rv" data-in="r" id="el-art" aria-hidden="true"></div>
+  </div></section>
+
+  <section class="blk" id="discover"><div class="wrap">
+    <div class="head"><h2 class="rv" data-in="l">Materi</h2><p class="rv">Satu kursus, tiga bab. Pilih bab untuk membuka daftar pelajarannya, atau lanjutkan dari pelajaran terakhirmu.</p><a class="btn rv" href="#/e-learning">Semua pelajaran</a></div>
+    <div class="chips rv" id="chips" role="group" aria-label="Saring bab"></div>
+    <article class="feat rv" data-in="r" id="feat" tabindex="0" role="link" style="max-width:none;padding:0"></article>
+    <div class="grid rv" id="grid"></div>
+  </div></section>
+
+  <section class="blk" id="path"><div class="wrap">
+    <div class="head"><h2 class="rv" data-in="l">Jalur belajar</h2><p class="rv">Garis biru terisi saat kamu menandai pelajaran selesai. Bab yang sedang kamu kerjakan ditandai “Sekarang”. Setelah ketiga bab, lanjutkan ke Latihan.</p></div>
+    <div class="path rv" id="pathlist"></div>
+  </div></section>
+
+  <section class="blk" id="latih"><div class="wrap">
+    <div class="head"><h2 class="rv" data-in="l">Latihan &amp; tantangan</h2><p class="rv">Uji pemahamanmu lewat kuis, drag &amp; drop, dan simulasi kasus dunia kerja. Atau coba satu soal kilat sekarang.</p><a class="btn rv" href="#/latihan">Buka Latihan</a></div>
+    <div class="s3 rv" id="latc"></div>
+    <div class="kilat rv" id="kilat"></div>
+  </div></section>
+
+  <!-- bagian "Belajar bareng teman" dihapus atas permintaan pengguna (2026-10-20); halaman #/komunitas tetap ada -->
+  <section class="blk" id="faq"><div class="wrap">
+    <div class="head"><h2 class="rv" data-in="l">Yang sering ditanyakan</h2><a class="btn rv" href="#/faq">Semua pertanyaan</a></div>
+    <div class="fq rv" id="fq"></div>
+  </div></section>
+
+  <!-- penutup "Siap untuk langkah pertama?" dihapus atas permintaan pengguna (2026-10-20) -->
+</div>
+
+<!-- COURSE -->
+<div data-v="course" hidden><div class="wrap">
+  <div class="crumb mono"><button data-go="home">← Beranda</button> / Ringkasan kursus</div>
+  <div class="chead">
+    <div><span class="mono" id="ckat">Kategori</span><h1 id="ctitle">Judul Kursus</h1><p id="cdesc"></p>
+      <div class="row"><button class="btn p" id="cont">Lanjut belajar <svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5"/></svg></button></div></div>
+    <div><div class="art" id="cart" style="--c1:#ffc83d;min-height:200px;border:2px solid var(--ink);border-radius:10px;margin-bottom:18px"></div><div class="panel"><div class="pr"><div class="ring" id="ring"><i id="ringt">0%</i></div><div><span class="mono">Progres kamu</span><p id="ringl" style="margin-top:6px"></p></div></div>
+      <div class="mono" id="cmeta"></div></div></div>
+  </div>
+  <div id="chaps" style="padding-bottom:120px"></div>
+</div></div>
+
+<div data-v="page" hidden><div id="pg"></div></div>
+
+<!-- LESSON -->
+<div data-v="lesson" hidden><div class="wrap lay">
+  <aside class="side"><button id="back" class="mono" style="color:var(--mut)">← Kursus</button>
+    <div class="bar" id="sbar"></div><span class="mono" id="sprog"></span><div class="list" id="slist"></div><svg class="rd" viewBox="0 0 200 170" aria-hidden="true"><g stroke="#1b1740" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M20 150h160" fill="none"/><rect x="60" y="86" width="84" height="60" rx="26" fill="#6d4cff"/><circle cx="100" cy="58" r="26" fill="#f2b48c"/><path d="M76 54q4-30 30-28 22 2 22 28-14-14-52 0z" fill="#1b1740"/><rect x="86" y="108" width="62" height="40" rx="3" fill="#ffc83d"/><path d="M117 108v40" fill="none"/><circle cx="92" cy="64" r="2.5" fill="#1b1740"/><circle cx="108" cy="64" r="2.5" fill="#1b1740"/></g></svg></aside>
+  <article id="lart">
+    <span class="mono" id="lk"></span><h1 id="lt"></h1>
+    <div class="next"><button class="btn" id="mark">Tandai selesai</button><button class="btn p" id="nextl">Pelajaran berikut <svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5"/></svg></button></div>
+  </article>
+</div></div>
+</main>
+<footer><div class="wrap fgrid">
+  <div><strong class="fb2" data-go="home" role="link" tabindex="0" title="Ke beranda"><span class="logo" data-logo aria-hidden="true"></span>GrowthLab</strong><p>Self Development for Job Seeker: media pembelajaran soft skill untuk siswa SMK kelas XII dan <i>fresh graduate</i>.</p><p>Prototipe tugas mata kuliah Pengembangan Multimedia Pendidikan · Kelompok 8 · Teknologi Pendidikan FIP UNJ · 2024.</p></div>
+  <div><span class="mono">Belajar</span><a href="#/course">Materi</a><a href="#/latihan">Latihan</a><a href="#/e-learning">Katalog pelajaran</a><a href="#/path">Jalur belajar</a></div>
+  <div><span class="mono">Panduan</span><a href="#/tujuan">Tujuan belajar</a><a href="#/petunjuk">Petunjuk penggunaan</a><a href="#/alur">Alur belajar</a><a href="#/peta">Peta konsep</a><a href="#/glosarium">Glosarium</a><a href="#/faq">FAQ</a></div>
+  <div><span class="mono">Lainnya</span><a href="#/tentang">Tentang</a><a href="#/komunitas">Belajar bareng</a><a href="#/kontak">Kontak</a><a href="#/terms">Syarat &amp; ketentuan</a><a href="#/privacy">Kebijakan privasi</a></div>
+</div><div class="wrap payr"><span class="mono">Akses</span><span class="pyc">Gratis untuk pembelajaran</span><span class="pyc">Tanpa akun</span><span class="pyc">Bisa dibuka tanpa server</span></div></footer>
+
+<div class="modal" id="auth" hidden role="dialog" aria-modal="true" aria-labelledby="at"><div class="mbox">
+  <button class="x" id="axc" aria-label="Tutup">×</button>
+  <div class="mart" id="auth-art" aria-hidden="true"></div>
+  <div class="mtx"><span class="mono" id="as">Akun</span><h2 id="at">Masuk ke Growth Lab</h2><p id="ap"></p><div id="ab"></div></div>
+</div></div>
+<div class="curtain" id="curtain" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<button class="fab" id="chatfab" type="button" aria-label="Buka chat asisten" aria-expanded="false" aria-controls="chat"><svg viewBox="0 0 24 24"><path d="M7 4h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-6l-4 3.5V16H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z"/></svg><span>Tanya AI</span></button>
+<section class="chat" id="chat" role="dialog" aria-label="Chat asisten GrowthLab" aria-hidden="true">
+ <header class="ch"><span class="logo" data-logo aria-hidden="true"></span><div style="flex:1"><b>Asisten GrowthLab</b><small id="chmode"><i></i> AI · siap membantu</small></div><button type="button" id="chx" aria-label="Tutup chat">×</button></header>
+ <div class="cm" id="cm" role="log" aria-live="polite"></div>
+ <div class="cq" id="cq"></div>
+ <form class="cf2" id="cform" autocomplete="off"><input id="cin" type="text" maxlength="500" placeholder="Tulis pertanyaanmu…" aria-label="Pesan"><button class="btn p" type="submit" aria-label="Kirim">Kirim</button></form>
+</section>
+<script src="vendor/three.min.js"></script>
+<script src="js/02-migrasi-progres.js" id="gl-migrate"></script>
+<script src="js/03-data.js" id="gl-data"></script>
+<script src="js/04-sim-core.js" id="gl-sim-core"></script>
+<script src="js/05-latihan.js" id="gl-latihan"></script>
+<script src="js/06-sim-view.js" id="gl-sim-view"></script>
+<script src="js/07-sim-stage.js" id="gl-sim-stage"></script>
+<script src="js/08-ui.js" id="gl-ui"></script>
+<script src="js/09-app.js"></script>
+<script src="js/10-hero-kerumunan-3d.js"></script>
+<script src="js/11-kucing-3d.js"></script>
+<script src="js/12-hero-observer.js"></script>
+<script src="js/13-chat.js"></script>
+<script src="js/14-logo.js"></script>
+<script src="js/15-tombol-hero.js"></script>
+<script src="js/16-beranda-efek.js"></script>
+<script src="vendor/gsap.min.js"></script>
+<script src="vendor/ScrollTrigger.min.js"></script>
+<script src="vendor/MotionPathPlugin.min.js"></script>
+<script src="vendor/lenis.min.js"></script>
+<script src="vendor/matter.min.js"></script>
+<script src="js/17-motion.js"></script>
+<script src="js/18-dekorasi-klik.js"></script>
+<script src="js/19-hover.js" id="gl-hover"></script>
+<script src="js/20-scorm.js" id="gl-scorm"></script>
+</body>
+</html>

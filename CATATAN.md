@@ -313,7 +313,7 @@ Sumber: Google Doc "KEL_9 Pengembangan Multimedia Pembelajaran", tab T2_Tahap De
 
 Netlify tidak dipakai lagi (kredit akun habis, dosen minta pakai GitHub).
 
-- `tools/build-pages.sh` menyalin `GrowthLab_v5.html` → `index.html`, plus `vendor/`, `assets/sim/`, `assets/sb/`
+- `tools/build-pages.sh` menyalin `index.html`, `css/`, `js/`, plus `vendor/`, `assets/sim/`, `assets/sb/`
   (+ isi `dist/` ke `offline/`) ke `~/Desktop/growthlab-web` (repo git terpisah, branch `main`, ada `.nojekyll`).
 - Pertama kali: GitHub Desktop → File → Add Local Repository → pilih `growthlab-web` → Publish repository
   (hapus centang "Keep this code private") → di github.com buka Settings → Pages → Source: Deploy from a branch,
@@ -322,3 +322,14 @@ Netlify tidak dipakai lagi (kredit akun habis, dosen minta pakai GitHub).
 - **Live (sejak 2026-10-21):** https://akirasakamiyo.github.io/GrowthLab/ — repo https://github.com/akirasakamiyo/GrowthLab
   (`~/Desktop/growthlab-web` sudah tersambung ke repo ini sebagai `origin`). GitHub CLI (`gh`) sudah login di laptop ini,
   jadi update juga bisa lewat: `./tools/build-pages.sh && cd ~/Desktop/growthlab-web && git add -A && git commit -m "update" && git push`.
+
+## 13. Kode modular (2026-10-22)
+
+Atas permintaan Rifa, `GrowthLab_v5.html` (satu file ~680 KB) dipecah menjadi `index.html` + `css/` (12 file) + `js/` (20 file),
+urutan dan isi persis sama (diverifikasi: digabung ulang = identik dengan file lama). Struktur dijelaskan di `README.md`.
+- File kerja sekarang `index.html`; isi teks materi/kuis/simulasi ada di `js/03-data.js`. File lama ada di riwayat git (commit b9d0a23).
+- Versi lama v4 & cadangan dipindah ke `arsip/`.
+- Paket offline tidak lagi satu file besar: `GrowthLab_offline.zip` dan `GrowthLab_SCORM12.zip` berisi folder modular yang sama
+  (ekstrak lalu buka `index.html`; sudah dicek jalan via file:// di Safari & Chrome). `GrowthLab_offline.html` (satu file) dihapus.
+- Tes membaca `index.html` (serve.js default `/index.html`; t-core membaca `js/03-data.js` & `js/04-sim-core.js` lewat index.html).
+- `./tools/build-pages.sh --push` menyalin ke `~/Desktop/growthlab-web` dan langsung push ke GitHub.

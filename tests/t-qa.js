@@ -1,7 +1,7 @@
 // QA akhir simulasi: semua ending lewat UI, konsistensi nilai di semua tampilan, kondisi ekstrem.
 // Pakai: node t-qa.js [chrome|webkit]
 const { chromium, webkit } = require("playwright");
-const BASE = process.env.BASE || "http://localhost:8000/GrowthLab_v5.html";
+const BASE = process.env.BASE || "http://localhost:8000/index.html";
 const which = process.argv[2] || "chrome";
 const sl = ms => new Promise(r => setTimeout(r, ms));
 let fails = 0; const tag = `[qa ${which}]`;
