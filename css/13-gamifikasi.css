@@ -100,3 +100,13 @@
 .gx-hint small{opacity:.8}
 .gx-row{display:flex;gap:10px;flex-wrap:wrap}
 @media(max-width:480px){.gx-skill{grid-template-columns:1fr}.gx-radar{max-width:220px;justify-self:center}.gx-sheet{right:16px;left:16px;width:auto}}
+
+/* ----- Fase 4: cadangan & sertifikat (tetap tampil saat gamifikasi nonaktif) ----- */
+.gx-keep{display:grid;gap:8px;padding-top:4px}.gx-keep p{margin:0;font-size:.92rem}.gx-keep .mono{color:#e2552b}
+.gx-lbl{display:grid;gap:4px;font-weight:700;font-size:.88rem}
+.gx-lbl input{font:inherit;font-weight:400;padding:10px 12px;border-radius:12px;border:1.5px solid rgba(14,26,58,.2)}
+.gx-lbl input:focus-visible{outline:3px solid #2a56f5;outline-offset:1px}
+.gx-file{position:relative;cursor:pointer}.gx-file input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.gx-file:focus-within{outline:3px solid #2a56f5;outline-offset:2px}
+.gx-msg{min-height:1.2em;font-size:.86rem;color:#1fa463;font-weight:700}
+.gx-dlg .btn:not(.p){border:2px solid #1b1740;border-radius:99px;background:#fff;color:#1b1740}.gx-dlg .btn:not(.p):hover{background:#fff6d6}
