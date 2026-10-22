@@ -53,3 +53,27 @@
 
 @media(max-width:900px){.gx-chip{margin:6px 0}}
 @media(prefers-reduced-motion:reduce){.gx-chip.bump,.gx-toast.lvl.in{animation:none}.gx-toast,.gx-bar i,.gx-sw i,.gx-sw i::after{transition:none}}
+
+/* ----- Fase 2: streak & badge ----- */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.gx-week{display:inline-flex;gap:4px}
+.gx-week i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font:700 .66rem/1 var(--sans,sans-serif);font-style:normal;background:#eef2ff;color:#7a83a8;border:1.5px solid transparent}
+.gx-week i.on{background:#ffc83d;color:#1b1740}
+.gx-week i.td{border-color:#1b1740}
+.gx-card-s{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.86rem;color:#2c3768}
+.gx-sec{display:grid;gap:8px}.gx-sec p{margin:0;font-size:.92rem}
+.gx-streak{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.gx-streak b{display:block}.gx-streak span{color:#5a6390;font-size:.88rem}
+.gx-badges{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.gx-badges li{position:relative;display:flex;gap:10px;align-items:flex-start;padding:10px;border-radius:14px;background:#f4f6ff;border:1.5px solid transparent}
+.gx-badges li.got{background:#fff8dc;border-color:#ffd15c}
+.gx-badges b{display:block;font-size:.92rem}.gx-badges small{display:block;color:#5a6390;font-size:.78rem;line-height:1.35}
+.gx-medal{width:36px;height:36px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--bc);color:#fff;font-weight:800;font-size:1rem;box-shadow:inset 0 0 0 3px rgba(255,255,255,.45),0 2px 0 rgba(0,0,0,.15)}
+.gx-medal.lock{background:#d5dbef;color:#5a6390;font-size:.85rem;box-shadow:none}
+.gx-bp{display:block;height:6px;border-radius:99px;background:#dfe4f5;margin-top:6px;overflow:hidden}.gx-bp i{display:block;height:100%;width:calc(var(--w)*100%);background:#ffb11f}
+.gx-toast.bdg{background:#fff;color:#1b1740;border:2px solid #ffc83d;border-radius:18px;align-items:center;text-align:left}
+.gx-toast.bdg>div{display:grid;gap:2px;min-width:0}.gx-toast.bdg b{color:#1b1740;white-space:normal}.gx-toast.bdg span{white-space:normal;max-width:none;font-size:.84rem;color:#5a6390}
+.gx-toast .gx-medal{width:28px;height:28px;font-size:.85rem}
+/* lencana bab di daftar Materi ikut tersembunyi bila gamifikasi nonaktif */
+.gx-off .chrew{display:none!important}
+.gx-off .chbadge .medal{display:none!important}.gx-off .chbadge{background:none!important;padding:0!important;color:inherit!important}
+@media(max-width:420px){.gx-badges{grid-template-columns:1fr}}

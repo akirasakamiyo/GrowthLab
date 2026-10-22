@@ -37,7 +37,7 @@ const BADGE=[["Pengelola Diri","Kamu sudah menuntaskan semua pelajaran Self-Mana
 const chFull=i=>C.chapters[i].l.every((_,j)=>done.has(i+"-"+j));
 const MEDAL=`<svg class="medal" viewBox="0 0 48 56" aria-hidden="true"><path d="M14 2h8l6 16h-8z" fill="#3a4fd0"/><path d="M34 2h-8l-6 16h8z" fill="#ff6a3d"/><circle cx="24" cy="34" r="19" fill="#ffb11f"/><circle cx="24" cy="34" r="14.5" fill="#ffd84a" stroke="#e08e00" stroke-width="1.5"/><path d="M24 25l2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2-4.5-4.4 6.2-.9z" fill="#fff"/></svg>`;
 const badgeSeen=()=>{try{return JSON.parse(localStorage.getItem("gl-badge")||"[]")}catch(e){return[]}};
-function badgeEarned(i){if(!BADGE[i])return;toast(`Lencana baru: “${BADGE[i][0]}”! Bab ${i+1} tuntas 5/5.`)}
+function badgeEarned(i){if(!BADGE[i]||window.GLG)return;/* bila modul gamifikasi ada, notifikasi badge diurus GLG */toast(`Lencana baru: “${BADGE[i][0]}”! Bab ${i+1} tuntas 5/5.`)}
 function renderCourse(){
  $("#cart").innerHTML=ILL("course");$("#ckat").textContent=C.k+" · "+C.media;$("#ctitle").textContent=C.t;$("#cdesc").textContent=C.d;
  $("#cmeta").textContent=`${C.chapters.length} bab · ${total} pelajaran · ${GLX.nQuiz} soal · ${GLX.nSim} simulasi`;

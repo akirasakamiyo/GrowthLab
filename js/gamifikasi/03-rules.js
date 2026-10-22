@@ -46,11 +46,14 @@
     sim: (d, f) => scored("sim", d.id, d, simT(d.id), f)
   };
 
-  /* catat aktivitas → kembalikan { e (event ledger atau null), before, after } */
+  /* catat aktivitas → kembalikan { e (event ledger atau null), badges (badge baru), before, after } */
   G.award = (type, d, factor) => {
-    const before = G.info(), e = R[type] ? R[type](d, factor) : null;
+    const before = G.info();
+    if (G.markDay) G.markDay();
+    const e = R[type] ? R[type](d, factor) : null;
+    const badges = G.checkBadges ? G.checkBadges() : [];
     G.save();
-    return { e, before, after: G.info() };
+    return { e, badges, before, after: G.info() };
   };
 
   /* data lama → ledger (sekali, saat modul pertama kali aktif). Dihitung seperti percobaan pertama, tanpa notifikasi. */
@@ -67,5 +70,95 @@
     G.state().ledger.forEach(e => e.meta.awal = true);
     G.state().seenLevel = G.info().level;
     G.save();
+  };
+})();
+
+/* ==================================================================
+   Fase 2 · streak mingguan & badge
+   ================================================================== */
+(() => {
+  const G = window.GLG, C = G.CFG;
+
+  /* ---------- hari & minggu (zona waktu perangkat) ---------- */
+  const p2 = n => String(n).padStart(2, "0");
+  G.dayKey = t => { const d = new Date(t); return `${d.getFullYear()}-${p2(d.getMonth() + 1)}-${p2(d.getDate())}` };
+  const parse = k => { const [y, m, d] = k.split("-").map(Number); return new Date(y, m - 1, d) };
+  /* Senin minggu itu (jam 00:00 lokal) */
+  const monday = t => { const d = new Date(t); d.setHours(0, 0, 0, 0); d.setDate(d.getDate() - (d.getDay() + 6) % 7); return d };
+  G.weekKey = t => G.dayKey(monday(t));
+
+  G.markDay = (t = Date.now()) => { const S = G.state(), k = G.dayKey(t); if (!S.days.includes(k)) { S.days.push(k); S.days.sort(); G.save() } };
+
+  /* hari belajar dari data lama (sekali, saat migrasi ke skema 2) */
+  G.backfillDays = () => {
+    const S = G.state(), ts = S.ledger.filter(e => !e.meta.awal).map(e => e.t);
+    const lx = G.storage.get("gl-latihan");
+    if (lx) {
+      ((lx.kuis && lx.kuis.hist) || []).forEach(h => ts.push(h.t));
+      for (const id in lx.sim || {}) ((lx.sim[id] && lx.sim[id].hist) || []).forEach(h => ts.push(h.t));
+    }
+    ts.filter(t => t > 1.5e12 && t <= Date.now()).forEach(t => { const k = G.dayKey(t); if (!S.days.includes(k)) S.days.push(k) });
+    S.days.sort(); delete S.needDays; G.save();
+  };
+
+  /* streak dihitung ulang dari daftar hari (deterministik, tanpa status tersembunyi) */
+  G.streak = (now = Date.now()) => {
+    const T = C.streak, S = G.state(), per = {};
+    S.days.forEach(k => { const w = G.weekKey(parse(k)); per[w] = (per[w] || 0) + 1 });
+    const thisW = G.weekKey(now), weekDays = [];
+    const mon = monday(now);
+    for (let i = 0; i < 7; i++) { const d = new Date(mon); d.setDate(mon.getDate() + i); weekDays.push({ k: G.dayKey(d), on: S.days.includes(G.dayKey(d)), today: G.dayKey(d) === G.dayKey(now) }) }
+    let cur = 0, best = 0, met = 0, freeze = 0, earned = 0, used = 0, broke = false;
+    const keys = Object.keys(per);
+    if (keys.length) {
+      const d = parse(keys.sort()[0]);
+      for (; G.dayKey(d) <= thisW; d.setDate(d.getDate() + 7)) {
+        const w = G.dayKey(d), n = per[w] || 0, ok = n >= T.target;
+        if (ok) { cur++; met++; broke = false; if (met % T.earnEvery === 0 && freeze < T.maxFreeze) { freeze++; earned++ } }
+        else if (w === thisW) { /* minggu berjalan belum selesai: tidak memutus streak */ }
+        else if (freeze > 0) { freeze--; used++ }
+        else { if (cur > 0) broke = true; cur = 0 }
+        best = Math.max(best, cur);
+      }
+    }
+    return { target: T.target, thisWeek: per[thisW] || 0, weekDays, cur, best, met, freeze, used, broke };
+  };
+
+  /* ---------- badge ---------- */
+  const lx = () => G.storage.get("gl-latihan") || {};
+  const doneSet = () => new Set(G.storage.get("mer-done") || []);
+  const PASS = () => (typeof GLD !== "undefined" && GLD.PASS_MCQ) || 70;
+  /* setiap rule mengembalikan { cur, max } → badge didapat bila cur >= max */
+  G.badgeRule = {
+    chapter: r => { const ch = GLD.COURSE.chapters[r.i], d = doneSet(); return { cur: ch.l.filter((_, j) => d.has(r.i + "-" + j)).length, max: ch.l.length } },
+    quizScore: r => { const b = (lx().kuis || {}).best || {}; return { cur: Object.values(b).some(x => x && x.score >= r.min) ? 1 : 0, max: 1 } },
+    quizPass: r => { const b = ((lx().kuis || {}).best || {})[r.m]; return { cur: b && b.score >= PASS() ? 1 : 0, max: 1 } },
+    dndPerfect: r => { const d = lx().dnd || {}; return { cur: Math.min(r.n, Object.values(d).filter(x => x && x.best && x.best.n && x.best.benar === x.best.n).length), max: r.n } },
+    simCount: r => { const s = lx().sim || {}; return { cur: Math.min(r.n, Object.values(s).filter(x => x && x.best).length), max: r.n } },
+    simScore: r => { const s = lx().sim || {}; return { cur: Object.values(s).some(x => x && x.best && x.best.score >= r.min) ? 1 : 0, max: 1 } },
+    weeks: r => ({ cur: Math.min(r.n, G.streak().best), max: r.n }),
+    final: () => {
+      const d = lx(), q = ((d.kuis || {}).best || {}).all ? 1 : 0;
+      const dn = GLD.DND.filter(s => d.dnd && d.dnd[s.id] && d.dnd[s.id].n > 0).length, sm = GLD.SIM.filter(s => d.sim && d.sim[s.id] && d.sim[s.id].best).length;
+      return { cur: q + dn + sm, max: 1 + GLD.DND.length + GLD.SIM.length };
+    }
+  };
+  G.badgeList = () => C.badges.map(b => {
+    let pr = { cur: 0, max: 1 };
+    try { pr = G.badgeRule[b.rule.type](b.rule) } catch (e) {}
+    const at = G.state().badges[b.id];
+    return Object.assign({}, b, pr, { got: !!at, at });
+  });
+  /* periksa semua badge; yang baru terpenuhi dicatat + XP-nya masuk ledger. Mengembalikan badge baru. */
+  G.checkBadges = () => {
+    const S = G.state(), out = [];
+    G.badgeList().forEach(b => {
+      if (b.got || b.cur < b.max) return;
+      S.badges[b.id] = Date.now();
+      const e = G.add("badge", b.xp || 0, "badge:" + b.id, { label: "Badge " + b.name });
+      out.push(Object.assign(b, { e, got: true, at: S.badges[b.id] }));
+    });
+    if (out.length) G.save();
+    return out;
   };
 })();
