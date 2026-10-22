@@ -1,0 +1,55 @@
+/* ===== Gamifikasi: chip XP, kartu level, notifikasi, panel detail. html.gx-off menyembunyikan semuanya. ===== */
+.gx-off .gx,.gx-off .gx-live{display:none!important}
+.gx-offnote{display:none;margin-top:14px;font-size:.88rem;color:#5a6390}.gx-off .gx-offnote{display:block}
+.gx-offnote button{border:0;background:none;padding:0;font:inherit;font-weight:700;color:#2a56f5;text-decoration:underline;cursor:pointer}
+.gx svg,.gx-toast svg{width:1em;height:1em;fill:#ffc83d;stroke:#1b1740;stroke-width:1.6;stroke-linejoin:round;flex:none}
+
+/* chip di navbar */
+.gx-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.1);color:inherit;font:inherit;font-size:.9rem;cursor:pointer;white-space:nowrap}
+.gx-chip b{font-weight:800}.gx-chip span{opacity:.85;font-size:.82rem}
+.gx-chip:hover,.gx-chip:focus-visible{background:#ffc83d;color:#1b1740;border-color:#ffc83d}
+.gx-chip.bump{animation:gxBump .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes gxBump{40%{transform:scale(1.15)}}
+
+/* kartu level di halaman Materi */
+.gx-card{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line,rgba(14,26,58,.15));display:grid;gap:8px}
+.gx-card-h{display:flex;align-items:center;gap:12px}.gx-card-h>svg{width:34px;height:34px}
+.gx-card-h>div{flex:1}.gx-card-h b{display:block;font-size:1.25rem}
+.gx-card small{color:#5a6390}
+.gx-bar{display:block;height:10px;border-radius:99px;background:#eef2ff;overflow:hidden;border:1px solid rgba(14,26,58,.12)}
+.gx-bar i{display:block;height:100%;width:calc(var(--w)*100%);background:linear-gradient(90deg,#ffb11f,#ffc83d);border-radius:inherit;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+
+/* notifikasi +XP */
+.gx-live{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);z-index:300;display:grid;gap:8px;justify-items:center;pointer-events:none;width:min(92vw,380px)}
+.gx-toast{display:flex;align-items:center;gap:10px;padding:10px 18px;border-radius:99px;background:#1b1740;color:#fff;box-shadow:0 14px 30px -14px rgba(0,0,0,.5);font-size:.92rem;opacity:0;transform:translateY(14px) scale(.96);transition:opacity .3s,transform .4s cubic-bezier(.3,1.4,.5,1)}
+.gx-toast.in{opacity:1;transform:none}
+.gx-toast b{color:#ffc83d;font-weight:800;white-space:nowrap}.gx-toast span{opacity:.9;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px}
+.gx-toast.lvl{background:#ffc83d;color:#1b1740;border-radius:20px;padding:14px 20px;flex-wrap:wrap;justify-content:center;text-align:center;font-size:1rem}
+.gx-toast.lvl b{color:#1b1740;font-size:1.1rem}.gx-toast.lvl span{white-space:normal;max-width:none;width:100%}
+.gx-toast.lvl svg{width:26px;height:26px;fill:#fff}
+.gx-toast.lvl.in{animation:gxLvl .7s cubic-bezier(.3,1.5,.5,1)}
+@keyframes gxLvl{0%{transform:scale(.7)}60%{transform:scale(1.06)}}
+
+/* panel detail */
+.gx-dlg{position:fixed;inset:0;z-index:310;background:rgba(10,16,48,.55);display:grid;place-items:center;padding:16px}
+.gx-dlg-in{position:relative;background:#fff;color:#0e1a3a;border-radius:26px;width:min(100%,480px);max-height:calc(100dvh - 32px);overflow:auto;padding:26px 24px;display:grid;gap:14px;box-shadow:0 40px 80px -30px rgba(0,0,0,.5)}
+.gx-dlg h2{font-size:1.6rem;margin:0}.gx-dlg .mono{color:#e2552b}
+.gx-x{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,26,58,.2);background:#fff;font-size:1.4rem;line-height:1;cursor:pointer}
+.gx-sum{display:flex;gap:12px;align-items:center}.gx-sum svg{width:40px;height:40px}.gx-sum b{display:block;font-size:1.15rem}.gx-sum span{color:#5a6390;font-size:.92rem}
+.gx-ladder{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.gx-ladder li{display:grid;grid-template-columns:26px 1fr;gap:2px 10px;align-items:center;padding:8px 12px;border-radius:14px;background:#f4f6ff}
+.gx-ladder li>span{grid-row:span 2;width:24px;height:24px;border-radius:50%;border:2px solid #b9c2e8;display:grid;place-items:center;font-size:.8rem}
+.gx-ladder li.on{background:#fff6d6}.gx-ladder li.on>span{background:#1fa463;border-color:#1fa463;color:#fff}
+.gx-ladder small{color:#5a6390}
+.gx-rec{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px;font-size:.92rem}.gx-rec b{color:#b06a00;min-width:3.2em;display:inline-block}
+.gx-how{font-size:.85rem;color:#5a6390;margin:8px 0 0}
+.gx-set{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:14px;border-radius:16px;border:1.5px solid rgba(14,26,58,.12)}
+.gx-set small{display:block;color:#5a6390;font-size:.85rem;margin-top:2px}
+.gx-sw{display:inline-flex;align-items:center;gap:8px;border:0;background:none;cursor:pointer;font:inherit;font-weight:700;color:#0e1a3a;flex:none}
+.gx-sw i{width:46px;height:26px;border-radius:99px;background:#c5cbe0;position:relative;transition:background .2s}
+.gx-sw i::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.gx-sw[aria-checked=true] i{background:#1fa463}.gx-sw[aria-checked=true] i::after{transform:translateX(20px)}
+.gx-sw:focus-visible,.gx-chip:focus-visible,.gx-x:focus-visible{outline:3px solid #2a56f5;outline-offset:2px}
+
+@media(max-width:900px){.gx-chip{margin:6px 0}}
+@media(prefers-reduced-motion:reduce){.gx-chip.bump,.gx-toast.lvl.in{animation:none}.gx-toast,.gx-bar i,.gx-sw i,.gx-sw i::after{transition:none}}
