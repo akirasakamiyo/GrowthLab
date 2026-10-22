@@ -55,7 +55,14 @@
     const quest = G.checkQuest ? G.checkQuest() : null;
     const remedial = type === "quiz" && G.remedial ? G.remedial(d) : null;
     G.save();
-    return { e, badges, quest, remedial, before, after: G.info() };
+    const after = G.info();
+    if (G.log) {
+      if (e && e.xp) G.log("xp", { xp: e.xp, key: e.key });
+      badges.forEach(b => G.log("badge", { id: b.id }));
+      if (quest) G.log("quest_done", { wk: quest.key });
+      if (after.level > before.level) G.log("level_up", { level: after.level });
+    }
+    return { e, badges, quest, remedial, before, after };
   };
 
   /* data lama → ledger (sekali, saat modul pertama kali aktif). Dihitung seperti percobaan pertama, tanpa notifikasi. */
@@ -221,7 +228,7 @@
   G.spend = (cost, key, meta) => {
     if (G.has(key) || G.total() < cost) return null;
     const e = { id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7), type: "hint", xp: -cost, t: Date.now(), key, meta: meta || {} };
-    G.state().ledger.push(e); G.save(); return e;
+    G.state().ledger.push(e); G.save(); if (G.log) G.log("hint", { key }); return e;
   };
 
   /* ---------- unlock ringan: simulasi bab i disarankan setelah lulus kuis bab i ---------- */
@@ -231,5 +238,5 @@
     const b = ((lx().kuis || {}).best || {})["b" + i];
     return b && b.score >= PASS() ? null : { bab: i };
   };
-  G.skipGate = id => { const S = G.state(); S.skip = S.skip || {}; S.skip[id] = Date.now(); G.save() };
+  G.skipGate = id => { const S = G.state(); S.skip = S.skip || {}; S.skip[id] = Date.now(); G.save(); if (G.log) G.log("gate_skip", { id }) };
 })();

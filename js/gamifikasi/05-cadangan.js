@@ -8,7 +8,7 @@
   const G = window.GLG, C = G.CFG;
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c]);
   /* semua key progres GrowthLab yang ikut dicadangkan */
-  const KEYS = ["mer-done", "gl-latihan", "gl-ui", "gl-badge", "gl-ord", "gl-gami"];
+  const KEYS = ["mer-done", "gl-latihan", "gl-ui", "gl-badge", "gl-ord", "gl-gami", "gl-log"];
   const FORMAT = "growthlab-progres";
 
   /* ---------- unduh file tanpa server (Blob + <a download>) ---------- */
@@ -105,7 +105,7 @@
 
   document.addEventListener("click", e => {
     const b = e.target.closest("[data-gxb]"); if (!b || b.tagName === "INPUT") return;
-    if (b.dataset.gxb === "export") { G.exportFile(); msg(b, "Cadangan diunduh.") }
+    if (b.dataset.gxb === "export") { if (G.log) G.log("export", {}); G.exportFile(); msg(b, "Cadangan diunduh.") }
     if (b.dataset.gxb === "cert") {
       const nm = (document.querySelector("#gx-nm") || {}).value || "";
       try { const u = G.storage.get("gl-ui") || {}; u.nama = nm.trim(); G.storage.set("gl-ui", u) } catch (_) {}
