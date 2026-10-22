@@ -5,7 +5,7 @@ Lapisan gamifikasi opsional di atas fitur belajar yang sudah ada. Prinsipnya:
 - **Bisa dimatikan.** Toggle "Mode gamifikasi" ada di panel detail (klik chip level di navbar, atau tombol *Detail* di kartu Progres halaman Materi; saat nonaktif, kartu itu menampilkan tautan *Atur* untuk menyalakannya lagi). Saat nonaktif, semua elemen gamifikasi tersembunyi dan situs berjalan seperti biasa. XP tetap dicatat diam-diam, jadi tidak hilang bila diaktifkan lagi.
 - **Tanpa leaderboard**, tanpa library tambahan, tanpa server.
 
-Status: **Fase 1** (XP, level, notifikasi). Fase berikutnya: badge & streak mingguan, quest & skill map, ekspor/impor & sertifikat, log pengukuran.
+Status: **Fase 1** (XP, level, notifikasi) dan **Fase 2** (badge kompetensi, streak mingguan). Fase berikutnya: quest & skill map, ekspor/impor & sertifikat, log pengukuran.
 
 ## File
 
@@ -14,7 +14,7 @@ Status: **Fase 1** (XP, level, notifikasi). Fase berikutnya: badge & streak ming
 | `js/gamifikasi/01-config.js` | **Semua angka aturan** (XP, kurva level, nama level). Ubah di sini. |
 | `js/gamifikasi/02-store.js` | Event bus `GLG.emit/on`, lapisan penyimpanan `GLG.storage`, ledger, versi skema & migrasi |
 | `js/gamifikasi/03-rules.js` | Rule engine: hitung XP per event, total, level. Tidak menyentuh DOM. |
-| `js/gamifikasi/04-ui.js` | Chip navbar, kartu level, notifikasi `aria-live`, naik level, panel detail + toggle |
+| `js/gamifikasi/04-ui.js` | Chip navbar, kartu level & streak, notifikasi `aria-live` (XP, badge, naik level, target minggu), panel detail (level, streak, koleksi badge) + toggle |
 | `css/13-gamifikasi.css` | Gaya. `html.gx-off` menyembunyikan semua elemen `.gx`. |
 
 ### Titik sambung di kode lama (hanya satu baris per tempat)
@@ -44,6 +44,41 @@ Contoh: kuis bab 80 → 24 XP; ulang dapat 100 → (45 − 24) × 0,6 = 13 XP.
 
 Maksimal sekitar 890 XP bila semua aktivitas dikerjakan dengan skor sempurna di percobaan pertama.
 
+## Badge (Fase 2)
+
+Badge berbasis kompetensi, didefinisikan sebagai data di `GLG.CFG.badges` (`01-config.js`). Setiap badge memberi XP kecil sekali saja (key `badge:<id>`).
+
+| Badge | Syarat | XP |
+|---|---|---|
+| Pengelola Diri / Peka Emosi / Pemikir Tajam | Semua pelajaran Bab 1 / 2 / 3 selesai | 15 |
+| Lulus Uji Konsep | Lulus kuis Gabungan (≥ 70) | 20 |
+| Skor Sempurna | Skor 100 di kuis mana saja | 15 |
+| Teliti | Semua kartu benar di 6 set drag & drop | 15 |
+| Pemecah Kasus | Tamatkan 1 simulasi | 10 |
+| Siap Lapangan | Tamatkan 3 simulasi | 20 |
+| Keputusan Unggul | Skor simulasi ≥ 85 | 15 |
+| Konsisten | Target mingguan tercapai 1 minggu | 10 |
+| Tekun | Streak mingguan 3 minggu | 20 |
+| Tuntas | Semua latihan selesai (nilai akhir terbuka) | 25 |
+
+Badge bab menggantikan notifikasi "Lencana baru" lama; medali di daftar bab halaman Materi tetap tampil (tersembunyi saat gamifikasi nonaktif).
+Badge yang syaratnya sudah terpenuhi sebelum fitur ini ada dicatat diam-diam saat halaman dibuka.
+
+### Menambah badge baru
+
+1. Tambah objek di `GLG.CFG.badges`: `{ id, name, req, icon, color, xp, rule: { type, ... } }`.
+2. `rule.type` memakai salah satu jenis yang ada (`chapter`, `quizScore`, `quizPass`, `dndPerfect`, `simCount`, `simScore`, `weeks`, `final`).
+3. Butuh jenis baru? Tambah fungsi di `GLG.badgeRule` (`03-rules.js`) yang mengembalikan `{ cur, max }`; badge didapat saat `cur >= max`, dan `cur/max` tampil sebagai progres di koleksi.
+
+## Streak mingguan (Fase 2)
+
+- Minggu = Senin–Minggu menurut jam perangkat. **Hari belajar** = hari dengan aktivitas (pelajaran selesai, kuis, drag & drop, simulasi).
+- Target: **3 hari belajar per minggu** (`GLG.CFG.streak.target`). Bukan streak harian, jadi cocok untuk jadwal yang tidak teratur.
+- Streak = jumlah minggu berturut-turut yang target-nya tercapai. Minggu yang sedang berjalan tidak memutus streak.
+- **Hari libur:** setiap 2 minggu target tercapai memberi 1 hari libur (maks 2). Minggu yang terlewat otomatis memakai hari libur sehingga streak tidak putus.
+- Bila putus, pesan yang tampil mengajak mulai lagi ("Belajar itu maraton, bukan sprint"), tanpa hukuman XP.
+- Streak dihitung ulang dari daftar `days` setiap kali, tanpa status tersembunyi.
+
 ## Level
 
 XP kumulatif untuk mencapai level *n* = `55 × (n − 1)^1,5`.
@@ -66,7 +101,7 @@ Key **`gl-gami`** (key lama `mer-done`, `gl-latihan`, `gl-ui`, `gl-badge` tidak 
 
 ```json
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "on": true,
   "ledger": [
     { "id": "lzx1abc", "type": "quiz", "xp": 24, "t": 1761100000000,
@@ -74,6 +109,8 @@ Key **`gl-gami`** (key lama `mer-done`, `gl-latihan`, `gl-ui`, `gl-badge` tidak 
   ],
   "att": { "quiz:b0": 1 },
   "seenLevel": 2,
+  "badges": { "bab1": 1761100000000 },
+  "days": ["2026-10-20", "2026-10-22"],
   "created": 1761100000000
 }
 ```
@@ -83,7 +120,9 @@ Key **`gl-gami`** (key lama `mer-done`, `gl-latihan`, `gl-ui`, `gl-badge` tidak 
   (`lesson:<bab-pelajaran>`, `quiz:<mode>#<percobaan>`, `dnd:<id>#<percobaan>`, `sim:<id>#<percobaan>`).
 - Saat pertama kali aktif, progres lama (pelajaran selesai, skor terbaik kuis/drag & drop/simulasi) diubah jadi
   ledger (`meta.awal = true`) tanpa notifikasi, jadi pengguna lama langsung punya XP sesuai progresnya.
+- `badges`: id badge → waktu didapat. `days`: tanggal lokal (YYYY-MM-DD) yang ada aktivitas belajarnya.
 - **Migrasi skema:** naikkan `schemaVersion` di `01-config.js`, lalu tambah fungsi `MIG[versiLama]` di `02-store.js`.
+  Versi 1 → 2 (Fase 2) menambah `badges` dan `days`; hari belajar diisi dari riwayat ledger & latihan, data lain tidak diubah.
 
 ## Mematikan gamifikasi
 

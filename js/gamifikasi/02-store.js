@@ -20,9 +20,11 @@
   };
 
   const KEY = "gl-gami";
-  const fresh = () => ({ schemaVersion: G.CFG.schemaVersion, on: true, ledger: [], att: {}, seenLevel: 1, created: Date.now() });
-  /* migrasi skema: MIG[n] mengubah data versi n menjadi n+1 (belum ada, versi pertama) */
-  const MIG = {};
+  const fresh = () => ({ schemaVersion: G.CFG.schemaVersion, on: true, ledger: [], att: {}, seenLevel: 1, badges: {}, days: [], created: Date.now() });
+  /* migrasi skema: MIG[n] mengubah data versi n menjadi n+1. Data lama tidak pernah ditimpa, hanya dilengkapi. */
+  const MIG = {
+    1: s => { s.badges = s.badges || {}; s.days = s.days || []; s.needDays = true; s.schemaVersion = 2 }   // Fase 2: badge & streak
+  };
   const migrate = s => { while (s.schemaVersion < G.CFG.schemaVersion && MIG[s.schemaVersion]) MIG[s.schemaVersion](s); return s };
   const valid = s => s && typeof s === "object" && Array.isArray(s.ledger) && typeof s.schemaVersion === "number";
 
@@ -30,7 +32,7 @@
   G.state = () => {
     if (S) return S;
     const r = G.storage.get(KEY);
-    if (valid(r)) S = migrate(Object.assign(fresh(), r));
+    if (valid(r)) { S = migrate(r); const f = fresh(); for (const k in f) if (!(k in S)) S[k] = f[k] }
     else { S = fresh(); isNew = true }
     return S;
   };
