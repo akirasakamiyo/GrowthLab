@@ -1,0 +1,9 @@
+/* lencana bab (5/5) */
+.medal{width:26px;height:30px;flex:none}
+.chbadge{display:inline-flex!important;align-items:center;gap:8px;background:linear-gradient(135deg,#fff4c2,#ffe07a);color:#7a4a00!important;border-radius:99px;padding:5px 14px 5px 8px;font-weight:800}
+.chbadge.new .medal{animation:gxPop .7s var(--spr) both}
+.chrew{display:flex;align-items:center;gap:18px;margin:18px 0 4px;padding:18px 22px;border-radius:22px;background:linear-gradient(135deg,#fff8d6,#ffe9a8);border:1.5px solid #ffd15c}
+.chrew .medal{width:52px;height:60px}.chrew.new .medal,.chap.open .chrew .medal{animation:gxPop .7s var(--spr) both}
+.chrew b{display:block;font-size:1.25rem;color:var(--ink)}.chrew p{margin:2px 0 0;color:#6b5a2a;font-size:.95rem}.chrew .mono{color:#b06a00}
+@media(max-width:800px){.chap>button .chbadge{display:inline-flex!important;padding:4px 8px;font-size:0}.chap>button .chbadge .medal{width:22px;height:26px}}
+@media(prefers-reduced-motion:reduce){.chbadge .medal,.chrew .medal{animation:none!important}}

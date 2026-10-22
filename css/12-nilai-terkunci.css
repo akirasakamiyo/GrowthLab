@@ -1,0 +1,11 @@
+/* nilai akhir terkunci */
+.nl-lock{grid-template-columns:auto 1fr;align-items:start;gap:clamp(16px,3vw,32px)}
+.nl-lk-ic{width:clamp(56px,7vw,84px);aspect-ratio:1;border-radius:24px;background:#eef2ff;display:grid;place-items:center}
+.nl-lk-ic svg{width:58%;fill:none;stroke:var(--ink);stroke-width:1.8;stroke-linecap:round}
+.nl-lock h3{font-size:clamp(1.5rem,2.6vw,2.1rem);margin:6px 0 6px}.nl-lock .mono{color:var(--acc)}
+.nl-req{list-style:none;padding:0;margin:18px 0 0;display:grid;gap:10px}
+.nl-req li{display:flex;align-items:center;gap:14px;padding:14px 18px;border-radius:18px;background:#f4f6ff;font-weight:700}
+.nl-req li small{margin-left:auto;color:#5a6390;font-weight:600}.nl-req li .chip{margin-left:6px}
+.nl-ck{width:26px;height:26px;flex:none;border-radius:50%;border:2px solid #b9c2e8;display:grid;place-items:center;font-size:.85rem;color:#fff}
+.nl-req li.ok{background:#e9f8ef}.nl-req li.ok .nl-ck{background:#1fa463;border-color:#1fa463}
+@media(max-width:600px){.nl-lock{grid-template-columns:1fr}.nl-req li{flex-wrap:wrap}.nl-req li small{margin-left:auto}}

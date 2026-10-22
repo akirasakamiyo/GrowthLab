@@ -1,0 +1,27 @@
+/* v8.4: animasi ilustrasi materi. Jalan hanya saat terlihat (.on), mati untuk prefers-reduced-motion */
+svg.ill .a{transform-box:fill-box;transform-origin:50% 50%;animation-duration:var(--t,3s);animation-delay:var(--d,0s);animation-iteration-count:infinite;animation-timing-function:ease-in-out;animation-play-state:paused}
+svg.ill.on .a{animation-play-state:running}
+svg.ill .a-bob{animation-name:iBob}@keyframes iBob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+svg.ill .a-spin{animation-name:iSpin;animation-timing-function:linear;--t:10s}@keyframes iSpin{to{transform:rotate(360deg)}}
+svg.ill .a-rev{animation-direction:reverse}
+svg.ill .a-pulse{animation-name:iPulse;--t:2.4s}@keyframes iPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+svg.ill .a-beat{animation-name:iBeat;--t:1.4s}@keyframes iBeat{0%,40%,100%{transform:scale(1)}12%{transform:scale(1.2)}26%{transform:scale(1.08)}}
+svg.ill .a-blink{animation-name:iBlink;--t:2s}@keyframes iBlink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.15;transform:scale(.6)}}
+svg.ill .a-swing{animation-name:iSwing;--t:2.6s;animation-direction:alternate}@keyframes iSwing{from{transform:rotate(-55deg)}to{transform:rotate(55deg)}}
+svg.ill .a-wig{animation-name:iWig;--t:1.6s}@keyframes iWig{0%,100%{transform:rotate(-5deg)}50%{transform:rotate(5deg)}}
+svg.ill .a-pop{animation-name:iPop;--t:3s}@keyframes iPop{0%{transform:scale(0);opacity:0}10%{transform:scale(1.18);opacity:1}18%,88%{transform:scale(1);opacity:1}100%{transform:scale(0);opacity:0}}
+svg.ill .a-draw{animation-name:iDraw;--t:3s}@keyframes iDraw{0%{stroke-dasharray:1;stroke-dashoffset:1}45%,90%{stroke-dasharray:1;stroke-dashoffset:0;opacity:1}100%{stroke-dasharray:1;stroke-dashoffset:0;opacity:0}}
+svg.ill .a-grow{animation-name:iGrow;--t:4s}@keyframes iGrow{0%{transform:scaleY(.15)}40%,88%{transform:scaleY(1)}100%{transform:scaleY(.15)}}
+svg.ill .a-up{animation-name:iUp;--t:3s;animation-timing-function:ease-out}@keyframes iUp{0%{transform:translateY(6px);opacity:0}20%{opacity:1}100%{transform:translateY(-34px);opacity:0}}
+svg.ill .a-fade{animation-name:iFade;--t:5s}svg.ill .a-fade2{animation-name:iFade2;--t:5s}
+@keyframes iFade{0%,40%{opacity:1;transform:translateY(0)}50%,90%{opacity:0;transform:translateY(6px)}100%{opacity:1}}
+@keyframes iFade2{0%,40%{opacity:0;transform:scale(.4)}50%,90%{opacity:1;transform:scale(1)}100%{opacity:0;transform:scale(.4)}}
+svg.ill .a-snap{animation-name:iSnap;--t:3.6s}@keyframes iSnap{0%,100%{transform:translate(30px,22px) rotate(14deg)}35%,85%{transform:none}}
+svg.ill .a-breath{animation-name:iBreath;--t:5s}@keyframes iBreath{0%,100%{transform:scale(.78)}50%{transform:scale(1.08)}}
+svg.ill .a-charge{animation-name:iCharge;--t:4s}@keyframes iCharge{0%{transform:scaleX(.12);fill:#ff5a3c}45%{fill:#ffc83d}80%,100%{transform:scaleX(1);fill:#14b8a6}}
+svg.ill .a-scanY{animation-name:iScanY;--t:4s}@keyframes iScanY{0%,100%{transform:translate(0,0)}25%{transform:translate(30px,18px)}50%{transform:translate(0,40px)}75%{transform:translate(28px,58px)}}
+svg.ill .a-flip{animation-name:iFlip;--t:3.4s}@keyframes iFlip{0%,15%{transform:scaleX(1)}50%,65%{transform:scaleX(-1)}100%{transform:scaleX(1)}}
+svg.ill .a-fly{animation-name:iFly;--t:3s;animation-timing-function:ease-in}@keyframes iFly{0%{transform:translate(-50px,30px) rotate(-10deg);opacity:0}15%{opacity:1}80%{opacity:1}100%{transform:translate(18px,-18px) rotate(6deg);opacity:0}}
+svg.ill .a-hit{animation-name:iHit;--t:3s}@keyframes iHit{0%{transform:translate(70px,-24px);opacity:0}10%{opacity:1}30%{transform:none}34%{transform:rotate(-3deg)}38%,90%{transform:none;opacity:1}100%{opacity:0}}
+svg.ill .a-slide{animation-name:iSlide;--t:1.8s;animation-direction:alternate}@keyframes iSlide{from{transform:translateX(-8px)}to{transform:translateX(8px)}}
+@media (prefers-reduced-motion:reduce){svg.ill .a{animation:none!important}}
