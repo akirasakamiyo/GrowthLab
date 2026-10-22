@@ -86,8 +86,8 @@ function updateProgress(){
  $("#cont").firstChild.textContent=p>=1?"Lanjut ke Latihan ":done.size?"Lanjut belajar ":"Mulai kursus ";
 if($("#dh")){$("#dh").textContent=pct()>=1?"Materi selesai! Saatnya latihan.":"Siap untuk langkah pertama?";$("#cta2").textContent=p>=1?"Ke Latihan":done.size?"Lanjut belajar":"Mulai belajar";$("#cta2").href=p>=1?"#/latihan":"#/course"}
 }
-function markL(ev){const k=cur.join("-"),w=done.has(k);w?done.delete(k):done.add(k);save();renderLesson(...cur);if(!w){boom(ev.clientX,ev.clientY);toast(done.size>=total?"Semua pelajaran selesai! Lanjut ke Latihan.":`Pelajaran selesai! ${done.size}/${total}`);if(chFull(cur[0])&&done.size<total)badgeEarned(cur[0])}}
-function nextL(ev){let[i,j]=cur;const w=done.has(i+"-"+j);done.add(i+"-"+j);save();boom(ev.clientX,ev.clientY);if(!w){toast(`Pelajaran selesai! ${done.size}/${total}`);if(chFull(i))badgeEarned(i)}j++;if(j>=C.chapters[i].l.length){i++;j=0}
+function markL(ev){const k=cur.join("-"),w=done.has(k);w?done.delete(k):done.add(k);save();renderLesson(...cur);if(!w){window.GLG&&GLG.emit("lesson",{k});boom(ev.clientX,ev.clientY);toast(done.size>=total?"Semua pelajaran selesai! Lanjut ke Latihan.":`Pelajaran selesai! ${done.size}/${total}`);if(chFull(cur[0])&&done.size<total)badgeEarned(cur[0])}}
+function nextL(ev){let[i,j]=cur;const w=done.has(i+"-"+j);done.add(i+"-"+j);save();boom(ev.clientX,ev.clientY);if(!w){window.GLG&&GLG.emit("lesson",{k:i+"-"+j});toast(`Pelajaran selesai! ${done.size}/${total}`);if(chFull(i))badgeEarned(i)}j++;if(j>=C.chapters[i].l.length){i++;j=0}
  location.hash=i>=C.chapters.length?"#/latihan":"#/lesson/"+i+"-"+j}
 $("#mark").onclick=markL;$("#nextl").onclick=nextL;
 $("#back").onclick=()=>location.hash="#/course";

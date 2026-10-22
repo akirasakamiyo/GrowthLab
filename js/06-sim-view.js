@@ -29,7 +29,7 @@ function saveRun(c,st){const d=data(),o=d.sim[c.id]||(d.sim[c.id]={best:null,las
 function finalize(c,st){const rec=E.result(c,st),e=E.ending(c,st),d=data(),o=d.sim[c.id]||(d.sim[c.id]={best:null,last:null,hist:[],endings:[],run:null});
  const prev=o.best,better=S.lebihBaik(rec,prev),saved={score:rec.score,ending:rec.ending,path:rec.path,t:rec.t};
  if(better)o.best=saved;o.last=saved;o.hist=(o.hist||[]).concat(saved).slice(-20);if(!o.endings.includes(e.id))o.endings=o.endings.concat(e.id);o.run=null;
- const ok=GLS.db.save(d);U.nilai();return{rec,e,prev,better,found:o.endings.length,persist:ok}}
+ const ok=GLS.db.save(d);window.GLG&&GLG.emit("sim",{id:c.id,score:rec.score});U.nilai();return{rec,e,prev,better,found:o.endings.length,persist:ok}}
 
 /* ---------- mesin tik ---------- */
 let TW=null;

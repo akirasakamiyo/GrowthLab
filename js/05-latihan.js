@@ -265,7 +265,7 @@ function usePU(k){if(!QZ||QZ.phase!=="q"||!(QZ.inv[k]>0))return;QZ.inv[k]--;SND.
 function qFinish(){qTimerStop();SND.music(null);const{n,ben,sc}=qScore(),d=load(),b=d.kuis.best[QZ.m];
  QZ.t1=Date.now();const rec={score:r1(sc),benar:ben,n,t:Date.now(),dur:QZ.t1-QZ.t0,poin:QZ.pts,streak:QZ.maxS};
  d.kuis.ptsBest=d.kuis.ptsBest||{};QZ.prevPts=d.kuis.ptsBest[QZ.m]||0;if(QZ.pts>QZ.prevPts)d.kuis.ptsBest[QZ.m]=QZ.pts;
- if(!b||rec.score>=b.score)d.kuis.best[QZ.m]=rec;d.kuis.hist.push(Object.assign({m:QZ.m},rec));cap(d.kuis.hist);save(d);QZ.done=true;QZ.phase="res";
+ if(!b||rec.score>=b.score)d.kuis.best[QZ.m]=rec;d.kuis.hist.push(Object.assign({m:QZ.m},rec));cap(d.kuis.hist);save(d);window.GLG&&GLG.emit("quiz",{m:QZ.m,score:rec.score,benar:ben,n});QZ.done=true;QZ.phase="res";
  paintRes(true);if(QZ.m==="all")nilai(true);drawQuiz()}
 function resHTML(){const{n,ben,sc}=qScore(),P=GLD.PASS_MCQ,ok=sc>=P,to=QZ.ans.filter(a=>a<0).length,avg=QZ.times.reduce((a,b)=>a+(b||0),0)/n;
  const bd=[[ben===n,"Sempurna","Semua jawaban benar"],[QZ.maxS>=5,"Beruntun "+QZ.maxS,"Lima jawaban benar berturut-turut atau lebih"],[avg<10000&&ok,"Kilat","Rata-rata kurang dari 10 detik per soal"],[ok,"Lulus","Nilai mencapai batas lulus "+P],[QZ.prevPts>0&&QZ.pts>QZ.prevPts,"Rekor poin baru","Melewati rekor poinmu sebelumnya"]].filter(x=>x[0]);
@@ -350,7 +350,7 @@ function ddPlace(i,z,from){if(i==null)return;const S=DD.S;z=z==="pool"?null:z;co
 function rankMove(i,to,focus){const a=DD.seq,p=a.indexOf(i);to=clamp(to,0,a.length-1);if(p===to)return;a.splice(p,1);a.splice(to,0,i);DD.moves++;ddDirty();ddTimerGo();drawDD(focus?i:null,{flip:true});SND.play("swap");live(`Dipindah ke posisi ${to+1} dari ${a.length}.`)}
 function ddCheck(){if(DD.shown)return;const S=DD.S,n=S.items.length,ben=S.items.filter((it,i)=>posOf(i)===it.k).length,sisa=DD.ord?0:n-Object.keys(DD.place).length;
  DD.checked=true;DD.rv=false;DD.perfect=ben===n;DD.res=`${ben} dari ${n} benar${sisa?` · ${sisa} kartu belum ditempatkan`:""}`;if(DD.perfect&&!DD.t1)DD.t1=Date.now();if(DD.perfect)ddTimerStop();
- const d=load(),o=d.dnd[S.id]||{best:{benar:0,n},n:0};o.n++;if(ben>=o.best.benar)o.best={benar:ben,n,t:Date.now()};if(DD.perfect&&DD.t0){const el=DD.t1-DD.t0;if(!o.bestT||el<o.bestT)o.bestT=el}d.dnd[S.id]=o;save(d);
+ const d=load(),o=d.dnd[S.id]||{best:{benar:0,n},n:0};o.n++;if(ben>=o.best.benar)o.best={benar:ben,n,t:Date.now()};if(DD.perfect&&DD.t0){const el=DD.t1-DD.t0;if(!o.bestT||el<o.bestT)o.bestT=el}d.dnd[S.id]=o;save(d);window.GLG&&GLG.emit("dnd",{id:S.id,benar:ben,n});
  DD.sel=null;drawDD();live(DD.res);
  const cs=qa(".gd-card.ok,.gd-card.no").sort((a,b)=>{const x=a.getBoundingClientRect(),y=b.getBoundingClientRect();return x.top-y.top||x.left-y.left});const tok=DD.tok={};
  const fin=()=>{if(DD.tok!==tok)return;DD.rv=true;cs.forEach(c=>c.classList.add("show"));

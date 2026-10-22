@@ -41,7 +41,7 @@ const kat = (a, pg) => { let k = r1(a) >= 86 ? 0 : r1(a) >= 71 ? 1 : r1(a) >= 56
 
   /* 1. setiap ending di setiap kasus, dimainkan lewat UI */
   const seedPG = 82.4;
-  let { ctx, page } = await mk({ seed: { v: 2, kuis: { best: { all: { score: seedPG, benar: 28, n: 34, t: 1 } }, hist: [], ptsBest: {} }, dnd: {}, sim: {}, akhir: { last: null, hist: [] } } });
+  let { ctx, page } = await mk({ seed: { v: 2, kuis: { best: { all: { score: seedPG, benar: 28, n: 34, t: 1 } }, hist: [], ptsBest: {} }, dnd: Object.fromEntries(["traps", "stres", "ccc", "ps", "foa", "sign"].map(id => [id, { best: { benar: 1, n: 1, t: 1 }, n: 1 }])), sim: {}, akhir: { last: null, hist: [] } } });
   await go(page, "#/latihan/sim");
   const plan = await page.evaluate(() => GLD.SIM.filter(GLS.eng.playable).map(c => { const E = GLS.eng, out = {};
     const walk = st => { if (E.done(st)) { const e = E.ending(c, st); if (!out[e.id]) out[e.id] = { ids: st.ids, score: GLS.score.aspek(st.scores), type: e.type }; return } E.choices(c, st).forEach(ch => walk(E.choose(c, st, ch.id).st)) };

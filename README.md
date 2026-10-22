@@ -20,6 +20,7 @@ css/                  gaya, dimuat berurutan sesuai nomor
   10-layout-lebar.css   revisi dosen: konten penuh layar 16:9
   11-lencana-bab.css    lencana saat bab tuntas 5/5
   12-nilai-terkunci.css nilai akhir terkunci sampai semua latihan selesai
+  13-gamifikasi.css     XP, level, notifikasi (bisa dimatikan)
 js/                   skrip, dimuat berurutan sesuai nomor
   03-data.js            SEMUA ISI: materi Bab 1–3, kuis, drag & drop, simulasi, glosarium (edit teks di sini)
   04-sim-core.js        logika & rumus nilai simulasi
@@ -29,6 +30,7 @@ js/                   skrip, dimuat berurutan sesuai nomor
   09-app.js             router halaman, progres, lencana bab
   10–19                 efek visual (hero 3D, chat, motion, hover)
   20-scorm.js           laporan nilai ke LMS (SCORM 1.2)
+  gamifikasi/           XP, level, notifikasi — terpisah dari konten, lihat GAMIFICATION.md
 vendor/               pustaka & font lokal (GSAP, Lenis, Matter, three.js) — tidak perlu internet
 assets/sim/           gambar latar simulasi
 assets/sb/            screenshot untuk storyboard
@@ -47,3 +49,7 @@ Buka `index.html` langsung di browser, atau jalankan server lokal: `node tests/s
 node tools/build-offline.js          # dist/GrowthLab_offline.zip dan dist/GrowthLab_SCORM12.zip
 ./tools/build-pages.sh --push        # salin ke ~/Desktop/growthlab-web lalu push ke GitHub
 ```
+
+## Catatan keamanan
+
+Semua progres, skor, dan XP disimpan di browser (localStorage), jadi bisa diubah lewat devtools. Ini diterima untuk prototipe; logika XP terisolasi di `js/gamifikasi/` agar mudah dipindah ke server. Detail di `GAMIFICATION.md`.
