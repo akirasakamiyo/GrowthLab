@@ -184,7 +184,7 @@
     document.body.appendChild(dlg);
     dlg.addEventListener("click", e => {
       if (e.target === dlg || e.target.closest(".gx-x")) return close();
-      if (e.target.closest(".gx-sw")) { G.state().on = !on(); G.save(); applyOn(); render(); open() }
+      if (e.target.closest(".gx-sw")) { G.state().on = !on(); G.save(); if (G.log) G.log("gami_toggle", { on: on() }); applyOn(); render(); open() }
     });
     dlg.addEventListener("keydown", e => {
       if (e.key === "Escape") { e.preventDefault(); close() }

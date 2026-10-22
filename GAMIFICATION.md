@@ -5,7 +5,7 @@ Lapisan gamifikasi opsional di atas fitur belajar yang sudah ada. Prinsipnya:
 - **Bisa dimatikan.** Toggle "Mode gamifikasi" ada di panel detail (klik chip level di navbar, atau tombol *Detail* di kartu Progres halaman Materi; saat nonaktif, kartu itu menampilkan tautan *Atur* untuk menyalakannya lagi). Saat nonaktif, semua elemen gamifikasi tersembunyi dan situs berjalan seperti biasa. XP tetap dicatat diam-diam, jadi tidak hilang bila diaktifkan lagi.
 - **Tanpa leaderboard**, tanpa library tambahan, tanpa server.
 
-Status: **Fase 1** (XP, level, notifikasi), **Fase 2** (badge, streak mingguan), **Fase 3** (quest mingguan, profil kesiapan kerja, remedial & petunjuk, saran urutan simulasi), **Fase 4** (cadangan progres, sertifikat, antarmuka penyimpanan). Fase berikutnya: log pengukuran.
+Status: **Fase 1** (XP, level, notifikasi), **Fase 2** (badge, streak mingguan), **Fase 3** (quest mingguan, profil kesiapan kerja, remedial & petunjuk, saran urutan simulasi), **Fase 4** (cadangan progres, sertifikat, antarmuka penyimpanan), **Fase 5** (log pengukuran lokal).
 
 ## File
 
@@ -16,6 +16,7 @@ Status: **Fase 1** (XP, level, notifikasi), **Fase 2** (badge, streak mingguan),
 | `js/gamifikasi/03-rules.js` | Rule engine: hitung XP per event, total, level. Tidak menyentuh DOM. |
 | `js/gamifikasi/04-ui.js` | Chip navbar, kartu level & streak, notifikasi `aria-live` (XP, badge, naik level, target minggu), panel detail (level, streak, koleksi badge) + toggle |
 | `js/gamifikasi/05-cadangan.js` | Ekspor/impor progres (JSON) dan sertifikat PNG. Selalu tampil di panel, juga saat gamifikasi nonaktif. |
+| `js/gamifikasi/06-log.js` | Log pengukuran lokal (sesi & event), ringkasan, unduh JSON/CSV |
 | `css/13-gamifikasi.css` | Gaya. `html.gx-off` menyembunyikan semua elemen `.gx`. |
 
 ### Titik sambung di kode lama (hanya satu baris per tempat)
@@ -117,6 +118,21 @@ Untuk tes otomatis, set `window.GL_NO_GATE = 1` sebelum halaman dimuat.
 - **Antarmuka penyimpanan**: semua akses data gamifikasi lewat `GLG.storage = { get(key), set(key, value) }`.
   Untuk pindah ke backend, panggil `GLG.useStorage(adapter)` sebelum `04-ui.js` dimuat; adapter async bisa memakai cache lokal lalu sinkron di belakang.
   Bagian lama situs (progres pelajaran & latihan) masih memakai localStorage langsung.
+
+## Log pengukuran (Fase 5)
+
+Key **`gl-log`**, hanya di browser, tidak pernah dikirim ke pihak mana pun. Tetap mencatat walau mode gamifikasi nonaktif.
+
+```json
+{ "schemaVersion": 1, "device": "q7ov6u36", "created": 1761100000000,
+  "sessions": [{ "id": "knazknoj", "start": 1761100000000, "end": 1761101800000, "events": 12 }],
+  "events": [{ "t": 1761100000000, "type": "quiz", "sid": "knazknoj", "data": { "m": "b0", "score": 60, "benar": 6, "n": 10 } }] }
+```
+
+- `device` = id acak per browser (anonim, bukan data pribadi). Sesi baru bila jeda > 30 menit. Maks 3.000 event (yang terlama dibuang).
+- Jenis event: `session_start`, `view` (halaman), `lesson_done`, `quiz`, `dnd`, `sim`, `xp`, `badge`, `level_up`, `quest_done`, `hint`, `gate_skip`, `gami_toggle`, `export`, `sertifikat`.
+- Panel → *Catatan aktivitas belajar*: ringkasan (sesi, hari aktif, menit, completion rate) dan unduh **.json** (ringkasan + sesi + event) atau **.csv** (satu baris per event). Log juga ikut dalam file cadangan progres.
+- Ringkasan `quiz` berisi skor **percobaan pertama vs terbaik** per mode kuis, bisa dipakai sebagai data pre/post sederhana.
 
 ## Level
 
