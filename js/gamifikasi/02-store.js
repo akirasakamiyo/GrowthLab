@@ -19,6 +19,10 @@
     set(k, v) { mem[k] = v; try { localStorage.setItem(k, JSON.stringify(v)); return true } catch (e) { return false } }
   };
 
+  /* ganti penyimpanan (mis. adapter Supabase/Firebase) dengan objek { get(key), set(key, value) } yang sinkron.
+     Adapter async bisa memakai cache lokal ini lalu menyinkronkan di belakang. Panggil sebelum 04-ui.js dimuat. */
+  G.useStorage = adapter => { if (adapter && typeof adapter.get === "function" && typeof adapter.set === "function") { G.storage = adapter; S = null } };
+
   const KEY = "gl-gami";
   const fresh = () => ({ schemaVersion: G.CFG.schemaVersion, on: true, ledger: [], att: {}, seenLevel: 1, badges: {}, days: [], created: Date.now() });
   /* migrasi skema: MIG[n] mengubah data versi n menjadi n+1. Data lama tidak pernah ditimpa, hanya dilengkapi. */

@@ -5,7 +5,7 @@ Lapisan gamifikasi opsional di atas fitur belajar yang sudah ada. Prinsipnya:
 - **Bisa dimatikan.** Toggle "Mode gamifikasi" ada di panel detail (klik chip level di navbar, atau tombol *Detail* di kartu Progres halaman Materi; saat nonaktif, kartu itu menampilkan tautan *Atur* untuk menyalakannya lagi). Saat nonaktif, semua elemen gamifikasi tersembunyi dan situs berjalan seperti biasa. XP tetap dicatat diam-diam, jadi tidak hilang bila diaktifkan lagi.
 - **Tanpa leaderboard**, tanpa library tambahan, tanpa server.
 
-Status: **Fase 1** (XP, level, notifikasi), **Fase 2** (badge, streak mingguan), **Fase 3** (quest mingguan, profil kesiapan kerja, remedial & petunjuk, saran urutan simulasi). Fase berikutnya: ekspor/impor & sertifikat, log pengukuran.
+Status: **Fase 1** (XP, level, notifikasi), **Fase 2** (badge, streak mingguan), **Fase 3** (quest mingguan, profil kesiapan kerja, remedial & petunjuk, saran urutan simulasi), **Fase 4** (cadangan progres, sertifikat, antarmuka penyimpanan). Fase berikutnya: log pengukuran.
 
 ## File
 
@@ -15,6 +15,7 @@ Status: **Fase 1** (XP, level, notifikasi), **Fase 2** (badge, streak mingguan),
 | `js/gamifikasi/02-store.js` | Event bus `GLG.emit/on`, lapisan penyimpanan `GLG.storage`, ledger, versi skema & migrasi |
 | `js/gamifikasi/03-rules.js` | Rule engine: hitung XP per event, total, level. Tidak menyentuh DOM. |
 | `js/gamifikasi/04-ui.js` | Chip navbar, kartu level & streak, notifikasi `aria-live` (XP, badge, naik level, target minggu), panel detail (level, streak, koleksi badge) + toggle |
+| `js/gamifikasi/05-cadangan.js` | Ekspor/impor progres (JSON) dan sertifikat PNG. Selalu tampil di panel, juga saat gamifikasi nonaktif. |
 | `css/13-gamifikasi.css` | Gaya. `html.gx-off` menyembunyikan semua elemen `.gx`. |
 
 ### Titik sambung di kode lama (hanya satu baris per tempat)
@@ -104,6 +105,18 @@ Simulasi kasus ke-*i* disarankan setelah lulus Kuis Bab *i*. Bila belum, membuka
 **Kerjakan Kuis Bab i** atau **Lewati, main sekarang** (pilihan lewati diingat per simulasi di `skip`). Tidak ada konten yang benar-benar dikunci,
 jadi nilai akhir tetap bisa diselesaikan dengan urutan apa pun. Saat gamifikasi nonaktif, dialog ini tidak muncul.
 Untuk tes otomatis, set `window.GL_NO_GATE = 1` sebelum halaman dimuat.
+
+## Cadangan progres & sertifikat (Fase 4)
+
+- **Unduh cadangan (.json)**: semua key progres (`mer-done`, `gl-latihan`, `gl-ui`, `gl-badge`, `gl-ord`, `gl-gami`) dalam satu file
+  `{ "format": "growthlab-progres", "version": 1, "exported": "...", "schemaVersion": 2, "data": { ... } }`. Berjalan tanpa server (Blob + `<a download>`).
+- **Pulihkan dari file**: file divalidasi (format, tipe data, hanya key yang dikenal, maks 5 MB), minta konfirmasi, lalu halaman dimuat ulang.
+  Data `gl-gami` versi lama otomatis dimigrasikan saat dimuat.
+- **Sertifikat penyelesaian**: terbuka setelah 15 pelajaran selesai. Gambar PNG 1600×1130 (canvas, tanpa pustaka) berisi nama, bab, profil kesiapan kerja,
+  level, XP, badge, dan nilai akhir bila sudah ada. Nama disimpan di `gl-ui.nama` (sama dengan kartu hasil cetak yang sudah ada).
+- **Antarmuka penyimpanan**: semua akses data gamifikasi lewat `GLG.storage = { get(key), set(key, value) }`.
+  Untuk pindah ke backend, panggil `GLG.useStorage(adapter)` sebelum `04-ui.js` dimuat; adapter async bisa memakai cache lokal lalu sinkron di belakang.
+  Bagian lama situs (progres pelajaran & latihan) masih memakai localStorage langsung.
 
 ## Level
 

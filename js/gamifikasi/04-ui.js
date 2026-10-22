@@ -177,6 +177,7 @@
       ${badgesHTML()}
       <div class="gx"><span class="mono">XP terakhir</span>${recent.length ? `<ul class="gx-rec">${recent.map(e => `<li><b>+${e.xp}</b> ${esc(e.meta.label || e.type)}${e.meta.awal ? " <small>(progres sebelumnya)</small>" : ""}</li>`).join("")}</ul>` : "<p>Belum ada XP. Selesaikan pelajaran atau latihan untuk mulai.</p>"}
       <p class="gx-how">XP didapat dari pelajaran yang selesai dan skor latihan. Mengulang latihan hanya menambah XP bila skormu naik.</p></div>
+      ${(G.panelExtra || []).map(f => { try { return f() } catch (e) { return "" } }).join("")}
       <div class="gx-set"><div><b id="gx-tl">Mode gamifikasi</b><small>Matikan bila kamu ingin belajar tanpa XP dan level. Progres belajar tetap tersimpan.</small></div>
         <button type="button" class="gx-sw" role="switch" aria-checked="${on()}" aria-labelledby="gx-tl"><i></i><span>${on() ? "Aktif" : "Nonaktif"}</span></button></div>
     </div>`;
@@ -187,7 +188,7 @@
     });
     dlg.addEventListener("keydown", e => {
       if (e.key === "Escape") { e.preventDefault(); close() }
-      if (e.key === "Tab") { const f = [...dlg.querySelectorAll("button")], a = f[0], z = f[f.length - 1];
+      if (e.key === "Tab") { const f = [...dlg.querySelectorAll("button,input,a[href]")].filter(x => x.offsetParent !== null), a = f[0], z = f[f.length - 1];
         if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus() } else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus() } }
     });
     dlg.querySelector(".gx-x").focus();
