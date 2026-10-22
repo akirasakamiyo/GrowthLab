@@ -29,8 +29,11 @@
   live.className = "gx gx-live"; live.setAttribute("aria-live", "polite"); live.setAttribute("role", "status");
   document.body.appendChild(live);
 
-  const fcol = [...document.querySelectorAll("footer .fgrid > div")].pop();
-  if (fcol) { const a = document.createElement("a"); a.href = "#"; a.dataset.gxOpen = ""; a.textContent = "Pengaturan gamifikasi"; fcol.appendChild(a) }
+  /* saat mode nonaktif: catatan kecil di kartu Progres agar mode bisa dinyalakan lagi */
+  const offNote = document.createElement("p");
+  offNote.className = "gx-offnote";
+  offNote.innerHTML = 'Mode gamifikasi nonaktif. <button type="button" data-gx-open>Atur</button>';
+  if (panel) panel.appendChild(offNote);
 
   /* ---------- render ---------- */
   const bar = p => `<span class="gx-bar" aria-hidden="true"><i style="--w:${Math.max(0, Math.min(1, p))}"></i></span>`;

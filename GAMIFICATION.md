@@ -2,7 +2,7 @@
 
 Lapisan gamifikasi opsional di atas fitur belajar yang sudah ada. Prinsipnya:
 - **Reward = kompetensi.** XP datang dari pelajaran yang selesai dan *skor* latihan. Mengulang latihan hanya memberi XP bila skornya naik.
-- **Bisa dimatikan.** Toggle "Mode gamifikasi" ada di panel detail (klik chip level di navbar, tombol *Detail* di halaman Materi, atau tautan *Pengaturan gamifikasi* di footer). Saat nonaktif, semua elemen gamifikasi tersembunyi dan situs berjalan seperti biasa. XP tetap dicatat diam-diam, jadi tidak hilang bila diaktifkan lagi.
+- **Bisa dimatikan.** Toggle "Mode gamifikasi" ada di panel detail (klik chip level di navbar, atau tombol *Detail* di kartu Progres halaman Materi; saat nonaktif, kartu itu menampilkan tautan *Atur* untuk menyalakannya lagi). Saat nonaktif, semua elemen gamifikasi tersembunyi dan situs berjalan seperti biasa. XP tetap dicatat diam-diam, jadi tidak hilang bila diaktifkan lagi.
 - **Tanpa leaderboard**, tanpa library tambahan, tanpa server.
 
 Status: **Fase 1** (XP, level, notifikasi). Fase berikutnya: badge & streak mingguan, quest & skill map, ekspor/impor & sertifikat, log pengukuran.

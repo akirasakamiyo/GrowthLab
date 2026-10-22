@@ -1,5 +1,7 @@
 /* ===== Gamifikasi: chip XP, kartu level, notifikasi, panel detail. html.gx-off menyembunyikan semuanya. ===== */
 .gx-off .gx,.gx-off .gx-live{display:none!important}
+.gx-offnote{display:none;margin-top:14px;font-size:.88rem;color:#5a6390}.gx-off .gx-offnote{display:block}
+.gx-offnote button{border:0;background:none;padding:0;font:inherit;font-weight:700;color:#2a56f5;text-decoration:underline;cursor:pointer}
 .gx svg,.gx-toast svg{width:1em;height:1em;fill:#ffc83d;stroke:#1b1740;stroke-width:1.6;stroke-linejoin:round;flex:none}
 
 /* chip di navbar */
