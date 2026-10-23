@@ -107,7 +107,7 @@ function route(){
 }
 /* ke atas halaman: juga saat Lenis sedang dihentikan oleh lapisan motion ketika pindah rute */
 function toTop(y=0){scrollTo({top:y,left:0,behavior:"instant"});try{window.__lenis&&window.__lenis.scrollTo(y,{immediate:true,force:true})}catch(e){}}
-addEventListener("hashchange",()=>{const k=keyOf();if(k===lastK||RM){lastK=k;route();return}lastK=k;const c=$("#curtain");c.className="curtain in";setTimeout(()=>{route();c.className="curtain out";setTimeout(()=>{c.className="curtain"},650)},520)});
+addEventListener("hashchange",()=>{const k=keyOf();if(k===lastK||RM){lastK=k;route();return}lastK=k;const c=$("#curtain"),v=window.pickTrans?pickTrans():"";/* transisi acak, lihat js/21-transisi.js */c.className="curtain "+v;void c.offsetWidth;c.className="curtain "+v+" in";setTimeout(()=>{route();c.className="curtain "+v+" out";setTimeout(()=>{c.className="curtain"},650)},520)});
 const setMenu=o=>{$("#links").classList.toggle("open",o);$("#burger").setAttribute("aria-expanded",o);$("#burger").textContent=o?"Tutup":"Menu"};$("#burger").onclick=()=>setMenu(!$("#links").classList.contains("open"));
 $$("[data-close]").forEach(a=>a.addEventListener("click",()=>setMenu(false)));
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});

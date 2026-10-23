@@ -1,0 +1,55 @@
+/* ==================================================================
+   Transisi antarhalaman yang beragam (dipilih acak oleh js/21-transisi.js).
+   Tiap varian .v-* mengatur posisi awal tirai, posisi menutup (.in), dan posisi keluar (.out).
+   Tanpa varian = transisi lama (tirai naik ke atas). prefers-reduced-motion tetap mematikan tirai.
+   ================================================================== */
+.curtain[class*=" v-"] i{will-change:transform,clip-path,opacity}
+.curtain.in i,.curtain.out i{transition-property:transform,clip-path,opacity,border-radius}
+
+/* turun dari atas */
+.curtain.v-down i{transform:translateY(-101%)}
+.curtain.v-down.in i{transform:none}
+.curtain.v-down.out i{transform:translateY(101%)}
+
+/* menyapu dari kanan / dari kiri (bilah mendatar) */
+.curtain.v-left,.curtain.v-right,.curtain.v-shutter{flex-direction:column}
+.curtain.v-left i{transform:translateX(101%)}
+.curtain.v-left.in i{transform:none}
+.curtain.v-left.out i{transform:translateX(-101%)}
+.curtain.v-right i{transform:translateX(-101%)}
+.curtain.v-right.in i{transform:none}
+.curtain.v-right.out i{transform:translateX(101%)}
+
+/* tirai jendela (bilah tegak membuka-menutup) */
+.curtain.v-blinds i{transform:scaleY(0);transform-origin:top}
+.curtain.v-blinds.in i{transform:none}
+.curtain.v-blinds.out i{transform:scaleY(0);transform-origin:bottom}
+
+/* rana (bilah mendatar melebar dari kiri, keluar ke kanan) */
+.curtain.v-shutter i{transform:scaleX(0);transform-origin:left}
+.curtain.v-shutter.in i{transform:none}
+.curtain.v-shutter.out i{transform:scaleX(0);transform-origin:right}
+
+/* diagonal (bilah miring naik) */
+.curtain.v-diag{transform:skewX(-14deg) scaleX(1.35)}
+.curtain.v-diag i{transform:translateY(105%)}
+.curtain.v-diag.in i{transform:none}
+.curtain.v-diag.out i{transform:translateY(-105%)}
+
+/* lingkaran membesar dari tengah, lalu mengecil */
+.curtain.v-circle i:not(:first-child){display:none}
+.curtain.v-circle i:first-child{transform:none;clip-path:circle(0% at 50% 50%)}
+.curtain.v-circle.in i:first-child{clip-path:circle(75% at 50% 50%)}
+.curtain.v-circle.out i:first-child{clip-path:circle(0% at 50% 50%)}
+
+/* kotak-kotak memantul (bilah tumbuh dari titik tengahnya) */
+.curtain.v-pop i{transform:scale(0);border-radius:50%}
+.curtain.v-pop.in i{transform:scale(1.02);border-radius:0}
+.curtain.v-pop.out i{transform:scale(0);border-radius:50%;opacity:.4}
+
+/* pudar */
+.curtain.v-fade i{transform:none;opacity:0}
+.curtain.v-fade.in i{opacity:1}
+.curtain.v-fade.out i{opacity:0}
+
+@media(prefers-reduced-motion:reduce){.curtain{display:none!important}}

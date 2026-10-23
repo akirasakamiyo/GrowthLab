@@ -21,6 +21,7 @@ css/                  gaya, dimuat berurutan sesuai nomor
   11-lencana-bab.css    lencana saat bab tuntas 5/5
   12-nilai-terkunci.css nilai akhir terkunci sampai semua latihan selesai
   13-gamifikasi.css     XP, level, notifikasi (bisa dimatikan)
+  14-transisi.css       10 jenis transisi antarhalaman (dipilih acak)
 js/                   skrip, dimuat berurutan sesuai nomor
   03-data.js            SEMUA ISI: materi Bab 1–3, kuis, drag & drop, simulasi, glosarium (edit teks di sini)
   04-sim-core.js        logika & rumus nilai simulasi
@@ -30,6 +31,7 @@ js/                   skrip, dimuat berurutan sesuai nomor
   09-app.js             router halaman, progres, lencana bab
   10–19                 efek visual (hero 3D, chat, motion, hover)
   20-scorm.js           laporan nilai ke LMS (SCORM 1.2)
+  21-transisi.js        pemilih transisi halaman acak (tidak mengulang jenis yang sama berturut-turut)
   gamifikasi/           XP, level, notifikasi — terpisah dari konten, lihat GAMIFICATION.md
 vendor/               pustaka & font lokal (GSAP, Lenis, Matter, three.js) — tidak perlu internet
 assets/sim/           gambar latar simulasi
