@@ -333,3 +333,15 @@ urutan dan isi persis sama (diverifikasi: digabung ulang = identik dengan file l
   (ekstrak lalu buka `index.html`; sudah dicek jalan via file:// di Safari & Chrome). `GrowthLab_offline.html` (satu file) dihapus.
 - Tes membaca `index.html` (serve.js default `/index.html`; t-core membaca `js/03-data.js` & `js/04-sim-core.js` lewat index.html).
 - `./tools/build-pages.sh --push` menyalin ke `~/Desktop/growthlab-web` dan langsung push ke GitHub.
+
+## 14. Revisi simulasi: bahasa luwes, adaptif, berdasar kasus nyata (2026-10-24)
+
+- Ketiga kasus (`js/03-data.js`, `cv: 2`) ditulis ulang dengan bahasa yang lebih luwes; struktur & skor pilihan lama tetap.
+- Field baru `dasar: {x, src:[{t,o,u}]}` per kasus → panel "Dasar kasus nyata" di layar pembuka. Sumber (sudah dicek):
+  BPS Feb 2025 TPT SMK 8% (detikEdu 6 Mei 2025); Permenaker 6/2020 Pasal 13 (Hukumonline 30 Nov 2022);
+  batas lembur 4 jam/hari & 18 jam/minggu + persetujuan tercatat (UU Ketenagakerjaan Pasal 78 jo. UU Cipta Kerja, PP 35/2021 Pasal 28; Hukumonline);
+  PMI Pulse of the Profession 2018: 52% proyek mengalami scope creep (pmi.org "Scope Patrol" — halaman menolak akses otomatis, angka dari kutipan sekunder).
+- Adaptif: varian narasi `{w:{pita:[2,3]}, a:"bantu"}` (tokoh pendamping membantu) dan `{w:{pita:[0]}, a:"tantang"}` (tantangan naik),
+  plus pasangan pilihan dengan `req:{pita:[...]}` sehingga jumlah pilihan tetap 3–4. `GLS.eng.adaptive()` → label di layar situasi.
+  Validator: 3 × 1024 jalur, 0 error.
+- README repo GitHub: `docs/README-github.md` + `docs/screenshots/` (dibuat ulang dengan `node tools/screenshots.js`), disalin oleh `build-pages.sh`.

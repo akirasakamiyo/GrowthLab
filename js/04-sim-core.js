@@ -77,7 +77,11 @@ const eng={
  start(c){return{cid:c.id,node:c.start,ids:[],scores:[],flags:{},meters:Object.fromEntries(c.meters.map(m=>[m.k,50])),log:[]}},
  node:(c,st)=>st.node?c.nodes[st.node]:null,
  choices(c,st){const n=eng.node(c,st);return n?n.c.filter(ch=>eng.cond(ch.req,st)):[]},
- text(c,st){const n=eng.node(c,st);if(!n)return "";const v=(n.v||[]).find(x=>eng.cond(x.w,st));return v?v.x:n.x},
+ text(c,st){const v=eng.variant(c,st),n=eng.node(c,st);return n?(v?v.x:n.x):""},
+ /* varian narasi yang aktif; v.a = "bantu" | "tantang" menandai varian adaptif berdasarkan performa */
+ variant(c,st){const n=eng.node(c,st);return n?(n.v||[]).find(x=>eng.cond(x.w,st))||null:null},
+ /* apakah situasi ini disesuaikan dengan performa pemain (narasi atau pilihan adaptif) */
+ adaptive(c,st){const v=eng.variant(c,st);if(v&&v.a)return v.a;const ch=eng.choices(c,st).find(x=>x.a);return ch?ch.a:null},
  choose(c,st,id){const ch=eng.choices(c,st).find(x=>x.id===id);if(!ch)return null;
   const ns={cid:st.cid,node:ch.n,ids:st.ids.concat(id),scores:st.scores.concat(ch.s),flags:Object.assign({},st.flags),meters:Object.assign({},st.meters),log:st.log.concat({node:st.node,id,t:ch.t,s:ch.s,fb:ch.fb,rx:ch.rx})};
   (ch.set||[]).forEach(f=>{ns.flags[f]=true});
@@ -91,7 +95,7 @@ const eng={
  result(c,st){const sc=score.aspek(st.scores),e=eng.ending(c,st);return{score:r1(sc),raw:sc,ending:e.id,path:st.scores.slice(),t:Date.now()}}
 };
 /* id pilihan stabil: a, b, c, d, e sesuai urutan di data */
-function prep(){GLD.SIM.forEach(c=>{if(!eng.playable(c))return;for(const k in c.nodes)c.nodes[k].c.forEach((ch,i)=>{if(!ch.id)ch.id="abcde"[i]})})}
+function prep(){GLD.SIM.forEach(c=>{if(!eng.playable(c))return;for(const k in c.nodes)c.nodes[k].c.forEach((ch,i)=>{if(!ch.id)ch.id="abcdefg"[i]})})}
 prep();
 
 /* ---------- VALIDATOR DATA ---------- */

@@ -11,6 +11,9 @@ cp "$SRC/index.html" "$OUT/index.html"
 for d in css js vendor assets/sim assets/sb; do rsync -a --delete --exclude src --exclude .DS_Store "$SRC/$d/" "$OUT/$d/"; done
 # paket offline (hasil `node tools/build-offline.js`) untuk diunduh
 if [ -d "$SRC/dist" ]; then rsync -a --delete "$SRC/dist/" "$OUT/offline/"; fi
+# README & screenshot untuk halaman repo GitHub
+if [ -f "$SRC/docs/README-github.md" ]; then cp "$SRC/docs/README-github.md" "$OUT/README.md"; fi
+if [ -d "$SRC/docs/screenshots" ]; then mkdir -p "$OUT/docs"; rsync -a --delete "$SRC/docs/screenshots/" "$OUT/docs/screenshots/"; fi
 touch "$OUT/.nojekyll"
 echo "Selesai: $OUT"
 if [ -n "$PUSH" ]; then
