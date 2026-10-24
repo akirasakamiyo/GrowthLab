@@ -163,23 +163,31 @@
     const recent = G.state().ledger.filter(e => e.xp > 0).slice(-6).reverse();
     dlg = document.createElement("div");
     dlg.className = "gx-dlg"; dlg.setAttribute("role", "dialog"); dlg.setAttribute("aria-modal", "true"); dlg.setAttribute("aria-labelledby", "gx-dt");
-    dlg.innerHTML = `<div class="gx-dlg-in">
+    dlg.innerHTML = `<div class="gx-dlg-in gx-wide">
       <button type="button" class="gx-x" aria-label="Tutup">×</button>
-      <span class="mono">Gamifikasi</span><h2 id="gx-dt">Perjalanan karier kamu</h2>
-      <div class="gx gx-sum">${STAR}<div><b>Level ${I.level} · ${esc(I.tier)}</b><span>${nf(I.xp)} XP · ${nf(I.to - I.xp)} XP lagi ke Level ${I.level + 1}</span></div></div>
-      <div class="gx">${bar(I.p)}</div>
-      <ol class="gx gx-ladder">${C.tiers.map(([m, nm], i) => { const nx = C.tiers[i + 1], hit = I.level >= m;
-        return `<li class="${hit ? "on" : ""}"><span aria-hidden="true">${hit ? "✓" : ""}</span><b>${esc(nm)}</b><small>Level ${m}${nx ? "–" + (nx[0] - 1) : "+"} · mulai ${nf(G.need(m))} XP</small></li>` }).join("")}</ol>
-      ${questHTML(G.quest())}
-      ${streakHTML(G.streak())}
-      ${skillHTML()}
-      ${remHTML()}
-      ${badgesHTML()}
-      <div class="gx"><span class="mono">XP terakhir</span>${recent.length ? `<ul class="gx-rec">${recent.map(e => `<li><b>+${e.xp}</b> ${esc(e.meta.label || e.type)}${e.meta.awal ? " <small>(progres sebelumnya)</small>" : ""}</li>`).join("")}</ul>` : "<p>Belum ada XP. Selesaikan pelajaran atau latihan untuk mulai.</p>"}
-      <p class="gx-how">XP didapat dari pelajaran yang selesai dan skor latihan. Mengulang latihan hanya menambah XP bila skormu naik.</p></div>
-      ${(G.panelExtra || []).map(f => { try { return f() } catch (e) { return "" } }).join("")}
-      <div class="gx-set"><div><b id="gx-tl">Mode gamifikasi</b><small>Matikan bila kamu ingin belajar tanpa XP dan level. Progres belajar tetap tersimpan.</small></div>
-        <button type="button" class="gx-sw" role="switch" aria-checked="${on()}" aria-labelledby="gx-tl"><i></i><span>${on() ? "Aktif" : "Nonaktif"}</span></button></div>
+      <h2 id="gx-dt">Perjalanan karier kamu</h2>
+      <div class="gx-cols">
+        <div class="gx-col">
+          <div class="gx gx-sum">${STAR}<div><b>Level ${I.level} · ${esc(I.tier)}</b><span>${nf(I.xp)} XP · ${nf(I.to - I.xp)} XP lagi ke Level ${I.level + 1}</span></div></div>
+          <div class="gx">${bar(I.p)}</div>
+          <ol class="gx gx-ladder">${C.tiers.map(([m, nm], i) => { const nx = C.tiers[i + 1], hit = I.level >= m;
+            return `<li class="${hit ? "on" : ""}"><span aria-hidden="true">${hit ? "✓" : ""}</span><b>${esc(nm)}</b><small>Level ${m}${nx ? "–" + (nx[0] - 1) : "+"} · mulai ${nf(G.need(m))} XP</small></li>` }).join("")}</ol>
+          <div class="gx"><span class="mono">XP terakhir</span>${recent.length ? `<ul class="gx-rec">${recent.map(e => `<li><b>+${e.xp}</b> ${esc(e.meta.label || e.type)}${e.meta.awal ? " <small>(progres sebelumnya)</small>" : ""}</li>`).join("")}</ul>` : "<p>Belum ada XP. Selesaikan pelajaran atau latihan untuk mulai.</p>"}
+          <p class="gx-how">XP didapat dari pelajaran yang selesai dan skor latihan. Mengulang latihan hanya menambah XP bila skormu naik.</p></div>
+          <div class="gx-set"><div><b id="gx-tl">Mode gamifikasi</b><small>Matikan bila kamu ingin belajar tanpa XP dan level. Progres belajar tetap tersimpan.</small></div>
+            <button type="button" class="gx-sw" role="switch" aria-checked="${on()}" aria-labelledby="gx-tl"><i></i><span>${on() ? "Aktif" : "Nonaktif"}</span></button></div>
+        </div>
+        <div class="gx-col gx">
+          ${questHTML(G.quest())}
+          ${streakHTML(G.streak())}
+          ${skillHTML()}
+          ${remHTML()}
+        </div>
+        <div class="gx-col">
+          ${badgesHTML()}
+          ${(G.panelExtra || []).map(f => { try { return f() } catch (e) { return "" } }).join("")}
+        </div>
+      </div>
     </div>`;
     document.body.appendChild(dlg);
     dlg.addEventListener("click", e => {

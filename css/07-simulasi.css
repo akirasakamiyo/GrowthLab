@@ -116,3 +116,11 @@
 @media(prefers-reduced-motion:reduce){#ltp[data-cur=sim]::before,.gs-dots li.c,.gs-tw.on:not(.done)::after,.gs-file,.gv-cs.on .gv-c{animation:none!important}
  .gs-file,.gv-c,.gv-mb i,.gs-fi svg{transition:none!important}
  .gv-ebig,.gv-trail li,.gs-stamp{transition:opacity .2s!important;transform:none!important}}
+
+/* revisi 2026-10-24: dasar kasus nyata & label situasi adaptif */
+.gs-dasar{max-width:62ch;margin:6px auto 10px;text-align:left;background:rgba(255,255,255,.08);border:1.5px solid rgba(255,255,255,.25);border-radius:16px;padding:10px 16px;font-size:.9rem}
+.gs-dasar summary{cursor:pointer;font-weight:800;letter-spacing:.02em}
+.gs-dasar p{margin:8px 0 6px;line-height:1.5}.gs-dasar ul{margin:0;padding-left:18px;display:grid;gap:4px}
+.gs-dasar a{color:inherit;text-decoration:underline;font-weight:700}
+.gv-adapt{display:inline-block;align-self:flex-start;margin:0 0 6px;padding:5px 12px;border-radius:99px;background:#ffc83d;color:#1b1740;font-weight:800;font-size:.78rem;letter-spacing:.01em}
+.gv-adapt[data-a="tantang"]{background:#1b1740;color:#ffc83d}

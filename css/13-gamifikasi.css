@@ -110,3 +110,30 @@
 .gx-file:focus-within{outline:3px solid #2a56f5;outline-offset:2px}
 .gx-msg{min-height:1.2em;font-size:.86rem;color:#1fa463;font-weight:700}
 .gx-dlg .btn:not(.p){border:2px solid #1b1740;border-radius:99px;background:#fff;color:#1b1740}.gx-dlg .btn:not(.p):hover{background:#fff6d6}
+
+/* ----- panel detail 16:9 hampir layar penuh (revisi 2026-10-24) ----- */
+.gx-dlg-in.gx-wide{width:min(96vw,calc((100dvh - 32px)*16/9));aspect-ratio:16/9;max-height:calc(100dvh - 32px);height:auto;overflow:hidden;padding:clamp(18px,2vw,30px) clamp(18px,2.2vw,34px);display:flex;flex-direction:column;gap:clamp(10px,1.2vw,16px)}
+.gx-wide h2{font-size:clamp(1.5rem,2.4vw,2.3rem);padding-right:48px;flex:none}
+.gx-cols{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.1fr 1.2fr;gap:clamp(14px,1.6vw,26px)}
+.gx-col{min-height:0;overflow:auto;display:flex;flex-direction:column;gap:14px;padding-right:6px;overscroll-behavior:contain}
+.gx-col>.gx-set{margin-top:auto}
+.gx-off .gx-col.gx{display:none!important}
+.gx-off .gx-cols{grid-template-columns:1fr 1.2fr}
+.gx-wide .gx-badges{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+/* tablet (dan layar laptop yang sempit/tegak): panel hampir layar penuh, 2 kolom, isi digulir */
+@media(max-width:1099px),(max-aspect-ratio:5/4){
+  .gx-dlg{padding:12px}
+  .gx-dlg-in.gx-wide{width:100%;height:calc(100dvh - 24px);max-height:none;aspect-ratio:auto;overflow:auto;display:block}
+  .gx-wide h2{margin-bottom:16px}
+  .gx-cols{grid-template-columns:1fr 1fr}
+  .gx-col{overflow:visible;padding-right:0}
+  .gx-col:last-child{grid-column:1/-1}
+  .gx-off .gx-cols{grid-template-columns:1fr 1fr}
+  .gx-off .gx-col:last-child{grid-column:auto}
+}
+/* HP: layar penuh, 1 kolom */
+@media(max-width:640px){
+  .gx-dlg{padding:0}
+  .gx-dlg-in.gx-wide{height:100dvh;border-radius:0;padding:18px 16px 28px}
+  .gx-cols,.gx-off .gx-cols{display:flex;flex-direction:column}
+}

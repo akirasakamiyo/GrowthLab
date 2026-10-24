@@ -64,13 +64,15 @@ function homeHTML(){const d=data();
 function introHTML(){const c=V.c,i=GLD.SIM.indexOf(c),run=V.resume;
  return `<div class="gs-title"><span class="gs-m">Kasus ${pad(i+1)} / ${pad(GLD.SIM.length)} · ${esc(c.aspek)}</span><h3 class="gs-h"><span class="sr">${esc(c.t)}</span><span class="gs-scr" aria-hidden="true" data-t="${esc(c.t)}">${esc(c.t)}</span></h3>
   <p class="gs-intro"><span class="sr">${esc(c.intro)}</span><span class="gs-tw" aria-hidden="true" data-tw="${esc(c.intro)}"></span></p>
+  ${c.dasar?`<details class="gs-dasar"><summary>Dasar kasus nyata</summary><p>${esc(c.dasar.x)}</p><ul>${c.dasar.src.map(s=>`<li>${esc(s.t)} <a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.o)}</a></li>`).join("")}</ul></details>`:""}
   <p class="gs-m gv-im">${N} situasi · 2 meter: ${c.meters.map(m=>esc(m.t)).join(" & ")} · ${c.endings.length} kemungkinan ending</p>
   <div class="gs-tbtn">${run?`<button type="button" class="gs-btn" data-sm="resume">${IC.play} Lanjutkan dari situasi ${run.ids.length+1}/${N}</button><button type="button" class="gs-btn gh" data-sm="restart">${IC.redo} Mulai ulang</button>`:`<button type="button" class="gs-btn" data-sm="go">${IC.play} Mulai kasus</button>`}<button type="button" class="gs-btn gh" data-sm="home">Kembali</button></div><span class="gs-m">Tekan Enter untuk ${run?"melanjutkan":"mulai"}</span></div>`}
 
 /* ---------- layar: situasi ---------- */
-function situHTML(){const c=V.c,st=V.st,k=st.ids.length+1,tx=E.text(c,st),locked=V.ph!=="narasi"&&V.ph!=="pilih";
+function situHTML(){const c=V.c,st=V.st,k=st.ids.length+1,tx=E.text(c,st),locked=V.ph!=="narasi"&&V.ph!=="pilih",ad=E.adaptive?E.adaptive(c,st):null;
  return `<div class="gv" data-ph="${V.ph}" style="--cc:${ccOf(c)}">${bar(k)}${meterHTML(c,locked?V.after.meters:st.meters)}
   <div class="gv-stage" id="gvst" aria-hidden="true">${ST()?ST().scene(c,E.node(c,st),st):""}</div>
+  ${ad?`<span class="gv-adapt" data-a="${ad}">${ad==="bantu"?"Cerita menyesuaikan caramu bermain: ada yang mau membantumu":"Cerita menyesuaikan caramu bermain: tantangannya naik"}</span>`:""}
   <p class="gv-x" id="simx" tabindex="-1"><span class="sr">${esc(tx)}</span><span class="gs-tw" aria-hidden="true" data-tw="${esc(tx)}"></span></p>
   <div class="gv-cs" role="group" aria-labelledby="simx">${V.ord.map((ch,j)=>`<button type="button" class="gv-c" data-sm="pick" data-c="${ch.id}" style="--i:${j}"><kbd>${j+1}</kbd><span>${esc(ch.t)}</span></button>`).join("")}</div>
   <div class="gv-fb" id="gvfb" aria-live="polite"></div>
