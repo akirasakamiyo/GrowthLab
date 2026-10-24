@@ -1,0 +1,14 @@
+{
+  "name": "growthlab",
+  "private": true,
+  "description": "GrowthLab: Self Development for Job Seeker — alat bantu pengembangan (tes, screenshot, build). Situsnya sendiri tidak butuh npm.",
+  "scripts": {
+    "serve": "node tests/serve.js",
+    "screenshots": "node tools/screenshots.js",
+    "offline": "node tools/build-offline.js",
+    "pages": "./tools/build-pages.sh --push"
+  },
+  "devDependencies": {
+    "playwright": "1.47.2"
+  }
+}

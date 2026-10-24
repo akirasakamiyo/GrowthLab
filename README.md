@@ -45,6 +45,14 @@ arsip/                versi lama (v4, cadangan v6) — tidak dipakai
 
 Buka `index.html` langsung di browser, atau jalankan server lokal: `node tests/serve.js` lalu buka http://localhost:8000.
 
+## Alat bantu (sekali pasang)
+
+```bash
+npm install                 # memasang Playwright untuk tes & screenshot (situsnya sendiri tidak butuh npm)
+npm run serve               # server lokal di http://localhost:8000
+npm run screenshots         # (di terminal lain) buat ulang docs/screenshots untuk README GitHub
+```
+
 ## Membuat paket offline & update GitHub
 
 ```bash
