@@ -352,15 +352,58 @@ function kilat(){const b=q("#kilat");if(!b)return;const Q=GLD.QUIZ;let it=KQ;if(
 /* ==================================================================
    PETA KONSEP & GLOSARIUM
    ================================================================== */
-function peta(){const d=GLX.load(),C=CH();const ok=k=>isDone(k)?" ok":"";
- const les=(i)=>C[i].l.map((l,j)=>`<a class="pk-g${ok(i+"-"+j)}" href="#/lesson/${i}-${j}"><i aria-hidden="true"></i>${esc(l.t)}</a>`).join("");
- const best=GLX.hitung(d);
- return `<div class="peta rv"><a class="pk-root" href="#/course">Self Development for Job Seeker</a>
- <div class="pk-cols">
-  <div class="pk-col"><a class="pk-h" href="#/">Beranda</a><div class="pk-stack"><a class="pk-y" href="#/tujuan">Tujuan Belajar</a><a class="pk-y" href="#/petunjuk">Petunjuk Penggunaan</a><a class="pk-y" href="#/alur">Alur Belajar</a></div></div>
-  <div class="pk-col pk-m"><a class="pk-h" href="#/course">Materi</a><div class="pk-bab">${C.map((c,i)=>`<div class="pk-stack"><a class="pk-y" href="#/course/${i+1}">${esc(c.t)}</a>${les(i)}</div>`).join("")}</div></div>
-  <div class="pk-col"><a class="pk-h" href="#/latihan">Latihan</a><div class="pk-stack"><a class="pk-y" href="#/latihan/kuis">Latihan Soal</a><div class="pk-two"><a class="pk-g${best.pg!=null?" ok":""}" href="#/latihan/kuis"><i aria-hidden="true"></i>Quiz</a><a class="pk-g" href="#/latihan/dnd"><i aria-hidden="true"></i>Drag and drop</a></div><a class="pk-y${best.sim!=null?" ok":""}" href="#/latihan/sim">Simulasi</a><a class="pk-g${best.akhir!=null?" ok":""}" href="#/latihan" data-sc2="nilai"><i aria-hidden="true"></i>Nilai akhir</a></div></div>
- </div><p class="pk-leg"><span class="pk-y">Kuning</span> = menu utama · <span class="pk-g">Abu-abu</span> = isi · <span class="pk-g ok"><i aria-hidden="true"></i>Bertanda centang</span> = sudah selesai</p></div>`}
+function peta(){const d=GLX.load(),C=CH(),best=GLX.hitung(d);
+ const babOk=i=>C[i].l.every((l,j)=>isDone(i+"-"+j)),allOk=C.every((c,i)=>babOk(i));
+ /* node: k=jenis (p langkah, m menu, t terminal, d keputusan, db data, g bantuan); x,y = pusat */
+ const N=(k,x,y,w,h,t,href,ok)=>({k,x,y,w,h,t,href,ok});
+ const mk=(W,H,nodes,edges,labels,groups,id)=>{
+  const shape=n=>{const x0=n.x-n.w/2,y0=n.y-n.h/2,w=n.w,h=n.h;
+   if(n.k==="d")return `<polygon points="${n.x},${y0} ${x0+w},${n.y} ${n.x},${y0+h} ${x0},${n.y}"/>`;
+   if(n.k==="db")return `<path d="M${x0},${y0+10}a${w/2},10 0 0 1 ${w},0v${h-20}a${w/2},10 0 0 1 ${-w},0z"/><path d="M${x0},${y0+10}a${w/2},10 0 0 0 ${w},0" fill="none"/>`;
+   if(n.k==="g")return `<ellipse cx="${n.x}" cy="${n.y}" rx="${w/2}" ry="${h/2}"/>`;
+   return `<rect x="${x0}" y="${y0}" width="${w}" height="${h}" rx="${n.k==="t"?h/2:12}"/>`};
+  const node=n=>{const L=n.t,ty=n.y-(L.length-1)*9+5+(n.k==="db"?8:0);
+   const tx=`<text x="${n.x}" y="${ty}" text-anchor="middle">${L.map((l,i)=>`<tspan x="${n.x}" dy="${i?18:0}">${esc(l)}</tspan>`).join("")}</text>`;
+   const ck=n.ok?`<g class="pk-ck"><circle cx="${n.x+n.w/2-6}" cy="${n.y-n.h/2+6}" r="10"/><path d="M${n.x+n.w/2-11},${n.y-n.h/2+6}l4,4l7,-8"/></g>`:"";
+   const inner=`<g class="pk-s">${shape(n)}</g>${tx}${ck}`,lab=L.join(" ")+(n.ok?" (selesai)":"");
+   return n.href?`<a class="pk-n pk-${n.k}${n.ok?" ok":""}" href="${n.href}"${n.href==="#chat"?' data-chat="1"':""} aria-label="${esc(lab)}">${inner}</a>`:`<g class="pk-n pk-${n.k}">${inner}</g>`};
+  const lb=([x,y,t])=>{const w=t.length*7.4+16;return `<g class="pk-lb"><rect x="${x-w/2}" y="${y-10}" width="${w}" height="20" rx="10"/><text x="${x}" y="${y+4}" text-anchor="middle">${t}</text></g>`};
+  return `<svg class="pk-svg pk-v${id}" viewBox="0 0 ${W} ${H}" role="group" aria-label="Alur belajar GrowthLab"><defs><marker id="pkar-${id}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="#1b1740"/></marker></defs>
+  ${groups.map(([x,y,w,h,t])=>`<rect class="pk-grp" x="${x}" y="${y}" width="${w}" height="${h}" rx="18"/><text class="pk-gt" x="${x+w/2}" y="${y+17}" text-anchor="middle">${t}</text>`).join("")}
+  ${edges.map(e=>`<path class="pk-e" d="${e[0]}"${e[1]===0?"":` marker-end="url(#pkar-${id})"`}/>`).join("")}${nodes.map(node).join("")}${labels.map(lb).join("")}</svg>`};
+ const bab=(x,y,w,i)=>N("p",x,y,w,44,["Bab "+(i+1)],"#/course/"+(i+1),babOk(i));
+ const D=mk(1200,890,[
+  N("t",130,100,200,70,["Masuk Beranda","GrowthLab"],"#/"),N("d",350,100,180,120,["Pengguna","baru?"]),
+  N("m",580,100,150,64,["Menu Panduan"],"#/tujuan"),N("p",810,100,190,78,["Cek tujuan, petunjuk","& peta konsep"],"#/tujuan"),
+  N("m",1080,100,140,64,["Menu Materi /","Katalog"],"#/e-learning",allOk),N("p",1080,262,140,64,["Pilih bab","pembelajaran"],"#/course"),
+  bab(624,277,124,0),bab(760,277,124,1),bab(896,277,124,2),
+  N("p",640,410,190,64,["Baca konsep &","diagram"],"#/lesson/0-0"),N("p",870,410,190,64,["Aktivitas","(Coba sendiri)"],"#/lesson/0-0"),
+  N("m",755,540,210,64,["Latihan & tantangan"],"#/latihan"),
+  N("p",570,665,170,58,["Kuis interaktif"],"#/latihan/kuis",best.pg!=null),N("p",755,665,170,58,["Drag & drop"],"#/latihan/dnd"),N("p",940,665,170,58,["Simulasi kasus"],"#/latihan/sim",best.sim!=null),
+  N("db",130,800,130,84,["Progres","disimpan"]),N("m",360,800,170,64,["Menu progres"],"#/course"),N("p",600,800,210,72,["Cek persentase belajar","& jalur belajar"],"#/course"),
+  N("d",850,800,190,120,["Semua modul","selesai?"]),N("t",1075,800,160,70,["Sesi belajar","selesai"],"#/latihan",best.akhir!=null),
+  N("g",130,370,110,110,["Bantuan"]),N("p",360,300,190,56,["Chat asisten AI","GrowthLab"],"#chat"),N("p",360,370,190,50,["Glosarium istilah"],"#/glosarium"),N("p",360,440,190,50,["FAQ"],"#/faq")
+ ],[["M230,100H258"],["M440,100H505"],["M655,100H715"],["M905,100H985"],["M350,40V16H1080V68"],["M1080,132V230"],["M1010,262H979"],
+  ["M760,308V342H640V378"],["M760,342H870V378"],["M640,442V484H755V508"],["M870,442V484H755",0],["M755,572V636"],["M755,608H570V636"],["M755,608H940V636"],
+  ["M570,694V722H130V758"],["M755,694V722",0],["M940,694V722H755",0],["M195,800H271"],["M445,800H491"],["M705,800H751"],["M945,800H991"],["M850,860V874H1176V100H1154"],
+  ["M185,370H240",0],["M240,300V440",0],["M240,300H263"],["M240,370H263"],["M240,440H263"]],
+  [[472,90,"YA"],[700,16,"TIDAK"],[968,788,"SUDAH"],[1010,874,"BELUM"]],[[545,216,430,92,"BAB · BEBAS URUTAN"]],"d");
+ const M=mk(420,1810,[
+  N("t",210,50,220,60,["Masuk Beranda","GrowthLab"],"#/"),N("d",210,170,190,110,["Pengguna","baru?"]),N("m",210,300,200,56,["Menu Panduan"],"#/tujuan"),
+  N("p",210,396,230,70,["Cek tujuan, petunjuk","& peta konsep"],"#/tujuan"),N("m",210,520,200,60,["Menu Materi /","Katalog"],"#/e-learning",allOk),
+  N("p",210,630,220,60,["Pilih bab","pembelajaran"],"#/course"),bab(88,748,102,0),bab(210,748,102,1),bab(332,748,102,2),
+  N("p",110,860,170,64,["Baca konsep &","diagram"],"#/lesson/0-0"),N("p",310,860,170,64,["Aktivitas","(Coba sendiri)"],"#/lesson/0-0"),
+  N("m",210,980,220,60,["Latihan & tantangan"],"#/latihan"),
+  N("p",80,1100,120,64,["Kuis","interaktif"],"#/latihan/kuis",best.pg!=null),N("p",210,1100,120,64,["Drag","& drop"],"#/latihan/dnd"),N("p",340,1100,120,64,["Simulasi","kasus"],"#/latihan/sim",best.sim!=null),
+  N("db",210,1240,150,84,["Progres","disimpan"]),N("m",210,1350,200,60,["Menu progres"],"#/course"),N("p",210,1460,230,70,["Cek persentase belajar","& jalur belajar"],"#/course"),
+  N("d",210,1620,200,120,["Semua modul","selesai?"]),N("t",210,1760,200,66,["Sesi belajar","selesai"],"#/latihan",best.akhir!=null)
+ ],[["M210,80V115"],["M210,225V272"],["M210,328V361"],["M210,431V490"],["M305,170H402V520H312"],["M210,550V600"],["M210,660V680"],
+  ["M210,790V822H110V828"],["M210,822H310V828"],["M110,892V935H210V950"],["M310,892V935H210",0],["M210,1010V1068"],["M210,1040H80V1068"],["M210,1040H340V1068"],
+  ["M80,1132V1160H210",0],["M340,1132V1160H210",0],["M210,1132V1198"],["M210,1282V1320"],["M210,1380V1425"],["M210,1495V1560"],["M210,1680V1727"],["M110,1620H16V520H108"]],
+  [[232,252,"YA"],[352,160,"TIDAK"],[232,1706,"SUDAH"],[62,1608,"BELUM"]],[[34,680,352,110,"BAB · BEBAS URUTAN"]],"m");
+ const help=`<div class="pk-help"><b>Bantuan, kapan saja</b><a href="#chat" data-chat="1">Chat asisten AI</a><a href="#/glosarium">Glosarium istilah</a><a href="#/faq">FAQ</a></div>`;
+ if(!peta.b){peta.b=1;document.addEventListener("click",e=>{const a=e.target.closest&&e.target.closest("[data-chat]");if(a){e.preventDefault();const f=document.getElementById("chatfab");f&&f.click()}})}
+ return `<div class="peta rv">${D}${M}${help}<p class="pk-leg"><span class="pk-lk pk-ly">Menu utama</span><span class="pk-lk">Langkah</span><span class="pk-lk pk-lt">Awal / akhir</span><span class="pk-lk pk-ld">Keputusan</span><span class="pk-lk pk-lc"><i aria-hidden="true">✓</i>Sudah selesai</span></p></div>`}
 function glos(){const L=GLD.GLOS.slice().sort((a,b)=>a.t.localeCompare(b.t,"id"));
  return `<div class="sbar rv"><input id="gq" type="search" placeholder="Cari istilah, misalnya: burnout, STAR, bias…" aria-label="Cari istilah"><div class="chips" id="gch" role="group" aria-label="Saring bab"><button class="chip" aria-pressed="true" data-b="-1">Semua</button>${CH().map((c,i)=>`<button class="chip" aria-pressed="false" data-b="${i}">${esc(c.t)}</button>`).join("")}</div></div>
  <p class="mono gl-n" id="gn" aria-live="polite"></p><div class="gl" id="glist">${L.map(g=>`<div class="gl-i" data-b="${g.b}" data-s="${esc((g.t+" "+g.a).toLowerCase())}"><dt><i>${esc(g.t)}</i></dt><dd>${esc(g.a)}</dd><a href="#/lesson/${g.b}-${g.l}">${esc(lesT(g.b,g.l))} →</a></div>`).join("")}</div><p id="gnone" hidden>Istilah tidak ditemukan.</p>`}
