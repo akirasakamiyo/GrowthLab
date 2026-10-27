@@ -6,6 +6,14 @@
 
 Media pembelajaran interaktif berbasis website untuk mengembangkan **soft skill** siswa SMK kelas XII dan *fresh graduate* sebelum dan selama mencari kerja.
 
+<p>
+<a href="https://akirasakamiyo.github.io/GrowthLab/"><img alt="Demo" src="https://img.shields.io/badge/demo-online-2ea44f?logo=githubpages&logoColor=white"></a>
+<img alt="Tanpa build step" src="https://img.shields.io/badge/stack-HTML%20%C2%B7%20CSS%20%C2%B7%20JS-f7df1e?logo=javascript&logoColor=black">
+<img alt="SCORM 1.2" src="https://img.shields.io/badge/SCORM-1.2-0a66c2">
+<img alt="Offline" src="https://img.shields.io/badge/offline-ready-8a4fff">
+<img alt="Bahasa" src="https://img.shields.io/badge/bahasa-Indonesia-d52b1e">
+</p>
+
 **[▶ Buka GrowthLab](https://akirasakamiyo.github.io/GrowthLab/)** · **[⬇ Unduh versi offline](https://akirasakamiyo.github.io/GrowthLab/offline/GrowthLab_offline.zip)** · **[⬇ Paket SCORM untuk LMS](https://akirasakamiyo.github.io/GrowthLab/offline/GrowthLab_SCORM12.zip)**
 
 Kelompok 8 · Pengembangan Multimedia Pendidikan · Teknologi Pendidikan FIP Universitas Negeri Jakarta
