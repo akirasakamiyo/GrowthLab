@@ -322,7 +322,7 @@ function lanjut(){const b=q("#lanjut");if(!b)return;let n=0,tot=0;try{n=done.siz
  <div class="lj-bar" aria-hidden="true"><i style="--p:${tot?n/tot:0}"></i></div><p class="lj-s">${n}/${tot} pelajaran · kuis terbaik ${H.pg==null?"–":String(H.pg).replace(".",",")} · simulasi ${simN}/${GLD.SIM.length}${H.akhir!=null?` · nilai akhir ${Math.round(H.akhir*10)/10}`.replace(".",","):""}</p>
  <div class="row" style="margin-top:16px"><a class="btn p" href="${all?"#/latihan":`#/lesson/${ni}-${nj}`}">${all?"Ke Latihan":n?"Lanjutkan":"Mulai belajar"}</a><a class="btn" href="#/course">Semua bab</a></div>
  <div class="lj-bab">${CH().map((c,i)=>{const k=c.l.filter((_,j)=>isDone(i+"-"+j)).length;return `<a href="#/course/${i+1}"><span>Bab ${i+1} · ${esc(c.t)}</span><i style="--p:${k/c.l.length}" aria-hidden="true"></i><b>${k}/${c.l.length}</b></a>`}).join("")}</div>
- ${(()=>{const day=Math.floor(Date.now()/864e5),all15=CH().flatMap((c,i)=>c.l.map((l,j)=>[i,j,l])),[pi,pj,pl]=all15[day%all15.length];return `<a class="lj-tip" href="#/lesson/${pi}-${pj}"><span class="mono">Poin hari ini · ${esc(pl.t)}</span><p>“${pl.poin}”</p></a>`})()}`}
+ ${(()=>{const day=Math.floor(Date.now()/864e5),all15=CH().flatMap((c,i)=>c.l.map((l,j)=>[i,j,l])),open15=all15.filter(([a,b])=>!(window.GLK&&GLK.locked(a,b))),[pi,pj,pl]=open15[day%open15.length];return `<a class="lj-tip" href="#/lesson/${pi}-${pj}"><span class="mono">Poin hari ini · ${esc(pl.t)}</span><p>“${pl.poin}”</p></a>`})()}`}
 const DG=[["Aku sulit menyebutkan kelebihanku saat ditanya HRD.",0,[0,0]],["Aku mudah panik atau menunda saat menghadapi tes kerja.",0,[0,1]],["Aku tersinggung atau defensif saat dikritik.",1,[1,2]],["Aku merasa lelah dan kehilangan semangat mencari kerja.",1,[1,1]],["Aku bingung memilih lowongan atau karier yang realistis.",2,[2,2]],["Aku sulit menceritakan pengalamanku secara runtut saat wawancara.",2,[2,3]]];
 function diag(){const b=q("#diag");if(!b)return;b.textContent="";const st=load().diag;
  const head=h("div",{},h("span",{class:"mono"},"Kenali kebutuhanmu"),h("h3",{},"Mulai dari bab yang paling kamu butuhkan"),h("p",{},"Jawab enam pernyataan singkat. Kami sarankan bab dan pelajaran yang cocok untukmu."));
@@ -353,13 +353,12 @@ function kilat(){const b=q("#kilat");if(!b)return;const Q=GLD.QUIZ;let it=KQ;if(
    PETA KONSEP & GLOSARIUM
    ================================================================== */
 function peta(){const d=GLX.load(),C=CH();const ok=k=>isDone(k)?" ok":"";
- const les=(i)=>C[i].l.map((l,j)=>`<a class="pk-g${ok(i+"-"+j)}" href="#/lesson/${i}-${j}"><i aria-hidden="true"></i>${esc(l.t)}</a>`).join("");
- const best=GLX.hitung(d);
+ const tx=h=>String(h||"").replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim();
+ const pv=(k,t,m,li)=>`<span class="pk-pv" role="tooltip"><small>${esc(k)}</small><b>${esc(t)}</b>${m?`<em>${esc(m)}</em>`:""}${li&&li.length?`<u>${li.map(x=>`<span>${esc(x)}</span>`).join("")}</u>`:""}</span>`;
+ const les=(i)=>C[i].l.map((l,j)=>`<a class="pk-g${ok(i+"-"+j)}${window.GLK&&GLK.locked(i,j)?" lock":""}" href="#/lesson/${i}-${j}"><i aria-hidden="true"></i>${esc(l.t)}${pv("Pelajaran "+(i+1)+"."+(j+1)+(ok(i+"-"+j)?" · selesai":""),tx(l.judul)||l.t,tx(l.poin),(l.ind||[]).slice(0,3).map(tx))}</a>`).join("");
  return `<div class="peta rv"><a class="pk-root" href="#/course">Self Development for Job Seeker</a>
  <div class="pk-cols">
-  <div class="pk-col"><a class="pk-h" href="#/">Beranda</a><div class="pk-stack"><a class="pk-y" href="#/tujuan">Tujuan Belajar</a><a class="pk-y" href="#/petunjuk">Petunjuk Penggunaan</a><a class="pk-y" href="#/alur">Alur Belajar</a></div></div>
-  <div class="pk-col pk-m"><a class="pk-h" href="#/course">Materi</a><div class="pk-bab">${C.map((c,i)=>`<div class="pk-stack"><a class="pk-y" href="#/course/${i+1}">${esc(c.t)}</a>${les(i)}</div>`).join("")}</div></div>
-  <div class="pk-col"><a class="pk-h" href="#/latihan">Latihan</a><div class="pk-stack"><a class="pk-y" href="#/latihan/kuis">Latihan Soal</a><div class="pk-two"><a class="pk-g${best.pg!=null?" ok":""}" href="#/latihan/kuis"><i aria-hidden="true"></i>Quiz</a><a class="pk-g" href="#/latihan/dnd"><i aria-hidden="true"></i>Drag and drop</a></div><a class="pk-y${best.sim!=null?" ok":""}" href="#/latihan/sim">Simulasi</a><a class="pk-g${best.akhir!=null?" ok":""}" href="#/latihan" data-sc2="nilai"><i aria-hidden="true"></i>Nilai akhir</a></div></div>
+  <div class="pk-col pk-m"><div class="pk-bab">${C.map((c,i)=>`<div class="pk-stack"><a class="pk-y" href="#/course/${i+1}">${esc(c.t)}${pv("Bab "+(i+1)+" · "+c.l.length+" pelajaran",c.t,tx(c.d),c.l.map(x=>x.t))}</a>${les(i)}</div>`).join("")}</div></div>
  </div><p class="pk-leg"><span class="pk-y">Kuning</span> = menu utama · <span class="pk-g">Abu-abu</span> = isi · <span class="pk-g ok"><i aria-hidden="true"></i>Bertanda centang</span> = sudah selesai</p></div>`}
 function glos(){const L=GLD.GLOS.slice().sort((a,b)=>a.t.localeCompare(b.t,"id"));
  return `<div class="sbar rv"><input id="gq" type="search" placeholder="Cari istilah, misalnya: burnout, STAR, bias…" aria-label="Cari istilah"><div class="chips" id="gch" role="group" aria-label="Saring bab"><button class="chip" aria-pressed="true" data-b="-1">Semua</button>${CH().map((c,i)=>`<button class="chip" aria-pressed="false" data-b="${i}">${esc(c.t)}</button>`).join("")}</div></div>
