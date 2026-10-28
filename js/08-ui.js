@@ -353,10 +353,12 @@ function kilat(){const b=q("#kilat");if(!b)return;const Q=GLD.QUIZ;let it=KQ;if(
    PETA KONSEP & GLOSARIUM
    ================================================================== */
 function peta(){const d=GLX.load(),C=CH();const ok=k=>isDone(k)?" ok":"";
- const les=(i)=>C[i].l.map((l,j)=>`<a class="pk-g${ok(i+"-"+j)}" href="#/lesson/${i}-${j}"><i aria-hidden="true"></i>${esc(l.t)}</a>`).join("");
+ const tx=h=>String(h||"").replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim();
+ const pv=(k,t,m,li)=>`<span class="pk-pv" role="tooltip"><small>${esc(k)}</small><b>${esc(t)}</b>${m?`<em>${esc(m)}</em>`:""}${li&&li.length?`<u>${li.map(x=>`<span>${esc(x)}</span>`).join("")}</u>`:""}</span>`;
+ const les=(i)=>C[i].l.map((l,j)=>`<a class="pk-g${ok(i+"-"+j)}" href="#/lesson/${i}-${j}"><i aria-hidden="true"></i>${esc(l.t)}${pv("Pelajaran "+(i+1)+"."+(j+1)+(ok(i+"-"+j)?" · selesai":""),tx(l.judul)||l.t,tx(l.poin),(l.ind||[]).slice(0,3))}</a>`).join("");
  return `<div class="peta rv"><a class="pk-root" href="#/course">Self Development for Job Seeker</a>
  <div class="pk-cols">
-  <div class="pk-col pk-m"><div class="pk-bab">${C.map((c,i)=>`<div class="pk-stack"><a class="pk-y" href="#/course/${i+1}">${esc(c.t)}</a>${les(i)}</div>`).join("")}</div></div>
+  <div class="pk-col pk-m"><div class="pk-bab">${C.map((c,i)=>`<div class="pk-stack"><a class="pk-y" href="#/course/${i+1}">${esc(c.t)}${pv("Bab "+(i+1)+" · "+c.l.length+" pelajaran",c.t,tx(c.d),c.l.map(x=>x.t))}</a>${les(i)}</div>`).join("")}</div></div>
  </div><p class="pk-leg"><span class="pk-y">Kuning</span> = menu utama · <span class="pk-g">Abu-abu</span> = isi · <span class="pk-g ok"><i aria-hidden="true"></i>Bertanda centang</span> = sudah selesai</p></div>`}
 function glos(){const L=GLD.GLOS.slice().sort((a,b)=>a.t.localeCompare(b.t,"id"));
  return `<div class="sbar rv"><input id="gq" type="search" placeholder="Cari istilah, misalnya: burnout, STAR, bias…" aria-label="Cari istilah"><div class="chips" id="gch" role="group" aria-label="Saring bab"><button class="chip" aria-pressed="true" data-b="-1">Semua</button>${CH().map((c,i)=>`<button class="chip" aria-pressed="false" data-b="${i}">${esc(c.t)}</button>`).join("")}</div></div>
