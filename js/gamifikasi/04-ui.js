@@ -15,7 +15,7 @@
   /* badge yang syaratnya sudah terpenuhi sebelum modul ini ada: dicatat diam-diam */
   G.checkBadges();
   G.state().seenLevel = Math.max(G.state().seenLevel || 1, G.info().level); G.save();
-  const on = () => G.state().on !== false;
+  const on = () => true; /* mode gamifikasi selalu aktif */
   const applyOn = () => document.documentElement.classList.toggle("gx-off", !on());
 
   /* ---------- elemen tetap ---------- */
@@ -32,12 +32,6 @@
   const live = document.createElement("div");
   live.className = "gx gx-live"; live.setAttribute("aria-live", "polite"); live.setAttribute("role", "status");
   document.body.appendChild(live);
-
-  /* saat mode nonaktif: catatan kecil di kartu Progres agar mode bisa dinyalakan lagi */
-  const offNote = document.createElement("p");
-  offNote.className = "gx-offnote";
-  offNote.innerHTML = 'Mode gamifikasi nonaktif. <button type="button" data-gx-open>Atur</button>';
-  if (panel) panel.appendChild(offNote);
 
   /* ---------- streak ---------- */
   const HARI = ["Sen", "Sel", "Rab", "Kam", "Jum", "Sab", "Min"];
@@ -174,8 +168,6 @@
             return `<li class="${hit ? "on" : ""}"><span aria-hidden="true">${hit ? "✓" : ""}</span><b>${esc(nm)}</b><small>Level ${m}${nx ? "–" + (nx[0] - 1) : "+"} · mulai ${nf(G.need(m))} XP</small></li>` }).join("")}</ol>
           <div class="gx"><span class="mono">XP terakhir</span>${recent.length ? `<ul class="gx-rec">${recent.map(e => `<li><b>+${e.xp}</b> ${esc(e.meta.label || e.type)}${e.meta.awal ? " <small>(progres sebelumnya)</small>" : ""}</li>`).join("")}</ul>` : "<p>Belum ada XP. Selesaikan pelajaran atau latihan untuk mulai.</p>"}
           <p class="gx-how">XP didapat dari pelajaran yang selesai dan skor latihan. Mengulang latihan hanya menambah XP bila skormu naik.</p></div>
-          <div class="gx-set"><div><b id="gx-tl">Mode gamifikasi</b><small>Matikan bila kamu ingin belajar tanpa XP dan level. Progres belajar tetap tersimpan.</small></div>
-            <button type="button" class="gx-sw" role="switch" aria-checked="${on()}" aria-labelledby="gx-tl"><i></i><span>${on() ? "Aktif" : "Nonaktif"}</span></button></div>
         </div>
         <div class="gx-col gx">
           ${questHTML(G.quest())}
@@ -192,7 +184,6 @@
     document.body.appendChild(dlg);
     dlg.addEventListener("click", e => {
       if (e.target === dlg || e.target.closest(".gx-x")) return close();
-      if (e.target.closest(".gx-sw")) { G.state().on = !on(); G.save(); if (G.log) G.log("gami_toggle", { on: on() }); applyOn(); render(); open() }
     });
     dlg.addEventListener("keydown", e => {
       if (e.key === "Escape") { e.preventDefault(); close() }
