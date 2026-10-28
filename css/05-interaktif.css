@@ -185,4 +185,4 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc);margin:-14px 0 
 /* pelajaran terkunci (harus berurutan) */
 .les.lock{opacity:.5;cursor:not-allowed}.les.lock b{background:none;border-style:dashed}.les.lock b:after{content:"🔒";font-size:.7rem;position:absolute;margin:-3px 0 0 -2px}.les.lock{position:relative}
 .side button.lock,#slist button.lock{opacity:.55}
-.pk-g.lock{opacity:.6;cursor:not-allowed}.pk-g.lock:after{content:"🔒";font-style:normal;margin-left:6px;font-size:.75rem}
+.pk-g.lock{color:rgba(10,26,107,.5);background:#efeff3;cursor:not-allowed}.pk-g.lock .pk-pv{color:var(--ink)}.pk-g.lock:after{content:"🔒";font-style:normal;margin-left:6px;font-size:.75rem}
