@@ -481,7 +481,7 @@ function vOfH(h){const s=h.split("/")[0];if(s==="lesson")return"lesson";if(s==="
 const keyOf=()=>{const h=location.hash.replace("#/",""),v=vOfH(h);return v==="home"?"home":v==="lesson"?"lesson":h};let lastK=keyOf();
 const goC=n=>n?"#/course/"+n:"#/course";
 const NAVK={lesson:"course","e-learning":"course",tujuan:"petunjuk",alur:"petunjuk",peta:"petunjuk",glosarium:"petunjuk"};
-function navOn(h){const s0=h.split("/")[0],s=NAVK[s0]||s0;$$(".links a[data-k]").forEach(a=>a.classList.toggle("cur",a.dataset.k===s))}
+function navOn(h){const s0=h.split("/")[0],s=document.body.dataset.view==="home"?"home":NAVK[s0]||s0;$$(".links a[data-k]").forEach(a=>a.classList.toggle("cur",a.dataset.k===s))}
 const LT=["#bfe3ff","#ffd8a0","#b8efd0","#e3dcff"],CR="#fff3d6";
 const A_=(h,t,c="")=>`<a class="btn ${c}" href="${h}">${t}</a>`;
 const crumb=a=>`<nav class="crumb2 mono" aria-label="Breadcrumb"><a href="#/">Beranda</a>${a.map(([t,h])=>` / ${h?`<a href="${h}">${t}</a>`:`<span>${t}</span>`}`).join("")}</nav>`;

@@ -22,6 +22,7 @@
 <link rel="stylesheet" href="css/12-nilai-terkunci.css" id="gl-r4">
 <link rel="stylesheet" href="css/13-gamifikasi.css">
 <link rel="stylesheet" href="css/14-transisi.css">
+<link rel="stylesheet" href="css/15-navbar-liquid.css">
 </head>
 <body data-view="home" class="zload glocal">
 <div id="zpre" aria-hidden="true"><div class="zc"><i class="zd"></i><b class="zl"></b></div><span class="zn">000</span></div>
@@ -32,9 +33,12 @@
 <header class="nav"><div class="wrap">
   <button class="brand" data-go="home" aria-label="GrowthLab, ke beranda"><span class="logo" data-logo aria-hidden="true"></span>GrowthLab</button>
   <nav class="links" id="links" aria-label="Utama">
-    <a href="#/course" data-k="course" data-close>Materi</a>
-    <a href="#/latihan" data-k="latihan" data-close>Latihan</a>
-    <a href="#/petunjuk" data-k="petunjuk" data-close>Panduan</a>
+    <div class="lq" id="lq"><span class="lq-bead" aria-hidden="true"></span>
+    <a href="#/" data-k="home" data-close><svg class="lq-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg><span>Beranda</span></a>
+    <a href="#/course" data-k="course" data-close><svg class="lq-i" viewBox="0 0 24 24" aria-hidden="true"><path d="M2 4h6a4 4 0 0 1 4 4v13a3 3 0 0 0-3-3H2zM22 4h-6a4 4 0 0 0-4 4v13a3 3 0 0 1 3-3h7z"/></svg><span>Materi</span></a>
+    <a href="#/latihan" data-k="latihan" data-close><svg class="lq-i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg><span>Latihan</span></a>
+    <a href="#/petunjuk" data-k="petunjuk" data-close><svg class="lq-i" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m15.5 8.5-2 5-5 2 2-5z"/></svg><span>Panduan</span></a>
+    </div>
     <a href="#/course" class="pill" data-close>Progres kamu <b id="navbar"></b></a><button class="lb" id="lg">Masuk</button>
   </nav>
   <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">Menu</button>
@@ -179,6 +183,7 @@
 <script src="js/19-hover.js" id="gl-hover"></script>
 <script src="js/20-scorm.js" id="gl-scorm"></script>
 <script src="js/21-transisi.js"></script>
+<script src="js/22-navbar-liquid.js"></script>
 <!-- gamifikasi (bisa dimatikan pengguna; lihat GAMIFICATION.md) -->
 <script src="js/gamifikasi/01-config.js"></script>
 <script src="js/gamifikasi/02-store.js"></script>
