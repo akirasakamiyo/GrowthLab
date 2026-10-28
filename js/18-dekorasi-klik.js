@@ -12,7 +12,7 @@ addEventListener("pointerup",e=>{const s=pd;pd=null;if(!s||Math.hypot(e.clientX-
  if(hit&&MAP[hit.textContent.trim()])location.hash=MAP[hit.textContent.trim()]},true);
 const tip=()=>document.querySelectorAll(".zphys .zb").forEach(b=>{const k=MAP[b.textContent.trim()];if(k)b.title="Klik: buka "+(k.startsWith("#/lesson")?"pelajaran terkait":k.replace("#/",""))});
 setTimeout(tip,1500);setTimeout(tip,4000);
-document.addEventListener("click",e=>{const c=e.target.closest&&e.target.closest(".zcue .zrg");if(c){const t=document.getElementById("stats");t&&t.scrollIntoView({behavior:"smooth"})}});
+document.addEventListener("click",e=>{const c=e.target.closest&&e.target.closest(".zcue .zrg");if(c){const t=document.getElementById("panduan");t&&t.scrollIntoView({behavior:"smooth"})}});
 const zr=document.querySelector(".zcue .zrg");if(zr)zr.title="Gulir ke isi";
 document.addEventListener("keydown",e=>{if(e.key!=="Enter"&&e.key!==" ")return;const g=e.target.closest&&e.target.closest("[data-go][role=link]");if(g){e.preventDefault();g.click()}});
 })();
