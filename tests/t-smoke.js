@@ -21,7 +21,7 @@ const sl = ms => new Promise(r => setTimeout(r, ms));
     if (r === "#/latihan/sim/s1") { const t = await p.$(".gs-title"); if (!t) { bad++; console.log("GAGAL tautan langsung simulasi") } else { await p.keyboard.press("Enter"); await sl(900); if (!(await p.$(".gv-x"))) { bad++; console.log("GAGAL Enter memulai kasus") } } }
     if (r === "#/latihan/dnd/ps" && !(await p.$('.gd[data-mode="order"]'))) { bad++; console.log("GAGAL tautan langsung dnd") }
   }
-  // soal kilat di beranda tetap jalan
+  // beranda tetap bersih dari error (soal kilat sudah dihapus dari beranda)
   await p.evaluate(() => location.hash = "#/"); await sl(1500);
   const kil = await p.$("#kilat .opt, .opt");
   if (kil) { await p.evaluate(() => { const o = document.querySelector("#kilat .opt") || document.querySelector(".opt"); o.scrollIntoView(); o.click() }); await sl(400) }
