@@ -354,12 +354,9 @@ function kilat(){const b=q("#kilat");if(!b)return;const Q=GLD.QUIZ;let it=KQ;if(
    ================================================================== */
 function peta(){const d=GLX.load(),C=CH();const ok=k=>isDone(k)?" ok":"";
  const les=(i)=>C[i].l.map((l,j)=>`<a class="pk-g${ok(i+"-"+j)}" href="#/lesson/${i}-${j}"><i aria-hidden="true"></i>${esc(l.t)}</a>`).join("");
- const best=GLX.hitung(d);
  return `<div class="peta rv"><a class="pk-root" href="#/course">Self Development for Job Seeker</a>
  <div class="pk-cols">
-  <div class="pk-col"><a class="pk-h" href="#/">Beranda</a><div class="pk-stack"><a class="pk-y" href="#/tujuan">Tujuan Belajar</a><a class="pk-y" href="#/petunjuk">Petunjuk Penggunaan</a><a class="pk-y" href="#/alur">Alur Belajar</a></div></div>
   <div class="pk-col pk-m"><a class="pk-h" href="#/course">Materi</a><div class="pk-bab">${C.map((c,i)=>`<div class="pk-stack"><a class="pk-y" href="#/course/${i+1}">${esc(c.t)}</a>${les(i)}</div>`).join("")}</div></div>
-  <div class="pk-col"><a class="pk-h" href="#/latihan">Latihan</a><div class="pk-stack"><a class="pk-y" href="#/latihan/kuis">Latihan Soal</a><div class="pk-two"><a class="pk-g${best.pg!=null?" ok":""}" href="#/latihan/kuis"><i aria-hidden="true"></i>Quiz</a><a class="pk-g" href="#/latihan/dnd"><i aria-hidden="true"></i>Drag and drop</a></div><a class="pk-y${best.sim!=null?" ok":""}" href="#/latihan/sim">Simulasi</a><a class="pk-g${best.akhir!=null?" ok":""}" href="#/latihan" data-sc2="nilai"><i aria-hidden="true"></i>Nilai akhir</a></div></div>
  </div><p class="pk-leg"><span class="pk-y">Kuning</span> = menu utama · <span class="pk-g">Abu-abu</span> = isi · <span class="pk-g ok"><i aria-hidden="true"></i>Bertanda centang</span> = sudah selesai</p></div>`}
 function glos(){const L=GLD.GLOS.slice().sort((a,b)=>a.t.localeCompare(b.t,"id"));
  return `<div class="sbar rv"><input id="gq" type="search" placeholder="Cari istilah, misalnya: burnout, STAR, bias…" aria-label="Cari istilah"><div class="chips" id="gch" role="group" aria-label="Saring bab"><button class="chip" aria-pressed="true" data-b="-1">Semua</button>${CH().map((c,i)=>`<button class="chip" aria-pressed="false" data-b="${i}">${esc(c.t)}</button>`).join("")}</div></div>
