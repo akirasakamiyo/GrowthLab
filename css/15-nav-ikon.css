@@ -27,7 +27,7 @@
 
 /* ===== latar doodle beranda (2026-11-06): gradien biru diganti biru polos + coretan doodle bergerak ===== */
 .hero{position:relative;background:#2340d8!important;overflow:hidden}
-.hero-dd{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.9}
+.hero-dd{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.7}
 .hero-dd svg{width:100%;height:100%;display:block}
 .hero-dd g[class^="hd-"]{transform-box:fill-box;transform-origin:center}
 .hd-fl{animation:hdFloat 6s ease-in-out infinite}
