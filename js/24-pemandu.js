@@ -14,17 +14,17 @@
   const steps = () => {
     const c = cekItems(), u = unanswered(), hasLab = !!$(LAB);
     return [
-      ...(hasLab ? [{ id: "coba", ok: tried, el: () => $(LAB), t: "Coba aktivitas ini dulu", s: "Klik atau isi aktivitasnya untuk berlatih." }] : []),
-      { id: "cek", ok: c.length > 0 && !u.length, el: () => u[0] || $("#cek"), t: "Jawab soal ini: Benar atau Salah?", s: `${c.length - u.length} dari ${c.length} soal sudah dijawab.` },
-      { id: "baca", ok: read, el: () => $("#lart .take"), t: "Baca sampai poin utama ini", s: "Gulir terus sampai bagian ini supaya bacaanmu lengkap." },
-      { id: "tandai", ok: isDone(), el: () => $("#mark"), t: "Sudah semua? Tekan “Tandai selesai”", s: "Pelajaran berikutnya langsung terbuka." }
+      ...(hasLab ? [{ id: "coba", ok: tried, el: () => $(LAB), t: "Coba yang ini dulu, yuk.", s: "Klik atau isi, lalu lihat hasilnya." }] : []),
+      { id: "cek", ok: c.length > 0 && !u.length, el: () => u[0] || $("#cek"), t: "Yang ini belum dijawab, nih.", s: `Benar atau salah? (${c.length - u.length}/${c.length} beres)` },
+      { id: "baca", ok: read, el: () => $("#lart .take"), t: "Baca sampai sini dulu.", s: "Ini poin utamanya." },
+      { id: "tandai", ok: isDone(), el: () => $("#mark"), t: "Udah semua? Tandai selesai di sini.", s: "Pelajaran berikutnya langsung kebuka." }
     ];
   };
   /* elemen hint */
   const B = document.createElement("div"); B.className = "gph"; B.setAttribute("role", "status"); B.setAttribute("aria-live", "polite");
   const P = document.createElement("button"); P.type = "button"; P.className = "gph-pill";
   document.body.append(B, P);
-  const BULB = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="gph-glow" d="M12 1v2M4.5 4.5 6 6M19.5 4.5 18 6M2 12h2M20 12h2"/><path d="M8.5 15.5A6 6 0 1 1 15.5 15.5V18h-7z"/><path d="M9.5 21h5"/></g></svg>`;
+  const BULB_LAMA = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="gph-glow" d="M12 1v2M4.5 4.5 6 6M19.5 4.5 18 6M2 12h2M20 12h2"/><path d="M8.5 15.5A6 6 0 1 1 15.5 15.5V18h-7z"/><path d="M9.5 21h5"/></g></svg>`;
   function jump(el) {
     if (!el) return; const y = el.getBoundingClientRect().top + scrollY - innerHeight * .35;
     try { window.__lenis ? __lenis.scrollTo(y, { duration: 1 }) : scrollTo({ top: y, behavior: "smooth" }) } catch (e) { scrollTo(0, y) }
@@ -37,11 +37,11 @@
     const st = S[k], el = st.el(); tgtEl = el; if (!el) return;
     el.classList.add("gph-tgt");
     const nOk = S.filter(s => s.ok).length;
-    B.innerHTML = `<span class="gph-ic">${BULB}</span><span class="gph-tx"><small>Langkah ${nOk + 1} dari ${S.length}</small><b>${st.t}</b><em>${st.s}</em>
-      <span class="gph-dots">${S.map(s => `<i class="${s.ok ? "ok" : s === st ? "now" : ""}"></i>`).join("")}</span>
-      ${reason === "next" ? `<span class="gph-row"><button type="button" data-h="skip">Tetap lanjut</button></span>` : ""}</span>
-      <button type="button" class="gph-x" data-h="x" aria-label="Sembunyikan hint">×</button>`;
-    P.innerHTML = `<span class="gph-arr">↓</span><span class="gph-pre">Masih ada yang belum dikerjakan:</span> <b>${st.t.replace(/:.*$/, "")}</b>`;
+    B.innerHTML = `<span class="gph-tape" aria-hidden="true"></span><b>${st.t}</b><em>${st.s}</em>
+      ${reason === "next" ? `<button type="button" class="gph-skip" data-h="skip">tetap lanjut →</button>` : ""}
+      <button type="button" class="gph-x" data-h="x" aria-label="Sembunyikan hint">×</button>
+      <svg class="gph-arrow" viewBox="0 0 60 60" aria-hidden="true"><path d="M48 6C50 26 38 42 14 50"/><path d="M24 54L13 50l6-10"/></svg>`;
+    P.innerHTML = `<span class="gph-arr">↓</span><span class="gph-pre">Masih ada yang belum:</span> <b>${st.t.replace(/[.,].*$/, "")}</b>`;
     B.classList.add("on");
   }
   /* posisi mengikuti elemen target saat digulir */
@@ -52,9 +52,9 @@
     const off = r.bottom < top0 + 20 || r.top > innerHeight - 40;
     B.classList.toggle("off", off); P.classList.toggle("on", off); P.classList.toggle("up", r.bottom < top0 + 20);
     if (off) return;
-    const above = r.top - bh - 18 > top0;
+    const above = r.top - bh - 54 > top0;
     const x = Math.min(Math.max(12, r.left + Math.min(24, r.width * .1)), innerWidth - bw - 12);
-    const y = above ? r.top - bh - 16 : Math.min(r.bottom + 16, innerHeight - bh - 12);
+    const y = above ? r.top - bh - 50 : Math.min(r.bottom + 50, innerHeight - bh - 12);
     B.style.transform = `translate(${x}px,${y}px)`; B.classList.toggle("below", !above);
     B.style.setProperty("--ax", Math.min(Math.max(22, r.left + 30 - x), bw - 30) + "px");
   }

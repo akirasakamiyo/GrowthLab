@@ -33,3 +33,27 @@
 @keyframes gphArr{0%,100%{translate:0 0}50%{translate:0 3px}}
 @media(max-width:640px){.gph-pill{max-width:calc(100vw - 110px);bottom:86px;white-space:nowrap}.gph-pre{display:none}.gph{width:min(300px,calc(100vw - 24px))}}
 @media(prefers-reduced-motion:reduce){.gph,.gph-tx,.gph-glow,.gph-tgt,.gph-arr{animation:none!important}}
+
+/* ===== unslop: hint jadi kertas tempel kuning + panah kapur, bukan tooltip aplikasi ===== */
+.gph{display:block;width:min(260px,calc(100vw - 24px));padding:16px 30px 14px 16px;border-radius:4px 4px 14px 4px;background:#ffd23f;color:#16124a;box-shadow:0 2px 0 rgba(0,0,0,.06),0 18px 28px -16px rgba(22,18,74,.55);rotate:-2.2deg}
+.gph.below{rotate:1.8deg}
+.gph::after{display:none}
+.gph-tape{position:absolute;top:-10px;left:50%;width:70px;height:20px;translate:-50% 0;rotate:3deg;background:rgba(255,250,235,.75);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.gph b{display:block;font:400 1.25rem/1.05 var(--serif,Anton,sans-serif);text-transform:uppercase;letter-spacing:.01em;color:#16124a}
+.gph em{display:block;margin-top:5px;font-style:normal;font-size:.8rem;line-height:1.35;color:#3a3570}
+.gph-x{background:transparent;color:#16124a;top:6px;right:6px;font-size:1.1rem}
+.gph-skip{margin-top:8px;border:0;background:none;padding:0;color:#16124a;font:700 .76rem/1 var(--sans,sans-serif);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+/* panah kapur melengkung yang menunjuk target */
+.gph-arrow{position:absolute;left:calc(var(--ax,28px) - 34px);bottom:-46px;width:52px;height:52px;overflow:visible;fill:none;stroke:#16124a;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;filter:url(#gl-boil);animation:gphPoke 1.4s ease-in-out infinite}
+.gph.below .gph-arrow{bottom:auto;top:-46px;scale:1 -1}
+@keyframes gphPoke{0%,100%{translate:0 0}50%{translate:-3px 3px}}
+.gph.on:not(.off) .gph-tx{animation:none}
+.gph.on:not(.off){animation:gphIn .45s cubic-bezier(.34,1.5,.64,1),gphSway 3.2s ease-in-out .5s infinite}
+@keyframes gphSway{0%,100%{translate:0 0}50%{translate:0 -3px}}
+.gph-tgt{outline-color:#16124a;outline-style:dashed;outline-width:2px}
+@keyframes gphTgt{0%,100%{outline-color:#16124a}50%{outline-color:rgba(22,18,74,.25)}}
+/* pil tepi layar: potongan kertas kuning juga */
+.gph-pill{background:#ffd23f;color:#16124a;border-radius:6px;rotate:-1deg;box-shadow:0 14px 26px -12px rgba(22,18,74,.5)}
+.gph-pill b{color:#16124a;text-decoration:underline;text-underline-offset:3px}
+.gph-arr{background:#16124a;color:#ffd23f}
+@media(prefers-reduced-motion:reduce){.gph-arrow{animation:none}}
