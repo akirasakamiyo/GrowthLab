@@ -49,17 +49,26 @@
 @media(max-width:760px){.hero-dd{opacity:.55}}
 @media(prefers-reduced-motion:reduce){.hero-dd *{animation:none!important}.hd-dr .dd-line{stroke-dashoffset:0}}
 
-/* ===== ikon navbar doodle yang selalu bergerak ===== */
-.ni-ic svg{overflow:visible}
-.ni-ic svg path,.ni-ic svg circle{stroke:currentColor}
-.dn-page{transform-box:fill-box;transform-origin:left center;animation:dnPage 2.6s ease-in-out infinite}
-.dn-dart{transform-box:fill-box;transform-origin:left bottom;animation:dnDart 1.8s ease-in-out infinite}
-.dn-needle{transform-box:view-box;transform-origin:14px 14px;animation:dnNeedle 3s ease-in-out infinite}
-.dn-cup{transform-box:fill-box;transform-origin:center bottom;animation:dnCup 2.2s ease-in-out infinite}
-.dn-spark{transform-box:fill-box;transform-origin:center;animation:dnSpark 1.6s ease-in-out infinite}
-@keyframes dnPage{0%,60%,100%{transform:scaleX(1)}75%{transform:scaleX(-.15)}88%{transform:scaleX(.9)}}
-@keyframes dnDart{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}40%{transform:rotate(4deg)}60%{transform:rotate(-2deg)}}
-@keyframes dnNeedle{0%,100%{transform:rotate(-28deg)}50%{transform:rotate(32deg)}}
-@keyframes dnCup{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-1.5px) rotate(-5deg)}}
-@keyframes dnSpark{0%,100%{transform:scale(.4);opacity:.3}50%{transform:scale(1.2);opacity:1}}
-@media(prefers-reduced-motion:reduce){.dn-page,.dn-dart,.dn-needle,.dn-cup,.dn-spark{animation:none}}
+/* ===== ikon navbar gaya "kapur bergetar" (pilihan B) ===== */
+.ni-ic svg{overflow:visible;filter:url(#gl-boil)}
+.ni-ic .nb-acc{stroke:var(--sun)}
+.links a.ni:is(:hover,.hv,.cur,:focus-visible) .nb-acc{stroke:#ff5a3c}
+.nb-rib{transform-box:fill-box;transform-origin:top center;animation:nbRib 1.4s ease-in-out infinite}
+.nb-chk{stroke-dasharray:22;stroke-dashoffset:22;animation:nbChk 2.4s ease-in-out infinite}
+.nb-pen{animation:nbPen 2.4s ease-in-out infinite}
+.nb-route{stroke-dasharray:3 4;animation:nbRoute 1.2s linear infinite}
+.nb-pin{transform-box:fill-box;transform-origin:center bottom;animation:nbPin 1.6s cubic-bezier(.3,1.6,.5,1) infinite}
+.nb-lf1,.nb-lf2{transform-box:fill-box;animation:nbSway 2.6s ease-in-out infinite}
+.nb-lf1{transform-origin:right bottom}.nb-lf2{transform-origin:left bottom;animation-delay:-1.3s}
+.nb-bud{transform-box:fill-box;transform-origin:center bottom;animation:nbBud 3.2s ease-in-out infinite}
+@keyframes nbRib{0%,100%{transform:skewX(0) rotate(0)}50%{transform:skewX(-14deg) rotate(6deg)}}
+@keyframes nbChk{0%,15%{stroke-dashoffset:22}45%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:-22}}
+@keyframes nbPen{0%,15%,100%{transform:translate(0,0)}30%{transform:translate(-5px,4px)}45%,85%{transform:translate(3px,-3px)}}
+@keyframes nbRoute{to{stroke-dashoffset:-14}}
+@keyframes nbPin{0%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+@keyframes nbSway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@keyframes nbBud{0%,20%,100%{transform:scale(.2)}55%,85%{transform:scale(1)}}
+/* ikon garis lain di seluruh situs ikut bergaya kapur bergetar */
+.ico svg,svg.gi,svg.chev,.lk{filter:url(#gl-boil)}
+@media(prefers-reduced-motion:reduce){.nb-rib,.nb-chk,.nb-pen,.nb-route,.nb-pin,.nb-lf1,.nb-lf2,.nb-bud{animation:none}.nb-chk{stroke-dashoffset:0}.nb-bud{transform:none}}
+@media(min-width:761px){.ni-ic{width:30px;height:30px}.ni-ic svg{width:30px;height:30px}.links a.pill .ni-ic{width:32px;height:32px}.links a.pill .ni-ic svg{width:24px;height:24px}.links a.ni{padding:7px}}
