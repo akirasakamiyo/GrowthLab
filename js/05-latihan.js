@@ -449,6 +449,8 @@ function cetak(){const d=load(),H=hitung(d),K=H.ki!=null?GLD.KATEGORI[H.ki]:null
  document.body.append(c);const fin=()=>{c.remove();removeEventListener("afterprint",fin)};addEventListener("afterprint",fin);try{window.print()}catch(_){}}
 function nmFill(){const i=q("#nlname");if(i)try{i.value=JSON.parse(localStorage.getItem("gl-ui")||"{}").nama||""}catch(_){}}
 function nilai(celebrate){const box=q("#nilai");if(box){box.innerHTML=nilaiHTML();nmFill();nilaiFx(box)}
+ /* bagian Nilai akhir disembunyikan sampai semua latihan selesai */
+ const sec=q("#nilai-sec");if(sec)sec.hidden=!syarat(load()).ok;
  const d=load(),H=hitung(d);if(H.akhir==null||!syarat(d).ok)return;const v=r1(H.akhir);
  if(d.akhir.last!==v){d.akhir.last=v;d.akhir.hist.push({akhir:v,pg:H.pg,sim:r1(H.sim),kat:GLD.KATEGORI[H.ki][0],t:Date.now()});cap(d.akhir.hist,20);save(d);if(box){box.innerHTML=nilaiHTML();nmFill();nilaiFx(box)}
   if(celebrate&&v>=71){setTimeout(()=>{ping(innerWidth/2,innerHeight/2,48);say(`Nilai akhir ${fmt(v)}: ${GLD.KATEGORI[H.ki][0]}!`)},500)}}}

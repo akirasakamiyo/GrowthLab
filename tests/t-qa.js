@@ -72,9 +72,7 @@ const kat = (a, pg) => { let k = r1(a) >= 86 ? 0 : r1(a) >= 71 ? 1 : r1(a) >= 56
   const cetak = await page.evaluate(() => { window.print = () => {}; document.querySelector('#nilai [data-n="print"]').click(); const t = document.querySelector("#cetak").innerText; document.querySelector("#cetak").remove(); return t });
   ok(cetak.includes(String(r1(akhir)).replace(".", ",")) && cetak.includes(String(r1(sim)).replace(".", ",")), "kartu cetak memuat nilai akhir & simulasi yang sama");
   // beranda
-  await page.evaluate(() => location.hash = "#/"); await sl(1500);
-  const home = await page.evaluate(() => document.body.innerText);
-  ok(home.includes(String(Math.round(akhir))) || home.includes(String(r1(akhir)).replace(".", ",")), "beranda menampilkan nilai akhir yang sama");
+  /* 2026-11-06: kartu "Lanjutkan belajar" (yang dulu menampilkan nilai akhir di beranda) diganti video promo, jadi beranda tidak lagi dicek */
   // pita batas
   ok([pita(55.4), pita(55.5), pita(70.9), pita(85.96)].join() === "3,3,2,0", "pita rubrik independen sesuai brief");
   ok(page.errs.length === 0, "console bersih (semua ending)" + (page.errs.length ? ": " + page.errs.slice(0, 4).join(" | ") : ""));
