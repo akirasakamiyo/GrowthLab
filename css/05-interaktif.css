@@ -186,3 +186,6 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc);margin:-14px 0 
 .les.lock{opacity:.5;cursor:not-allowed}.les.lock b{background:none;border-style:dashed}.les.lock b:after{content:"🔒";font-size:.7rem;position:absolute;margin:-3px 0 0 -2px}.les.lock{position:relative}
 .side button.lock,#slist button.lock{opacity:.55}
 .pk-g.lock{color:rgba(10,26,107,.5);background:#efeff3;cursor:not-allowed}.pk-g.lock .pk-pv{color:var(--ink)}.pk-g.lock:after{content:"🔒";font-style:normal;margin-left:6px;font-size:.75rem}
+
+/* video promo loop di beranda (pengganti kartu Lanjutkan belajar) */
+.promo{margin-top:28px;border-radius:28px;overflow:hidden;background:var(--ink);box-shadow:0 34px 60px -34px rgba(10,26,107,.55);line-height:0}.promo video{display:block;width:100%;height:auto}

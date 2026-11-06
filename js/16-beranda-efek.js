@@ -46,3 +46,6 @@ document.addEventListener("pointermove",e=>{if(rm||e.pointerType==="touch")retur
 document.documentElement.addEventListener("mouseleave",()=>{if(mb){mstep.last=mb;mb=null;mt={x:0,y:0};mgo()}});
 window.observe();draw();
 }catch(e){console.warn("oblo layer",e)}})();
+/* video promo beranda: main otomatis (tanpa suara, loop) saat terlihat, jeda saat keluar layar atau pindah halaman */
+(()=>{const v=document.getElementById("promo");if(!v||!("IntersectionObserver" in window))return;v.muted=true;
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const p=v.play();p&&p.catch(()=>{})}else v.pause()}),{threshold:.15}).observe(v)})();

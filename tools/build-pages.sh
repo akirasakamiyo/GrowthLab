@@ -8,7 +8,7 @@ PUSH=""
 for a in "$@"; do case "$a" in --push) PUSH=1;; *) OUT="$a";; esac; done
 mkdir -p "$OUT/assets"
 cp "$SRC/index.html" "$OUT/index.html"
-for d in css js vendor assets/sim assets/sb; do rsync -a --delete --exclude src --exclude .DS_Store "$SRC/$d/" "$OUT/$d/"; done
+for d in css js vendor assets/sim assets/sb assets/video; do rsync -a --delete --exclude src --exclude .DS_Store "$SRC/$d/" "$OUT/$d/"; done
 # paket offline (hasil `node tools/build-offline.js`) untuk diunduh
 if [ -d "$SRC/dist" ]; then rsync -a --delete "$SRC/dist/" "$OUT/offline/"; fi
 # README & screenshot untuk halaman repo GitHub
