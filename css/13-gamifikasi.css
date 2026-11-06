@@ -261,3 +261,23 @@
 .gx-extra>section{align-content:start}
 /* tombol garis di panel: saat hover/fokus latar navy menyapu masuk (gaya .btn situs), jadi teks harus putih */
 .gx-dlg .btn:not(.p):hover,.gx-dlg .btn:not(.p):focus-visible,.gx-dlg .gx-file:focus-within{color:#fff}
+/* HP & tablet: label pos jalan karier tidak menumpuk — jadi 4 langkah sejajar di bawah jalan */
+@media(max-width:900px){
+  .gx-hero{grid-template-columns:auto 1fr;align-items:center}
+  .gx-hi{display:contents}
+  .gx-hi>.mono,.gx-hi>h2,.gx-hi>p{grid-column:2}
+  .gx-lv{grid-row:1/4;width:110px}
+  .gx-road{grid-column:1/-1;max-width:none;margin-top:6px}
+  .gx-road ol{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+  .gx-road li,.gx-road li:nth-child(odd),.gx-road li:nth-child(even),.gx-road li:first-child,.gx-road li:last-child{position:static;transform:none;width:auto;gap:4px;padding:8px 4px;border-radius:12px;background:rgba(255,255,255,.06)}
+  .gx-road li.on{background:rgba(31,164,99,.18)}
+  .gx-road li b,.gx-road li:nth-child(odd) b,.gx-road li:first-child b{order:0;margin:0;font-size:.78rem;white-space:normal;line-height:1.2}
+  .gx-road li small,.gx-road li:nth-child(odd) small,.gx-road li:first-child small{order:0;display:block;font-size:.66rem;white-space:normal}
+}
+@media(max-width:520px){
+  .gx-hero{grid-template-columns:1fr;padding:22px 18px 18px}
+  .gx-hi>.mono,.gx-hi>h2,.gx-hi>p{grid-column:1}
+  .gx-lv{grid-row:auto;width:96px}
+  .gx-road ol{grid-template-columns:repeat(2,1fr)}
+}
+.gx-road .rd{stroke:rgba(255,255,255,.26)}
