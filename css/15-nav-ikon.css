@@ -72,3 +72,45 @@
 .ico svg,svg.gi,svg.chev,.lk{filter:url(#gl-boil)}
 @media(prefers-reduced-motion:reduce){.nb-rib,.nb-chk,.nb-pen,.nb-route,.nb-pin,.nb-lf1,.nb-lf2,.nb-bud{animation:none}.nb-chk{stroke-dashoffset:0}.nb-bud{transform:none}}
 @media(min-width:761px){.ni-ic{width:30px;height:30px}.ni-ic svg{width:30px;height:30px}.links a.pill .ni-ic{width:32px;height:32px}.links a.pill .ni-ic svg{width:24px;height:24px}.links a.ni{padding:7px}}
+
+/* ===== semua ikon garis gaya B: aksen (.ba) + gerak kecil terus-menerus (.bm-*) ===== */
+.ico svg .ba,svg.gi .ba{stroke:var(--ba,#ffc83d)}
+.ico svg circle.ba,.ico svg .ba circle{fill:none}
+/* ikon di latar terang: aksen oranye agar terlihat */
+.isg,.gd,.lab,.gl-i,#ltp[data-cur=dnd],.panel,.cek{--ba:#e2552b}
+.ico svg [class*="bm-"],svg.gi [class*="bm-"]{transform-box:fill-box;transform-origin:center}
+.bm-wig{animation:bmWig 1.8s ease-in-out infinite;transform-origin:left bottom!important}
+.bm-rib{animation:bmRib 1.4s ease-in-out infinite;transform-origin:top center!important}
+.bm-bob{animation:bmBob 1.6s ease-in-out infinite}
+.bm-bobu{animation:bmBobU 1.6s ease-in-out infinite}
+.bm-dash{stroke-dasharray:2 3;animation:bmDash 1.2s linear infinite}
+.bm-draw{stroke-dasharray:24;stroke-dashoffset:24;animation:bmDraw 2.6s ease-in-out infinite}
+.bm-slide{animation:bmSlide 2.2s ease-in-out infinite}
+.bm-slide2{animation:bmSlide2 2.4s ease-in-out infinite}
+.bm-pulse{animation:bmPulse 1.8s ease-in-out infinite}
+.bm-blink{animation:bmBlink 1.4s ease-in-out infinite}
+.bm-twinkle{animation:bmTwinkle 2.2s ease-in-out infinite}
+.bm-diag{animation:bmDiag 1.6s ease-in-out infinite}
+.bm-dot{animation:bmDot 1.2s ease-in-out infinite}.bm-dot.d2{animation-delay:.2s}.bm-dot.d3{animation-delay:.4s}
+.bm-wave{animation:bmBlink 1.2s ease-in-out infinite}.bm-wave.d2{animation-delay:.3s}
+.bm-spin{animation:bmSpin 9s linear infinite}
+.bm-hand{animation:bmSpin 4s linear infinite;transform-origin:center bottom!important}
+.bm-nudge{animation:bmNudge 1s ease-in-out infinite}
+.bm-flick{animation:bmFlick 1.1s ease-in-out infinite alternate;transform-origin:center bottom!important}
+@keyframes bmWig{0%,100%{transform:rotate(0)}30%{transform:rotate(-9deg)}60%{transform:rotate(5deg)}}
+@keyframes bmRib{0%,100%{transform:skewX(0)}50%{transform:skewX(-14deg) rotate(5deg)}}
+@keyframes bmBob{0%,100%{transform:translateY(0)}50%{transform:translateY(1.6px)}}
+@keyframes bmBobU{0%,100%{transform:translateY(0)}50%{transform:translateY(-1.6px)}}
+@keyframes bmDash{to{stroke-dashoffset:-10}}
+@keyframes bmDraw{0%,10%{stroke-dashoffset:24}45%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:-24}}
+@keyframes bmSlide{0%,100%{transform:translate(0,0)}50%{transform:translate(-1.5px,-1.5px)}}
+@keyframes bmSlide2{0%,100%{transform:translateY(0)}50%{transform:translateY(1.5px)}}
+@keyframes bmPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+@keyframes bmBlink{0%,100%{opacity:1}50%{opacity:.25}}
+@keyframes bmTwinkle{0%,100%{transform:scale(.85) rotate(0);opacity:.7}50%{transform:scale(1.1) rotate(15deg);opacity:1}}
+@keyframes bmDiag{0%,100%{transform:translate(0,0)}50%{transform:translate(1.4px,-1.4px)}}
+@keyframes bmDot{0%,100%{opacity:.25}50%{opacity:1}}
+@keyframes bmSpin{to{transform:rotate(360deg)}}
+@keyframes bmNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(2px)}}
+@keyframes bmFlick{0%{transform:scale(1) rotate(-3deg)}100%{transform:scale(1.06,1.12) rotate(3deg)}}
+@media(prefers-reduced-motion:reduce){.ico svg [class*="bm-"],svg.gi [class*="bm-"]{animation:none!important}.bm-draw{stroke-dashoffset:0}}

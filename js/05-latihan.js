@@ -51,13 +51,13 @@ const bump=(el,s=1.08)=>A(el,[{transform:"scale(1)"},{transform:`scale(${s})`},{
 
 /* ---------- ikon (SVG garis, mengikuti warna teks) ---------- */
 const I=(d,f)=>`<svg class="gi${f?" f":""}" viewBox="0 0 24 24" aria-hidden="true">${d}</svg>`;
-const IC={x:I('<path d="M6 6l12 12M18 6L6 18"/>'),note:I('<path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="17" cy="16" r="3"/>'),
- vol:I('<path d="M4 9h4l5-4v14l-5-4H4z"/><path d="M16.5 9a4 4 0 010 6M19 6.5a8 8 0 010 11"/>'),flame:I('<path d="M12 2c.8 3.6 6 5.6 6 11.6A6 6 0 016 13.6c0-2.8 1.6-4.6 2.8-5.6.2 2 1 3 2.2 3.2C11.3 8 10.4 5 12 2z"/>',1),
- bolt:I('<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',1),snow:I('<path d="M12 2v20M4 7l16 10M20 7L4 17M9 4l3 2 3-2M9 20l3-2 3 2"/>'),shield:I('<path d="M12 2l8 3v6c0 5-3.4 9-8 11-4.6-2-8-6-8-11V5z"/>',1),
- half:I('<circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M12 3a9 9 0 010 18z" fill="currentColor"/>'),check:I('<path d="M4 12.5l5 5L20 6.5"/>'),cross:I('<path d="M6 6l12 12M18 6L6 18"/>'),
- clock:I('<circle cx="12" cy="13" r="8"/><path d="M12 9v4l2.5 2.5M9 2h6"/>'),star:I('<path d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z"/>',1),
- play:I('<path d="M7 4.5v15l12.5-7.5z"/>',1),arrow:I('<path d="M5 12h14M13 6l6 6-6 6"/>'),up:I('<path d="M6 15l6-6 6 6"/>'),down:I('<path d="M6 9l6 6 6-6"/>'),
- redo:I('<path d="M20 11a8 8 0 10-2.3 5.7M20 4v7h-7"/>'),grip:I('<circle cx="9" cy="6" r="1.4"/><circle cx="15" cy="6" r="1.4"/><circle cx="9" cy="12" r="1.4"/><circle cx="15" cy="12" r="1.4"/><circle cx="9" cy="18" r="1.4"/><circle cx="15" cy="18" r="1.4"/>',1)};
+const IC={x:I('<path d="M6 6l12 12M18 6L6 18"/>'),note:I('<g class="bm-bob"><path d="M9 18V5l11-2v13"/><circle cx="6" cy="18" r="3"/><circle class="ba" cx="17" cy="16" r="3"/></g>'),
+ vol:I('<path d="M4 9h4l5-4v14l-5-4H4z"/><path class="ba bm-wave" d="M16.5 9a4 4 0 010 6"/><path class="ba bm-wave d2" d="M19 6.5a8 8 0 010 11"/>'),flame:I('<path class="bm-flick" d="M12 2c.8 3.6 6 5.6 6 11.6A6 6 0 016 13.6c0-2.8 1.6-4.6 2.8-5.6.2 2 1 3 2.2 3.2C11.3 8 10.4 5 12 2z"/>',1),
+ bolt:I('<path class="bm-pulse" d="M13 2L4 14h7l-1 8 9-12h-7z"/>',1),snow:I('<g class="bm-spin"><path d="M12 2v20M4 7l16 10M20 7L4 17"/><path class="ba" d="M9 4l3 2 3-2M9 20l3-2 3 2"/></g>'),shield:I('<path class="bm-pulse" d="M12 2l8 3v6c0 5-3.4 9-8 11-4.6-2-8-6-8-11V5z"/>',1),
+ half:I('<circle cx="12" cy="12" r="9"/><path d="M12 3v18"/><path d="M12 3a9 9 0 010 18z" fill="currentColor"/>'),check:I('<path class="bm-draw" d="M4 12.5l5 5L20 6.5"/>'),cross:I('<path d="M6 6l12 12M18 6L6 18"/>'),
+ clock:I('<circle cx="12" cy="13" r="8"/><path d="M9 2h6"/><path class="ba bm-hand" d="M12 13V8.5"/><path d="M12 13l2.5 2.5"/>'),star:I('<path class="bm-twinkle" d="M12 2.5l2.9 6 6.6.8-4.9 4.5 1.3 6.5L12 17l-5.9 3.3 1.3-6.5L2.5 9.3l6.6-.8z"/>',1),
+ play:I('<path d="M7 4.5v15l12.5-7.5z"/>',1),arrow:I('<g class="bm-nudge"><path d="M5 12h14M13 6l6 6-6 6"/></g>'),up:I('<g class="bm-bobu"><path d="M6 15l6-6 6 6"/></g>'),down:I('<g class="bm-bob"><path d="M6 9l6 6 6-6"/></g>'),
+ redo:I('<path d="M20 11a8 8 0 10-2.3 5.7"/><path class="ba bm-wig" d="M20 4v7h-7"/>'),grip:I('<circle cx="9" cy="6" r="1.4"/><circle cx="15" cy="6" r="1.4"/><circle cx="9" cy="12" r="1.4"/><circle cx="15" cy="12" r="1.4"/><circle cx="9" cy="18" r="1.4"/><circle cx="15" cy="18" r="1.4"/>',1)};
 
 /* ==================================================================
    SUARA · disintesis langsung (Web Audio). Musik kuis, suara latar simulasi, efek.
