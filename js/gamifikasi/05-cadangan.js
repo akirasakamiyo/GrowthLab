@@ -43,41 +43,86 @@
   /* ---------- sertifikat (PNG dari canvas, tanpa pustaka) ---------- */
   const allDone = () => { const s = new Set(G.storage.get("mer-done") || []); return GLD.COURSE.chapters.every((ch, i) => ch.l.every((_, j) => s.has(i + "-" + j))) };
   const nameOf = () => { const u = G.storage.get("gl-ui") || {}; return (u.nama || "").trim() };
+  /* sertifikat bergaya formal (revisi 2026-11-06): bingkai guilloche, serif klasik, nama huruf sambung,
+     segel emas berpita, dua tanda tangan pengembang. Font serif & script diambil dari font bawaan perangkat. */
   G.certificate = name => {
-    const W = 1600, H = 1130, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
-    const x = cv.getContext("2d"), I = G.info(), sk = G.skills(), H2 = typeof GLX !== "undefined" ? GLX.hitung() : {};
-    const F = (w, s, f) => `${w} ${s}px ${f}`, D = "'DM Sans',Inter,Arial,sans-serif", A = "Anton,Impact,'Arial Narrow',sans-serif";
-    x.fillStyle = "#fffaf0"; x.fillRect(0, 0, W, H);
-    x.fillStyle = "#ffc83d"; x.fillRect(0, 0, W, 26); x.fillRect(0, H - 26, W, 26);
-    x.strokeStyle = "#1b1740"; x.lineWidth = 6; x.strokeRect(50, 60, W - 100, H - 120);
-    x.textAlign = "center"; x.fillStyle = "#e2552b"; x.font = F(700, 26, D);
-    x.fillText("GROWTHLAB · SELF DEVELOPMENT FOR JOB SEEKER", W / 2, 150);
-    x.fillStyle = "#1b1740"; x.font = F(400, 96, A); x.fillText("SERTIFIKAT PENYELESAIAN", W / 2, 270);
-    x.font = F(400, 30, D); x.fillStyle = "#3a4370"; x.fillText("Diberikan kepada", W / 2, 345);
-    x.font = F(400, 84, A); x.fillStyle = "#2a56f5";
-    let nm = name || "Peserta GrowthLab"; while (x.measureText(nm).width > W - 300 && nm.length > 3) nm = nm.slice(0, -2) + "…";
-    x.fillText(nm, W / 2, 445);
-    x.font = F(400, 28, D); x.fillStyle = "#3a4370";
-    x.fillText(`telah menyelesaikan ${GLD.COURSE.chapters.length} bab dan ${GLD.COURSE.chapters.reduce((n, c) => n + c.l.length, 0)} pelajaran soft skill:`, W / 2, 505);
-    x.font = F(700, 30, D); x.fillStyle = "#1b1740"; x.fillText(GLD.COURSE.chapters.map(c => c.t).join("  ·  "), W / 2, 550);
-    /* profil kesiapan kerja */
-    x.textAlign = "left"; x.font = F(700, 22, D); x.fillStyle = "#e2552b"; x.fillText("PROFIL KESIAPAN KERJA", 230, 640);
-    sk.forEach((s, i) => {
-      const y = 690 + i * 70;
-      x.font = F(700, 26, D); x.fillStyle = "#1b1740"; x.fillText(s.t, 230, y);
-      x.fillStyle = "#e8ecfa"; x.fillRect(230, y + 14, 620, 18);
-      x.fillStyle = "#ffb11f"; x.fillRect(230, y + 14, 620 * s.v / 100, 18);
-      x.font = F(700, 24, D); x.fillStyle = "#1b1740"; x.textAlign = "right"; x.fillText(s.v + "/100", 970, y); x.textAlign = "left";
-    });
-    /* ringkasan */
-    const rows = [["Level", `${I.level} · ${I.tier}`], ["Total XP", String(I.xp)], ["Badge", `${G.badgeList().filter(b => b.got).length} dari ${C.badges.length}`]];
-    if (H2 && H2.akhir != null) rows.push(["Nilai akhir", String(Math.round(H2.akhir * 10) / 10).replace(".", ",")]);
-    x.font = F(700, 22, D); x.fillStyle = "#e2552b"; x.fillText("RINGKASAN", 1080, 640);
-    rows.forEach(([k, v], i) => { const y = 690 + i * 52; x.font = F(400, 24, D); x.fillStyle = "#3a4370"; x.fillText(k, 1080, y); x.font = F(700, 26, D); x.fillStyle = "#1b1740"; x.fillText(v, 1240, y) });
-    x.textAlign = "center"; x.font = F(400, 22, D); x.fillStyle = "#3a4370";
-    x.fillText(`Diterbitkan ${new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })} · Media pembelajaran Kelompok 8, Teknologi Pendidikan FIP UNJ`, W / 2, 960);
-    x.font = F(400, 18, D); x.fillStyle = "#7a83a8";
-    x.fillText("Sertifikat ini adalah umpan balik belajar mandiri, bukan sertifikat resmi.", W / 2, 995);
+    const W = 2400, H = 1697, cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+    const x = cv.getContext("2d"), I = G.info(), H2 = typeof GLX !== "undefined" ? GLX.hitung() : {};
+    const SERIF = '"Bodoni 72","Didot","Baskerville","Libre Baskerville","Georgia","Times New Roman",serif';
+    const SCRIPT = '"Snell Roundhand","Apple Chancery","Segoe Script","Brush Script MT","Lucida Handwriting",cursive';
+    const SANS = "'DM Sans',Inter,Arial,sans-serif";
+    const NAVY = "#14224d", GOLD = "#b8912f", GOLD2 = "#e3c06a", INK = "#2a2f45";
+    const font = (st, w, sz, f) => { x.font = `${st} ${w} ${sz}px ${f}` };
+    /* teks berjarak huruf, rata tengah (canvas letterSpacing belum merata di semua browser) */
+    const spaced = (t, cx, y, sp) => { const ws = [...t].map(c => x.measureText(c).width), tw = ws.reduce((a, b) => a + b, 0) + sp * (t.length - 1); let px = cx - tw / 2; x.textAlign = "left"; [...t].forEach((c, k) => { x.fillText(c, px, y); px += ws[k] + sp }); x.textAlign = "center" };
+    const fit = (t, max, st, w, sz, f) => { font(st, w, sz, f); while (x.measureText(t).width > max && sz > 20) { sz -= 4; font(st, w, sz, f) } return sz };
+    const wrap = (t, cx, y, max, lh) => { const out = []; let ln = ""; t.split(" ").forEach(w => { const tst = ln ? ln + " " + w : w; if (x.measureText(tst).width > max && ln) { out.push(ln); ln = w } else ln = tst }); out.push(ln); out.forEach((l, k) => x.fillText(l, cx, y + k * lh)); return out.length };
+
+    /* kertas */
+    const bg = x.createRadialGradient(W / 2, H / 2, 200, W / 2, H / 2, W * .7); bg.addColorStop(0, "#fffdf6"); bg.addColorStop(1, "#f3ead2");
+    x.fillStyle = bg; x.fillRect(0, 0, W, H);
+    /* pola guilloche untuk pita bingkai */
+    const tile = document.createElement("canvas"); tile.width = 72; tile.height = 72; const t = tile.getContext("2d");
+    t.fillStyle = NAVY; t.fillRect(0, 0, 72, 72); t.strokeStyle = "rgba(227,192,106,.55)"; t.lineWidth = 1.2;
+    for (let k = 0; k < 6; k++) { t.beginPath(); for (let px = 0; px <= 72; px += 2) { const py = 36 + Math.sin(px / 72 * Math.PI * 2 + k * Math.PI / 3) * 26; px ? t.lineTo(px, py) : t.moveTo(px, py) } t.stroke() }
+    for (let k = 0; k < 6; k++) { t.beginPath(); for (let py = 0; py <= 72; py += 2) { const px = 36 + Math.sin(py / 72 * Math.PI * 2 + k * Math.PI / 3) * 26; py ? t.lineTo(px, py) : t.moveTo(px, py) } t.stroke() }
+    const O = 46, B = 64;
+    x.fillStyle = x.createPattern(tile, "repeat");
+    x.beginPath(); x.rect(O, O, W - 2 * O, H - 2 * O); x.rect(O + B, O + B, W - 2 * (O + B), H - 2 * (O + B)); x.fill("evenodd");
+    const line = (o, w, c) => { x.strokeStyle = c; x.lineWidth = w; x.strokeRect(o, o, W - 2 * o, H - 2 * o) };
+    line(O, 6, GOLD); line(O + B, 6, GOLD); line(O + B + 18, 2, GOLD); line(O + B + 26, 1, GOLD2);
+    /* roset di sudut */
+    const roset = (cx, cy, r) => { x.save(); x.translate(cx, cy); x.strokeStyle = GOLD; x.lineWidth = 2;
+      for (let k = 0; k < 12; k++) { x.rotate(Math.PI / 6); x.beginPath(); x.ellipse(r * .5, 0, r * .5, r * .18, 0, 0, Math.PI * 2); x.stroke() }
+      x.fillStyle = GOLD; x.beginPath(); x.arc(0, 0, r * .16, 0, Math.PI * 2); x.fill(); x.restore() };
+    const ci = O + B + 70;[[ci, ci], [W - ci, ci], [ci, H - ci], [W - ci, H - ci]].forEach(([a, b]) => roset(a, b, 46));
+
+    /* kepala */
+    x.textAlign = "center"; x.fillStyle = GOLD; font("", 700, 26, SANS); spaced("GROWTHLAB  ·  SELF DEVELOPMENT FOR JOB SEEKER", W / 2, 268, 7);
+    x.fillStyle = NAVY; font("", 400, 150, SERIF); spaced("SERTIFIKAT", W / 2, 432, 26);
+    x.fillStyle = GOLD; font("", 400, 46, SERIF); spaced("PENYELESAIAN PROGRAM", W / 2, 510, 14);
+    /* hiasan pemisah */
+    const orn = (cx, cy, w) => { x.strokeStyle = GOLD; x.lineWidth = 2.5; x.beginPath(); x.moveTo(cx - w, cy); x.lineTo(cx - 26, cy); x.moveTo(cx + 26, cy); x.lineTo(cx + w, cy); x.stroke();
+      x.fillStyle = GOLD; x.beginPath(); x.moveTo(cx, cy - 14); x.lineTo(cx + 18, cy); x.lineTo(cx, cy + 14); x.lineTo(cx - 18, cy); x.closePath(); x.fill();
+      [-1, 1].forEach(s => { x.beginPath(); x.arc(cx + s * (w + 10), cy, 5, 0, Math.PI * 2); x.fill() }) };
+    orn(W / 2, 560, 300);
+    x.fillStyle = "#5b6077"; font("italic", 400, 42, SERIF); x.fillText("Dengan bangga diberikan kepada", W / 2, 650);
+    /* nama */
+    const nm = name || "Peserta GrowthLab";
+    x.fillStyle = NAVY; fit(nm, W - 900, "", 400, 150, SCRIPT); x.fillText(nm, W / 2, 800);
+    const nw = Math.max(620, x.measureText(nm).width / 2 + 60); x.strokeStyle = GOLD; x.lineWidth = 3; x.beginPath(); x.moveTo(W / 2 - nw, 838); x.lineTo(W / 2 + nw, 838); x.stroke();
+    /* isi */
+    const nb = GLD.COURSE.chapters.length, nl = GLD.COURSE.chapters.reduce((n, c) => n + c.l.length, 0), K = H2 && H2.ki != null ? GLD.KATEGORI[H2.ki][0] : null;
+    const ak = H2 && H2.akhir != null ? String(Math.round(H2.akhir * 10) / 10).replace(".", ",") : null;
+    x.fillStyle = INK; font("italic", 400, 38, SERIF);
+    wrap(`atas keberhasilannya menyelesaikan program pembelajaran mandiri Self Development for Job Seeker yang meliputi ${nb} bab dan ${nl} pelajaran soft skill: ${GLD.COURSE.chapters.map(c => c.t).join(", ").replace(/, ([^,]*)$/, ", dan $1")}${K && ak ? `, dengan predikat “${K}” dan nilai akhir ${ak}` : ""}.`, W / 2, 920, 1500, 56);
+    x.fillStyle = GOLD; font("", 700, 24, SANS);
+    spaced(`LEVEL ${I.level} · ${I.tier.toUpperCase()}     ✦     ${I.xp.toLocaleString("id-ID")} XP     ✦     ${G.badgeList().filter(b => b.got).length} DARI ${C.badges.length} BADGE`, W / 2, 1102, 4);
+
+    /* segel emas berpita */
+    x.save(); x.translate(W / 2, 1272); x.scale(.82, .82); const sx = 0, sy = 0;
+    [[-1, "#1f3a7a"], [1, "#a8321f"]].forEach(([s, col]) => { x.fillStyle = col; x.beginPath(); x.moveTo(sx + s * 20, sy + 40); x.lineTo(sx + s * 110, sy + 210); x.lineTo(sx + s * 72, sy + 186); x.lineTo(sx + s * 50, sy + 232); x.lineTo(sx + s * -30, sy + 70); x.closePath(); x.fill() });
+    const sg = x.createRadialGradient(sx - 40, sy - 40, 10, sx, sy, 150); sg.addColorStop(0, "#fbe7a6"); sg.addColorStop(.55, "#d9b14f"); sg.addColorStop(1, "#9c7420");
+    x.fillStyle = sg; x.beginPath(); for (let k = 0; k < 72; k++) { const a = k / 72 * Math.PI * 2, r = k % 2 ? 128 : 142; x.lineTo(sx + Math.cos(a) * r, sy + Math.sin(a) * r) } x.closePath(); x.fill();
+    x.strokeStyle = "#8a6518"; x.lineWidth = 2; x.beginPath(); x.arc(sx, sy, 112, 0, Math.PI * 2); x.stroke(); x.beginPath(); x.arc(sx, sy, 78, 0, Math.PI * 2); x.stroke();
+    /* tulisan melingkar */
+    x.fillStyle = "#5a3f08"; font("", 700, 19, SANS);
+    const ring = "GROWTHLAB  ✦  SELF DEVELOPMENT  ✦  " + new Date().getFullYear() + "  ✦  ";
+    const step = Math.PI * 2 / ring.length; [...ring].forEach((c, k) => { x.save(); x.translate(sx, sy); x.rotate(-Math.PI / 2 + k * step); x.translate(0, -88); x.fillText(c, 0, 0); x.restore() });
+    x.fillStyle = "#5a3f08"; font("", 400, 70, SERIF); x.fillText("GL", sx, sy + 24);
+    x.restore();
+
+    /* tanda tangan */
+    const sig = (cx, nmS) => { x.fillStyle = NAVY; fit(nmS, 520, "", 400, 70, SCRIPT); x.fillText(nmS, cx, 1360);
+      x.strokeStyle = INK; x.lineWidth = 2; x.beginPath(); x.moveTo(cx - 290, 1384); x.lineTo(cx + 290, 1384); x.stroke();
+      x.fillStyle = INK; font("", 700, 24, SANS); spaced(nmS.toUpperCase(), cx, 1426, 3); x.fillStyle = "#6b6f86"; font("italic", 400, 28, SERIF); x.fillText("Pengembang GrowthLab", cx, 1466) };
+    sig(560, "Rifa Haqi Putra Wibowo"); sig(W - 560, "Thumpal Alvin");
+    /* kaki */
+    const tgl = new Date().toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" });
+    let h = 0; for (const c of nm + tgl) h = (h * 31 + c.charCodeAt(0)) >>> 0;
+    const no = `GL-${new Date().toISOString().slice(2, 10).replace(/-/g, "")}-${(h % 65536).toString(16).toUpperCase().padStart(4, "0")}`;
+    x.fillStyle = "#6b6f86"; font("", 400, 24, SANS); x.fillText(`Diterbitkan ${tgl}   ·   No. ${no}   ·   Teknologi Pendidikan FIP Universitas Negeri Jakarta`, W / 2, H - O - B - 74);
+    x.fillStyle = "#9a9db0"; font("italic", 400, 22, SERIF); x.fillText("Sertifikat ini merupakan umpan balik belajar mandiri, bukan sertifikat resmi.", W / 2, H - O - B - 42);
     return cv;
   };
   G.certFile = name => {
