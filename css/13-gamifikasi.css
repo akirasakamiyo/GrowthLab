@@ -281,3 +281,8 @@
   .gx-road ol{grid-template-columns:repeat(2,1fr)}
 }
 .gx-road .rd{stroke:rgba(255,255,255,.26)}
+/* chip level saat hover berlatar kuning: bintang jadi putih bergaris navy */
+.gx-chip:is(:hover,.hv,:focus-visible) svg{fill:#fff;stroke:#1b1740}
+/* sisi belakang badge: warna badge diredam ke navy supaya teks putih terbaca di semua warna */
+.gx-flip .bk{background:linear-gradient(160deg,color-mix(in srgb,var(--bc) 55%,#16124a),color-mix(in srgb,var(--bc) 35%,#16124a))}
+.gx-flip .bk small{opacity:1;color:#ffe9a8}

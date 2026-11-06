@@ -245,3 +245,4 @@ html.gx-lock,html.gx-lock body{overflow:hidden!important}
  .gq-ring .v,.gs-needle,.gs-sb i,.nl-bar,.gd-card,.gs-c,.gs-file,.gs-file::before,.gs-c::before{transition:none!important}
  .gs-end .gs-tree path.on{stroke-dashoffset:0;animation:none!important}.gs-stamp{opacity:1}
 }
+.gq-mtag{background:rgba(10,16,48,.35)}

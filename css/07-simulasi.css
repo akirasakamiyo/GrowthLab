@@ -129,3 +129,7 @@
 #ltp[data-cur=sim].sv-full>*{max-width:1240px;margin-left:auto;margin-right:auto}
 /* pembungkus panel membuat lapisan sendiri (z-index 2); naikkan saat layar penuh agar menutupi navbar & tombol mengambang */
 .wrap:has(#ltp.sv-full){z-index:82}
+/* kontras: warna kasus (toska/oranye/ungu) dipakai sebagai teks/latar teks putih — diredam agar terbaca */
+.gs-fa{color:color-mix(in srgb,var(--cc) 62%,#0a1a6b)}
+.gs-go{background:color-mix(in srgb,var(--cc) 72%,#0a1a6b)}
+.gv-c kbd{background:color-mix(in srgb,var(--kc) 70%,#0a1a6b)}
