@@ -46,3 +46,11 @@ document.addEventListener("pointermove",e=>{if(rm||e.pointerType==="touch")retur
 document.documentElement.addEventListener("mouseleave",()=>{if(mb){mstep.last=mb;mb=null;mt={x:0,y:0};mgo()}});
 window.observe();draw();
 }catch(e){console.warn("oblo layer",e)}})();
+/* video promo beranda: main otomatis (tanpa suara, loop) saat terlihat, jeda saat keluar layar atau pindah halaman */
+(()=>{const v=document.getElementById("promo");if(!v||!("IntersectionObserver" in window))return;v.muted=true;
+new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){const p=v.play();p&&p.catch(()=>{})}else v.pause()}),{threshold:.15}).observe(v)
+/* tombol suara: video selalu mulai tanpa suara (aturan autoplay browser), pengguna bisa menyalakannya */
+const b=document.getElementById("promo-snd");if(!b)return;
+const SP='<path d="M11 5 6 9H3v6h3l5 4z"/>',ON=SP+'<path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>',OFF=SP+'<path d="m16 9 6 6M22 9l-6 6"/>';
+const draw=()=>{const m=v.muted;b.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true">${m?OFF:ON}</svg>${m?"Nyalakan suara":"Matikan suara"}`;b.setAttribute("aria-pressed",String(!m))};
+b.onclick=()=>{v.muted=!v.muted;if(!v.muted){v.volume=1;const p=v.play();p&&p.catch(()=>{})}draw()};draw()})();

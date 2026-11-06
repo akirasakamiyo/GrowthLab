@@ -34,7 +34,9 @@ Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas
 
 ## Fitur utama
 
-**📚 Materi interaktif.** 15 pelajaran dalam 3 bab, lengkap dengan peta konsep dan glosarium.
+**📚 Materi interaktif.** 15 pelajaran dalam 3 bab, lengkap dengan peta konsep (dengan pratinjau saat kursor diarahkan) dan glosarium. Pelajaran dibuka berurutan: pelajaran berikutnya terbuka setelah pelajaran sebelumnya ditandai selesai.
+
+**🎬 Video promo di beranda.** Video singkat 30 detik berputar otomatis tanpa suara; suaranya bisa dinyalakan lewat tombol di pojok video.
 
 ![Halaman pelajaran](docs/screenshots/03-pelajaran.png)
 
@@ -54,12 +56,12 @@ Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas
 
 **📊 Nilai akhir yang transparan.** Nilai Akhir = Pilihan Ganda × 30% + Simulasi × 70%. Nilai terbuka setelah semua latihan selesai, lalu bisa dicetak sebagai kartu hasil.
 
-**🏆 Gamifikasi yang sehat (bisa dimatikan).**
+**🏆 Gamifikasi yang sehat (selalu aktif).**
 - **XP:** didapat dari penguasaan materi, bukan sekadar klik. Mengulang latihan hanya menambah XP kalau skornya naik.
 - **Level karier:** Pemula → Calon Kandidat → Siap Interview → Job Ready.
 - **Badge dan target:** 12 badge kompetensi, streak mingguan yang ramah (3 hari per minggu, ada jatah hari libur), dan quest mingguan.
 - **Profil kesiapan kerja:** radar 3 soft skill dan sertifikat penyelesaian (PNG).
-- **Tanpa leaderboard:** semua elemen bisa dimatikan dengan satu tombol.
+- **Tanpa leaderboard:** tidak ada persaingan antarpengguna; yang dibandingkan hanya progresmu sendiri.
 
 ![Panel perjalanan karier](docs/screenshots/06-gamifikasi.png)
 
@@ -88,7 +90,7 @@ index.html     kerangka halaman
 css/           gaya (01–14), dimuat berurutan
 js/            skrip (01–21) + js/gamifikasi/ (XP, badge, streak, quest, cadangan, log)
 vendor/        pustaka & font lokal
-assets/        gambar simulasi & storyboard
+assets/        gambar simulasi, storyboard & video promo
 offline/       paket ZIP dan SCORM siap unduh
 ```
 
