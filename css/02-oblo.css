@@ -112,3 +112,5 @@ article .intro{font-size:1.4rem;line-height:1.5;color:var(--ink);padding-left:22
 .hero h1{line-height:.95;letter-spacing:.005em}
 .hero h1 em,.hero h1 em *{color:var(--sun)!important;-webkit-text-stroke:0!important;font-style:normal}
 .hero h1 .w{margin:0 .04em 0 0}
+/* kartu angka di hero: tanpa efek kaca kabur, latar padat agar tetap tajam saat discroll */
+.hero .meta{backdrop-filter:none;-webkit-backdrop-filter:none;background:rgba(10,20,110,.55)}
