@@ -143,7 +143,7 @@ $$("[data-v=home] .blk:not(.hero)").forEach(s=>{
 
 /* ---------- kartu bertingkat (offset & delay) ---------- */
 function stair(){const g=$("#grid");if(!g)return;ScrollTrigger.getById("zstair")?.kill();const c=[...g.children];
- gsap.fromTo(c,{"--zy":i=>((i%3)*80+70)+"px"},{"--zy":i=>((i%3)*-24)+"px",ease:"none",scrollTrigger:{id:"zstair",trigger:g,start:"top bottom",end:"bottom 35%",scrub:true}})}
+ gsap.fromTo(c,{"--zy":i=>((i%3)*80+70)+"px"},{"--zy":i=>((i%3)*-24)+"px",ease:"none",scrollTrigger:{id:"zstair",trigger:g,start:"top bottom",end:"bottom bottom",scrub:true}})}
 stair();new MutationObserver(stair).observe($("#grid")||document.createElement("i"),{childList:true});
 
 /* ---------- awan footer bergerak ---------- */
