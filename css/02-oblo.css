@@ -8,7 +8,7 @@ h1.rv,h2.rv{opacity:1;transform:none}article .intro{font-family:var(--sans);font
 .sw{display:inline-block;overflow:hidden;vertical-align:top;padding:.06em .03em .12em;margin:-.06em 0 -.12em}
 .sw>b{display:inline-block;font-weight:inherit;transform:translateY(115%) rotate(8deg);transform-origin:0 100%;transition:transform 1.05s var(--e);transition-delay:calc(var(--k)*60ms)}
 .sin .sw>b{transform:none}
-.mono{color:var(--acc)}
+.mono{color:var(--acc-t,var(--acc))}
 /* nav */
 .nav{--fg:#fff;--mut:#cdd6ff;--line:rgba(255,255,255,.3);transition:transform .55s var(--e)}.nav.hide{transform:translateY(-140%)}
 .nav .wrap{background:rgba(10,26,107,.86);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.22);border-radius:99px;box-shadow:none;color:#fff}
@@ -75,25 +75,36 @@ body:not([data-view=home]) #fxl{opacity:.7}
 #cart{border:0!important;border-radius:28px!important;box-shadow:0 34px 60px -34px rgba(10,26,107,.6)}
 #chaps .chap{border:0;background:#fff;border-radius:30px;margin-bottom:16px;padding:0 32px;box-shadow:0 26px 50px -34px rgba(10,26,107,.5);transition:transform .45s var(--e),box-shadow .4s var(--e)}
 #chaps .chap:hover{box-shadow:0 36px 60px -32px rgba(10,26,107,.6)}#chaps .chap.open{background:#fff}
-.chap>button{padding:30px 0}.chap>button>.mono:first-child{font:400 2.4rem/1 var(--serif);color:var(--acc);letter-spacing:.02em}.chap h3{font-size:clamp(1.8rem,3.4vw,2.8rem)}
+.chap>button{padding:30px 0}.chap>button>.mono:first-child{font:400 2.4rem/1 var(--serif);color:var(--acc-t,var(--acc));letter-spacing:.02em}.chap h3{font-size:clamp(1.8rem,3.4vw,2.8rem)}
 .chev{width:44px;height:44px;padding:12px;border-radius:50%;background:var(--sun);stroke:var(--ink);transition:transform .45s var(--e),background .3s}.chap:hover .chev{background:var(--ink);stroke:#fff}
-.les{border-top:1px solid rgba(10,26,107,.14);padding:18px 0;color:var(--ink);font-weight:500;transition:padding .35s var(--e),color .25s}.les:hover{padding-left:14px;color:var(--acc)}.les b{width:18px;height:18px;border-color:var(--ink)}.les.done b{background:var(--acc)}.chap .lessons>div{padding-bottom:12px}
+.les{border-top:1px solid rgba(10,26,107,.14);padding:18px 0;color:var(--ink);font-weight:500;transition:padding .35s var(--e),color .25s}.les:hover{padding-left:14px;color:var(--acc-t,var(--acc))}.les b{width:18px;height:18px;border-color:var(--ink)}.les.done b{background:var(--acc)}.chap .lessons>div{padding-bottom:12px}
 /* pelajaran */
 .lay{grid-template-columns:250px minmax(0,1fr);gap:48px;padding-top:128px;align-items:start}
 .side{background:#fff;border-radius:28px;padding:26px;box-shadow:0 26px 50px -34px rgba(10,26,107,.5);top:104px}
 .side .bar{height:8px;border-radius:8px;background:rgba(10,26,107,.12);overflow:hidden}.side .bar:after{background:var(--acc);border-radius:8px}
 .side button{color:var(--ink);padding:10px 14px;border-radius:14px;transition:background .3s var(--e),transform .3s var(--e)}.side button:hover{background:#eef2ff;transform:translateX(4px)}.side button.act{background:var(--sun);font-weight:700}
-.side #back{background:none;padding:0 0 4px;color:var(--ink);font-weight:700}.side #back:hover{background:none;color:var(--acc)}
+.side #back{background:none;padding:0 0 4px;color:var(--ink);font-weight:700}.side #back:hover{background:none;color:var(--acc-t,var(--acc))}
 article{max-width:none;background:#fff;border-radius:40px;padding:64px 64px 56px;margin-bottom:100px;box-shadow:0 40px 80px -46px rgba(10,26,107,.55)}
 article h1{font-size:clamp(3.4rem,8vw,7rem);line-height:.92;margin:14px 0 28px;color:var(--ink)}article h2{font-size:clamp(2rem,4vw,3.2rem);margin:56px 0 16px}
 article .intro{font-size:1.4rem;line-height:1.5;color:var(--ink);padding-left:22px;border-left:6px solid var(--sun)}article p{max-width:62ch;color:#2c3768}
-.call{background:#fff0c9;color:var(--ink)}.call .mono{color:var(--acc)}.ex{background:#eef2ff;border:0}.vis{border:0;background:repeating-linear-gradient(45deg,#eef2ff 0 14px,#e1e8ff 14px 15px);color:var(--ink)}
+.call{background:#fff0c9;color:var(--ink)}.call .mono{color:var(--acc-t,var(--acc))}.ex{background:#eef2ff;border:0}.vis{border:0;background:repeating-linear-gradient(45deg,#eef2ff 0 14px,#e1e8ff 14px 15px);color:var(--ink)}
 .take{background:var(--blue);color:#fff;padding:40px;border-radius:32px}.take .mono{color:var(--sun);opacity:1}.take p{font-size:clamp(1.8rem,3.4vw,2.8rem)!important;line-height:1.1!important;text-transform:uppercase}
 .next{border-top:1px solid rgba(10,26,107,.14)}
 @media(max-width:860px){article{padding:36px 24px;border-radius:30px}.side{padding:20px}.lay{padding-top:110px}}
 /* halaman dalam */
 .crumb2 a{color:var(--ink);font-weight:700}.phr h1{font-size:clamp(3.4rem,8.4vw,8rem);max-width:14ch}.phr .lead,.sc2 p{color:#2c3768}.sc2 h2{font-size:clamp(2.6rem,6vw,5rem)}
-.stp b{font:400 2.6rem/1 var(--serif);color:var(--acc)}.buy{padding:30px}.pr2{font:400 2.6rem var(--serif)}.tg{border:0;box-shadow:inset 0 0 0 2px var(--ink)}
+.stp b{font:400 2.6rem/1 var(--serif);color:var(--acc-t,var(--acc))}.buy{padding:30px}.pr2{font:400 2.6rem var(--serif)}.tg{border:0;box-shadow:inset 0 0 0 2px var(--ink)}
 .sbar input,.fm input,.fm textarea,.af input{border-radius:18px;border-width:2px;transition:box-shadow .3s var(--e),transform .3s var(--e)}.sbar input:focus,.fm input:focus,.fm textarea:focus{outline:0;box-shadow:0 0 0 4px var(--sun);transform:translateY(-2px)}
 .mbox{border:0;border-radius:36px;box-shadow:0 50px 100px -40px rgba(10,26,107,.7)}.mart{background:var(--blue);border:0}.x{border:0;background:var(--sun)}
 .chat,.chat .ch{border-radius:28px}.chat{border:0;box-shadow:0 40px 80px -30px rgba(10,26,107,.6)}.fab{border:0;box-shadow:0 20px 40px -16px rgba(255,107,61,.8);text-transform:uppercase;letter-spacing:.04em}
+/* "Progres kamu" saat hover/aktif: latar putih, jadi teks & garis progres harus gelap (sebelumnya putih di atas putih) */
+.links a.pill:hover,.links a.pill.cur,.links a.pill:focus-visible{color:#0a1a6b!important;border-color:#fff!important}
+.links a.pill:hover b,.links a.pill.cur b,.links a.pill:focus-visible b{background:rgba(10,26,107,.18)}
+/* ===== perbaikan kontras (audit 2026-11-06) ===== */
+/* oranye untuk TEKS sedikit lebih gelap agar terbaca di latar putih/pastel; oranye latar tetap --acc */
+:root{--acc-t:#d4461b}
+/* kotak "Intinya" pelajaran: latar biru, teks harus putih */
+.take p,.take li,.take b{color:#fff!important}
+/* label/tombol oranye bertulisan putih: pakai oranye teks (lebih gelap) agar terbaca */
+.fab,.lab-tag{background:var(--acc-t)!important}
+.les>.mono,.les .mono{color:var(--acc-t)}

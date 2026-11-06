@@ -130,7 +130,11 @@ function debugHTML(){const V2=GLS.validateAll(),T=GLS.tests(),bad=T.filter(t=>!t
   <p>Uji ending (mengisi skor sungguhan): ${GLD.SIM.filter(E.playable).map(c=>["best","mid","worst"].map(m=>`<button type="button" class="chip" data-sm="dbg" data-id="${c.id}" data-m="${m}">${c.id} ${m==="best"?"terbaik":m==="mid"?"tengah":"terburuk"}</button>`).join(" ")).join(" ")}</p></details>`}
 
 /* ---------- gambar & navigasi ---------- */
-function draw(fx){const p=panel();if(!p)return;FX.clear();if(TW)TW.kill();
+/* layar penuh seperti kuis: aktif selama kasus dibuka (intro, main, hasil), mati di daftar kasus */
+function full(on){const p=q("#ltp");if(!p)return;on=!!on&&p.dataset.cur==="sim";if(p.classList.contains("sv-full")===on)return;
+ p.classList.toggle("sv-full",on);document.documentElement.classList.toggle("gx-lock",on);
+ try{const l=window.__lenis;l&&(on?l.stop():l.start())}catch(_){}p.scrollTop=0}
+function draw(fx){const p=panel();if(!p)return;FX.clear();if(TW)TW.kill();full(!!V);
  if(!V){p.innerHTML=homeHTML();if(fx)enter(q(".gs-hh",p));return}
  if(V.ph==="intro"){p.innerHTML=introHTML();const s=q(".gs-scr",p);s&&scramble(s);typeAll(p);SND.play("whoosh");const b=q(".gs-tbtn .gs-btn",p);b&&b.focus({preventScroll:true});return}
  if(V.ph==="hasil"){p.innerHTML=hasilHTML();const g=ST(),e=V.fin.e;g&&g.endingPlay(q("#gvend",p),e.type);countUp(q("#gvbig",p),V.fin.rec.score,{d:1400});
@@ -156,7 +160,7 @@ function key(e){const p=panel();if(!p||e.ctrlKey||e.metaKey||e.altKey)return;con
  if(V.ph==="pilih"&&/^[1-5]$/.test(k)){const ch=V.ord[+k-1];if(ch){e.preventDefault();pick(ch.id)}return}
  if(k===" "||k==="Enter"){if(onBtn&&V.ph==="umpan")return;if(V.ph==="narasi"||V.ph==="kunci"||V.ph==="reaksi"){e.preventDefault();skip()}else if(V.ph==="umpan"&&!onBtn){e.preventDefault();next()}}}
 /* keluar halaman/tab: hentikan semua efek; state permainan tetap di memori & penyimpanan */
-function stop(){FX.clear();if(TW)TW.kill();SND.music(null)}
+function stop(){FX.clear();if(TW)TW.kill();SND.music(null);full(false)}
 function reset(){stop();V=null}
 return{draw,open,click,key,stop,reset,fxSize:FX.size,state:()=>V&&{cid:V.c.id,ph:V.ph,ids:(V.after||V.st||{ids:[]}).ids.slice(),cur:V.st?V.st.ids.slice():[]}};
 })();

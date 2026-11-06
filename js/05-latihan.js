@@ -438,17 +438,29 @@ function nilaiHTML(){const d=load();if(!syarat(d).ok)return lockHTML(d);const H=
 let nlIO=null;
 function nilaiFx(box){if(!box||rmq()||!("IntersectionObserver" in window))return;nlIO&&nlIO.disconnect();nlIO=new IntersectionObserver(es=>{if(!es.some(x=>x.isIntersecting))return;nlIO.disconnect();
  qa("[data-cu]",box).forEach(el=>countUp(el,+el.dataset.cu,{d:1300}));qa(".nl-c,.nl-tw,.nl-f,.nl-k",box).forEach((e,i)=>A(e,UP,{duration:560,delay:120+i*80}));setTimeout(()=>box.classList.add("go"),200)},{threshold:.25});nlIO.observe(box)}
+/* kartu hasil cetak / PDF (revisi 2026-11-06): kop navy + logo, panel nilai akhir, rincian, tanda tangan */
 function cetak(){const d=load(),H=hitung(d),K=H.ki!=null?GLD.KATEGORI[H.ki]:null;let nm="";try{nm=(q("#nlname").value||"").trim();const u=JSON.parse(localStorage.getItem("gl-ui")||"{}");u.nama=nm;localStorage.setItem("gl-ui",JSON.stringify(u))}catch(_){}
- let n=0;try{n=done.size}catch(_){}
- const old=q("#cetak");if(old)old.remove();const el=(t,txt,cls)=>{const e=document.createElement(t);if(txt!=null)e.textContent=txt;if(cls)e.className=cls;return e};
- const c=el("section");c.id="cetak";c.append(el("h1","Kartu Hasil Belajar GrowthLab"),el("p","Self Development for Job Seeker · "+new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"})),el("h2","Nama: "+(nm||"................................")));
- const tb=el("table"),row=(a,b)=>{const r=el("tr");r.append(el("th",a),el("td",b));tb.append(r)};
- row("Pelajaran selesai",`${n} dari ${GLD.COURSE.chapters.reduce((a,c)=>a+c.l.length,0)}`);row("Nilai pilihan ganda (30%)",H.pg==null?"belum ada":fmt(H.pg)+(H.pg>=GLD.PASS_MCQ?" (lulus)":" (belum lulus)"));
- H.asp.forEach((a,i)=>row(`Simulasi aspek ${i+1}: ${a.s.aspek} (${Math.round(a.s.w*100)}%)`,a.v==null?"belum ada":`${fmt(a.v)} · ${GLD.LEVEL[level(a.v)][0]}`));
- row("Nilai simulasi (70%)",H.sim==null?"belum lengkap":fmt(H.sim));c.append(tb,el("h2","Nilai akhir"),el("p",H.akhir==null?"Belum lengkap":fmt(H.akhir),"big"),el("p",K?K[0]+". "+K[2]:"Lengkapi kuis Gabungan dan ketiga simulasi."),el("p","Rumus: Nilai Akhir = (Nilai Pilihan Ganda × 0,30) + (Nilai Simulasi × 0,70). Kartu ini adalah umpan balik belajar mandiri, bukan sertifikat resmi."));
+ let n=0;try{n=done.size}catch(_){}const tot=GLD.COURSE.chapters.reduce((a,c)=>a+c.l.length,0),P=GLD.PASS_MCQ;
+ const old=q("#cetak");if(old)old.remove();
+ const tgl=new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}),logo=(q("[data-logo] svg")||{}).outerHTML||"";
+ const KC=["#1a9e5c","#2a56f5","#d99a00","#e2552b"][H.ki]||"#5a6390",pct=H.akhir==null?0:Math.max(0,Math.min(1,H.akhir/100)),C=2*Math.PI*54;
+ const sel=(t,v,w)=>`<div class="ck-k"><span>${t}</span><b>${v==null?"–":fmt(v)}</b><small>bobot ${w}% · kontribusi ${v==null?"–":fmt(v*w/100)}</small></div>`;
+ const c=document.createElement("section");c.id="cetak";
+ c.innerHTML=`<header class="ck-top"><div class="ck-logo">${logo}</div><div><small>GrowthLab · Self Development for Job Seeker</small><h1>Kartu Hasil Belajar</h1></div><div class="ck-date"><small>Tanggal</small><b>${tgl}</b></div></header>
+ <div class="ck-id"><div><small>Nama peserta</small><b>${nm?esc(nm):"&nbsp;"}</b></div><div><small>Pelajaran selesai</small><b>${n} / ${tot}</b></div><div><small>Kuis pilihan ganda</small><b>${H.pg==null?"–":H.pg>=P?"Lulus":"Belum lulus"}</b></div></div>
+ <section class="ck-hero"><div class="ck-ring"><svg viewBox="0 0 128 128"><circle cx="64" cy="64" r="54" class="bg"/><circle cx="64" cy="64" r="54" class="fg" style="stroke:${KC};stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${(C*(1-pct)).toFixed(1)}"/></svg><div><small>Nilai akhir</small><b>${H.akhir==null?"–":fmt(H.akhir)}</b></div></div>
+  <div class="ck-kat"><span class="ck-pill" style="background:${KC}">${K?esc(K[0]):"Belum lengkap"}</span><p>${K?esc(K[2]):"Lengkapi kuis Gabungan dan ketiga simulasi untuk mendapatkan nilai akhir."}</p>${H.capped?`<p class="ck-note">Nilai pilihan ganda belum mencapai batas lulus ${P}, sehingga kategori dibatasi di “Cukup Siap”.</p>`:""}</div></section>
+ <div class="ck-two">${sel("Pilihan ganda",H.pg,30)}${sel("Simulasi kasus kerja",H.sim,70)}</div>
+ <h2>Rincian simulasi</h2>
+ <table class="ck-t"><thead><tr><th>Aspek</th><th>Bobot</th><th>Skor</th><th>Level</th></tr></thead><tbody>${H.asp.map(a=>`<tr><td>${esc(a.s.aspek)}</td><td>${Math.round(a.s.w*100)}%</td><td><span class="ck-bar"><i style="width:${a.v==null?0:a.v}%"></i></span><b>${a.v==null?"–":fmt(a.v)}</b></td><td>${a.v==null?"–":esc(GLD.LEVEL[level(a.v)][0])}</td></tr>`).join("")}</tbody></table>
+ <p class="ck-rumus"><b>Rumus</b> Nilai Akhir = (Pilihan Ganda × 0,30) + (Simulasi × 0,70)${H.akhir==null?"":` = (${fmt(H.pg)} × 0,30) + (${fmt(H.sim)} × 0,70) = <b>${fmt(H.akhir)}</b>`}</p>
+ <div class="ck-sign"><div><span></span><small>Peserta</small></div><div><span></span><small>Guru / Fasilitator</small></div></div>
+ <p class="ck-foot">Kartu ini adalah umpan balik belajar mandiri dari media pembelajaran GrowthLab, bukan sertifikat resmi.</p>`;
  document.body.append(c);const fin=()=>{c.remove();removeEventListener("afterprint",fin)};addEventListener("afterprint",fin);try{window.print()}catch(_){}}
 function nmFill(){const i=q("#nlname");if(i)try{i.value=JSON.parse(localStorage.getItem("gl-ui")||"{}").nama||""}catch(_){}}
 function nilai(celebrate){const box=q("#nilai");if(box){box.innerHTML=nilaiHTML();nmFill();nilaiFx(box)}
+ /* bagian Nilai akhir disembunyikan sampai semua latihan selesai */
+ const sec=q("#nilai-sec");if(sec)sec.hidden=!syarat(load()).ok;
  const d=load(),H=hitung(d);if(H.akhir==null||!syarat(d).ok)return;const v=r1(H.akhir);
  if(d.akhir.last!==v){d.akhir.last=v;d.akhir.hist.push({akhir:v,pg:H.pg,sim:r1(H.sim),kat:GLD.KATEGORI[H.ki][0],t:Date.now()});cap(d.akhir.hist,20);save(d);if(box){box.innerHTML=nilaiHTML();nmFill();nilaiFx(box)}
   if(celebrate&&v>=71){setTimeout(()=>{ping(innerWidth/2,innerHeight/2,48);say(`Nilai akhir ${fmt(v)}: ${GLD.KATEGORI[H.ki][0]}!`)},500)}}}

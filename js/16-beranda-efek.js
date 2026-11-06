@@ -22,11 +22,11 @@ const o=window.observe;window.observe=function(){o&&o();try{split();cnt()}catch(
 /* scroll: progress, counter, manifesto, nav, fx */
 const nav=$(".nav"),F=$$("#fxl u"),cfg=[[.1,.15,.05],[.8,.3,.08],[.06,.62,.04],[.9,.72,.06],[.5,.88,.07],[.62,.08,.1]];
 let mx=0,my=0,ly=scrollY,tk=0,tot=0;
-function cnt(){const S=$$("[data-v]:not([hidden]) .blk");tot=S.length;$("#ct").textContent=p2(tot||1);$("#cnt").style.display=tot>1?"":"none"}
+function cnt(){const S=$$("[data-v]:not([hidden]) .blk:not([hidden])");tot=S.length;$("#ct").textContent=p2(tot||1);$("#cnt").style.display=tot>1?"":"none"}
 function draw(){tk=0;const sy=scrollY,H=innerHeight+260,max=Math.max(1,document.documentElement.scrollHeight-innerHeight);
  $("#sp").style.transform=`scaleX(${sy/max})`;document.body.classList.toggle("scrolled",sy>60);
  const d=sy-ly;ly=sy;if(nav&&!$("#links.open"))nav.classList.toggle("hide",sy>240&&d>3);else if(nav)nav.classList.remove("hide");
- const S=$$("[data-v]:not([hidden]) .blk");let a=0;S.forEach((s,i)=>{const r=s.getBoundingClientRect();if(r.top<innerHeight*.5)a=i});$("#cn").textContent=p2(a+1);
+ const S=$$("[data-v]:not([hidden]) .blk:not([hidden])");let a=0;S.forEach((s,i)=>{const r=s.getBoundingClientRect();if(r.top<innerHeight*.5)a=i});$("#cn").textContent=p2(a+1);
  const mf=$("#manifesto");if(mf){const r=mf.getBoundingClientRect(),pr=Math.max(0,Math.min(1,(innerHeight*.85-r.top)/(r.height*.8))),w=$$(".mf span"),n=Math.round(pr*w.length);w.forEach((x,i)=>x.classList.toggle("on",i<n))}
  if(!rm)F.forEach((u,i)=>{const[x,y,s]=cfg[i],py=(((y*innerHeight-sy*s*1.4)%H)+H)%H-130;u.style.transform=`translate3d(${x*innerWidth+mx*(30+i*14)}px,${py}px,0) rotate(${sy*(.03+i*.01)+i*30}deg)`})}
 const go=()=>{if(!tk)tk=requestAnimationFrame(draw)};

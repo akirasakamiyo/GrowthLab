@@ -76,7 +76,7 @@ function renderLesson(i,j){
  cur=[i,j];const ch=C.chapters[i],L=ch&&ch.l[j];if(!L){location.hash="#/course";return}setActive(i);
  const art=$("#lart"),k=i+"-"+j;
  if(art.dataset.k!==k){art.dataset.k=k;art.innerHTML=lessonHTML(i,j,L);GLU.lesson(art,i,j);$("#mark").onclick=markL;$("#nextl").onclick=nextL;document.title=L.t+" · GrowthLab";window.observe&&window.observe()}
- $("#slist").innerHTML=ch.l.map((l,k)=>`<button class="${k===j?"act":""}${locked(i,k)?" lock":""}" data-k="${i}-${k}">${p2(k+1)} ${esc(l.t)}${done.has(i+"-"+k)?" ✓":locked(i,k)?" 🔒":""}</button>`).join("");
+ $("#slist").innerHTML=ch.l.map((l,k)=>`<button class="${k===j?"act":""}${locked(i,k)?" lock":""}" data-k="${i}-${k}">${p2(k+1)} ${esc(l.t)}${done.has(i+"-"+k)?" ✓":locked(i,k)?' <i class="lk" aria-label="terkunci"></i>':""}</button>`).join("");
  $$("#slist button").forEach(b=>b.onclick=()=>location.hash="#/lesson/"+b.dataset.k);
  $("#mark").textContent=done.has(k)?"Selesai ✓":"Tandai selesai";
  updateProgress();
@@ -354,7 +354,7 @@ const FAQ=[
  ["Bagaimana progres dan nilai disimpan?","Progres pelajaran dan hasil latihan tersimpan otomatis di browser yang kamu pakai (localStorage). Kalau kamu membersihkan data browser atau berganti perangkat, progresnya tidak ikut pindah."],
  ["Bagaimana nilai akhir dihitung?","Nilai Akhir = (Nilai Pilihan Ganda × 0,30) + (Nilai Simulasi × 0,70). Nilai pilihan ganda diambil dari skor terbaik kuis Gabungan, sedangkan nilai simulasi adalah gabungan berbobot tiga aspek (35%, 35%, 30%)."],
  ["Apa arti kategori kelulusan?","86–100 Sangat Siap Kerja, 71–85 Siap Kerja, 56–70 Cukup Siap / Perlu Latihan Lanjutan, dan di bawah 56 Belum Siap Kerja. Batas lulus pilihan ganda adalah 70."],
- ["Apakah ada sertifikat?","Prototipe ini belum menerbitkan sertifikat. Kategori kelulusanmu tampil di kartu Nilai Akhir pada menu Latihan."],
+ ["Apakah ada sertifikat?","Ada. Setelah ke-15 pelajaran selesai, kamu bisa mengunduh sertifikat penyelesaian (gambar PNG) berisi profil kesiapan kerjamu dari panel Perjalanan Karier (klik level/XP di navbar). Sertifikat ini umpan balik belajar mandiri, bukan sertifikat resmi. Kategori kelulusanmu tampil di kartu Nilai Akhir pada menu Latihan."],
  ["Siapa yang membuat GrowthLab?","Kelompok 8 Program Studi Teknologi Pendidikan FIP UNJ (2024) sebagai tugas mata kuliah Pengembangan Multimedia Pendidikan. Materinya merujuk pada artikel MySkill di Medium."]];
 ($("#usp")||{}).innerHTML=[[C.chapters.length,"Bab materi","#/course"],[C.chapters.reduce((a,c)=>a+c.l.length,0),"Pelajaran soft skill","#/e-learning"],[GLX.nQuiz,"Soal kuis pilihan ganda","#/latihan/kuis"],[GLX.nSim,"Skenario simulasi kerja","#/latihan/sim"],["Mandiri","Belajar mandiri, kapan saja","#/petunjuk"]].map(([v,t,hf],i)=>`<a class="us" href="${hf}"><div class="ic" style="background:${BGC[i]}">${ILL("u"+i)}</div><strong>${v}</strong><span>${t}</span></a>`).join("");
 ($("#el-art")||{}).innerHTML=`<div class="frame" style="--c1:${CO[0]};width:100%">${ILL("el")}</div>`;
@@ -483,6 +483,27 @@ const goC=n=>n?"#/course/"+n:"#/course";
 const NAVK={lesson:"course","e-learning":"course",tujuan:"petunjuk",alur:"petunjuk",peta:"petunjuk",glosarium:"petunjuk"};
 function navOn(h){const s0=h.split("/")[0],s=NAVK[s0]||s0;$$(".links a[data-k]").forEach(a=>a.classList.toggle("cur",a.dataset.k===s))}
 const LT=["#bfe3ff","#ffd8a0","#b8efd0","#e3dcff"],CR="#fff3d6";
+/* avatar doodle tim pengembang: garis tangan yang "digambar" saat kartu muncul, lalu berkedip, melambai, dan coretan melayang */
+function teamDoodle(i){const S='stroke="#0a1a6b" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" pathLength="1"',
+ bg=["#ffc83d","#ff8a5c"][i],sh=["#2ec27e","#6d4cff"][i],
+ hair=[`<path class="dd-l" ${S} fill="#0a1a6b" d="M48 58c-2-16 10-27 26-27 15 0 26 9 26 25-6-7-14-10-22-9-7 1-13-4-17-8-3 7-8 13-13 19z"/>`,
+       `<path class="dd-l" ${S} fill="#3b2a20" d="M47 60c-5-10-1-22 9-27 4-8 16-10 23-5 9-3 19 4 20 13 6 6 5 15 0 21-3-8-9-12-15-13-3 4-9 5-14 3-5 3-12 3-15 0-3 3-5 6-8 8z"/>`][i],
+ prop=[`<g class="dd-prop"><path class="dd-l" ${S} fill="#fff" d="M86 104h34l-5 20H82z"/><path class="dd-l" ${S} fill="none" d="M78 126h46"/><path class="dd-l" ${S} fill="none" d="M95 112l4 3-4 3M103 119h7" stroke-width="2.4"/></g>`,
+       `<g class="dd-prop"><path class="dd-l" ${S} fill="#fff6c8" d="M104 82a13 13 0 1 1 18 12v7h-12v-7a13 13 0 0 1-6-12z"/><path class="dd-l" ${S} fill="none" d="M110 106h12M112 111h8"/><g class="dd-ray"><path class="dd-l" ${S} fill="none" stroke-width="2.6" d="M113 62v-6M131 69l5-4M95 69l-5-4M137 84h6"/></g></g>`][i];
+ return `<svg class="dd" viewBox="0 0 150 140" aria-hidden="true">
+ <path class="dd-blob" fill="${bg}" d="M24 70c-4-30 22-52 52-50 32 2 54 22 50 52-3 30-30 50-58 46-28-3-41-20-44-48z"/>
+ <g class="dd-spark"><path class="dd-l" ${S} stroke-width="2.4" d="M22 30l4 8 8 4-8 4-4 8-4-8-8-4 8-4z" fill="#fff"/></g>
+ <g class="dd-spark s2"><path class="dd-l" ${S} fill="none" stroke-width="2.4" d="M126 22c4 4 8-4 12 0s8-4 12 0"/></g>
+ <path class="dd-l" ${S} fill="${sh}" d="M38 134c2-22 17-32 37-32s35 10 37 32"/>
+ <path class="dd-l" ${S} fill="#f2c9a0" d="M68 92v12c4 4 10 4 14 0V92"/>
+ <path class="dd-l" ${S} fill="#f6d2ad" d="M50 64c0-17 11-27 25-27s25 10 25 27-11 30-25 30-25-13-25-30z"/>
+ ${hair}
+ <g class="dd-eye"><circle cx="66" cy="67" r="3.2" fill="#0a1a6b"/><circle cx="85" cy="67" r="3.2" fill="#0a1a6b"/></g>
+ <path class="dd-l" ${S} fill="none" d="M60 76c2 1 4 1 6 0M83 76c2 1 4 1 6 0" stroke="#ff8a8a" stroke-width="2.6"/>
+ <path class="dd-l" ${S} fill="none" d="M68 80c4 5 11 5 15 0"/>
+ <g class="dd-arm"><path class="dd-l" ${S} fill="${sh}" d="M44 118c-8-6-12-18-10-30"/><path class="dd-l" ${S} fill="#f6d2ad" d="M28 84c-1-6 3-10 7-9 5 1 6 6 4 11"/></g>
+ ${prop}</svg>`}
+
 const A_=(h,t,c="")=>`<a class="btn ${c}" href="${h}">${t}</a>`;
 const crumb=a=>`<nav class="crumb2 mono" aria-label="Breadcrumb"><a href="#/">Beranda</a>${a.map(([t,h])=>` / ${h?`<a href="${h}">${t}</a>`:`<span>${t}</span>`}`).join("")}</nav>`;
 const hero=(bg,cr,kick,title,lead,btns,art)=>`<section class="blk phr" style="--b:${bg};--prev:transparent"><div class="wrap phg"><div>${crumb(cr)}<span class="mono rv" style="display:block;margin-top:20px">${kick}</span><h1 class="rv">${title}</h1><p class="lead rv" style="--d:.1s">${lead}</p><div class="row rv" style="--d:.18s">${btns}</div></div>${art}</div></section>`;
@@ -491,7 +512,7 @@ const cta=(prev,t,b)=>sec("#ff5a3c",prev,`<div class="ctab"><h2 class="rv">${t}<
 const fr=(c,k)=>`<div data-par=".05"><div class="rv" data-in="z"><div class="frame" style="--c1:${c}">${ILL(k)}</div></div></div>`;
 const LES=C.chapters.flatMap((ch,i)=>ch.l.map((l,j)=>({i,j,ch,l,n:i*5+j})));
 const lesLink=(i,j)=>`<a href="#/lesson/${i}-${j}">${esc(C.chapters[i].l[j].t)}</a>`;
-const cardL=o=>`<a class="card" href="#/lesson/${o.i}-${o.j}"><div class="art" style="--c1:${o.ch.c1}">${ILL(o.i+"-"+o.j)}<em class="no">${p2(o.n+1)}</em></div><div class="body"><span class="mono">Bab ${p2(o.i+1)} · ${esc(o.ch.t)}</span><h3>${esc(o.l.t)}</h3><p style="color:var(--mut);font-size:.92rem">${esc(strip(o.l.judul))}</p><div class="tags"><span>${done.has(o.i+"-"+o.j)?"Selesai ✓":locked(o.i,o.j)?"Terkunci 🔒":"Belum selesai"}</span>${o.l.draft?"<span>Draf</span>":""}</div></div></a>`;
+const cardL=o=>`<a class="card" href="#/lesson/${o.i}-${o.j}"><div class="art" style="--c1:${o.ch.c1}">${ILL(o.i+"-"+o.j)}<em class="no">${p2(o.n+1)}</em></div><div class="body"><span class="mono">Bab ${p2(o.i+1)} · ${esc(o.ch.t)}</span><h3>${esc(o.l.t)}</h3><p style="color:var(--mut);font-size:.92rem">${esc(strip(o.l.judul))}</p><div class="tags"><span>${done.has(o.i+"-"+o.j)?"Selesai ✓":locked(o.i,o.j)?"Terkunci <i class=\"lk\" aria-hidden=\"true\"></i>":"Belum selesai"}</span>${o.l.draft?"<span>Draf</span>":""}</div></div></a>`;
 const polK=i=>`<a class="ph" href="#/komunitas/${i}" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="pic" style="--c1:${CO[i]}">${ILL("k"+i)}</div><p>${KOMT[i]}</p></a>`;
 const faqL=n=>`<div class="fq rv">${FAQ.slice(0,n).map(([q,a],i)=>`<details${i?"":" open"}><summary>${q}</summary><p>${a}</p></details>`).join("")}</div>`;
 const stp=(a)=>`<div class="stg rv">${a.map(([t,d],i)=>`<div class="stp"><b>${p2(i+1)}</b><h3>${t}</h3><p>${d}</p></div>`).join("")}</div>`;
@@ -535,7 +556,7 @@ function renderPage(h){const[s,x,y]=h.split("/"),n=+x||0;let H="";const nQ=GLX.n
   +`<section class="blk sc2" id="nilai-sec" style="--b:#0a1a6b;--prev:${CR};--fg:#fff"><div class="wrap"><h2 class="rv">Nilai akhir</h2><div id="nilai"></div></div></section>`;
  else if(s==="tentang")H=hero(LT[0],[["Tentang"]],"Tentang","Tentang <em>GrowthLab</em>","GrowthLab adalah prototipe media pembelajaran interaktif berbasis website yang dikembangkan sebagai tugas mata kuliah Pengembangan Multimedia Pendidikan.",A_("#/tujuan","Tujuan belajar","p")+A_("#/course","Buka materi"),fr(CO[0],"tentang"))
   +sec(CR,LT[0],`<h2 class="rv">Garis besar isi media</h2><table class="gb rv"><tbody>${[["Nama media",GLD.GBIM.media],["Judul proyek",GLD.GBIM.judul],["Media",GLD.GBIM.jenis],["Sasaran",GLD.GBIM.sasaran],["Topik",GLD.GBIM.topik],["Isi",`${C.chapters.length} bab, ${total} pelajaran, ${nQ} soal kuis, ${nD} set drag &amp; drop, ${nS} skenario simulasi`]].map(([a,b])=>`<tr><th scope="row">${a}</th><td>${b}</td></tr>`).join("")}</tbody></table>`)
-  +sec(LT[1],CR,`<h2 class="rv">Tim pengembang</h2><p class="rv lead2">Dibuat oleh Kelompok 8, Program Studi Teknologi Pendidikan, Fakultas Ilmu Pendidikan, Universitas Negeri Jakarta, 2024.</p><div class="team rv">${["Adam Faruq","Muhammad Azriel","Rifa Haqi Putra Wibowo","Thumpal Alvin"].map((nm,i)=>`<div><span class="tm" aria-hidden="true" style="display:grid;place-items:center;width:56px;height:56px;border-radius:50%;background:${[Y,O,T,V][i]};color:#fff;font:400 1.4rem var(--serif);margin-bottom:12px">${nm.split(" ").map(w=>w[0]).slice(0,2).join("")}</span>${nm}</div>`).join("")}</div>
+  +sec(LT[1],CR,`<h2 class="rv">Tim pengembang</h2><p class="rv lead2">Dibuat oleh Kelompok 8, Program Studi Teknologi Pendidikan, Fakultas Ilmu Pendidikan, Universitas Negeri Jakarta, 2024.</p><div class="team rv">${[["Rifa Haqi Putra Wibowo","1101624089"],["Thumpal Alvin","1101624069"]].map(([nm,nim],i)=>`<div class="tmc">${teamDoodle(i)}<span class="tm-t"><b class="tm-n">${nm}</b><small class="tm-nim">NIM ${nim}</small></span></div>`).join("")}</div>
    <h2 class="rv" style="margin-top:44px">Sumber materi</h2><p class="rv lead2">Materi disusun berdasarkan GBIM dan Jabaran Materi tim pengembang, dengan rujukan artikel seri soft skill MySkill.</p>`)
   +cta(LT[1],"Mulai belajar sekarang",A_("#/course/1","Buka Bab 1"));
  else{const T={terms:"Syarat &amp; ketentuan",privacy:"Kebijakan privasi"}[s]||"Informasi";

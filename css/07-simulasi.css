@@ -124,3 +124,12 @@
 .gs-dasar a{color:inherit;text-decoration:underline;font-weight:700}
 .gv-adapt{display:inline-block;align-self:flex-start;margin:0 0 6px;padding:5px 12px;border-radius:99px;background:#ffc83d;color:#1b1740;font-weight:800;font-size:.78rem;letter-spacing:.01em}
 .gv-adapt[data-a="tantang"]{background:#1b1740;color:#ffc83d}
+/* simulasi layar penuh (seperti kuis) sejak kasus dibuka sampai hasil; kembali normal di daftar kasus */
+#ltp[data-cur=sim].sv-full{position:fixed;inset:0;z-index:82;margin:0;max-width:none;width:auto;border-radius:0;overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;padding:clamp(18px,3vw,40px) clamp(16px,4vw,56px);box-shadow:none}
+#ltp[data-cur=sim].sv-full>*{max-width:1240px;margin-left:auto;margin-right:auto}
+/* pembungkus panel membuat lapisan sendiri (z-index 2); naikkan saat layar penuh agar menutupi navbar & tombol mengambang */
+.wrap:has(#ltp.sv-full){z-index:82}
+/* kontras: warna kasus (toska/oranye/ungu) dipakai sebagai teks/latar teks putih — diredam agar terbaca */
+.gs-fa{color:color-mix(in srgb,var(--cc) 62%,#0a1a6b)}
+.gs-go{background:color-mix(in srgb,var(--cc) 72%,#0a1a6b)}
+.gv-c kbd{background:color-mix(in srgb,var(--kc) 70%,#0a1a6b)}
