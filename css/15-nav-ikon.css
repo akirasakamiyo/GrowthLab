@@ -24,3 +24,43 @@
 }
 @media(max-width:760px){.ni-ic{display:none}.links a.ni .nav-t{display:inline}}
 @media(prefers-reduced-motion:reduce){.nav-t,.links a.ni,.ni-ic svg,.gx-chip,.gx-chip span{transition:none!important}}
+
+/* ===== latar doodle beranda (2026-11-06): gradien biru diganti biru polos + coretan doodle bergerak ===== */
+.hero{position:relative;background:#2340d8!important;overflow:hidden}
+.hero>.wrap{position:relative;z-index:1}
+.hero-dd{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.9}
+.hero-dd svg{width:100%;height:100%;display:block}
+.hero-dd g[class^="hd-"]{transform-box:fill-box;transform-origin:center}
+.hd-fl{animation:hdFloat 6s ease-in-out infinite}
+.hd-tw{animation:hdTwinkle 2.8s ease-in-out infinite}
+.hd-wb{animation:hdWobble 3.4s ease-in-out infinite}
+.hd-pu{animation:hdPulse 1.6s ease-in-out infinite}
+.hd-sp{animation:hdSpin 14s linear infinite}
+.hd-pl{animation:hdPlane 7s ease-in-out infinite}
+.hd-dr2{animation:hdDrift 9s ease-in-out infinite}
+.hd-dr .dd-line{stroke-dasharray:1;stroke-dashoffset:1;animation:hdDraw 4.5s ease-in-out infinite}
+@keyframes hdFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(4deg)}}
+@keyframes hdTwinkle{0%,100%{transform:scale(.7) rotate(0);opacity:.55}50%{transform:scale(1.15) rotate(20deg);opacity:1}}
+@keyframes hdWobble{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@keyframes hdPulse{0%,100%{transform:scale(1)}30%{transform:scale(1.18)}60%{transform:scale(.96)}}
+@keyframes hdSpin{to{transform:rotate(360deg)}}
+@keyframes hdPlane{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(26px,-18px) rotate(-6deg)}}
+@keyframes hdDrift{0%,100%{transform:translateX(0)}50%{transform:translateX(40px)}}
+@keyframes hdDraw{0%{stroke-dashoffset:1}50%{stroke-dashoffset:0}100%{stroke-dashoffset:-1}}
+@media(max-width:760px){.hero-dd{opacity:.55}}
+@media(prefers-reduced-motion:reduce){.hero-dd *{animation:none!important}.hd-dr .dd-line{stroke-dashoffset:0}}
+
+/* ===== ikon navbar doodle yang selalu bergerak ===== */
+.ni-ic svg{overflow:visible}
+.ni-ic svg path,.ni-ic svg circle{stroke:currentColor}
+.dn-page{transform-box:fill-box;transform-origin:left center;animation:dnPage 2.6s ease-in-out infinite}
+.dn-dart{transform-box:fill-box;transform-origin:left bottom;animation:dnDart 1.8s ease-in-out infinite}
+.dn-needle{transform-box:view-box;transform-origin:14px 14px;animation:dnNeedle 3s ease-in-out infinite}
+.dn-cup{transform-box:fill-box;transform-origin:center bottom;animation:dnCup 2.2s ease-in-out infinite}
+.dn-spark{transform-box:fill-box;transform-origin:center;animation:dnSpark 1.6s ease-in-out infinite}
+@keyframes dnPage{0%,60%,100%{transform:scaleX(1)}75%{transform:scaleX(-.15)}88%{transform:scaleX(.9)}}
+@keyframes dnDart{0%,100%{transform:rotate(0)}20%{transform:rotate(-7deg)}40%{transform:rotate(4deg)}60%{transform:rotate(-2deg)}}
+@keyframes dnNeedle{0%,100%{transform:rotate(-28deg)}50%{transform:rotate(32deg)}}
+@keyframes dnCup{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-1.5px) rotate(-5deg)}}
+@keyframes dnSpark{0%,100%{transform:scale(.4);opacity:.3}50%{transform:scale(1.2);opacity:1}}
+@media(prefers-reduced-motion:reduce){.dn-page,.dn-dart,.dn-needle,.dn-cup,.dn-spark{animation:none}}
