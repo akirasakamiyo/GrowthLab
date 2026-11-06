@@ -97,3 +97,6 @@ article .intro{font-size:1.4rem;line-height:1.5;color:var(--ink);padding-left:22
 .sbar input,.fm input,.fm textarea,.af input{border-radius:18px;border-width:2px;transition:box-shadow .3s var(--e),transform .3s var(--e)}.sbar input:focus,.fm input:focus,.fm textarea:focus{outline:0;box-shadow:0 0 0 4px var(--sun);transform:translateY(-2px)}
 .mbox{border:0;border-radius:36px;box-shadow:0 50px 100px -40px rgba(10,26,107,.7)}.mart{background:var(--blue);border:0}.x{border:0;background:var(--sun)}
 .chat,.chat .ch{border-radius:28px}.chat{border:0;box-shadow:0 40px 80px -30px rgba(10,26,107,.6)}.fab{border:0;box-shadow:0 20px 40px -16px rgba(255,107,61,.8);text-transform:uppercase;letter-spacing:.04em}
+/* "Progres kamu" saat hover/aktif: latar putih, jadi teks & garis progres harus gelap (sebelumnya putih di atas putih) */
+.links a.pill:hover,.links a.pill.cur,.links a.pill:focus-visible{color:#0a1a6b!important;border-color:#fff!important}
+.links a.pill:hover b,.links a.pill.cur b,.links a.pill:focus-visible b{background:rgba(10,26,107,.18)}
