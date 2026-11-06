@@ -1,0 +1,26 @@
+/* ===== navbar ikon (2026-11-06): ikon bulat, tulisan memanjang saat hover/fokus — hanya desktop (>760px) ===== */
+@media(min-width:761px){
+  .links{gap:4px}
+  .links a.ni{display:inline-flex;align-items:center;gap:0;padding:9px;border-radius:99px;transition:color .2s,background .25s,padding .35s cubic-bezier(.2,.8,.2,1)}
+  .ni-ic{position:relative;display:grid;place-items:center;width:24px;height:24px;flex:none}
+  .ni-ic svg{width:22px;height:22px;transition:transform .35s cubic-bezier(.34,1.56,.64,1)}
+  .nav-t{display:inline-block;max-width:0;opacity:0;overflow:hidden;white-space:nowrap;vertical-align:middle;transition:max-width .4s cubic-bezier(.2,.8,.2,1),opacity .25s,margin .4s cubic-bezier(.2,.8,.2,1)}
+  .links a.ni:hover,.links a.ni:focus-visible{padding-right:16px}
+  .links a.ni:hover .nav-t,.links a.ni:focus-visible .nav-t{max-width:160px;opacity:1;margin-left:8px}
+  .links a.ni:hover .ni-ic svg,.links a.ni:focus-visible .ni-ic svg{transform:rotate(-8deg) scale(1.08)}
+  /* "Progres kamu": ikon piala bercincin progres, garis progres lama disembunyikan */
+  .links a.pill.ni{padding:7px;gap:0}
+  .links a.pill.ni:hover,.links a.pill.ni:focus-visible{padding-right:16px}
+  .links a.pill.ni>b{display:none}
+  .links a.pill .ni-ic{width:28px;height:28px}
+  .links a.pill .ni-ic::before{content:"";position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(var(--acc,#ffc83d) calc(var(--p,0)*360deg),rgba(255,255,255,.18) 0);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 0);mask:radial-gradient(farthest-side,transparent calc(100% - 3px),#000 0)}
+  .links a.pill .ni-ic svg{width:18px;height:18px}
+  .links a.pill:is(:hover,.cur,:focus-visible) .ni-ic::before{background:conic-gradient(#ff5a3c calc(var(--p,0)*360deg),rgba(10,26,107,.15) 0)}
+  /* chip level gamifikasi: cukup bintang + level; XP muncul saat hover */
+  .gx-chip{gap:0;padding:8px 12px;transition:padding .35s cubic-bezier(.2,.8,.2,1),background .2s,color .2s}
+  .gx-chip b{margin-left:6px}
+  .gx-chip span{display:inline-block;max-width:0;opacity:0;overflow:hidden;white-space:nowrap;transition:max-width .4s cubic-bezier(.2,.8,.2,1),opacity .25s,margin .4s}
+  .gx-chip:hover span,.gx-chip:focus-visible span{max-width:90px;opacity:1;margin-left:6px}
+}
+@media(max-width:760px){.ni-ic{display:none}.links a.ni .nav-t{display:inline}}
+@media(prefers-reduced-motion:reduce){.nav-t,.links a.ni,.ni-ic svg,.gx-chip,.gx-chip span{transition:none!important}}
