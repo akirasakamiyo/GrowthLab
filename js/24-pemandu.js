@@ -1,84 +1,96 @@
-/* pemandu pelajaran (2026-11-06): bila pengguna lama di satu pelajaran (atau menekan "Pelajaran berikut")
-   tetapi belum menyelesaikan isinya, muncul kartu interaktif berisi langkah menuju pelajaran berikutnya.
-   Setiap langkah tercentang otomatis dan bisa diklik untuk melompat ke bagiannya. */
+/* pemandu pelajaran (revisi 2026-11-06): hint MELAYANG di dekat bagian yang belum dikerjakan.
+   Muncul bila pengguna lama di pelajaran (60 dtk) atau menekan "Pelajaran berikut" sebelum selesai.
+   Gelembung menunjuk langkah berikutnya (aktivitas, soal yang belum dijawab, tombol Tandai selesai);
+   bila bagian itu di luar layar, muncul pil di tepi layar untuk melompat ke sana. */
 (() => {
   const DELAY = 60000, SNOOZE = 120000;
   const $ = s => document.querySelector(s);
-  let card = null, key = null, t0 = 0, timer = 0, snoozeUntil = 0, read = false, tried = false, seen = new Set(), raf = 0;
-  const art = () => $("#lart");
+  let key = null, t0 = 0, timer = 0, snoozeUntil = 0, read = false, tried = false, show = false, reason = "", raf = 0, tgtEl = null;
   const doneSet = () => { try { return new Set(JSON.parse(localStorage.getItem("mer-done") || "[]")) } catch (e) { return new Set() } };
   const isDone = () => key && doneSet().has(key);
-  const cekState = () => { const g = [...document.querySelectorAll("#cek .lab-seg.tf")]; return { n: g.length, a: g.filter(x => x.querySelector("button:disabled")).length } };
-  const hasLab = () => !!document.querySelector("#lart section.lab:not(#cek)");
+  const LAB = "#lart section.lab:not(#cek)";
+  const cekItems = () => [...document.querySelectorAll("#cek .tf-i")];
+  const unanswered = () => cekItems().filter(x => !x.querySelector("button:disabled"));
   const steps = () => {
-    const c = cekState();
+    const c = cekItems(), u = unanswered(), hasLab = !!$(LAB);
     return [
-      { id: "baca", t: "Baca materinya sampai bawah", ok: read, go: () => jump("#lart .take") },
-      ...(hasLab() ? [{ id: "coba", t: "Coba aktivitas “Coba sendiri”", ok: tried, go: () => jump("#lart section.lab:not(#cek)") }] : []),
-      { id: "cek", t: `Jawab semua Cek pemahaman (${c.a}/${c.n})`, ok: c.n > 0 && c.a >= c.n, go: () => jump("#cek") },
-      { id: "tandai", t: "Tekan “Tandai selesai”", ok: isDone(), go: () => jump("#mark") }
+      ...(hasLab ? [{ id: "coba", ok: tried, el: () => $(LAB), t: "Coba aktivitas ini dulu", s: "Klik atau isi aktivitasnya untuk berlatih." }] : []),
+      { id: "cek", ok: c.length > 0 && !u.length, el: () => u[0] || $("#cek"), t: "Jawab soal ini: Benar atau Salah?", s: `${c.length - u.length} dari ${c.length} soal sudah dijawab.` },
+      { id: "baca", ok: read, el: () => $("#lart .take"), t: "Baca sampai poin utama ini", s: "Gulir terus sampai bagian ini supaya bacaanmu lengkap." },
+      { id: "tandai", ok: isDone(), el: () => $("#mark"), t: "Sudah semua? Tekan “Tandai selesai”", s: "Pelajaran berikutnya langsung terbuka." }
     ];
   };
-  /* lompat ke bagian + sorotan berdenyut */
-  function jump(sel) {
-    const el = $(sel); if (!el) return;
-    const y = el.getBoundingClientRect().top + scrollY - innerHeight * .28;
+  /* elemen hint */
+  const B = document.createElement("div"); B.className = "gph"; B.setAttribute("role", "status"); B.setAttribute("aria-live", "polite");
+  const P = document.createElement("button"); P.type = "button"; P.className = "gph-pill";
+  document.body.append(B, P);
+  const BULB = `<svg viewBox="0 0 24 24" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path class="gph-glow" d="M12 1v2M4.5 4.5 6 6M19.5 4.5 18 6M2 12h2M20 12h2"/><path d="M8.5 15.5A6 6 0 1 1 15.5 15.5V18h-7z"/><path d="M9.5 21h5"/></g></svg>`;
+  function jump(el) {
+    if (!el) return; const y = el.getBoundingClientRect().top + scrollY - innerHeight * .35;
     try { window.__lenis ? __lenis.scrollTo(y, { duration: 1 }) : scrollTo({ top: y, behavior: "smooth" }) } catch (e) { scrollTo(0, y) }
-    el.classList.remove("gp-hl"); void el.offsetWidth; el.classList.add("gp-hl"); setTimeout(() => el.classList.remove("gp-hl"), 2600);
   }
-  const MASKOT = `<svg class="gp-m" viewBox="0 0 64 64" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="30" cy="26" r="11"/><path d="M14 60c1-11 7-17 16-17s15 6 16 17"/><circle cx="26" cy="25" r="1.2" fill="currentColor"/><circle cx="34" cy="25" r="1.2" fill="currentColor"/><path d="M26 31c2 2 6 2 8 0"/><g class="gp-arm"><path d="M44 48c4-4 6-10 6-16"/></g><g class="gp-bulb"><path stroke="#ffc83d" d="M50 6a7 7 0 0 1 4 12.5V22h-8v-3.5A7 7 0 0 1 50 6z"/><path stroke="#ffc83d" d="M47 25h6M50 0v-3M58 5l2-2M42 5l-2-2"/></g></g></svg>`;
-  function render(reason) {
-    if (!card) {
-      card = document.createElement("aside"); card.className = "gp"; card.setAttribute("role", "dialog"); card.setAttribute("aria-label", "Pemandu pelajaran");
-      document.body.appendChild(card);
-      card.addEventListener("click", e => {
-        const b = e.target.closest("[data-gp]"); if (!b) return; const a = b.dataset.gp;
-        if (a === "x") hide(true);
-        else if (a === "snooze") hide(true);
-        else if (a === "next") { const s = steps().find(x => !x.ok); s && s.go() }
-        else if (a === "skip") { hide(false); const n = $("#nextl"); if (n) { n.dataset.gpOk = "1"; n.click(); delete n.dataset.gpOk } }
-        else if (a === "lanjut") { hide(false); const n = $("#nextl"); if (n) { n.dataset.gpOk = "1"; n.click(); delete n.dataset.gpOk } }
-        else if (a.startsWith("s:")) { const s = steps().find(x => x.id === a.slice(2)); s && s.go() }
-      });
-    }
-    const S = steps(), nOk = S.filter(s => s.ok).length, all = nOk === S.length, C = 2 * Math.PI * 16;
-    const head = all ? "Mantap, pelajaran ini beres!" : reason === "next" ? "Eits, ada yang belum selesai" : "Butuh bantuan untuk lanjut?";
-    const sub = all ? "Kamu sudah siap ke pelajaran berikutnya." : "Selesaikan langkah ini supaya pelajaran berikutnya terbuka. Klik langkahnya untuk langsung ke bagiannya.";
-    card.innerHTML = `<button type="button" class="gp-x" data-gp="x" aria-label="Tutup pemandu">×</button>
-      <div class="gp-h">${MASKOT}<div><b>${head}</b><small>${sub}</small></div>
-        <span class="gp-ring" aria-label="${nOk} dari ${S.length} langkah selesai"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="16" class="bg"/><circle cx="20" cy="20" r="16" class="fg" style="stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${(C * (1 - nOk / S.length)).toFixed(1)}"/></svg><i>${nOk}/${S.length}</i></span></div>
-      <ol class="gp-l">${S.map((s, k) => `<li class="${s.ok ? "ok" : ""}${!s.ok && S.slice(0, k).every(x => x.ok) ? " now" : ""}"><button type="button" data-gp="s:${s.id}"><span class="gp-c" aria-hidden="true">${s.ok ? "✓" : k + 1}</span><span>${s.t}</span><span class="gp-go" aria-hidden="true">→</span></button></li>`).join("")}</ol>
-      <div class="gp-a">${all ? `<button type="button" class="btn p" data-gp="lanjut">Pelajaran berikutnya →</button>`
-        : `<button type="button" class="btn p" data-gp="next">Tunjukkan yang belum</button>${reason === "next" ? `<button type="button" class="btn" data-gp="skip">Tetap lanjut</button>` : `<button type="button" class="btn" data-gp="snooze">Nanti saja</button>`}`}</div>`;
-    card.dataset.reason = reason || "";
-    requestAnimationFrame(() => card.classList.add("on"));
+  function paint() {
+    const S = steps(), k = S.findIndex(s => !s.ok);
+    if (tgtEl) tgtEl.classList.remove("gph-tgt");
+    if (!show || k < 0 && reason !== "next") { B.classList.remove("on"); P.classList.remove("on"); tgtEl = null; return }
+    if (k < 0) { show = false; B.classList.remove("on"); P.classList.remove("on"); return }
+    const st = S[k], el = st.el(); tgtEl = el; if (!el) return;
+    el.classList.add("gph-tgt");
+    const nOk = S.filter(s => s.ok).length;
+    B.innerHTML = `<span class="gph-ic">${BULB}</span><span class="gph-tx"><small>Langkah ${nOk + 1} dari ${S.length}</small><b>${st.t}</b><em>${st.s}</em>
+      <span class="gph-dots">${S.map(s => `<i class="${s.ok ? "ok" : s === st ? "now" : ""}"></i>`).join("")}</span>
+      ${reason === "next" ? `<span class="gph-row"><button type="button" data-h="skip">Tetap lanjut</button></span>` : ""}</span>
+      <button type="button" class="gph-x" data-h="x" aria-label="Sembunyikan hint">×</button>`;
+    P.innerHTML = `<span class="gph-arr">↓</span><span class="gph-pre">Masih ada yang belum dikerjakan:</span> <b>${st.t.replace(/:.*$/, "")}</b>`;
+    B.classList.add("on");
   }
-  function hide(snooze) { if (snooze) snoozeUntil = Date.now() + SNOOZE; if (card) card.classList.remove("on") }
-  const visible = () => card && card.classList.contains("on");
-  /* pantau keadaan halaman */
+  /* posisi mengikuti elemen target saat digulir */
+  function place() {
+    raf = requestAnimationFrame(place);
+    if (!B.classList.contains("on") || !tgtEl) { P.classList.remove("on"); return }
+    const r = tgtEl.getBoundingClientRect(), bw = B.offsetWidth, bh = B.offsetHeight, top0 = 92;
+    const off = r.bottom < top0 + 20 || r.top > innerHeight - 40;
+    B.classList.toggle("off", off); P.classList.toggle("on", off); P.classList.toggle("up", r.bottom < top0 + 20);
+    if (off) return;
+    const above = r.top - bh - 18 > top0;
+    const x = Math.min(Math.max(12, r.left + Math.min(24, r.width * .1)), innerWidth - bw - 12);
+    const y = above ? r.top - bh - 16 : Math.min(r.bottom + 16, innerHeight - bh - 12);
+    B.style.transform = `translate(${x}px,${y}px)`; B.classList.toggle("below", !above);
+    B.style.setProperty("--ax", Math.min(Math.max(22, r.left + 30 - x), bw - 30) + "px");
+  }
+  B.addEventListener("click", e => {
+    const b = e.target.closest("[data-h]");
+    if (!b) { const S = steps().find(s => !s.ok); S && jump(S.el()); return }
+    if (b.dataset.h === "x") { show = false; snoozeUntil = Date.now() + SNOOZE; paint() }
+    if (b.dataset.h === "skip") { show = false; paint(); const n = $("#nextl"); if (n) { n.dataset.gpOk = "1"; n.click(); delete n.dataset.gpOk } }
+  });
+  P.addEventListener("click", () => jump(tgtEl));
   function tick() {
     if (!key) return;
-    const a = art(); if (a) { const r = a.getBoundingClientRect(); if (r.bottom < innerHeight * 1.15) read = true }
-    if (visible()) render(card.dataset.reason);
-    else if (!isDone() && Date.now() - t0 > DELAY && Date.now() > snoozeUntil) render("idle");
+    const tk = $("#lart .take"); if (tk && tk.getBoundingClientRect().top < innerHeight * .9) read = true;
+    if (!show && !isDone() && Date.now() - t0 > DELAY && Date.now() > snoozeUntil) { show = true; reason = "idle" }
+    if (isDone()) show = false;
+    paint();
   }
   function enter() {
     const m = location.hash.match(/^#\/lesson\/(\d+)-(\d+)/);
-    clearInterval(timer); hide(false);
+    clearInterval(timer); show = false; paint();
     if (!m) { key = null; return }
     key = m[1] + "-" + m[2]; t0 = Date.now(); read = false; tried = false; snoozeUntil = 0;
-    timer = setInterval(tick, 1500);
+    timer = setInterval(tick, 1200);
   }
-  /* interaksi di aktivitas "Coba sendiri" */
-  document.addEventListener("click", e => { if (e.target.closest("#lart section.lab:not(#cek)")) { tried = true; if (visible()) render(card.dataset.reason) } else if (e.target.closest("#cek") && visible()) setTimeout(() => render(card.dataset.reason), 50) }, true);
-  document.addEventListener("input", e => { if (e.target.closest("#lart section.lab:not(#cek)")) tried = true }, true);
-  /* "Pelajaran berikut" sebelum langkahnya beres: tampilkan pemandu dulu */
+  document.addEventListener("click", e => { if (e.target.closest(LAB)) tried = true; if (show && e.target.closest("#lart")) setTimeout(paint, 60) }, true);
+  document.addEventListener("input", e => { if (e.target.closest(LAB)) tried = true }, true);
+  /* "Pelajaran berikut" sebelum langkahnya beres: munculkan hint di bagian yang belum */
   document.addEventListener("click", e => {
     const n = e.target.closest("#nextl"); if (!n || n.dataset.gpOk || isDone()) return;
-    const S = steps().filter(s => s.id !== "tandai"); if (S.every(s => s.ok)) return;
-    e.preventDefault(); e.stopImmediatePropagation(); render("next");
+    if (steps().filter(s => s.id !== "tandai").every(s => s.ok)) return;
+    e.preventDefault(); e.stopImmediatePropagation(); show = true; reason = "next"; paint();
+    const s = steps().find(x => !x.ok); s && jump(s.el());
   }, true);
   addEventListener("hashchange", enter);
-  document.addEventListener("keydown", e => { if (e.key === "Escape" && visible()) hide(true) });
-  enter();
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && show) { show = false; snoozeUntil = Date.now() + SNOOZE; paint() } });
+  /* untuk pratinjau/pengujian: GLPemandu.show() menampilkan hint tanpa menunggu */
+  window.GLPemandu = { show: (r = "idle") => { show = true; reason = r; paint() } };
+  place(); enter();
 })();
