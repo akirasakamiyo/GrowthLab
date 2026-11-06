@@ -34,20 +34,26 @@ function choices(list,ok,onOk,hint,okText="Tepat!"){const fb=h("p",{class:"lab-f
 const copy=(t,btn)=>{const done_=()=>{const o=btn.textContent;btn.textContent="Tersalin ✓";setTimeout(()=>btn.textContent=o,1500)};
  try{navigator.clipboard.writeText(t).then(done_,()=>{fallback()})}catch(e){fallback()}
  function fallback(){const ta=h("textarea",{style:"position:fixed;opacity:0"});ta.value=t;document.body.append(ta);ta.select();try{document.execCommand("copy");done_()}catch(e){say("Salin manual teks di atas.")}ta.remove()}};
+/* ikon gaya "kapur bergetar" (pilihan B, 2026-11-06): garis kapur + bagian beraksen (.ba) yang terus bergerak (.bm-*) */
 const ICO={
- target:'<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
- guide:'<path d="M4 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4z"/><path d="M20 5h-6a3 3 0 0 0-3 3"/><path d="M20 5v13h-7"/>',
- route:'<circle cx="6" cy="19" r="2"/><circle cx="18" cy="5" r="2"/><path d="M8 19h7a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h7"/>',
- map:'<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/>',
- quiz:'<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h8M8 16h5"/>',
- drag:'<rect x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="13" width="8" height="8" rx="2"/><path d="M11 7h4a2 2 0 0 1 2 2v3"/><path d="m15 10 2 2 2-2"/>',
- sim:'<circle cx="5" cy="12" r="2"/><circle cx="19" cy="5" r="2"/><circle cx="19" cy="19" r="2"/><path d="M7 12c5 0 5-7 10-7M7 12c5 0 5 7 10 7"/>',
- book:'<path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/>',
- abc:'<path d="M3 18 7 6l4 12M4.5 14h5"/><path d="M14 6h3.5a2.5 2.5 0 0 1 0 5H14zm0 5h4a2.5 2.5 0 0 1 0 5h-4z"/>',
- play:'<path d="M7 4v16l13-8z"/>',spark:'<path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>',
- up:'<path d="M7 17 17 7M9 7h8v8"/>',chat:'<path d="M7 4h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-6l-4 3.5V16H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z"/>',
- check:'<circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/>',chev:'<circle cx="12" cy="12" r="9"/><path d="m8 10 4 4 4-4"/>',bar:'<path d="M4 12h16"/><path d="M4 12h9" stroke-width="4"/>',
- note:'<path d="M5 4h10l4 4v12H5z"/><path d="M15 4v4h4M8 12h8M8 16h5"/>',print:'<path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/>'};
+ target:'<circle cx="11" cy="13" r="8"/><circle cx="11" cy="13" r="4"/><g class="ba bm-wig"><path d="M11 13l9-9M17 4h3v3"/></g>',
+ guide:'<path d="M4 5h6a3 3 0 0 1 3 3v12a2 2 0 0 0-2-2H4z"/><path d="M20 5h-6a3 3 0 0 0-3 3"/><path d="M20 5v13h-7"/><path class="ba bm-rib" d="M15.5 5v6l1.5-1.5 1.5 1.5V5"/>',
+ route:'<circle cx="6" cy="19" r="2"/><path d="M8 19h7a3.5 3.5 0 0 0 0-7H9a3.5 3.5 0 0 1 0-7h7"/><g class="ba bm-bob"><circle cx="18" cy="5" r="2.2"/></g>',
+ map:'<path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2z"/><path d="M9 4v14M15 6v14"/><path class="ba bm-dash" d="M5 15c2-3 4 0 6-3s5-2 7-5"/>',
+ quiz:'<rect x="4" y="3" width="16" height="18" rx="3"/><path d="M8 8h8M8 12h5"/><path class="ba bm-draw" d="M8 16l2 2 4-4"/>',
+ drag:'<rect x="3" y="3" width="8" height="8" rx="2"/><path d="M11 7h4a2 2 0 0 1 2 2v3"/><g class="ba bm-slide"><rect x="13" y="13" width="8" height="8" rx="2"/></g>',
+ sim:'<circle cx="5" cy="12" r="2"/><path d="M7 12c5 0 5-7 10-7M7 12c5 0 5 7 10 7"/><g class="ba bm-pulse"><circle cx="19" cy="5" r="2"/><circle cx="19" cy="19" r="2"/></g>',
+ book:'<path d="M4 4h6a2 2 0 0 1 2 2v14a2 2 0 0 0-2-2H4zM20 4h-6a2 2 0 0 0-2 2v14a2 2 0 0 1 2-2h6z"/><path class="ba bm-rib" d="M15 4v6l1.5-1.5L18 10V4"/>',
+ abc:'<path d="M3 17 7 5l4 12M4.5 13h5"/><path d="M14 5h3.5a2.5 2.5 0 0 1 0 5H14zm0 5h4a2.5 2.5 0 0 1 0 5h-4z"/><path class="ba bm-draw" d="M3 20.5h18"/>',
+ play:'<g class="bm-pulse"><path d="M7 4v16l13-8z"/></g><path class="ba bm-blink" d="M3 8v8"/>',
+ spark:'<g class="ba bm-twinkle"><path d="M12 3v4M12 17v4M3 12h4M17 12h4"/></g><path d="M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>',
+ up:'<g class="bm-diag"><path d="M7 17 17 7M9 7h8v8"/></g>',
+ chat:'<path d="M7 4h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-6l-4 3.5V16H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z"/><g class="ba"><circle class="bm-dot" cx="8.5" cy="10" r=".6"/><circle class="bm-dot d2" cx="12" cy="10" r=".6"/><circle class="bm-dot d3" cx="15.5" cy="10" r=".6"/></g>',
+ check:'<circle cx="12" cy="12" r="9"/><path class="ba bm-draw" d="m8 12 3 3 5-6"/>',
+ chev:'<circle cx="12" cy="12" r="9"/><g class="ba bm-bob"><path d="m8 10 4 4 4-4"/></g>',
+ bar:'<path d="M4 12h16"/><path class="ba" d="M4 12h9" stroke-width="4"/>',
+ note:'<path d="M5 4h10l4 4v12H5z"/><path d="M15 4v4h4M8 12h8"/><path class="ba bm-draw" d="M8 16h6"/>',
+ print:'<path d="M7 9V3h10v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><g class="ba bm-slide2"><path d="M7 14h10v7H7z"/></g>'};
 const ico=(k,cls="ico")=>`<span class="${cls}" aria-hidden="true"><svg viewBox="0 0 24 24">${ICO[k]}</svg></span>`;
 
 /* ==================================================================
