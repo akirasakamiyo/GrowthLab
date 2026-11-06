@@ -20,7 +20,7 @@ css/                  gaya, dimuat berurutan sesuai nomor
   10-layout-lebar.css   revisi dosen: konten penuh layar 16:9
   11-lencana-bab.css    lencana saat bab tuntas 5/5
   12-nilai-terkunci.css nilai akhir terkunci sampai semua latihan selesai
-  13-gamifikasi.css     XP, level, notifikasi (bisa dimatikan)
+  13-gamifikasi.css     XP, level, notifikasi (selalu aktif)
   14-transisi.css       10 jenis transisi antarhalaman (dipilih acak)
 js/                   skrip, dimuat berurutan sesuai nomor
   03-data.js            SEMUA ISI: materi Bab 1–3, kuis, drag & drop, simulasi, glosarium (edit teks di sini)
