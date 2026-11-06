@@ -259,3 +259,5 @@
 @media(prefers-reduced-motion:reduce){.gx-v2 *{transition:none!important;animation:none!important}.gx-v2 .gx-card2,.gx-v2 .gx-days span,.gx-v2 .gx-feed li,.gx-v2 .gx-bgrid li{opacity:1;transform:none}.gx-v2 .gx-ring .fg{stroke-dashoffset:var(--o)}.gx-v2 .gx-bp2 i{width:calc(var(--w)*100%)}.gx-v2 .gv{transform:none}.gx-v2 .gx-road li i{transform:none}}
 .gx-feed{padding-left:24px}.gx-feed li::before{left:-32px}
 .gx-extra>section{align-content:start}
+/* tombol garis di panel: saat hover/fokus latar navy menyapu masuk (gaya .btn situs), jadi teks harus putih */
+.gx-dlg .btn:not(.p):hover,.gx-dlg .btn:not(.p):focus-visible,.gx-dlg .gx-file:focus-within{color:#fff}
