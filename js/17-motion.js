@@ -91,8 +91,7 @@ if(pre){
 /* ---------- hero: menjauh saat discroll ---------- */
 const trg=(t,o)=>({trigger:t,scrub:true,...o});
 if(hero){
- gsap.to(".hero .hg",{y:-150,opacity:.15,scale:.96,ease:"none",scrollTrigger:trg(hero,{start:"top top",end:"bottom top"})});
- gsap.fromTo(hero,{clipPath:"inset(0% 0% 0% 0% round 0px 0px 0px 0px)"},{clipPath:"inset(0% 2.5% 0% 2.5% round 0px 0px 64px 64px)",ease:"none",scrollTrigger:trg(hero,{start:"top top",end:"bottom top"})});
+ /* 2026-11-06: isi hero tidak lagi memudar/mengecil saat discroll, dan hero tetap selebar layar (tanpa celah kiri-kanan) — permintaan pengguna */
  gsap.to(".zcue",{y:-60,opacity:0,ease:"none",scrollTrigger:trg(hero,{start:"top top",end:"25% top"})});
 }
 
