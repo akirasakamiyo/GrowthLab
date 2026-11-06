@@ -1,0 +1,30 @@
+/* ===== pemandu pelajaran (2026-11-06) ===== */
+.gp{position:fixed;left:18px;bottom:96px;z-index:85;width:min(380px,calc(100vw - 36px));background:#16124a;color:#eef0ff;border-radius:24px;padding:16px 16px 14px;box-shadow:0 30px 60px -20px rgba(10,16,60,.6);transform:translateY(24px) scale(.96);opacity:0;pointer-events:none;transition:transform .45s cubic-bezier(.34,1.4,.64,1),opacity .3s}
+.gp.on{transform:none;opacity:1;pointer-events:auto}
+.gp-x{position:absolute;top:10px;right:10px;width:30px;height:30px;border-radius:50%;border:0;background:rgba(255,255,255,.12);color:#fff;font-size:1.1rem;line-height:1;cursor:pointer}
+.gp-h{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding-right:30px}
+.gp-h b{display:block;font-size:1rem;line-height:1.25;color:#fff}.gp-h small{display:block;font-size:.78rem;line-height:1.4;color:#c9ccf5;margin-top:3px}
+.gp-m{width:56px;height:56px;color:#fff;overflow:visible;filter:url(#gl-boil)}
+.gp-arm{transform-box:fill-box;transform-origin:left bottom;animation:gpWave 1.6s ease-in-out infinite}
+.gp-bulb{transform-box:fill-box;transform-origin:center;animation:gpBulb 2s ease-in-out infinite}
+@keyframes gpWave{0%,100%{transform:rotate(0)}50%{transform:rotate(-16deg)}}
+@keyframes gpBulb{0%,100%{opacity:.55;transform:translateY(0)}50%{opacity:1;transform:translateY(-2px)}}
+.gp-ring{position:relative;width:44px;height:44px;display:grid;place-items:center}
+.gp-ring svg{position:absolute;inset:0;transform:rotate(-90deg)}.gp-ring circle{fill:none;stroke-width:4}.gp-ring .bg{stroke:rgba(255,255,255,.15)}.gp-ring .fg{stroke:#ffc83d;stroke-linecap:round;transition:stroke-dashoffset .6s cubic-bezier(.2,.8,.2,1)}
+.gp-ring i{font:800 .72rem/1 var(--sans,sans-serif);font-style:normal}
+.gp-l{list-style:none;margin:12px 0 0;padding:0;display:grid;gap:6px}
+.gp-l button{width:100%;display:grid;grid-template-columns:26px 1fr auto;gap:10px;align-items:center;text-align:left;padding:9px 10px;border-radius:14px;border:1.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.05);color:inherit;font:600 .86rem/1.3 var(--sans,sans-serif);cursor:pointer;transition:background .2s,transform .2s,border-color .2s}
+.gp-l button:hover,.gp-l button:focus-visible{background:rgba(255,255,255,.12);transform:translateX(3px);outline:none}
+.gp-c{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;border:2px solid rgba(255,255,255,.35);font:800 .72rem/1 var(--sans,sans-serif)}
+.gp-go{opacity:.5}
+.gp-l li.ok button{color:#9fe3bf}.gp-l li.ok .gp-c{background:#1fa463;border-color:#1fa463;color:#fff}
+.gp-l li.now button{border-color:#ffc83d;background:rgba(255,200,61,.12)}.gp-l li.now .gp-c{border-color:#ffc83d;color:#ffc83d;animation:gpNow 1.4s ease-in-out infinite}.gp-l li.now .gp-go{opacity:1;color:#ffc83d}
+@keyframes gpNow{0%,100%{box-shadow:0 0 0 0 rgba(255,200,61,.5)}50%{box-shadow:0 0 0 6px rgba(255,200,61,0)}}
+.gp-a{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.gp-a .btn{padding:9px 16px;font-size:.78rem}
+.gp-a .btn:not(.p){background:transparent;color:#fff;border:1.5px solid rgba(255,255,255,.4)}
+/* sorotan bagian yang dituju */
+.gp-hl{position:relative;animation:gpHl 2.4s ease-out}
+@keyframes gpHl{0%,60%{box-shadow:0 0 0 4px #ffc83d,0 0 0 14px rgba(255,200,61,.25)}100%{box-shadow:0 0 0 0 rgba(255,200,61,0)}}
+@media(max-width:640px){.gp{left:12px;right:12px;width:auto;bottom:84px}}
+@media(prefers-reduced-motion:reduce){.gp,.gp-ring .fg{transition:none}.gp-arm,.gp-bulb,.gp-l li.now .gp-c,.gp-hl{animation:none}}
