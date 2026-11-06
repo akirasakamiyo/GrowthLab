@@ -2,7 +2,7 @@
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],rm=matchMedia("(prefers-reduced-motion:reduce)").matches,p2=n=>String(n).padStart(2,"0");
 document.body.insertAdjacentHTML("beforeend",'<div id="sp"></div><div id="cnt"><b id="cn">01</b> <span>/ <i id="ct" style="font-style:normal">01</i></span></div><div id="cue"><i></i>Scroll</div>');
 const hero=$(".hero");
-if(hero&&!$(".band")){const t=["Belajar","Tumbuh","Berkarya","Berani"].map(x=>`<span>${x}</span>`).join("");hero.insertAdjacentHTML("afterend",`<div class="band" aria-hidden="true"><div class="mq">${t+t+t+t}</div></div>`)}
+/* pita berjalan "Belajar · Tumbuh · Berkarya · Berani" dihapus atas permintaan pengguna (2026-11-06) */
 const st=$("#stats");
 /* manifesto "Belajar yang hebat dimulai dari langkah kecil" dihapus atas permintaan pengguna (2026-10-20) */
 const ft=$("footer");if(ft&&!$(".wm"))ft.insertAdjacentHTML("beforeend",`<div class="wm" aria-hidden="true">${[..."GROWTH LAB"].map((c,i)=>`<b style="--k:${i}">${c===" "?"&nbsp;":c}</b>`).join("")}</div>`);

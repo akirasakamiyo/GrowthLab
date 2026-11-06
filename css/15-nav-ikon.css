@@ -24,3 +24,51 @@
 }
 @media(max-width:760px){.ni-ic{display:none}.links a.ni .nav-t{display:inline}}
 @media(prefers-reduced-motion:reduce){.nav-t,.links a.ni,.ni-ic svg,.gx-chip,.gx-chip span{transition:none!important}}
+
+/* ===== latar doodle beranda (2026-11-06): gradien biru diganti biru polos + coretan doodle bergerak ===== */
+.hero{position:relative;background:#2340d8!important;overflow:hidden}
+.hero-dd{position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.7}
+.hero-dd svg{width:100%;height:100%;display:block}
+.hero-dd g[class^="hd-"]{transform-box:fill-box;transform-origin:center}
+.hd-fl{animation:hdFloat 6s ease-in-out infinite}
+.hd-tw{animation:hdTwinkle 2.8s ease-in-out infinite}
+.hd-wb{animation:hdWobble 3.4s ease-in-out infinite}
+.hd-pu{animation:hdPulse 1.6s ease-in-out infinite}
+.hd-sp{animation:hdSpin 14s linear infinite}
+.hd-pl{animation:hdPlane 7s ease-in-out infinite}
+.hd-dr2{animation:hdDrift 9s ease-in-out infinite}
+.hd-dr .dd-line{stroke-dasharray:1;stroke-dashoffset:1;animation:hdDraw 4.5s ease-in-out infinite}
+@keyframes hdFloat{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-14px) rotate(4deg)}}
+@keyframes hdTwinkle{0%,100%{transform:scale(.7) rotate(0);opacity:.55}50%{transform:scale(1.15) rotate(20deg);opacity:1}}
+@keyframes hdWobble{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@keyframes hdPulse{0%,100%{transform:scale(1)}30%{transform:scale(1.18)}60%{transform:scale(.96)}}
+@keyframes hdSpin{to{transform:rotate(360deg)}}
+@keyframes hdPlane{0%,100%{transform:translate(0,0) rotate(0)}50%{transform:translate(26px,-18px) rotate(-6deg)}}
+@keyframes hdDrift{0%,100%{transform:translateX(0)}50%{transform:translateX(40px)}}
+@keyframes hdDraw{0%{stroke-dashoffset:1}50%{stroke-dashoffset:0}100%{stroke-dashoffset:-1}}
+@media(max-width:760px){.hero-dd{opacity:.55}}
+@media(prefers-reduced-motion:reduce){.hero-dd *{animation:none!important}.hd-dr .dd-line{stroke-dashoffset:0}}
+
+/* ===== ikon navbar gaya "kapur bergetar" (pilihan B) ===== */
+.ni-ic svg{overflow:visible;filter:url(#gl-boil)}
+.ni-ic .nb-acc{stroke:var(--sun)}
+.links a.ni:is(:hover,.hv,.cur,:focus-visible) .nb-acc{stroke:#ff5a3c}
+.nb-rib{transform-box:fill-box;transform-origin:top center;animation:nbRib 1.4s ease-in-out infinite}
+.nb-chk{stroke-dasharray:22;stroke-dashoffset:22;animation:nbChk 2.4s ease-in-out infinite}
+.nb-pen{animation:nbPen 2.4s ease-in-out infinite}
+.nb-route{stroke-dasharray:3 4;animation:nbRoute 1.2s linear infinite}
+.nb-pin{transform-box:fill-box;transform-origin:center bottom;animation:nbPin 1.6s cubic-bezier(.3,1.6,.5,1) infinite}
+.nb-lf1,.nb-lf2{transform-box:fill-box;animation:nbSway 2.6s ease-in-out infinite}
+.nb-lf1{transform-origin:right bottom}.nb-lf2{transform-origin:left bottom;animation-delay:-1.3s}
+.nb-bud{transform-box:fill-box;transform-origin:center bottom;animation:nbBud 3.2s ease-in-out infinite}
+@keyframes nbRib{0%,100%{transform:skewX(0) rotate(0)}50%{transform:skewX(-14deg) rotate(6deg)}}
+@keyframes nbChk{0%,15%{stroke-dashoffset:22}45%,85%{stroke-dashoffset:0}100%{stroke-dashoffset:-22}}
+@keyframes nbPen{0%,15%,100%{transform:translate(0,0)}30%{transform:translate(-5px,4px)}45%,85%{transform:translate(3px,-3px)}}
+@keyframes nbRoute{to{stroke-dashoffset:-14}}
+@keyframes nbPin{0%,100%{transform:translateY(0)}40%{transform:translateY(-5px)}}
+@keyframes nbSway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
+@keyframes nbBud{0%,20%,100%{transform:scale(.2)}55%,85%{transform:scale(1)}}
+/* ikon garis lain di seluruh situs ikut bergaya kapur bergetar */
+.ico svg,svg.gi,svg.chev,.lk{filter:url(#gl-boil)}
+@media(prefers-reduced-motion:reduce){.nb-rib,.nb-chk,.nb-pen,.nb-route,.nb-pin,.nb-lf1,.nb-lf2,.nb-bud{animation:none}.nb-chk{stroke-dashoffset:0}.nb-bud{transform:none}}
+@media(min-width:761px){.ni-ic{width:30px;height:30px}.ni-ic svg{width:30px;height:30px}.links a.pill .ni-ic{width:32px;height:32px}.links a.pill .ni-ic svg{width:24px;height:24px}.links a.ni{padding:7px}}

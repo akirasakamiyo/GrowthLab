@@ -108,3 +108,7 @@ article .intro{font-size:1.4rem;line-height:1.5;color:var(--ink);padding-left:22
 /* label/tombol oranye bertulisan putih: pakai oranye teks (lebih gelap) agar terbaca */
 .fab,.lab-tag{background:var(--acc-t)!important}
 .les>.mono,.les .mono{color:var(--acc-t)}
+/* judul hero dirapikan (2026-11-06): "ritme kamu." kuning solid tanpa garis luar, jarak baris lebih lega */
+.hero h1{line-height:.95;letter-spacing:.005em}
+.hero h1 em,.hero h1 em *{color:var(--sun)!important;-webkit-text-stroke:0!important;font-style:normal}
+.hero h1 .w{margin:0 .04em 0 0}
