@@ -97,7 +97,7 @@
     requestAnimationFrame(() => t.classList.add("in"));
     setTimeout(() => { t.classList.remove("in"); setTimeout(() => t.remove(), RM() ? 0 : 400) }, ms || 3200);
   }
-  const medal = b => `<span class="gx-medal${b.got === false ? " lock" : ""}" style="--bc:${esc(b.color)}" aria-hidden="true">${b.got === false ? "🔒︎" : esc(b.icon)}</span>`;
+  const medal = b => `<span class="gx-medal${b.got === false ? " lock" : ""}" style="--bc:${esc(b.color)}" aria-hidden="true">${b.got === false ? '<i class="lk"></i>' : esc(b.icon)}</span>`;
   function show(r, sb) {
     render();
     if (!r) return;

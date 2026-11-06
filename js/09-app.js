@@ -76,7 +76,7 @@ function renderLesson(i,j){
  cur=[i,j];const ch=C.chapters[i],L=ch&&ch.l[j];if(!L){location.hash="#/course";return}setActive(i);
  const art=$("#lart"),k=i+"-"+j;
  if(art.dataset.k!==k){art.dataset.k=k;art.innerHTML=lessonHTML(i,j,L);GLU.lesson(art,i,j);$("#mark").onclick=markL;$("#nextl").onclick=nextL;document.title=L.t+" · GrowthLab";window.observe&&window.observe()}
- $("#slist").innerHTML=ch.l.map((l,k)=>`<button class="${k===j?"act":""}${locked(i,k)?" lock":""}" data-k="${i}-${k}">${p2(k+1)} ${esc(l.t)}${done.has(i+"-"+k)?" ✓":locked(i,k)?" 🔒":""}</button>`).join("");
+ $("#slist").innerHTML=ch.l.map((l,k)=>`<button class="${k===j?"act":""}${locked(i,k)?" lock":""}" data-k="${i}-${k}">${p2(k+1)} ${esc(l.t)}${done.has(i+"-"+k)?" ✓":locked(i,k)?' <i class="lk" aria-label="terkunci"></i>':""}</button>`).join("");
  $$("#slist button").forEach(b=>b.onclick=()=>location.hash="#/lesson/"+b.dataset.k);
  $("#mark").textContent=done.has(k)?"Selesai ✓":"Tandai selesai";
  updateProgress();
@@ -354,7 +354,7 @@ const FAQ=[
  ["Bagaimana progres dan nilai disimpan?","Progres pelajaran dan hasil latihan tersimpan otomatis di browser yang kamu pakai (localStorage). Kalau kamu membersihkan data browser atau berganti perangkat, progresnya tidak ikut pindah."],
  ["Bagaimana nilai akhir dihitung?","Nilai Akhir = (Nilai Pilihan Ganda × 0,30) + (Nilai Simulasi × 0,70). Nilai pilihan ganda diambil dari skor terbaik kuis Gabungan, sedangkan nilai simulasi adalah gabungan berbobot tiga aspek (35%, 35%, 30%)."],
  ["Apa arti kategori kelulusan?","86–100 Sangat Siap Kerja, 71–85 Siap Kerja, 56–70 Cukup Siap / Perlu Latihan Lanjutan, dan di bawah 56 Belum Siap Kerja. Batas lulus pilihan ganda adalah 70."],
- ["Apakah ada sertifikat?","Prototipe ini belum menerbitkan sertifikat. Kategori kelulusanmu tampil di kartu Nilai Akhir pada menu Latihan."],
+ ["Apakah ada sertifikat?","Ada. Setelah ke-15 pelajaran selesai, kamu bisa mengunduh sertifikat penyelesaian (gambar PNG) berisi profil kesiapan kerjamu dari panel Perjalanan Karier (klik level/XP di navbar). Sertifikat ini umpan balik belajar mandiri, bukan sertifikat resmi. Kategori kelulusanmu tampil di kartu Nilai Akhir pada menu Latihan."],
  ["Siapa yang membuat GrowthLab?","Kelompok 8 Program Studi Teknologi Pendidikan FIP UNJ (2024) sebagai tugas mata kuliah Pengembangan Multimedia Pendidikan. Materinya merujuk pada artikel MySkill di Medium."]];
 ($("#usp")||{}).innerHTML=[[C.chapters.length,"Bab materi","#/course"],[C.chapters.reduce((a,c)=>a+c.l.length,0),"Pelajaran soft skill","#/e-learning"],[GLX.nQuiz,"Soal kuis pilihan ganda","#/latihan/kuis"],[GLX.nSim,"Skenario simulasi kerja","#/latihan/sim"],["Mandiri","Belajar mandiri, kapan saja","#/petunjuk"]].map(([v,t,hf],i)=>`<a class="us" href="${hf}"><div class="ic" style="background:${BGC[i]}">${ILL("u"+i)}</div><strong>${v}</strong><span>${t}</span></a>`).join("");
 ($("#el-art")||{}).innerHTML=`<div class="frame" style="--c1:${CO[0]};width:100%">${ILL("el")}</div>`;
@@ -491,7 +491,7 @@ const cta=(prev,t,b)=>sec("#ff5a3c",prev,`<div class="ctab"><h2 class="rv">${t}<
 const fr=(c,k)=>`<div data-par=".05"><div class="rv" data-in="z"><div class="frame" style="--c1:${c}">${ILL(k)}</div></div></div>`;
 const LES=C.chapters.flatMap((ch,i)=>ch.l.map((l,j)=>({i,j,ch,l,n:i*5+j})));
 const lesLink=(i,j)=>`<a href="#/lesson/${i}-${j}">${esc(C.chapters[i].l[j].t)}</a>`;
-const cardL=o=>`<a class="card" href="#/lesson/${o.i}-${o.j}"><div class="art" style="--c1:${o.ch.c1}">${ILL(o.i+"-"+o.j)}<em class="no">${p2(o.n+1)}</em></div><div class="body"><span class="mono">Bab ${p2(o.i+1)} · ${esc(o.ch.t)}</span><h3>${esc(o.l.t)}</h3><p style="color:var(--mut);font-size:.92rem">${esc(strip(o.l.judul))}</p><div class="tags"><span>${done.has(o.i+"-"+o.j)?"Selesai ✓":locked(o.i,o.j)?"Terkunci 🔒":"Belum selesai"}</span>${o.l.draft?"<span>Draf</span>":""}</div></div></a>`;
+const cardL=o=>`<a class="card" href="#/lesson/${o.i}-${o.j}"><div class="art" style="--c1:${o.ch.c1}">${ILL(o.i+"-"+o.j)}<em class="no">${p2(o.n+1)}</em></div><div class="body"><span class="mono">Bab ${p2(o.i+1)} · ${esc(o.ch.t)}</span><h3>${esc(o.l.t)}</h3><p style="color:var(--mut);font-size:.92rem">${esc(strip(o.l.judul))}</p><div class="tags"><span>${done.has(o.i+"-"+o.j)?"Selesai ✓":locked(o.i,o.j)?"Terkunci <i class=\"lk\" aria-hidden=\"true\"></i>":"Belum selesai"}</span>${o.l.draft?"<span>Draf</span>":""}</div></div></a>`;
 const polK=i=>`<a class="ph" href="#/komunitas/${i}" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="pic" style="--c1:${CO[i]}">${ILL("k"+i)}</div><p>${KOMT[i]}</p></a>`;
 const faqL=n=>`<div class="fq rv">${FAQ.slice(0,n).map(([q,a],i)=>`<details${i?"":" open"}><summary>${q}</summary><p>${a}</p></details>`).join("")}</div>`;
 const stp=(a)=>`<div class="stg rv">${a.map(([t,d],i)=>`<div class="stp"><b>${p2(i+1)}</b><h3>${t}</h3><p>${d}</p></div>`).join("")}</div>`;
