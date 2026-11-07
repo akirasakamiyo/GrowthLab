@@ -316,7 +316,7 @@ const ILL=k=>k==="course"?CHALK(K,O,T):ILLX(String(k));
  let q=0;const scan=()=>{q=0;document.querySelectorAll("svg.ill:not([data-io])").forEach(s=>{s.setAttribute("data-io","");if(io){try{s.pauseAnimations()}catch(_){}io.observe(s)}else if(!RMI)s.classList.add("on")})};
  new MutationObserver(()=>{if(!q)q=requestAnimationFrame(scan)}).observe(document.body,{childList:true,subtree:true});scan()})();
 const G=(f,i,b,r,a=12)=>`<g data-par="${f}"${r?` data-rot="${r}"`:""}><g class="pop" style="--i:${i}"><g class="fl" style="--d:${i*1.7};--a:${a}">${b}</g></g></g>`;
-($("#hero-art")||{}).innerHTML=CHALK(W,Y,"#ff8a6b");
+/* 2026-11-07: ilustrasi kapur di hero dihapus atas permintaan pengguna; hero hanya teks */
 ($("#done-art")||{}).innerHTML=`<svg viewBox="0 0 400 270"><g stroke="${K}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
 ${G(0,0,`<circle cx="200" cy="150" r="115" fill="${Y}" stroke="none"/>`,0,5)}
 ${G(0,1,`<path d="M176 160L136 96M224 160L264 96" fill="none" stroke="${V}" stroke-width="22"/><rect x="164" y="146" width="72" height="92" rx="26" fill="${V}"/><path d="M184 238v22M216 238v22" fill="none" stroke-width="8"/><circle cx="136" cy="92" r="11" fill="${SK}"/><circle cx="264" cy="92" r="11" fill="${SK}"/><circle cx="200" cy="112" r="32" fill="${SK}"/><path d="M168 108Q172 74 204 78 232 82 232 108 214 92 168 108z" fill="${K}"/><circle cx="190" cy="116" r="3.5" fill="${K}"/><circle cx="210" cy="116" r="3.5" fill="${K}"/><path d="M188 126Q200 138 212 126" fill="none" stroke-width="3"/>`,0,3)}

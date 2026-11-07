@@ -41,3 +41,5 @@ svg.chalk{width:100%;height:auto;display:block;overflow:visible}
 @keyframes ckBlink{0%,100%{opacity:1}50%{opacity:.35}}
 @media(prefers-reduced-motion:reduce){.chalk *{animation:none!important}}
 #hgreet{color:var(--sun,#ffd23f);margin-bottom:14px}
+/* hero tanpa ilustrasi & doodle (2026-11-07) */
+.hero #hero-art{display:none!important}
