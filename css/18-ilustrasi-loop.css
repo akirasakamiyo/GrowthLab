@@ -1,0 +1,73 @@
+/* ilustrasi loop (2026-11-07): adegan pendek yang berulang seperti video */
+svg.lp{width:100%;height:100%;display:block;overflow:visible}
+.lp *{transform-box:fill-box}
+/* Latihan */
+.lp-hand{transform-origin:121px 150px;transform-box:view-box;animation:lpSpin var(--d) linear infinite}
+.lp-tap{transform-origin:center;animation:lpTap var(--d) ease-in-out infinite}
+.lp-chk,.lp-ln{stroke-dasharray:1;stroke-dashoffset:1;animation:lpDraw var(--d) ease-out infinite}
+.lp-ln.lp-c0,.lp-chk.lp-c0{--a:14%}.lp-ln.lp-c1,.lp-chk.lp-c1{--a:38%}.lp-ln.lp-c2,.lp-chk.lp-c2{--a:62%}
+.lp-chk.lp-c0{animation-name:lpDraw0}.lp-ln.lp-c0{animation-name:lpDraw0b}
+.lp-chk.lp-c1{animation-name:lpDraw1}.lp-ln.lp-c1{animation-name:lpDraw1b}
+.lp-chk.lp-c2{animation-name:lpDraw2}.lp-ln.lp-c2{animation-name:lpDraw2b}
+@keyframes lpDraw0{0%,10%{stroke-dashoffset:1}18%,88%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:1}}
+@keyframes lpDraw0b{0%,16%{stroke-dashoffset:1}24%,88%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:1}}
+@keyframes lpDraw1{0%,34%{stroke-dashoffset:1}42%,88%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:1}}
+@keyframes lpDraw1b{0%,40%{stroke-dashoffset:1}48%,88%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:1}}
+@keyframes lpDraw2{0%,58%{stroke-dashoffset:1}66%,88%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:1}}
+@keyframes lpDraw2b{0%,64%{stroke-dashoffset:1}72%,88%{stroke-dashoffset:0}96%,100%{stroke-dashoffset:1}}
+@keyframes lpSpin{to{transform:rotate(360deg)}}
+@keyframes lpTap{0%,6%,100%{transform:translateY(0)}3%{transform:translateY(5px)}}
+.lp-tw{transform-origin:center;opacity:0;animation:lpTw var(--d) ease-out infinite}
+.lp-t0{animation-delay:calc(var(--d)*.2)}.lp-t1{animation-delay:calc(var(--d)*.45)}.lp-t2{animation-delay:calc(var(--d)*.7)}
+@keyframes lpTw{0%{opacity:0;transform:scale(.3) rotate(0)}8%{opacity:1;transform:scale(1.1) rotate(45deg)}20%,100%{opacity:0;transform:scale(.6) rotate(90deg)}}
+/* Alur */
+.lp-trail{stroke-dasharray:1;stroke-dashoffset:1;animation:lpTrail var(--d) linear infinite}
+@keyframes lpTrail{0%,6%{stroke-dashoffset:1;opacity:1}82%,90%{stroke-dashoffset:0;opacity:1}96%{stroke-dashoffset:0;opacity:0}97%,100%{stroke-dashoffset:1;opacity:0}}
+.lp-pawn{offset-distance:0%;offset-rotate:0deg;animation:lpPawn var(--d) cubic-bezier(.45,.05,.55,.95) infinite}
+@keyframes lpPawn{0%,6%{offset-distance:0%;opacity:1}82%,90%{offset-distance:100%;opacity:1}96%{opacity:0;offset-distance:100%}97%{offset-distance:0%;opacity:0}100%{offset-distance:0%;opacity:1}}
+.lp-node{animation:lpPop var(--d) ease-out infinite}
+.lp-n0{animation-delay:0s}.lp-n1{animation-delay:calc(var(--d)*.3)}.lp-n2{animation-delay:calc(var(--d)*.55)}.lp-n3{animation-delay:calc(var(--d)*.8)}
+@keyframes lpPop{0%{transform:scale(1)}5%{transform:scale(1.28)}12%,100%{transform:scale(1)}}
+.lp-lbl{opacity:.35;animation:lpLbl var(--d) ease-out infinite}
+@keyframes lpLbl{0%{opacity:.35}4%,30%{opacity:1}45%,100%{opacity:.35}}
+/* Ringkasan kursus */
+.lp-p1,.lp-p2{stroke-dasharray:none;--l:1}
+.lp-p1{clip-path:inset(0 100% 0 0);animation:lpWipe1 var(--d) ease-in-out infinite}
+.lp-p2{clip-path:inset(100% 0 0 0);animation:lpWipe2 var(--d) ease-in-out infinite}
+@keyframes lpWipe1{0%,4%{clip-path:inset(0 100% 0 0)}22%,90%{clip-path:inset(0 0 0 0)}97%,100%{clip-path:inset(0 100% 0 0)}}
+@keyframes lpWipe2{0%,48%{clip-path:inset(100% 0 0 0)}64%,90%{clip-path:inset(0 0 0 0)}97%,100%{clip-path:inset(100% 0 0 0)}}
+.lp-sprout{transform-box:view-box;animation:lpGrow var(--d) cubic-bezier(.34,1.56,.64,1) infinite}
+@keyframes lpGrow{0%,22%{transform:scale(0)}38%,90%{transform:scale(1)}97%,100%{transform:scale(0)}}
+.lp-leaf1,.lp-leaf2{transform-origin:left bottom;animation:lpLeaf var(--d) ease-in-out infinite}
+.lp-leaf2{transform-origin:left bottom;animation-delay:-.4s}
+@keyframes lpLeaf{0%,40%,100%{transform:rotate(0)}50%{transform:rotate(-8deg)}60%{transform:rotate(4deg)}70%{transform:rotate(0)}}
+.lp-ring{stroke-dasharray:1;stroke-dashoffset:1;animation:lpRing var(--d) ease-out infinite}
+@keyframes lpRing{0%,64%{stroke-dashoffset:1}78%,90%{stroke-dashoffset:0}97%,100%{stroke-dashoffset:1}}
+/* kurangi gerakan: tampilkan keadaan akhir tanpa animasi */
+@media(prefers-reduced-motion:reduce){.lp *{animation:none!important}.lp-chk,.lp-ln,.lp-trail,.lp-ring{stroke-dashoffset:0}.lp-p1,.lp-p2{clip-path:none}.lp-sprout{transform:none}.lp-pawn{offset-distance:100%}.lp-tw{opacity:0}}
+/* kartu bab */
+.lp-sun{transform-box:view-box;animation:lpSpin calc(var(--d)*2) linear infinite}
+.lp-glow{transform-origin:center;animation:lpPulse var(--d) ease-in-out infinite}
+@keyframes lpPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.12)}}
+.lp-link{animation:lpLink var(--d) linear infinite}
+@keyframes lpLink{to{stroke-dashoffset:-.9}}
+.lp-beat{transform-box:view-box;animation:lpBeat var(--d) ease-in-out infinite}
+@keyframes lpBeat{0%,30%,60%,100%{transform:scale(1)}10%,40%{transform:scale(1.18)}20%,50%{transform:scale(.96)}}
+.lp-float{opacity:0;animation:lpFloat var(--d) ease-out infinite}
+.lp-f1{animation-delay:calc(var(--d)*.33)}.lp-f2{animation-delay:calc(var(--d)*.66)}
+@keyframes lpFloat{0%{opacity:0;transform:translateY(10px) scale(.6)}15%{opacity:1}60%,100%{opacity:0;transform:translateY(-70px) scale(1)}}
+.lp-gear{transform-box:view-box;animation:lpSpin calc(var(--d)*.7) linear infinite}
+.lp-gear-r{transform-box:view-box;transform-origin:224px 98px;animation:lpSpin calc(var(--d)*.5) linear infinite reverse}
+.lp-gear2{transform-box:view-box}
+.lp-q{transform-origin:center;animation:lpQ var(--d) cubic-bezier(.34,1.56,.64,1) infinite}
+@keyframes lpQ{0%,6%{transform:scale(0) rotate(-20deg)}16%,44%{transform:scale(1) rotate(-6deg)}52%,100%{transform:scale(0) rotate(0)}}
+.lp-ex{transform-origin:center;animation:lpEx var(--d) cubic-bezier(.34,1.56,.64,1) infinite}
+@keyframes lpEx{0%,56%{transform:scale(0) rotate(20deg)}66%,92%{transform:scale(1) rotate(6deg)}100%{transform:scale(0)}}
+.lp-rays{opacity:0;animation:lpRays var(--d) ease-out infinite}
+@keyframes lpRays{0%,50%{opacity:0}56%,92%{opacity:1}100%{opacity:0}}
+.lp-halo{transform-origin:center;animation:lpHalo var(--d) ease-out infinite}
+@keyframes lpHalo{0%,50%{opacity:0;transform:scale(.7)}58%{opacity:.55;transform:scale(1)}92%{opacity:.3;transform:scale(1.05)}100%{opacity:0}}
+.card .art svg.lp,.hs-art svg.lp{padding:6px 0}
+.feat .art svg.lp{padding:4%}
+#cart{min-height:0!important;height:auto!important;aspect-ratio:4/3;max-height:320px;padding:0!important}#cart svg.lp{width:100%!important;height:100%!important}
+@media(prefers-reduced-motion:reduce){.lp-q,.lp-ex{transform:none}.lp-rays{opacity:1}.lp-float{opacity:0}}
