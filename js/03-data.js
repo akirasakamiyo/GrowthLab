@@ -281,7 +281,7 @@ const S3=[
  poin:"Kreativitas bisa dilatih. Lepaskan hambatan, kumpulkan banyak ide, gabungkan dengan cara tak terduga, lalu uji agar bisa dijalankan."}];
 
 const COURSE={id:0,t:"Self Development for Job Seeker",media:"GrowthLab",k:"Soft Skill",c1:"#2b55ff",
- d:"Media pembelajaran interaktif berbasis website untuk meningkatkan soft skill fresh graduate saat mencari kerja. Kamu belajar mengelola diri, mengasah kecerdasan emosional, dan melatih keterampilan berpikir lewat 15 pelajaran, latihan soal, dan simulasi kasus dunia kerja.",
+ d:"Di sini kamu belajar tiga hal yang sering jadi pembeda saat melamar kerja: kenal kekuatan diri, bisa mengatur emosi, dan berpikir jernih waktu mengambil keputusan. Isinya 15 pelajaran pendek, latihan soal, dan simulasi kasus kerja.",
  chapters:[
   {t:"Self-Management",c1:"#ff6b3d",d:"Mengenali kekuatan diri, mengelola pikiran dan perasaan, memecahkan masalah, dan menjaga kesejahteraan diri.",l:S1},
   {t:"Emotional Intelligence",c1:"#ffd23f",d:"Menyadari emosi diri dan orang lain, berkomunikasi dengan empati, serta menghadapi stres, kritik, dan kegagalan.",l:S2},

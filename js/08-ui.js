@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GL v6 · UI INTERAKTIF
+   GL v6, UI INTERAKTIF
    - Aktivitas "Coba sendiri" di setiap pelajaran (LABS -> widget W.*)
    - Cek cepat (benar/salah), catatan pribadi, daftar isi, info waktu baca
    - Beranda: kartu panduan, lanjutkan belajar, latihan, soal kilat
@@ -214,7 +214,7 @@ syukur(box){const bd=frame(box,"Jurnal syukur harian","Tuliskan tiga hal kecil y
   upd(d=>{d.jurnal=(d.jurnal||[]).filter(x=>x.d!==today);d.jurnal.unshift({d:today,i:it});d.jurnal=d.jurnal.slice(0,30)});draw();say("Jurnal syukur tersimpan.");if(it.length>=3)pop(sv)};
  function streak(J){let s=0;const set=new Set(J.map(x=>x.d)),d=new Date();for(;;){const k=d.toISOString().slice(0,10);if(set.has(k)){s++;d.setDate(d.getDate()-1)}else break}return s}
  function draw(){const J=load().jurnal||[];list.textContent="";J.slice(0,5).forEach(x=>{list.append(h("div",{class:"gj-i"},h("span",{class:"mono"},new Date(x.d+"T00:00").toLocaleDateString("id-ID",{weekday:"long",day:"numeric",month:"long"})),h("ul",{},x.i.map(t=>h("li",{},t)))))});
-  stat.textContent=J.length?`${J.length} hari tercatat · beruntun ${streak(J)} hari.`:"Belum ada jurnal tersimpan."}
+  stat.textContent=J.length?`${J.length} hari tercatat, beruntun ${streak(J)} hari.`:"Belum ada jurnal tersimpan."}
  bd.append(h("div",{class:"gj-f"},ins),h("div",{class:"lab-row"},sv),stat,list);draw()},
 values(box){const bd=frame(box,"Temukan “mengapa”-mu","Pilih sampai tiga nilai inti (core values) yang paling penting bagimu.");
  const V=["Keluarga","Belajar hal baru","Membantu orang lain","Kemandirian","Kreativitas","Kejujuran","Kesehatan","Stabilitas","Tantangan","Kebersamaan tim"];let on=load().values||[];
@@ -252,25 +252,25 @@ flag(box){const bd=frame(box,"Detektif lowongan palsu","Ketuk baris yang menurut
 smart(box){const bd=frame(box,"Perakit target SMART","Isi kolomnya untuk mengubah keinginan menjadi target karier yang realistis. Tersimpan otomatis di browser ini.");
  const F=[["s","Spesifik","Apa yang ingin kamu capai?","mis. lulus sertifikasi jaringan dasar"],["m","Terukur","Bagaimana mengukur keberhasilannya?","mis. nilai ujian minimal 80"],["a","Dapat dicapai","Sumber daya apa yang kamu punya?","mis. kursus daring gratis, 1 jam setiap hari"],["r","Relevan","Mengapa penting untuk visimu?","mis. syarat menjadi teknisi jaringan"]];
  const T=["1 bulan","3 bulan","6 bulan","1 tahun"];const S=load().smart||{};
- const ins=F.map(([k,t,qq,ph])=>{const i=h("input",{type:"text",class:"lab-in",maxlength:"120",placeholder:ph,"aria-label":`${t}: ${qq}`});i.value=S[k]||"";i.oninput=draw;return h("label",{class:"sm-f"},h("span",{},h("b",{},t[0]),` ${t} · ${qq}`),i)});
+ const ins=F.map(([k,t,qq,ph])=>{const i=h("input",{type:"text",class:"lab-in",maxlength:"120",placeholder:ph,"aria-label":`${t}: ${qq}`});i.value=S[k]||"";i.oninput=draw;return h("label",{class:"sm-f"},h("span",{},h("b",{},t[0]),` ${t}, ${qq}`),i)});
  const sel=h("select",{"aria-label":"Berbatas waktu"},T.map(t=>h("option",{},t)));if(S.t)sel.value=S.t;sel.onchange=draw;
  const out=h("p",{class:"im-o","aria-live":"polite"}),meter=h("div",{class:"lab-meter m5","aria-hidden":"true"},[0,1,2,3,4].map(()=>h("i"))),cp=h("button",{type:"button",class:"btn"},"Salin target"),ex=h("button",{type:"button",class:"btn"},"Pakai contoh");
  cp.onclick=()=>copy(out.textContent,cp);
  ex.onclick=()=>{const E=["lulus sertifikasi jaringan dasar","nilai ujian minimal 80","kursus daring gratis, 1 jam setiap hari","itu syarat menjadi teknisi jaringan di penyedia internet"];ins.forEach((l,k)=>q("input",l).value=E[k]);sel.value="6 bulan";draw()};
  function draw(){const v=ins.map(l=>q("input",l).value.trim()),t=sel.value,n=v.filter(Boolean).length+1;upd(d=>{d.smart={s:v[0],m:v[1],a:v[2],r:v[3],t}});qa("i",meter).forEach((x,k)=>x.classList.toggle("on",k<n));
   out.textContent=v[0]?`Dalam ${t}, aku akan ${v[0]}${v[1]?`, diukur dari ${v[1]}`:""}${v[2]?`, dengan memanfaatkan ${v[2]}`:""}${v[3]?`, karena ${v[3]}`:""}.`:"Mulai dari kolom Spesifik untuk melihat kalimat targetmu."}
- bd.append(h("div",{class:"sm"},ins,h("label",{class:"sm-f"},h("span",{},h("b",{},"T")," Berbatas waktu · Kapan tenggatnya?"),sel)),meter,out,h("div",{class:"lab-row"},cp,ex));draw()},
+ bd.append(h("div",{class:"sm"},ins,h("label",{class:"sm-f"},h("span",{},h("b",{},"T")," Berbatas waktu, Kapan tenggatnya?"),sel)),meter,out,h("div",{class:"lab-row"},cp,ex));draw()},
 
 /* 2-3 Reflective Thinking */
 star(box){const bd=frame(box,"Penyusun jawaban STAR","Tulis satu pengalamanmu (PKL, organisasi, atau proyek sekolah). Pratinjau jawaban wawancaramu muncul di bawah.");
  const F=[["s","Situation","Apa situasi atau konteksnya?","mis. Saat PKL di bengkel, pelanggan sering menunggu lebih dari dua jam."],["t","Task","Apa tugas atau tanggung jawabmu?","mis. Saya bertugas mencatat antrean servis."],["a","Action","Tindakan spesifik apa yang kamu lakukan?","mis. Saya membuat jadwal antrean di spreadsheet dan pengingat lewat WhatsApp."],["r","Result","Apa hasilnya? Usahakan terukur.","mis. Waktu tunggu turun menjadi sekitar 45 menit."]];
- const S=load().star||{};const tas=F.map(([k,t,qq,ph])=>{const a=h("textarea",{rows:"2",maxlength:"400",placeholder:ph,"aria-label":`${t}: ${qq}`});a.value=S[k]||"";a.oninput=draw;return h("label",{class:"sr-f"},h("span",{},h("b",{},k.toUpperCase()),` ${t} · ${qq}`),a)});
+ const S=load().star||{};const tas=F.map(([k,t,qq,ph])=>{const a=h("textarea",{rows:"2",maxlength:"400",placeholder:ph,"aria-label":`${t}: ${qq}`});a.value=S[k]||"";a.oninput=draw;return h("label",{class:"sr-f"},h("span",{},h("b",{},k.toUpperCase()),` ${t}, ${qq}`),a)});
  const out=h("div",{class:"sr-o","aria-live":"polite"}),cnt=h("small",{}),cp=h("button",{type:"button",class:"btn"},"Salin jawaban"),ex=h("button",{type:"button",class:"btn"},"Pakai contoh");
  cp.onclick=()=>copy(tas.map(l=>q("textarea",l).value.trim()).filter(Boolean).join(" "),cp);
  ex.onclick=()=>{tas.forEach((l,k)=>q("textarea",l).value=F[k][3].replace(/^mis\. /,""));draw()};
  function draw(){const v=tas.map(l=>q("textarea",l).value.trim());upd(d=>{d.star={s:v[0],t:v[1],a:v[2],r:v[3]}});out.textContent="";
   if(!v.some(Boolean)){out.append(h("p",{class:"lab-d"},"Pratinjau akan muncul di sini."));cnt.textContent="";return}
-  out.append(h("span",{class:"mono"},"Pratinjau jawaban"),h("p",{},...v.map((x,k)=>x?[h("mark",{class:"k"+k},F[k][0][0]),` ${x} `]:null)));const w=v.join(" ").split(/\s+/).filter(Boolean).length;cnt.textContent=`${w} kata · ${v.filter(Boolean).length}/4 bagian terisi${v.every(Boolean)?" · siap dilatih!":""}`}
+  out.append(h("span",{class:"mono"},"Pratinjau jawaban"),h("p",{},...v.map((x,k)=>x?[h("mark",{class:"k"+k},F[k][0][0]),` ${x} `]:null)));const w=v.join(" ").split(/\s+/).filter(Boolean).length;cnt.textContent=`${w} kata, ${v.filter(Boolean).length}/4 bagian terisi${v.every(Boolean)?", siap dilatih!":""}`}
  bd.append(h("div",{class:"sr"},tas),out,cnt,h("div",{class:"lab-row"},cp,ex));draw()},
 
 /* 2-4 Creative Thinking */
@@ -297,7 +297,7 @@ const labsAt=(key,k)=>(LABS[key]||[]).filter(x=>x.at===k).map(x=>`<section class
 
 /* ---------- cek cepat, catatan, daftar isi, info ---------- */
 function cek(box,i,j){const L=GLD.CEK.filter(c=>c.b===i&&c.l===j);if(!L.length){box.remove();return}
- const bd=frame(box,"Cek cepat","Benar atau salah? Jawab untuk memastikan kamu sudah paham.","Cek pemahaman");let sc=0,dn=0;const res=h("p",{class:"lab-res","aria-live":"polite"});
+ const bd=frame(box,"Cek cepat","Benar atau salah? Jawab dulu buat ngecek pemahamanmu.","Cek pemahaman");let sc=0,dn=0;const res=h("p",{class:"lab-res","aria-live":"polite"});
  L.forEach((c,n)=>{const fb=h("p",{class:"lab-fb","aria-live":"polite"});const g=h("div",{class:"lab-seg tf"},[["Benar",true],["Salah",false]].map(([t,v])=>{const b=h("button",{type:"button"},t);b.onclick=()=>{qa("button",g).forEach(x=>x.disabled=true);const ok=v===c.v;b.classList.add(ok?"ok":"no");if(ok)sc++;dn++;fb.className="lab-fb "+(ok?"good":"bad");fb.textContent=(ok?"Tepat! ":`Kurang tepat, pernyataan ini ${c.v?"benar":"salah"}. `)+c.e;draw()};return b}));
   bd.append(h("div",{class:"tf-i"},h("p",{},h("b",{},pad(n+1)+". "),c.s),g,fb))});
  const again=h("button",{type:"button",class:"btn"},"Ulangi cek cepat");again.hidden=true;again.onclick=()=>{cek(box,i,j)};
@@ -320,15 +320,15 @@ function lesson(art,i,j){meta(art,i,j);qa(".lab[data-w]",art).forEach(box=>{try{
    ================================================================== */
 function home(){pdn();lanjut();diag();latih();kilat()}
 function pdn(){const b=q("#pdn");if(!b||b.dataset.ok)return;b.dataset.ok=1;
- b.innerHTML=[["#/tujuan","target","Tujuan belajar","Kompetensi yang ingin dicapai di tiap bab, diturunkan dari GBIM."],["#/petunjuk","guide","Petunjuk penggunaan","Cara memakai situs, arti ikon, menyimpan progres, dan mengerjakan latihan."],["#/alur","route","Alur belajar","Materi → Latihan soal → Simulasi → Nilai akhir, beserta cara menghitung nilai."],["#/peta","map","Peta konsep","Seluruh isi GrowthLab dalam satu peta. Klik simpulnya untuk langsung membuka."]]
+ b.innerHTML=[["#/tujuan","target","Tujuan belajar","Hal yang bakal kamu kuasai di tiap bab."],["#/petunjuk","guide","Petunjuk penggunaan","Cara pakai situs, arti tiap ikon, dan cara progresmu tersimpan."],["#/alur","route","Alur belajar","Urutan belajar dari materi sampai nilai akhir, plus cara nilainya dihitung."],["#/peta","map","Peta konsep","Semua isi GrowthLab dalam satu gambar. Klik bagian mana saja buat langsung ke sana."]]
   .map(([hf,ic,t,d],i)=>`<a class="stp pdc" href="${hf}"><span class="pd-top"><b>${pad(i+1)}</b>${ico(ic,"ico ibg")}</span><h3>${t}</h3><p>${d}</p><span class="go">Buka →</span></a>`).join("")}
 function lanjut(){const b=q("#lanjut");if(!b)return;let n=0,tot=0;try{n=done.size;tot=total}catch(e){}const all=tot&&n>=tot;let ni=0,nj=0;try{[ni,nj]=nextUp()}catch(e){}
  const d=GLX.load(),H=GLX.hitung(d),simN=GLD.SIM.filter(s=>d.sim[s.id]&&d.sim[s.id].best).length,ch=CH()[ni],L=ch.l[nj];
- b.innerHTML=`<span class="mono">${all?"Materi selesai":"Lanjutkan belajar"}</span><h3>${all?"Saatnya latihan!":esc(L.t)}</h3><p>${all?"Semua 15 pelajaran sudah kamu tandai selesai. Uji kesiapanmu di menu Latihan.":`Bab ${ni+1} · ${esc(ch.t)} · Pelajaran ${pad(nj+1)}`}</p>
- <div class="lj-bar" aria-hidden="true"><i style="--p:${tot?n/tot:0}"></i></div><p class="lj-s">${n}/${tot} pelajaran · kuis terbaik ${H.pg==null?"–":String(H.pg).replace(".",",")} · simulasi ${simN}/${GLD.SIM.length}${H.akhir!=null?` · nilai akhir ${Math.round(H.akhir*10)/10}`.replace(".",","):""}</p>
+ b.innerHTML=`<span class="mono">${all?"Materi selesai":"Lanjutkan belajar"}</span><h3>${all?"Saatnya latihan!":esc(L.t)}</h3><p>${all?"Semua 15 pelajaran sudah kamu tandai selesai. Uji kesiapanmu di menu Latihan.":`Bab ${ni+1}, ${esc(ch.t)}, Pelajaran ${pad(nj+1)}`}</p>
+ <div class="lj-bar" aria-hidden="true"><i style="--p:${tot?n/tot:0}"></i></div><p class="lj-s">${n}/${tot} pelajaran, kuis terbaik ${H.pg==null?"–":String(H.pg).replace(".",",")}, simulasi ${simN}/${GLD.SIM.length}${H.akhir!=null?`, nilai akhir ${Math.round(H.akhir*10)/10}`.replace(".",","):""}</p>
  <div class="row" style="margin-top:16px"><a class="btn p" href="${all?"#/latihan":`#/lesson/${ni}-${nj}`}">${all?"Ke Latihan":n?"Lanjutkan":"Mulai belajar"}</a><a class="btn" href="#/course">Semua bab</a></div>
- <div class="lj-bab">${CH().map((c,i)=>{const k=c.l.filter((_,j)=>isDone(i+"-"+j)).length;return `<a href="#/course/${i+1}"><span>Bab ${i+1} · ${esc(c.t)}</span><i style="--p:${k/c.l.length}" aria-hidden="true"></i><b>${k}/${c.l.length}</b></a>`}).join("")}</div>
- ${(()=>{const day=Math.floor(Date.now()/864e5),all15=CH().flatMap((c,i)=>c.l.map((l,j)=>[i,j,l])),open15=all15.filter(([a,b])=>!(window.GLK&&GLK.locked(a,b))),[pi,pj,pl]=open15[day%open15.length];return `<a class="lj-tip" href="#/lesson/${pi}-${pj}"><span class="mono">Poin hari ini · ${esc(pl.t)}</span><p>“${pl.poin}”</p></a>`})()}`}
+ <div class="lj-bab">${CH().map((c,i)=>{const k=c.l.filter((_,j)=>isDone(i+"-"+j)).length;return `<a href="#/course/${i+1}"><span>Bab ${i+1}, ${esc(c.t)}</span><i style="--p:${k/c.l.length}" aria-hidden="true"></i><b>${k}/${c.l.length}</b></a>`}).join("")}</div>
+ ${(()=>{const day=Math.floor(Date.now()/864e5),all15=CH().flatMap((c,i)=>c.l.map((l,j)=>[i,j,l])),open15=all15.filter(([a,b])=>!(window.GLK&&GLK.locked(a,b))),[pi,pj,pl]=open15[day%open15.length];return `<a class="lj-tip" href="#/lesson/${pi}-${pj}"><span class="mono">Poin hari ini, ${esc(pl.t)}</span><p>“${pl.poin}”</p></a>`})()}`}
 const DG=[["Aku sulit menyebutkan kelebihanku saat ditanya HRD.",0,[0,0]],["Aku mudah panik atau menunda saat menghadapi tes kerja.",0,[0,1]],["Aku tersinggung atau defensif saat dikritik.",1,[1,2]],["Aku merasa lelah dan kehilangan semangat mencari kerja.",1,[1,1]],["Aku bingung memilih lowongan atau karier yang realistis.",2,[2,2]],["Aku sulit menceritakan pengalamanku secara runtut saat wawancara.",2,[2,3]]];
 function diag(){const b=q("#diag");if(!b)return;b.textContent="";const st=load().diag;
  const head=h("div",{},h("span",{class:"mono"},"Kenali kebutuhanmu"),h("h3",{},"Mulai dari bab yang paling kamu butuhkan"),h("p",{},"Jawab enam pernyataan singkat. Kami sarankan bab dan pelajaran yang cocok untukmu."));
@@ -339,12 +339,12 @@ function diag(){const b=q("#diag");if(!b)return;b.textContent="";const st=load()
   const res={r,sc,les:top,t:Date.now()};upd(d=>{d.diag=res});showRes(res);pop(b)};
  b.append(head,list,h("div",{class:"lab-row"},go));
  function showRes(s){b.textContent="";const ch=CH()[s.r];const rs=h("button",{type:"button",class:"btn"},"Ulangi");rs.onclick=()=>{upd(d=>{delete d.diag});diag()};
-  b.append(h("div",{},h("span",{class:"mono"},"Rekomendasi untukmu"),h("h3",{},`Fokus pertama: Bab ${s.r+1} · ${ch.t}`),h("p",{},ch.d),
+  b.append(h("div",{},h("span",{class:"mono"},"Rekomendasi untukmu"),h("h3",{},`Fokus pertama: Bab ${s.r+1}, ${ch.t}`),h("p",{},ch.d),
    h("ul",{class:"chk dg-r"},s.les.map(([bb,l])=>h("li",{},h("a",{href:`#/lesson/${bb}-${l}`},lesT(bb,l))))),
    h("div",{class:"dg-sc","aria-hidden":"true"},s.sc.map((v,i)=>h("span",{},`Bab ${i+1}`,h("i",{style:`--v:${v/4}`})))),
    h("div",{class:"row"},h("a",{class:"btn p",href:`#/course/${s.r+1}`},`Buka Bab ${s.r+1}`),rs)))}}
 function latih(){const b=q("#latc");if(!b)return;const d=GLX.load(),H=GLX.hitung(d),simN=GLD.SIM.filter(s=>d.sim[s.id]&&d.sim[s.id].best).length,dnN=GLD.DND.filter(s=>d.dnd[s.id]&&d.dnd[s.id].best.benar===d.dnd[s.id].best.n).length;
- b.innerHTML=[["#/latihan/kuis","quiz","Kuis",`${GLD.QUIZ.length} soal pilihan ganda · bobot 30%`,H.pg==null?"Belum dikerjakan":`Skor terbaik ${String(H.pg).replace(".",",")}`],["#/latihan/dnd","drag","Drag & Drop",`${GLD.DND.length} set latihan pemahaman`,`${dnN}/${GLD.DND.length} set sempurna`],["#/latihan/sim","sim","Simulasi",`${GLD.SIM.length} skenario dunia kerja · bobot 70%`,`${simN}/${GLD.SIM.length} skenario selesai`]]
+ b.innerHTML=[["#/latihan/kuis","quiz","Kuis",`${GLD.QUIZ.length} soal pilihan ganda, bobot 30%`,H.pg==null?"Belum dikerjakan":`Skor terbaik ${String(H.pg).replace(".",",")}`],["#/latihan/dnd","drag","Drag & Drop",`${GLD.DND.length} set latihan pemahaman`,`${dnN}/${GLD.DND.length} set sempurna`],["#/latihan/sim","sim","Simulasi",`${GLD.SIM.length} skenario dunia kerja, bobot 70%`,`${simN}/${GLD.SIM.length} skenario selesai`]]
   .map(([hf,ic,t,dd,s],i)=>`<a class="stp lt" href="${hf}"><span class="pd-top"><b>${pad(i+1)}</b>${ico(ic,"ico ibg")}</span><h3>${t}</h3><p>${dd}</p><p class="lt-s">${s}</p><span class="go">Mainkan →</span></a>`).join("")}
 let KQ=null,ks={b:0,n:0};
 function kilat(){const b=q("#kilat");if(!b)return;const Q=GLD.QUIZ;let it=KQ;if(!it){const x=Q[Math.floor(Math.random()*Q.length)];it=KQ={x,o:mix(x.o.map((t,k)=>({t,ok:k===x.a}))),a:null}}
@@ -352,8 +352,8 @@ function kilat(){const b=q("#kilat");if(!b)return;const Q=GLD.QUIZ;let it=KQ;if(
  const g=h("div",{class:"opts"},it.o.map((o,k)=>{const bt=h("button",{type:"button",class:"opt"},h("b",{},"ABCD"[k]),h("span",{},o.t));bt.onclick=()=>{if(it.a!=null)return;it.a=k;ks.n++;if(o.ok)ks.b++;render()};return bt}));
  const nx=h("button",{type:"button",class:"btn p"},"Soal lain");nx.onclick=()=>{KQ=null;kilat()};
  function render(){qa(".opt",g).forEach((bt,k)=>{if(it.a!=null){bt.disabled=true;if(it.o[k].ok)bt.classList.add("ok");else if(k===it.a)bt.classList.add("no")}});fb.textContent="";
-  if(it.a!=null){const ok=it.o[it.a].ok;fb.append(h("p",{},h("b",{},ok?"Benar! ":"Belum tepat. "),x.e),h("p",{class:"kl-s"},`Sesi ini: ${ks.b}/${ks.n} benar · Materi: `,h("a",{href:`#/lesson/${x.b}-${x.l}`},lesT(x.b,x.l))),h("div",{class:"row"},nx,h("a",{class:"btn",href:"#/latihan/kuis"},"Kuis lengkap")));if(ok)pop(fb,16)}}
- b.append(h("div",{class:"kl-h"},h("span",{class:"mono",html:ico("spark","ico isg")+" Soal kilat"}),h("small",{},`Bab ${x.b+1} · ${lesT(x.b,x.l)}`)),h("p",{class:"qq"},x.q),g,fb);render()}
+  if(it.a!=null){const ok=it.o[it.a].ok;fb.append(h("p",{},h("b",{},ok?"Benar! ":"Belum tepat. "),x.e),h("p",{class:"kl-s"},`Sesi ini: ${ks.b}/${ks.n} benar, Materi: `,h("a",{href:`#/lesson/${x.b}-${x.l}`},lesT(x.b,x.l))),h("div",{class:"row"},nx,h("a",{class:"btn",href:"#/latihan/kuis"},"Kuis lengkap")));if(ok)pop(fb,16)}}
+ b.append(h("div",{class:"kl-h"},h("span",{class:"mono",html:ico("spark","ico isg")+" Soal kilat"}),h("small",{},`Bab ${x.b+1}, ${lesT(x.b,x.l)}`)),h("p",{class:"qq"},x.q),g,fb);render()}
 
 /* ==================================================================
    PETA KONSEP & GLOSARIUM
@@ -361,11 +361,11 @@ function kilat(){const b=q("#kilat");if(!b)return;const Q=GLD.QUIZ;let it=KQ;if(
 function peta(){const d=GLX.load(),C=CH();const ok=k=>isDone(k)?" ok":"";
  const tx=h=>String(h||"").replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim();
  const pv=(k,t,m,li)=>`<span class="pk-pv" role="tooltip"><small>${esc(k)}</small><b>${esc(t)}</b>${m?`<em>${esc(m)}</em>`:""}${li&&li.length?`<u>${li.map(x=>`<span>${esc(x)}</span>`).join("")}</u>`:""}</span>`;
- const les=(i)=>C[i].l.map((l,j)=>`<a class="pk-g${ok(i+"-"+j)}${window.GLK&&GLK.locked(i,j)?" lock":""}" href="#/lesson/${i}-${j}"><i aria-hidden="true"></i>${esc(l.t)}${pv("Pelajaran "+(i+1)+"."+(j+1)+(ok(i+"-"+j)?" · selesai":""),tx(l.judul)||l.t,tx(l.poin),(l.ind||[]).slice(0,3).map(tx))}</a>`).join("");
+ const les=(i)=>C[i].l.map((l,j)=>`<a class="pk-g${ok(i+"-"+j)}${window.GLK&&GLK.locked(i,j)?" lock":""}" href="#/lesson/${i}-${j}"><i aria-hidden="true"></i>${esc(l.t)}${pv("Pelajaran "+(i+1)+"."+(j+1)+(ok(i+"-"+j)?", selesai":""),tx(l.judul)||l.t,tx(l.poin),(l.ind||[]).slice(0,3).map(tx))}</a>`).join("");
  return `<div class="peta rv"><a class="pk-root" href="#/course">Self Development for Job Seeker</a>
  <div class="pk-cols">
-  <div class="pk-col pk-m"><div class="pk-bab">${C.map((c,i)=>`<div class="pk-stack"><a class="pk-y" href="#/course/${i+1}">${esc(c.t)}${pv("Bab "+(i+1)+" · "+c.l.length+" pelajaran",c.t,tx(c.d),c.l.map(x=>x.t))}</a>${les(i)}</div>`).join("")}</div></div>
- </div><p class="pk-leg"><span class="pk-y">Kuning</span> = menu utama · <span class="pk-g">Abu-abu</span> = isi · <span class="pk-g ok"><i aria-hidden="true"></i>Bertanda centang</span> = sudah selesai</p></div>`}
+  <div class="pk-col pk-m"><div class="pk-bab">${C.map((c,i)=>`<div class="pk-stack"><a class="pk-y" href="#/course/${i+1}">${esc(c.t)}${pv("Bab "+(i+1)+", "+c.l.length+" pelajaran",c.t,tx(c.d),c.l.map(x=>x.t))}</a>${les(i)}</div>`).join("")}</div></div>
+ </div><p class="pk-leg"><span class="pk-y">Kuning</span> = menu utama, <span class="pk-g">Abu-abu</span> = isi, <span class="pk-g ok"><i aria-hidden="true"></i>Bertanda centang</span> = sudah selesai</p></div>`}
 function glos(){const L=GLD.GLOS.slice().sort((a,b)=>a.t.localeCompare(b.t,"id"));
  return `<div class="sbar rv"><input id="gq" type="search" placeholder="Cari istilah, misalnya: burnout, STAR, bias…" aria-label="Cari istilah"><div class="chips" id="gch" role="group" aria-label="Saring bab"><button class="chip" aria-pressed="true" data-b="-1">Semua</button>${CH().map((c,i)=>`<button class="chip" aria-pressed="false" data-b="${i}">${esc(c.t)}</button>`).join("")}</div></div>
  <p class="mono gl-n" id="gn" aria-live="polite"></p><div class="gl" id="glist">${L.map(g=>`<div class="gl-i" data-b="${g.b}" data-s="${esc((g.t+" "+g.a).toLowerCase())}"><dt><i>${esc(g.t)}</i></dt><dd>${esc(g.a)}</dd><a href="#/lesson/${g.b}-${g.l}">${esc(lesT(g.b,g.l))} →</a></div>`).join("")}</div><p id="gnone" hidden>Istilah tidak ditemukan.</p>`}

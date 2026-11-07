@@ -78,14 +78,14 @@ const V1 = { v: 1, kuis: { best: { all: { score: 88.2, benar: 30, n: 34, t: 1 } 
   ok((await page.$$(".gv-trail li")).length === 5, "ringkasan jalur berisi 5 situasi + feedback");
   const sw3 = await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1); ok(sw3, "tanpa scroll horizontal (hasil)");
   await page.$eval('.gv-end [data-sm="home"]', b => b.click()); await page.waitForSelector(".gs-file");
-  ok(/Selesai · ending 1\/\d/.test(await page.textContent('.gs-file[data-id="s1"]')) && /Terbaik/.test(await page.textContent('.gs-file[data-id="s1"]')), "kartu berubah: skor terbaik + ending ditemukan");
+  ok(/Selesai, 1 dari \d akhir cerita/.test(await page.textContent('.gs-file[data-id="s1"]')) && /Terbaik/.test(await page.textContent('.gs-file[data-id="s1"]')), "kartu berubah: skor terbaik + ending ditemukan");
 
   /* C. refresh di tengah permainan → lanjutkan, pilihan tidak berubah */
   await page.click('.gs-file[data-id="s1"]'); await page.click('[data-sm="restart"],[data-sm="go"]');
   const p1 = await playOne(page, "worst"); await finishOne(page, true); const p2 = await playOne(page, 2);
   await page.waitForFunction(() => GLSV.state().ids.length === 2);
   await go(page, "#/latihan/sim");
-  ok(/Situasi 3\/5/.test(await page.textContent('.gs-file[data-id="s1"]')), "setelah refresh kartu menunjukkan Situasi 3/5 sedang berjalan");
+  ok(/situasi 3 dari 5/.test(await page.textContent('.gs-file[data-id="s1"]')), "setelah refresh kartu menunjukkan Situasi 3/5 sedang berjalan");
   await page.click('.gs-file[data-id="s1"]'); await page.waitForSelector('[data-sm="resume"]');
   await page.click('[data-sm="resume"]'); await page.waitForSelector(".gv-x");
   ok((await page.evaluate(() => GLSV.state().ids)).join() === [p1.id, p2.id].join(), "melanjutkan dengan 2 pilihan yang sama (terkunci)");
@@ -132,7 +132,7 @@ const V1 = { v: 1, kuis: { best: { all: { score: 88.2, benar: 30, n: 34, t: 1 } 
 
   /* H. penyimpanan diblokir (Safari privat) */
   ({ ctx, page } = await mk({ block: true })); await go(page, "#/latihan/sim");
-  ok(/Penyimpanan browser tidak tersedia/.test(await page.textContent(".gs-note")), "pemberitahuan penyimpanan tidak tersedia");
+  ok(/tidak bisa menyimpan data/.test(await page.textContent(".gs-note")), "pemberitahuan penyimpanan tidak tersedia");
   await page.click('.gs-file[data-id="s1"]'); await page.click('[data-sm="go"]');
   for (let k = 0; k < 5; k++) { await playOne(page, "best"); await finishOne(page, true) }
   await page.waitForSelector(".gv-end");

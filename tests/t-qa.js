@@ -58,7 +58,7 @@ const kat = (a, pg) => { let k = r1(a) >= 86 ? 0 : r1(a) >= 71 ? 1 : r1(a) >= 56
       await page.$eval('.gv-end [data-sm="home"]', b => b.click()); await page.waitForSelector(".gs-file");
     }
     const card = await page.textContent(`.gs-file[data-id="${p.cid}"]`);
-    ok(card.includes(`Terbaik ${String(best[p.cid]).replace(".", ",")}`) && card.includes(`ending ${p.n}/${p.n}`), `${p.cid}: kartu menampilkan skor terbaik ${best[p.cid]} dan ending ${p.n}/${p.n}`);
+    ok(card.includes(`Terbaik ${String(best[p.cid]).replace(".", ",")}`) && card.includes(`${p.n} dari ${p.n} akhir cerita`), `${p.cid}: kartu menampilkan skor terbaik ${best[p.cid]} dan ending ${p.n}/${p.n}`);
   }
   /* 2. konsistensi Nilai Simulasi & Nilai Akhir di semua tampilan */
   const W = { s1: .35, s2: .35, s3: .30 }, sim = Object.entries(best).reduce((t, [k, v]) => t + v * W[k], 0), akhir = seedPG * .3 + sim * .7;
@@ -104,7 +104,7 @@ const kat = (a, pg) => { let k = r1(a) >= 86 ? 0 : r1(a) >= 71 ? 1 : r1(a) >= 56
   await page.click('.gs-file[data-id="s3"]'); await page.click('[data-sm="go"]'); await page.waitForSelector(".gv-x"); await page.click(".gv-x"); await page.waitForSelector(".gv-cs.on .gv-c"); await page.keyboard.press("2");
   await page.waitForFunction(() => GLSV.state().ids.length === 1); await page.click('[data-sm="quit"]'); await page.waitForSelector(".gs-file");
   const t2 = await page.textContent('.gs-file[data-id="s2"]'), t3 = await page.textContent('.gs-file[data-id="s3"]');
-  ok(t2.includes(`Situasi ${n2 + 1}/5`) && t3.includes("Situasi 2/5"), `progres per kasus terpisah (s2 situasi ${n2 + 1}, s3 situasi 2)`);
+  ok(t2.includes(`situasi ${n2 + 1} dari 5`) && t3.includes("situasi 2 dari 5"), `progres per kasus terpisah (s2 situasi ${n2 + 1}, s3 situasi 2)`);
   ok(await page.evaluate(() => GLSV.fxSize() === 0), "tidak ada timer tersisa di daftar kasus");
   ok(page.errs.length === 0, "console bersih (kondisi ekstrem)" + (page.errs.length ? ": " + page.errs.slice(0, 4).join(" | ") : ""));
   await ctx.close();

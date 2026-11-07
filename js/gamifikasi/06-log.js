@@ -1,5 +1,5 @@
 /* ==================================================================
-   Fase 5 · log pengukuran lokal (untuk analisis retensi, completion rate, pre/post)
+   Fase 5, log pengukuran lokal (untuk analisis retensi, completion rate, pre/post)
    - Disimpan hanya di browser (key "gl-log"), TIDAK pernah dikirim ke mana pun.
    - Tetap mencatat walau mode gamifikasi nonaktif (ini data belajar, bukan elemen permainan).
    - Bisa diunduh sebagai JSON atau CSV dari panel, dan ikut dalam file cadangan progres.
@@ -73,8 +73,8 @@
   G.panelExtra.push(() => {
     const s = G.logSummary();
     return `<section class="gx-sec gx-keep" aria-labelledby="gx-lg"><span class="mono" id="gx-lg">Catatan aktivitas belajar</span>
-      <p>${s.sessions} sesi · ${s.activeDays} hari aktif · sekitar ${s.minutes} menit · ${s.lessonsDone}/${s.lessonsTotal} pelajaran (${String(s.completionRate).replace(".", ",")}%).</p>
-      <p class="gx-how">Catatan ini hanya tersimpan di browser ini dan tidak dikirim ke mana pun. Bisa kamu unduh untuk diserahkan ke guru/peneliti bila diminta.</p>
+      <p>${s.sessions} sesi, ${s.activeDays} hari aktif, sekitar ${s.minutes} menit, ${s.lessonsDone}/${s.lessonsTotal} pelajaran (${String(s.completionRate).replace(".", ",")}%).</p>
+      <p class="gx-how">Catatan ini hanya tersimpan di browser ini dan tidak dikirim ke mana pun. Bisa kamu unduh kalau guru atau peneliti memintanya.</p>
       <div class="gx-row"><button type="button" class="btn" data-gxl="json">Unduh (.json)</button><button type="button" class="btn" data-gxl="csv">Unduh (.csv)</button><button type="button" class="btn" data-gxl="clear">Hapus catatan</button></div></section>`;
   });
   document.addEventListener("click", e => {
