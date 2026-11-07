@@ -24,6 +24,7 @@
 <link rel="stylesheet" href="css/14-transisi.css">
 <link rel="stylesheet" href="css/15-nav-ikon.css">
 <link rel="stylesheet" href="css/16-pemandu.css">
+<link rel="stylesheet" href="css/17-unslop.css">
 </head>
 <body data-view="home" class="zload glocal">
 <div id="zpre" aria-hidden="true"><div class="zc"><i class="zd"></i><b class="zl"></b></div><span class="zn">000</span></div>
@@ -47,8 +48,7 @@
 <div data-v="home">
   <section class="blk hero"><!-- kerumunan karakter 3D (#crowd) dihapus atas permintaan pengguna (2026-10-20) --><div class="wrap hg">
     <div>
-      <span class="mono rv">Media pembelajaran · Soft skill siap kerja</span>
-      <h1 class="rv" style="margin:16px 0 22px"><span class="w" style="--i:0"><i>Belajar</i></span> <span class="w" style="--i:1"><i>sesuai</i></span> <span class="w" style="--i:2"><i><em>ritme</em></i></span> <span class="w" style="--i:3"><i><em>kamu.</em></i></span></h1>
+      <h1 class="rv" style="margin:0 0 22px"><span class="w" style="--i:0"><i>Kenali</i></span> <span class="w" style="--i:1"><i>diri,</i></span> <span class="w" style="--i:2"><i>baru</i></span> <span class="w" style="--i:3"><i><em>lamar</em></i></span> <span class="w" style="--i:4"><i><em>kerja.</em></i></span></h1>
       <p class="lead rv" style="--d:.16s"><b>Self Development for Job Seeker.</b> Media belajar interaktif untuk siswa SMK kelas XII dan <i>fresh graduate</i> yang sedang bersiap mencari kerja: 15 pelajaran soft skill, latihan soal, dan simulasi kasus dunia kerja.</p>
       <div class="row rv" style="--d:.24s">
         <a class="btn p" href="#/course">Mulai belajar <svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5"/></svg></a>
@@ -98,7 +98,7 @@
 <div data-v="course" hidden><div class="wrap">
   <div class="crumb mono"><button data-go="home">← Beranda</button> / Ringkasan kursus</div>
   <div class="chead">
-    <div><span class="mono" id="ckat">Kategori</span><h1 id="ctitle">Judul Kursus</h1><p id="cdesc"></p>
+    <div><h1 id="ctitle">Judul Kursus</h1><p id="cdesc"></p>
       <div class="row"><button class="btn p" id="cont">Lanjut belajar <svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5"/></svg></button></div></div>
     <div><div class="art" id="cart" style="--c1:#ffc83d;min-height:200px;border:2px solid var(--ink);border-radius:10px;margin-bottom:18px"></div><div class="panel"><div class="pr"><div class="ring" id="ring"><i id="ringt">0%</i></div><div><span class="mono">Progres kamu</span><p id="ringl" style="margin-top:6px"></p></div></div>
       <div class="mono" id="cmeta"></div></div></div>
@@ -127,9 +127,9 @@
 </div></div>
 <div class="curtain" id="curtain" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<button class="fab" id="chatfab" type="button" aria-label="Buka chat asisten" aria-expanded="false" aria-controls="chat"><svg viewBox="0 0 24 24"><path d="M7 4h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-6l-4 3.5V16H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z"/></svg><span>Tanya AI</span></button>
+<button class="fab" id="chatfab" type="button" aria-label="Buka tanya jawab GrowthLab" aria-expanded="false" aria-controls="chat"><svg viewBox="0 0 24 24"><path d="M7 4h10a3 3 0 0 1 3 3v6a3 3 0 0 1-3 3h-6l-4 3.5V16H7a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z"/></svg><span>Bingung? Tanya</span></button>
 <section class="chat" id="chat" role="dialog" aria-label="Chat asisten GrowthLab" aria-hidden="true">
- <header class="ch"><span class="logo" data-logo aria-hidden="true"></span><div style="flex:1"><b>Asisten GrowthLab</b><small id="chmode"><i></i> AI · siap membantu</small></div><button type="button" id="chx" aria-label="Tutup chat">×</button></header>
+ <header class="ch"><span class="logo" data-logo aria-hidden="true"></span><div style="flex:1"><b>Asisten GrowthLab</b><small id="chmode"><i></i> soal materi, latihan, atau istilah</small></div><button type="button" id="chx" aria-label="Tutup chat">×</button></header>
  <div class="cm" id="cm" role="log" aria-live="polite"></div>
  <div class="cq" id="cq"></div>
  <form class="cf2" id="cform" autocomplete="off"><input id="cin" type="text" maxlength="500" placeholder="Tulis pertanyaanmu…" aria-label="Pesan"><button class="btn p" type="submit" aria-label="Kirim">Kirim</button></form>

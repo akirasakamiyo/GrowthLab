@@ -476,7 +476,7 @@ function tab(t,user){const prev=cur;cur=TABS.some(x=>x[0]===t)?t:"kuis";qa(".lx-
  if(prev!==cur||!user){if(cur!=="sim")GLSV.stop();if(cur!=="dnd")ddTimerStop()}
  if(cur==="kuis")drawQuiz();else if(cur==="dnd"){if(!DD)ddStart(GLD.DND[0].id);drawDD();if(DD.t0&&!DD.t1)ddTimerGo();deal()}else{GLSV.draw(!!user);const st=GLSV.state();if(st&&st.ph!=="hasil")SND.music("amb")}
  if(user){SND.play("tap");bump(q("#lt-"+cur),1.05)}enter(p,50)}
-const tabsHTML=()=>`<div class="lx-tabs" role="tablist" aria-label="Jenis latihan">${TABS.map(([k,t],i)=>`<button role="tab" id="lt-${k}" data-t="${k}" aria-controls="ltp"><span class="mono">${pad(i+1)}</span>${t}<small>${k==="kuis"?GLD.QUIZ.length+" soal · bobot 30%":k==="dnd"?GLD.DND.length+" set · latihan":GLD.SIM.length+" skenario · bobot 70%"}</small></button>`).join("")}</div><div id="ltp" class="lx-panel" role="tabpanel" tabindex="-1"></div>`;
+const tabsHTML=()=>`<div class="lx-tabs" role="tablist" aria-label="Jenis latihan">${TABS.map(([k,t],i)=>`<button role="tab" id="lt-${k}" data-t="${k}" aria-controls="ltp">${t}<small>${k==="kuis"?GLD.QUIZ.length+" soal, masuk nilai 30%":k==="dnd"?GLD.DND.length+" set, buat latihan saja":GLD.SIM.length+" skenario, masuk nilai 70%"}</small></button>`).join("")}</div><div id="ltp" class="lx-panel" role="tabpanel" tabindex="-1"></div>`;
 let wired=false;
 function mount(t,sub){const p=q("#ltp");if(!p)return;
  const tb=q(".lx-tabs");tb.onclick=e=>{const b=e.target.closest("[role=tab]");if(b&&b.dataset.t!==cur)tab(b.dataset.t,true)};

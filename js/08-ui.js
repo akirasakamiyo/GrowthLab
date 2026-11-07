@@ -311,7 +311,7 @@ function toc(art){const nav=q(".toc",art);if(!nav)return;nav.textContent="";cons
  nav.append(h("span",{class:"mono"},"Di pelajaran ini"),h("div",{class:"toc-l"},hs.map(x=>{const lab=x.tagName==="H2"?x.textContent.trim():(x.classList.contains("cek")?"✓ Cek cepat":"★ "+(x.dataset.title||"Coba sendiri"));
   const b=h("button",{type:"button",class:"chip"+(x.tagName==="H2"?"":" t2")},lab);b.onclick=()=>{const y=Math.max(0,x.getBoundingClientRect().top+scrollY-110);try{if(window.__lenis){window.__lenis.scrollTo(y,{force:true,immediate:reduce(),onComplete:()=>{const d=x.getBoundingClientRect().top-110;if(Math.abs(d)>14)window.__lenis.scrollTo(scrollY+d,{force:true,duration:.5})}});return}}catch(e){}scrollTo({top:y,behavior:reduce()?"auto":"smooth"})};return b})))}
 function meta(art,i,j){const m=q(".lmeta",art);if(!m)return;const w=(art.textContent||"").split(/\s+/).filter(Boolean).length,min=Math.max(3,Math.round(w/180)),nl=(LABS[i+"-"+j]||[]).length,nc=GLD.CEK.filter(c=>c.b===i&&c.l===j).length;
- m.textContent=`± ${min} menit baca · ${nl} aktivitas interaktif · ${nc} soal cek cepat`}
+ m.textContent=`Sekitar ${min} menit baca${nl?`, ada ${nl} aktivitas buat dicoba`:""}${nc?` dan ${nc} soal cek cepat`:""}.`}
 function lesson(art,i,j){meta(art,i,j);qa(".lab[data-w]",art).forEach(box=>{try{W[box.dataset.w](box)}catch(e){console.warn("lab",box.dataset.w,e)}});
  const c=q(".cek",art);c&&cek(c,i,j);const n=q(".note",art);n&&note(n,i,j);toc(art)}
 
