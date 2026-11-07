@@ -71,5 +71,13 @@ window.GLLOOP = (() => {
     ${[0, 1, 2, 3, 4].map(i => `<path class="lp-ray" d="M200 2v-0" transform="rotate(${-60 + i * 30} 200 82)" ${s(W, 0)}/>`).join("")}
     <g class="lp-rays">${[-60, -30, 0, 30, 60].map(a => `<path d="M200 4v12" transform="rotate(${a} 200 82)" ${s(K, 5)}/>`).join("")}</g>`);
 
-  return { latihan, alur, kursus, c0: bab0, c1: bab1, c2: bab2 };
+
+  /* video loop bergaya video promo (render 6 detik, berulang mulus). Dipakai untuk kursus, kartu bab, latihan, petunjuk. */
+  const vid = n => `<video class="vloop" src="assets/video/loop/${n}.mp4" poster="assets/video/loop/${n}.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture aria-hidden="true"></video>`;
+  if (!window.__vloopIO && "IntersectionObserver" in window) {
+    const rm = matchMedia("(prefers-reduced-motion:reduce)").matches;
+    const io = window.__vloopIO = new IntersectionObserver(es => es.forEach(e => { const v = e.target; if (e.isIntersecting && !rm) { const p = v.play(); p && p.catch(() => {}) } else v.pause() }), { rootMargin: "80px" });
+    new MutationObserver(() => document.querySelectorAll("video.vloop:not([data-io])").forEach(v => { v.dataset.io = 1; if (rm) { v.removeAttribute("autoplay"); v.pause() } io.observe(v) })).observe(document.body, { childList: true, subtree: true });
+  }
+  return { latihan: () => vid("latihan"), petunjuk: () => vid("petunjuk"), alur, kursus: () => vid("kursus"), c0: () => vid("bab1"), c1: () => vid("bab2"), c2: () => vid("bab3"), svgLatihan: latihan, svgKursus: kursus };
 })();
