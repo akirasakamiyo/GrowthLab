@@ -94,6 +94,7 @@ function lessonHTML(i,j,L){const ch=C.chapters[i],last=i===C.chapters.length-1&&
  <div class="ind"><span class="mono">Indikator pelajaran ini</span><ul class="chk">${L.ind.map(x=>`<li>${x}</li>`).join("")}</ul></div>
  <nav class="toc" aria-label="Daftar isi pelajaran"></nav>
  ${ext(-1)}${L.bagian.map((b,k)=>`<h2 id="s-${k}">${b.h}</h2>${b.isi}${ext(k)}`).join("")}
+ <section class="uji" id="uji"></section>
  <section class="cek" id="cek"></section>
  <div class="take"><span class="mono">Poin utama</span><p style="margin-top:8px;font-family:var(--serif);font-size:1.6rem;line-height:1.25">${L.poin}</p></div>
  <div class="note"></div>
