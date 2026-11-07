@@ -94,3 +94,10 @@ body[data-view=home]:before{opacity:0}
 .chead h1{font-size:clamp(2.8rem,min(6.2vw,10vh),5.4rem)!important;line-height:.95!important;margin:10px 0 18px!important}
 .chead h1 em{font-style:normal;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 12C40 6 80 15 120 9s60 2 77 1' fill='none' stroke='%23ffd23f' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E") 0 100%/100% .26em no-repeat;padding-bottom:.08em}
 .chead p{font-size:1.08rem!important;max-width:32rem}
+/* halaman dalam dirapikan (2026-11-07): judul lebih kecil, kata penekanan tinta + coretan stabilo, subjudul seksi lebih kecil, tanpa garis grid */
+.phr h1{font-size:clamp(2.6rem,min(5.6vw,10vh),4.8rem)!important;line-height:.95!important;max-width:16ch!important;margin:18px 0 18px!important}
+.phr h1 em{color:inherit!important;font-style:normal;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 12C40 6 80 15 120 9s60 2 77 1' fill='none' stroke='%23ffc21a' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E") 0 100%/100% .24em no-repeat;padding-bottom:.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.phr .lead{font-size:1.08rem!important;max-width:36rem}
+.sc2 h2{font-size:clamp(1.9rem,3.6vw,3rem)!important;line-height:1!important;margin-bottom:22px!important}
+body:before{opacity:0!important}
+.phr h1{line-height:1.06!important;margin-bottom:24px!important}.phr h1 em{padding-bottom:.1em;background-size:100% .2em}
