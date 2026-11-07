@@ -70,7 +70,7 @@ const MEDAL=`<svg class="medal" viewBox="0 0 48 56" aria-hidden="true"><path d="
 const badgeSeen=()=>{try{return JSON.parse(localStorage.getItem("gl-badge")||"[]")}catch(e){return[]}};
 function badgeEarned(i){if(!BADGE[i]||window.GLG)return;/* bila modul gamifikasi ada, notifikasi badge diurus GLG */toast(`Lencana baru: “${BADGE[i][0]}”! Bab ${i+1} tuntas 5/5.`)}
 function renderCourse(){
- $("#cart").innerHTML=ILL("course");$("#ctitle").textContent=C.t;$("#cdesc").textContent=C.d;
+ $("#cart").innerHTML=ILL("course");$("#ctitle").innerHTML=esc(C.t).replace(/(job seeker)$/i,"<em>$1</em>");$("#cdesc").textContent=C.d;
  $("#cmeta").textContent=`Isinya ${C.chapters.length} bab, ${total} pelajaran, ${GLX.nQuiz} soal, dan ${GLX.nSim} simulasi.`;
  const seen=badgeSeen();
  $("#chaps").innerHTML=C.chapters.map((c,i)=>{const n=c.l.filter((_,j)=>done.has(i+"-"+j)).length;
