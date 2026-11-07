@@ -24,8 +24,35 @@ function renderDiscover(){
  $("#feat").setAttribute("aria-label","Buka kursus "+f.t);
  $("#grid").innerHTML=C.chapters.map((c,i)=>({c,i})).filter(o=>cat==="Semua"||o.c.t===cat).map(({c,i})=>{const n=c.l.filter((_,j)=>done.has(i+"-"+j)).length;
   return `<a class="card" href="${goC(i+1)}"><div class="art" style="--c1:${c.c1}">${ILL("c"+i)}</div><div class="body"><small class="bab-n">Bab ${i+1}</small><h3>${esc(c.t)}</h3><p style="color:var(--mut);font-size:.95rem">${esc(c.d)}</p><div class="tags"><span>${c.l.length} pelajaran</span><span>${n}/${c.l.length} selesai</span></div></div></a>`}).join("");
- phase();$("#feat").onclick=()=>location.hash="#/course";$("#feat").onkeydown=e=>{if(e.key==="Enter")location.hash="#/course"};
+ heroStack();phase();$("#feat").onclick=()=>location.hash="#/course";$("#feat").onkeydown=e=>{if(e.key==="Enter")location.hash="#/course"};
 }
+/* tumpukan kartu bab di hero (laptop saja, 2026-11-07): kartu teratas bisa digeser (drag) ke kiri/kanan
+   untuk mengganti bab; klik kartu belakang, titik di bawah, atau tombol panah juga bisa. Awalnya bab yang sedang dikerjakan. */
+let hsTop=null;
+function heroStack(){const el=$("#hero-art");if(!el)return;
+ const all=done.size>=total,[ni]=nextUp(),N=C.chapters.length;if(hsTop===null)hsTop=all?0:ni;
+ const fg=c=>c==="#2b55ff"?"#fff":"#0a1a6b";
+ const card=i=>{const c=C.chapters[i],n=c.l.filter((_,j)=>done.has(i+"-"+j)).length,j=c.l.findIndex((_,k)=>!done.has(i+"-"+k)),fin=j<0,L=c.l[fin?0:j],lk=!fin&&locked(i,j);
+  return `<div class="hs-c" data-i="${i}" style="--c1:${c.c1};--fg:${fg(c.c1)}"><div class="hs-peek"><small>Bab ${i+1}</small><b>${esc(c.t)}</b><span>${n}/${c.l.length}</span></div>
+  <div class="hs-art">${ILL("c"+i)}</div><div class="hs-body"><small class="bab-n">Bab ${i+1}, ${n}/${c.l.length} pelajaran beres</small><h3>${esc(c.t)}</h3>
+  <p class="hs-next">${fin?"Bab ini sudah selesai. Mau mengulang?":lk?`Terbuka setelah bab sebelumnya selesai. Pelajaran pertamanya: <b>${esc(L.t)}</b>`:`${n?"Berikutnya":"Mulai dari"}: <b>${esc(L.t)}</b>`}</p>
+  <span class="hs-bar" aria-hidden="true"><i style="--p:${n/c.l.length}"></i></span>
+  <a class="hs-go" href="${fin||lk?`#/course/${i+1}`:`#/lesson/${i}-${j}`}" draggable="false">${fin?"Ulas bab":lk?"Lihat isi bab":n?"Lanjut belajar":"Mulai belajar"} <svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5"/></svg></a></div></div>`};
+ el.innerHTML=`<div class="hs" tabindex="0" role="group" aria-label="Kartu bab, geser untuk ganti bab">${C.chapters.map((_,i)=>card(i)).join("")}</div>
+ <div class="hs-dots" role="tablist" aria-label="Pilih bab">${C.chapters.map((c,i)=>`<button type="button" role="tab" data-i="${i}" aria-label="Bab ${i+1}: ${esc(c.t)}"></button>`).join("")}<span>geser kartunya</span></div>`;
+ const hs=el.querySelector(".hs"),cs=[...hs.children],dots=[...el.querySelectorAll(".hs-dots button")];
+ const lay=()=>{cs.forEach(c=>{const k=((+c.dataset.i-hsTop)%N+N)%N;c.className="hs-c p"+k;c.style.transform="";c.inert=k!==0});dots.forEach((d,i)=>d.setAttribute("aria-selected",i===hsTop))};
+ const go=d=>{hsTop=((hsTop+d)%N+N)%N;lay()};lay();
+ dots.forEach(d=>d.onclick=()=>{hsTop=+d.dataset.i;lay()});
+ hs.onkeydown=e=>{if(e.key==="ArrowRight"){go(1);e.preventDefault()}else if(e.key==="ArrowLeft"){go(-1);e.preventDefault()}};
+ let x0=null,dx=0,moved=false,top=null;
+ hs.addEventListener("pointerdown",e=>{const c=e.target.closest(".hs-c");if(!c)return;if(!c.classList.contains("p0")){hsTop=+c.dataset.i;lay();return}
+  if(e.target.closest("a"))return;top=c;x0=e.clientX;dx=0;moved=false;top.classList.add("drag")});
+ hs.addEventListener("pointermove",e=>{if(x0===null)return;dx=e.clientX-x0;if(Math.abs(dx)>5&&!moved){moved=true;try{hs.setPointerCapture(e.pointerId)}catch(_){}}top.style.transform=`translateX(${dx}px) rotate(${dx/18-1.5}deg)`});
+ const up=()=>{if(x0===null)return;const t=top;x0=null;t.classList.remove("drag");
+  if(Math.abs(dx)>90){t.style.transform=`translateX(${dx*2.2}px) rotate(${dx/9}deg)`;t.classList.add("fly");setTimeout(()=>{t.classList.remove("fly");go(dx<0?1:-1)},230)}else t.style.transform=""};
+ hs.addEventListener("pointerup",up);hs.addEventListener("pointercancel",up);
+ hs.addEventListener("click",e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false}},true)}
 function renderPath(){if(!$("#pathlist"))return;
  const all=done.size>=total,ci=all?C.chapters.length:nextUp()[0];
  $("#pathlist").style.setProperty("--p",Math.min(1,ci/C.chapters.length));
@@ -299,7 +326,7 @@ L.k5=L["2-4"];L.komunitas=L.team;L.tentang=L.team;
 return k=>{const b=L[k]||L.course;return`<svg class="ill" viewBox="0 0 200 140" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g stroke="${K}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">${b}</g></svg>`}})();
 /* unslop (2026-11-07): ilustrasi kapur pengganti "orang + laptop + grafik batang" gaya stok.
    Cerita: dari toga (lulus) lewat CV yang menumbuhkan tunas, menuju koper kerja yang dilingkari. */
-const CHALK=(c,a,b)=>`<svg class="chalk" viewBox="0 0 600 520" aria-hidden="true"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="5" filter="url(#gl-boil)">
+const CHALK=(c,a,b)=>`<svg class="chalk" viewBox="0 0 600 520" aria-hidden="true"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="5">
 <path class="ck-path" stroke="${c}" stroke-width="3.5" stroke-dasharray="3 14" d="M120 160C150 270 210 300 280 300S430 250 470 170"/>
 <g class="ck-a"><path stroke="${c}" d="M40 110l70-30 70 30-70 30z"/><path stroke="${c}" d="M72 124v34c24 16 52 16 76 0v-34"/><path stroke="${a}" d="M180 110v38"/><circle cx="180" cy="154" r="6" stroke="${a}"/></g>
 <g class="ck-b"><rect x="420" y="78" width="110" height="78" rx="10" stroke="${c}"/><path stroke="${c}" d="M455 78v-14h40v14M420 108h110"/><rect x="466" y="100" width="18" height="16" rx="3" stroke="${a}"/><path stroke="${b}" stroke-width="4" d="M408 62c22-34 136-36 146 6 8 40-58 104-128 92-50-10-44-72 2-86"/></g>
@@ -316,7 +343,7 @@ const ILL=k=>k==="course"?CHALK(K,O,T):ILLX(String(k));
  let q=0;const scan=()=>{q=0;document.querySelectorAll("svg.ill:not([data-io])").forEach(s=>{s.setAttribute("data-io","");if(io){try{s.pauseAnimations()}catch(_){}io.observe(s)}else if(!RMI)s.classList.add("on")})};
  new MutationObserver(()=>{if(!q)q=requestAnimationFrame(scan)}).observe(document.body,{childList:true,subtree:true});scan()})();
 const G=(f,i,b,r,a=12)=>`<g data-par="${f}"${r?` data-rot="${r}"`:""}><g class="pop" style="--i:${i}"><g class="fl" style="--d:${i*1.7};--a:${a}">${b}</g></g></g>`;
-($("#hero-art")||{}).innerHTML=CHALK(W,Y,"#ff8a6b");
+/* 2026-11-07: ilustrasi kapur di hero dihapus atas permintaan pengguna; hero hanya teks */
 ($("#done-art")||{}).innerHTML=`<svg viewBox="0 0 400 270"><g stroke="${K}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
 ${G(0,0,`<circle cx="200" cy="150" r="115" fill="${Y}" stroke="none"/>`,0,5)}
 ${G(0,1,`<path d="M176 160L136 96M224 160L264 96" fill="none" stroke="${V}" stroke-width="22"/><rect x="164" y="146" width="72" height="92" rx="26" fill="${V}"/><path d="M184 238v22M216 238v22" fill="none" stroke-width="8"/><circle cx="136" cy="92" r="11" fill="${SK}"/><circle cx="264" cy="92" r="11" fill="${SK}"/><circle cx="200" cy="112" r="32" fill="${SK}"/><path d="M168 108Q172 74 204 78 232 82 232 108 214 92 168 108z" fill="${K}"/><circle cx="190" cy="116" r="3.5" fill="${K}"/><circle cx="210" cy="116" r="3.5" fill="${K}"/><path d="M188 126Q200 138 212 126" fill="none" stroke-width="3"/>`,0,3)}

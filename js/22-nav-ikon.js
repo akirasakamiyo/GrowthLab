@@ -12,11 +12,7 @@
     pill: `<svg viewBox="0 0 48 48" ${S}><path d="M13 30h22l-3 12H16zM11 27h26v4H11zM24 27V11"/><path class="nb-lf1" d="M24 24c-2-7-8-10-14-9 0 6 6 10 14 9z"/><path class="nb-lf2" d="M24 20c2-8 8-11 15-10 0 7-7 11-15 10z"/><circle class="nb-acc nb-bud" cx="24" cy="9" r="3.5"/></svg>`,
     lg: `<svg viewBox="0 0 48 48" ${S}><circle cx="24" cy="17" r="8"/><path d="M9 41c2-8 8-12 15-12s13 4 15 12"/></svg>`
   };
-  /* filter kapur bergetar sekali untuk seluruh situs (seed berganti = garis "boil" seperti animasi gambar tangan) */
-  if (!document.getElementById("gl-boil")) {
-    const rm = matchMedia("(prefers-reduced-motion:reduce)").matches;
-    document.body.insertAdjacentHTML("afterbegin", `<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs><filter id="gl-boil" x="-15%" y="-15%" width="130%" height="130%"><feTurbulence type="fractalNoise" baseFrequency=".06" numOctaves="2" seed="1">${rm ? "" : '<animate attributeName="seed" values="1;3;6;9" dur=".5s" calcMode="discrete" repeatCount="indefinite"/>'}</feTurbulence><feDisplacementMap in="SourceGraphic" scale="2.4"/></filter></defs></svg>`);
-  }
+  /* 2026-11-07: filter kapur bergetar (#gl-boil) tidak dipasang lagi; animasinya berat di Safari */
   const wrap = (el, key) => {
     if (!el || el.classList.contains("ni")) return;
     const t = document.createElement("span"); t.className = "nav-t";

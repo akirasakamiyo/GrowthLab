@@ -50,7 +50,7 @@
 @media(prefers-reduced-motion:reduce){.hero-dd *{animation:none!important}.hd-dr .dd-line{stroke-dashoffset:0}}
 
 /* ===== ikon navbar gaya "kapur bergetar" (pilihan B) ===== */
-.ni-ic svg{overflow:visible;filter:url(#gl-boil)}
+.ni-ic svg{overflow:visible}
 .ni-ic .nb-acc{stroke:var(--sun)}
 .links a.ni:is(:hover,.hv,.cur,:focus-visible) .nb-acc{stroke:#ff5a3c}
 .nb-rib{transform-box:fill-box;transform-origin:top center;animation:nbRib 1.4s ease-in-out infinite}
@@ -69,7 +69,7 @@
 @keyframes nbSway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(8deg)}}
 @keyframes nbBud{0%,20%,100%{transform:scale(.2)}55%,85%{transform:scale(1)}}
 /* ikon garis lain di seluruh situs ikut bergaya kapur bergetar */
-.ico svg,svg.gi,svg.chev,.lk{filter:url(#gl-boil)}
+/* 2026-11-07: efek getar kapur (filter #gl-boil) dihapus, berat di Safari */
 @media(prefers-reduced-motion:reduce){.nb-rib,.nb-chk,.nb-pen,.nb-route,.nb-pin,.nb-lf1,.nb-lf2,.nb-bud{animation:none}.nb-chk{stroke-dashoffset:0}.nb-bud{transform:none}}
 @media(min-width:761px){.ni-ic{width:30px;height:30px}.ni-ic svg{width:30px;height:30px}.links a.pill .ni-ic{width:32px;height:32px}.links a.pill .ni-ic svg{width:24px;height:24px}.links a.ni{padding:7px}}
 

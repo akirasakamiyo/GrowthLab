@@ -7,7 +7,7 @@
 .gph::after{content:"";position:absolute;left:var(--ax,28px);bottom:-8px;width:16px;height:16px;background:#16124a;transform:rotate(45deg);border-radius:3px}
 .gph.below::after{bottom:auto;top:-8px}
 .gph-ic{width:38px;height:38px;border-radius:12px;display:grid;place-items:center;background:#ffc83d;color:#16124a}
-.gph-ic svg{width:24px;height:24px;filter:url(#gl-boil)}
+.gph-ic svg{width:24px;height:24px}
 .gph-glow{animation:gphGlow 1.4s ease-in-out infinite}
 .gph-tx{display:grid;gap:2px}
 .gph-tx small{font:700 .66rem/1.2 var(--mono,monospace);letter-spacing:.12em;text-transform:uppercase;color:#ffc83d}
@@ -44,7 +44,7 @@
 .gph-x{background:transparent;color:#16124a;top:6px;right:6px;font-size:1.1rem}
 .gph-skip{margin-top:8px;border:0;background:none;padding:0;color:#16124a;font:700 .76rem/1 var(--sans,sans-serif);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 /* panah kapur melengkung yang menunjuk target */
-.gph-arrow{position:absolute;left:calc(var(--ax,28px) - 34px);bottom:-46px;width:52px;height:52px;overflow:visible;fill:none;stroke:#16124a;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;filter:url(#gl-boil);animation:gphPoke 1.4s ease-in-out infinite}
+.gph-arrow{position:absolute;left:calc(var(--ax,28px) - 34px);bottom:-46px;width:52px;height:52px;overflow:visible;fill:none;stroke:#16124a;stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;animation:gphPoke 1.4s ease-in-out infinite}
 .gph.below .gph-arrow{bottom:auto;top:-46px;scale:1 -1}
 @keyframes gphPoke{0%,100%{translate:0 0}50%{translate:-3px 3px}}
 .gph.on:not(.off) .gph-tx{animation:none}
