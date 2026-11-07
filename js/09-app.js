@@ -24,8 +24,19 @@ function renderDiscover(){
  $("#feat").setAttribute("aria-label","Buka kursus "+f.t);
  $("#grid").innerHTML=C.chapters.map((c,i)=>({c,i})).filter(o=>cat==="Semua"||o.c.t===cat).map(({c,i})=>{const n=c.l.filter((_,j)=>done.has(i+"-"+j)).length;
   return `<a class="card" href="${goC(i+1)}"><div class="art" style="--c1:${c.c1}">${ILL("c"+i)}</div><div class="body"><small class="bab-n">Bab ${i+1}</small><h3>${esc(c.t)}</h3><p style="color:var(--mut);font-size:.95rem">${esc(c.d)}</p><div class="tags"><span>${c.l.length} pelajaran</span><span>${n}/${c.l.length} selesai</span></div></div></a>`}).join("");
- phase();$("#feat").onclick=()=>location.hash="#/course";$("#feat").onkeydown=e=>{if(e.key==="Enter")location.hash="#/course"};
+ heroStack();phase();$("#feat").onclick=()=>location.hash="#/course";$("#feat").onkeydown=e=>{if(e.key==="Enter")location.hash="#/course"};
 }
+/* tumpukan kartu bab di hero (laptop saja, 2026-11-07): kartu teratas = bab yang sedang dikerjakan,
+   isinya pelajaran berikutnya, progres, dan tombol lanjut. Dua kartu bab lain mengintip di belakang. */
+function heroStack(){const el=$("#hero-art");if(!el)return;
+ const all=done.size>=total,[ni,nj]=nextUp(),order=[ni,...C.chapters.map((_,i)=>i).filter(i=>i!==ni)];
+ const fg=c=>c==="#2b55ff"?"#fff":"#0a1a6b";
+ el.innerHTML=`<div class="hs">${order.slice().reverse().map((i,k,a)=>{const c=C.chapters[i],n=c.l.filter((_,j)=>done.has(i+"-"+j)).length,top=k===a.length-1;
+  if(!top)return `<a class="hs-c b${k+1}" href="#/course/${i+1}" style="--c1:${c.c1};--fg:${fg(c.c1)}" tabindex="-1"><small>Bab ${i+1}</small><b>${esc(c.t)}</b><span>${n}/${c.l.length}</span></a>`;
+  const L=c.l[nj];return `<div class="hs-c top" style="--c1:${c.c1}"><div class="hs-art">${ILL("c"+i)}</div><div class="hs-body"><small class="bab-n">${all?"Semua bab selesai":`Bab ${i+1}, ${n}/${c.l.length} pelajaran beres`}</small><h3>${all?"Saatnya latihan":esc(c.t)}</h3>
+  ${all?`<p class="hs-next">15 pelajaran sudah kamu tandai selesai.</p>`:`<p class="hs-next">${n?"Berikutnya":"Mulai dari"}: <b>${esc(L.t)}</b></p>`}
+  <span class="hs-bar" aria-hidden="true"><i style="--p:${all?1:n/c.l.length}"></i></span>
+  <a class="hs-go" href="${all?"#/latihan":`#/lesson/${i}-${nj}`}">${all?"Ke latihan":n?"Lanjut belajar":"Mulai belajar"} <svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5"/></svg></a></div></div>`}).join("")}</div>`}
 function renderPath(){if(!$("#pathlist"))return;
  const all=done.size>=total,ci=all?C.chapters.length:nextUp()[0];
  $("#pathlist").style.setProperty("--p",Math.min(1,ci/C.chapters.length));
