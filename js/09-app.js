@@ -26,17 +26,33 @@ function renderDiscover(){
   return `<a class="card" href="${goC(i+1)}"><div class="art" style="--c1:${c.c1}">${ILL("c"+i)}</div><div class="body"><small class="bab-n">Bab ${i+1}</small><h3>${esc(c.t)}</h3><p style="color:var(--mut);font-size:.95rem">${esc(c.d)}</p><div class="tags"><span>${c.l.length} pelajaran</span><span>${n}/${c.l.length} selesai</span></div></div></a>`}).join("");
  heroStack();phase();$("#feat").onclick=()=>location.hash="#/course";$("#feat").onkeydown=e=>{if(e.key==="Enter")location.hash="#/course"};
 }
-/* tumpukan kartu bab di hero (laptop saja, 2026-11-07): kartu teratas = bab yang sedang dikerjakan,
-   isinya pelajaran berikutnya, progres, dan tombol lanjut. Dua kartu bab lain mengintip di belakang. */
+/* tumpukan kartu bab di hero (laptop saja, 2026-11-07): kartu teratas bisa digeser (drag) ke kiri/kanan
+   untuk mengganti bab; klik kartu belakang, titik di bawah, atau tombol panah juga bisa. Awalnya bab yang sedang dikerjakan. */
+let hsTop=null;
 function heroStack(){const el=$("#hero-art");if(!el)return;
- const all=done.size>=total,[ni,nj]=nextUp(),order=[ni,...C.chapters.map((_,i)=>i).filter(i=>i!==ni)];
+ const all=done.size>=total,[ni]=nextUp(),N=C.chapters.length;if(hsTop===null)hsTop=all?0:ni;
  const fg=c=>c==="#2b55ff"?"#fff":"#0a1a6b";
- el.innerHTML=`<div class="hs">${order.slice().reverse().map((i,k,a)=>{const c=C.chapters[i],n=c.l.filter((_,j)=>done.has(i+"-"+j)).length,top=k===a.length-1;
-  if(!top)return `<a class="hs-c b${k+1}" href="#/course/${i+1}" style="--c1:${c.c1};--fg:${fg(c.c1)}" tabindex="-1"><small>Bab ${i+1}</small><b>${esc(c.t)}</b><span>${n}/${c.l.length}</span></a>`;
-  const L=c.l[nj];return `<div class="hs-c top" style="--c1:${c.c1}"><div class="hs-art">${ILL("c"+i)}</div><div class="hs-body"><small class="bab-n">${all?"Semua bab selesai":`Bab ${i+1}, ${n}/${c.l.length} pelajaran beres`}</small><h3>${all?"Saatnya latihan":esc(c.t)}</h3>
-  ${all?`<p class="hs-next">15 pelajaran sudah kamu tandai selesai.</p>`:`<p class="hs-next">${n?"Berikutnya":"Mulai dari"}: <b>${esc(L.t)}</b></p>`}
-  <span class="hs-bar" aria-hidden="true"><i style="--p:${all?1:n/c.l.length}"></i></span>
-  <a class="hs-go" href="${all?"#/latihan":`#/lesson/${i}-${nj}`}">${all?"Ke latihan":n?"Lanjut belajar":"Mulai belajar"} <svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5"/></svg></a></div></div>`}).join("")}</div>`}
+ const card=i=>{const c=C.chapters[i],n=c.l.filter((_,j)=>done.has(i+"-"+j)).length,j=c.l.findIndex((_,k)=>!done.has(i+"-"+k)),fin=j<0,L=c.l[fin?0:j],lk=!fin&&locked(i,j);
+  return `<div class="hs-c" data-i="${i}" style="--c1:${c.c1};--fg:${fg(c.c1)}"><div class="hs-peek"><small>Bab ${i+1}</small><b>${esc(c.t)}</b><span>${n}/${c.l.length}</span></div>
+  <div class="hs-art">${ILL("c"+i)}</div><div class="hs-body"><small class="bab-n">Bab ${i+1}, ${n}/${c.l.length} pelajaran beres</small><h3>${esc(c.t)}</h3>
+  <p class="hs-next">${fin?"Bab ini sudah selesai. Mau mengulang?":lk?`Terbuka setelah bab sebelumnya selesai. Pelajaran pertamanya: <b>${esc(L.t)}</b>`:`${n?"Berikutnya":"Mulai dari"}: <b>${esc(L.t)}</b>`}</p>
+  <span class="hs-bar" aria-hidden="true"><i style="--p:${n/c.l.length}"></i></span>
+  <a class="hs-go" href="${fin||lk?`#/course/${i+1}`:`#/lesson/${i}-${j}`}" draggable="false">${fin?"Ulas bab":lk?"Lihat isi bab":n?"Lanjut belajar":"Mulai belajar"} <svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5"/></svg></a></div></div>`};
+ el.innerHTML=`<div class="hs" tabindex="0" role="group" aria-label="Kartu bab, geser untuk ganti bab">${C.chapters.map((_,i)=>card(i)).join("")}</div>
+ <div class="hs-dots" role="tablist" aria-label="Pilih bab">${C.chapters.map((c,i)=>`<button type="button" role="tab" data-i="${i}" aria-label="Bab ${i+1}: ${esc(c.t)}"></button>`).join("")}<span>geser kartunya</span></div>`;
+ const hs=el.querySelector(".hs"),cs=[...hs.children],dots=[...el.querySelectorAll(".hs-dots button")];
+ const lay=()=>{cs.forEach(c=>{const k=((+c.dataset.i-hsTop)%N+N)%N;c.className="hs-c p"+k;c.style.transform="";c.inert=k!==0});dots.forEach((d,i)=>d.setAttribute("aria-selected",i===hsTop))};
+ const go=d=>{hsTop=((hsTop+d)%N+N)%N;lay()};lay();
+ dots.forEach(d=>d.onclick=()=>{hsTop=+d.dataset.i;lay()});
+ hs.onkeydown=e=>{if(e.key==="ArrowRight"){go(1);e.preventDefault()}else if(e.key==="ArrowLeft"){go(-1);e.preventDefault()}};
+ let x0=null,dx=0,moved=false,top=null;
+ hs.addEventListener("pointerdown",e=>{const c=e.target.closest(".hs-c");if(!c)return;if(!c.classList.contains("p0")){hsTop=+c.dataset.i;lay();return}
+  if(e.target.closest("a"))return;top=c;x0=e.clientX;dx=0;moved=false;top.classList.add("drag")});
+ hs.addEventListener("pointermove",e=>{if(x0===null)return;dx=e.clientX-x0;if(Math.abs(dx)>5&&!moved){moved=true;try{hs.setPointerCapture(e.pointerId)}catch(_){}}top.style.transform=`translateX(${dx}px) rotate(${dx/18-1.5}deg)`});
+ const up=()=>{if(x0===null)return;const t=top;x0=null;t.classList.remove("drag");
+  if(Math.abs(dx)>90){t.style.transform=`translateX(${dx*2.2}px) rotate(${dx/9}deg)`;t.classList.add("fly");setTimeout(()=>{t.classList.remove("fly");go(dx<0?1:-1)},230)}else t.style.transform=""};
+ hs.addEventListener("pointerup",up);hs.addEventListener("pointercancel",up);
+ hs.addEventListener("click",e=>{if(moved){e.preventDefault();e.stopPropagation();moved=false}},true)}
 function renderPath(){if(!$("#pathlist"))return;
  const all=done.size>=total,ci=all?C.chapters.length:nextUp()[0];
  $("#pathlist").style.setProperty("--p",Math.min(1,ci/C.chapters.length));
