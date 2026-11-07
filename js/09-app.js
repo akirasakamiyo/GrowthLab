@@ -20,7 +20,7 @@ function renderDiscover(){
  const cats=["Semua",...C.chapters.map(c=>c.t)];if(!cats.includes(cat))cat="Semua";
  $("#chips").innerHTML=cats.map(k=>`<button class="chip" aria-pressed="${k===cat}">${esc(k)}</button>`).join("");
  $$("#chips .chip").forEach((b,i)=>b.onclick=()=>{cat=cats[i];renderDiscover()});
- const f=C;$("#feat").innerHTML=`<div class="art" style="--c1:${f.c1}">${CHALK(W,Y,"#ff8a6b")}</div><div class="body"><div><h3 style="font-size:clamp(2.2rem,4vw,3.4rem);margin:0 0 12px">${esc(f.t)}</h3><p style="color:var(--mut)">Urutannya sengaja begini: kenali dirimu dulu, lalu belajar membaca emosi, baru melatih cara berpikir. Tiap pelajaran pendek, bisa selesai sekali duduk.</p></div><div class="tags"><span>${C.chapters.length} bab</span><span>${total} pelajaran</span><span>${GLX.nQuiz} soal</span><span>${GLX.nSim} simulasi</span></div></div>`;
+ const f=C;$("#feat").innerHTML=`<div class="art" style="--c1:${f.c1}">${window.GLLOOP?GLLOOP.kursus(W,Y,"#ff8a6b"):CHALK(W,Y,"#ff8a6b")}</div><div class="body"><div><h3 style="font-size:clamp(2.2rem,4vw,3.4rem);margin:0 0 12px">${esc(f.t)}</h3><p style="color:var(--mut)">Urutannya sengaja begini: kenali dirimu dulu, lalu belajar membaca emosi, baru melatih cara berpikir. Tiap pelajaran pendek, bisa selesai sekali duduk.</p></div><div class="tags"><span>${C.chapters.length} bab</span><span>${total} pelajaran</span><span>${GLX.nQuiz} soal</span><span>${GLX.nSim} simulasi</span></div></div>`;
  $("#feat").setAttribute("aria-label","Buka kursus "+f.t);
  $("#grid").innerHTML=C.chapters.map((c,i)=>({c,i})).filter(o=>cat==="Semua"||o.c.t===cat).map(({c,i})=>{const n=c.l.filter((_,j)=>done.has(i+"-"+j)).length;
   return `<a class="card" href="${goC(i+1)}"><div class="art" style="--c1:${c.c1}">${ILL("c"+i)}</div><div class="body"><small class="bab-n">Bab ${i+1}</small><h3>${esc(c.t)}</h3><p style="color:var(--mut);font-size:.95rem">${esc(c.d)}</p><div class="tags"><span>${c.l.length} pelajaran</span><span>${n}/${c.l.length} selesai</span></div></div></a>`}).join("");
@@ -336,7 +336,7 @@ const CHALK=(c,a,b)=>`<svg class="chalk" viewBox="0 0 600 520" aria-hidden="true
 <path class="ck-e" stroke="${c}" stroke-width="4" d="M70 400h24M82 388v24"/>
 <path class="ck-f" stroke="${a}" stroke-width="4" d="M470 440c14-20 44-16 42 6-2 22-36 20-30-2 6-20 40-24 58-6"/>
 </g></svg>`;
-const ILL=k=>k==="course"?CHALK(K,O,T):ILLX(String(k));
+const ILL=k=>k==="course"?(window.GLLOOP?GLLOOP.kursus():CHALK(K,O,T)):window.GLLOOP&&/^c[0-2]$/.test(k)?GLLOOP[k]():ILLX(String(k));
 /* animasi hanya berjalan untuk gambar yang terlihat (hemat baterai & tetap mulus) */
 (()=>{const RMI=matchMedia("(prefers-reduced-motion:reduce)").matches;
  const io="IntersectionObserver" in window?new IntersectionObserver(es=>es.forEach(e=>{const v=e.isIntersecting&&!RMI;e.target.classList.toggle("on",v);try{v?e.target.unpauseAnimations():e.target.pauseAnimations()}catch(_){}}),{rootMargin:"60px"}):null;
@@ -531,7 +531,7 @@ const crumb=a=>`<nav class="crumb2 mono" aria-label="Breadcrumb"><a href="#/">Be
 const hero=(bg,cr,kick,title,lead,btns,art)=>`<section class="blk phr" style="--b:${bg};--prev:transparent"><div class="wrap phg"><div>${crumb(cr)}<h1 class="rv" style="margin-top:22px">${title}</h1><p class="lead rv" style="--d:.1s">${lead}</p><div class="row rv" style="--d:.18s">${btns}</div></div>${art}</div></section>`;
 const sec=(bg,prev,inner,x="")=>`<section class="blk sc2" style="--b:${bg};--prev:${prev};${x}"><div class="wrap">${inner}</div></section>`;
 const cta=(prev,t,b)=>sec("#ff5a3c",prev,`<div class="ctab"><h2 class="rv">${t}</h2><div class="rv">${b}</div></div>`,"--fg:#fff");
-const fr=(c,k)=>`<div data-par=".05"><div class="rv" data-in="z"><div class="frame" style="--c1:${c}">${ILL(k)}</div></div></div>`;
+const fr=(c,k)=>`<div data-par=".05"><div class="rv" data-in="z"><div class="frame" style="--c1:${c}">${window.GLLOOP&&GLLOOP[k]?GLLOOP[k]():ILL(k)}</div></div></div>`;
 const LES=C.chapters.flatMap((ch,i)=>ch.l.map((l,j)=>({i,j,ch,l,n:i*5+j})));
 const lesLink=(i,j)=>`<a href="#/lesson/${i}-${j}">${esc(C.chapters[i].l[j].t)}</a>`;
 const cardL=o=>`<a class="card" href="#/lesson/${o.i}-${o.j}"><div class="art" style="--c1:${o.ch.c1}">${ILL(o.i+"-"+o.j)}</div><div class="body"><small class="bab-n">Bab ${o.i+1}, ${esc(o.ch.t)}</small><h3>${esc(o.l.t)}</h3><p style="color:var(--mut);font-size:.92rem">${esc(strip(o.l.judul))}</p><div class="tags"><span>${done.has(o.i+"-"+o.j)?"Selesai ✓":locked(o.i,o.j)?"Terkunci <i class=\"lk\" aria-hidden=\"true\"></i>":"Belum selesai"}</span>${o.l.draft?"<span>Draf</span>":""}</div></div></a>`;
