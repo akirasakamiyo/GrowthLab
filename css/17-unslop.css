@@ -177,3 +177,4 @@ body:before{opacity:0!important}
 .gd-lv .gd-set .gd-lvt{font:700 .92rem/1.2 "DM Sans",system-ui,sans-serif!important;text-transform:none!important}
 .gd-lv .gd-set .gd-lvn{font:800 1.15rem/1 "Bricolage Grotesque",system-ui,sans-serif!important}
 .gd-lv .gd-set .gd-stars{font:inherit!important}
+@media(max-width:760px){.gd-lv .gd-set .gd-lvt{white-space:normal!important;font-size:.82rem!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.gd-lvn{width:32px;height:32px}}
