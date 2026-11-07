@@ -19,7 +19,7 @@ const ok = (c, m) => { if (!c) { fails++; log("GAGAL:", m) } else log("ok:", m) 
   await page.goto(BASE + "?t=" + Date.now() + "#/latihan/kuis", { waitUntil: "load" });
   await page.evaluate(() => localStorage.clear());
   await page.reload({ waitUntil: "load" });
-  await page.waitForFunction(() => !document.getElementById("zpre") && document.querySelector(".gq-mode"), null, { timeout: 15000 });
+  await page.waitForFunction(() => !document.getElementById("zpre") && document.querySelector("[data-qz=\"open\"]"), null, { timeout: 15000 });
   await sl(800);
   const hscroll = async tag => { const r = await page.evaluate(() => [document.documentElement.scrollWidth, innerWidth]); ok(r[0] <= r[1] + 1, `tanpa scroll horizontal (${tag}) ${r[0]}/${r[1]}`) };
   await hscroll("panel kuis");
@@ -30,7 +30,7 @@ const ok = (c, m) => { if (!c) { fails++; log("GAGAL:", m) } else log("ok:", m) 
     return [...document.querySelectorAll(".gq-o")].findIndex(b => b.querySelector("span").textContent === ans);
   });
   async function playQuiz(mode, plan) { // plan(i) -> "ok" | "no"
-    await page.click(`.gq-mode[data-m="${mode}"]`);
+    await page.click(`[data-qz="open"][data-m="${mode}"]`);
     await page.waitForSelector(".gq-lcard .gq-start", { state: "visible" });
     await page.click('.gq-seg [data-v="0"]'); // santai, tanpa timer
     await page.waitForSelector(".gq-lcard .gq-start", { state: "visible" }); await sl(700); await page.click(".gq-lcard .gq-start", { force: true });
@@ -84,14 +84,14 @@ const ok = (c, m) => { if (!c) { fails++; log("GAGAL:", m) } else log("ok:", m) 
   }
   // timer habis (sekali, desktop chrome)
   if (which === "chrome" && W === "1280" && !rm) {
-    await page.click('.gq-mode[data-m="b2"]');
+    await page.click('[data-qz="open"][data-m="b2"]');
     await page.click('.gq-seg [data-v="20"]');
     await page.waitForSelector(".gq-lcard .gq-start", { state: "visible" }); await sl(700); await page.click(".gq-lcard .gq-start", { force: true });
     await page.waitForSelector(".gq-o:not(:disabled)");
     await page.waitForSelector(".gq-ban.to", { timeout: 26000 });
     ok(true, "waktu habis → banner 'Waktu habis!'");
     await page.keyboard.press("Escape"); await page.click('[data-qz="cf-quit"]'); await page.click('[data-qz="drop"]');
-    await page.click('.gq-mode[data-m="b2"]'); await page.click('.gq-seg [data-v="45"]'); await page.keyboard.press("Escape");
+    await page.click('[data-qz="open"][data-m="b2"]'); await page.click('.gq-seg [data-v="45"]'); await page.keyboard.press("Escape");
   }
 
   /* ---------- DRAG & DROP ---------- */
@@ -145,7 +145,7 @@ const ok = (c, m) => { if (!c) { fails++; log("GAGAL:", m) } else log("ok:", m) 
 
   /* simulasi diuji terpisah di t-sim.js */
   // pindah halaman: overlay & suara berhenti
-  await page.click('#lt-kuis'); if (await page.$('[data-qz="home"]')) await page.click('[data-qz="home"]'); await page.click('.gq-mode[data-m="b0"]');
+  await page.click('#lt-kuis'); if (await page.$('[data-qz="home"]')) await page.click('[data-qz="home"]'); await page.click('[data-qz="open"][data-m="b0"]');
   await page.waitForSelector(".gq-lcard");
   await page.evaluate(() => location.hash = "#/course");
   await sl(900);
