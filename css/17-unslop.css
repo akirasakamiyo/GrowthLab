@@ -178,3 +178,9 @@ body:before{opacity:0!important}
 .gd-lv .gd-set .gd-lvn{font:800 1.15rem/1 "Bricolage Grotesque",system-ui,sans-serif!important}
 .gd-lv .gd-set .gd-stars{font:inherit!important}
 @media(max-width:760px){.gd-lv .gd-set .gd-lvt{white-space:normal!important;font-size:.82rem!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.gd-lvn{width:32px;height:32px}}
+/* latihan: sisa hiasan & gaya template dibuang (2026-11-07) */
+.gq-bg i{display:none!important}
+.gs-m{font:600 .8rem/1.45 "DM Sans",system-ui,sans-serif!important;letter-spacing:0!important;text-transform:none!important}
+#ltp .gs-h{font:800 clamp(1.8rem,3.4vw,2.6rem)/1.05 "Bricolage Grotesque",system-ui,sans-serif!important;text-transform:none!important;letter-spacing:-.02em!important}
+#ltp .gs-h span{color:#ffd23f}
+.gs-ft{font:800 1.3rem/1.15 "Bricolage Grotesque",system-ui,sans-serif!important;text-transform:none!important;letter-spacing:-.01em!important}
