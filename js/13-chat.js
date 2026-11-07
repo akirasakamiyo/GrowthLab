@@ -2,7 +2,7 @@
 const $=s=>document.querySelector(s),box=$("#chat"),fab=$("#chatfab"),cm=$("#cm"),inp=$("#cin"),cq=$("#cq");
 /* 2026-10-20: asisten berjalan offline (jawaban dari materi & FAQ), tanpa layanan AI eksternal */
 let hist=[],started=false,busy=false;
-$("#chmode").lastChild.textContent=" Offline · jawaban dari materi GrowthLab";
+$("#chmode").lastChild.textContent=" Offline, jawaban diambil dari materi GrowthLab";
 /* basis jawaban: diperbarui 2026-11-06 untuk seluruh fitur GrowthLab (materi berurutan, gamifikasi selalu aktif,
    nilai akhir tersembunyi sampai latihan lengkap, simulasi layar penuh, sertifikat, cadangan, offline/SCORM, video promo).
    Setiap entri: k = kata kunci (dicocokkan sebagai potongan teks), t = jawaban, a = [label, tautan]. Entri dengan

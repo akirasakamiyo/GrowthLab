@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GL v8 · TAMPILAN SIMULASI (GLSV) — state machine permainan + layar.
+   GL v8, TAMPILAN SIMULASI (GLSV) — state machine permainan + layar.
    Fase situasi: narasi → pilih → kunci → reaksi → umpan → (Lanjut) situasi berikut / hasil.
    Setiap transisi dijaga fase, jadi klik ganda, "Lewati", Back/Forward, dan pindah tab
    tidak bisa menumpuk animasi. Semua timer/rAF lewat FX dan dibersihkan saat keluar.
@@ -42,7 +42,7 @@ function typeAll(root,done){if(TW)TW.kill();const els=qa("[data-tw]",root);let a
 
 /* ---------- komponen kecil ---------- */
 const dots=(k,ph)=>`<ol class="gs-dots" aria-label="Situasi ${k} dari ${N}">${Array.from({length:N},(_,j)=>`<li class="${j<k-1?"d":j===k-1?(ph==="hasil"?"d":"c"):""}"></li>`).join("")}</ol>`;
-const bar=k=>`<div class="gs-bar"><span class="gs-m">Kasus ${pad(GLD.SIM.indexOf(V.c)+1)} · ${esc(V.c.aspek)}</span><span class="gs-m gv-sn">Situasi ${Math.min(k,N)}/${N}</span>${dots(k,V.ph)}<div class="gs-ctl">${U.sndCtl()}<button type="button" class="gs-ib" data-sm="quit" aria-label="Keluar ke daftar kasus (progres tersimpan)" title="Keluar (progres tersimpan)">${IC.x}</button></div></div>`;
+const bar=k=>`<div class="gs-bar"><span class="gs-m">Kasus ${pad(GLD.SIM.indexOf(V.c)+1)}, ${esc(V.c.aspek)}</span><span class="gs-m gv-sn">Situasi ${Math.min(k,N)}/${N}</span>${dots(k,V.ph)}<div class="gs-ctl">${U.sndCtl()}<button type="button" class="gs-ib" data-sm="quit" aria-label="Keluar ke daftar kasus (progres tersimpan)" title="Keluar (progres tersimpan)">${IC.x}</button></div></div>`;
 const meterHTML=(c,m,dm)=>`<div class="gv-ms">${c.meters.map((x,i)=>`<div class="gv-m" data-k="${x.k}" role="img" aria-label="${esc(x.t)}: ${Math.round(m[x.k])} dari 100"><span class="gs-m">${esc(x.t)}</span><b>${Math.round(m[x.k])}</b>${dm?`<em class="gv-dm ${dm[i]>0?"up":dm[i]<0?"dn":""}">${dm[i]>0?"+":""}${dm[i]}</em>`:""}<i class="gv-mb"><i style="transform:scaleX(${m[x.k]/100})"></i></i></div>`).join("")}</div>`;
 function setMeters(m,dm){qa(".gv-m").forEach((el,i)=>{const k=el.dataset.k,b=q("b",el),bar=q(".gv-mb i",el),from=+b.textContent;bar.style.transform=`scaleX(${m[k]/100})`;countUp(b,m[k],{from,d:800,f:v=>Math.round(v)});el.setAttribute("aria-label",`${q("span",el).textContent}: ${Math.round(m[k])} dari 100`);
  if(dm&&dm[i]){const e=document.createElement("em");e.className="gv-dm "+(dm[i]>0?"up":"dn");e.textContent=(dm[i]>0?"+":"")+dm[i];el.appendChild(e);A(e,[{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"none"}],{duration:400})}})}
@@ -50,33 +50,33 @@ function setMeters(m,dm){qa(".gv-m").forEach((el,i)=>{const k=el.dataset.k,b=q("
 /* ---------- layar: daftar kasus ---------- */
 function homeHTML(){const d=data();
  const cards=GLD.SIM.map((c,i)=>{const o=d.sim[c.id],b=o&&o.best,play=E.playable(c),run=play?runOf(d,c):null,found=o?o.endings.length:0;
-  const stat=!play?"Segera hadir":run?`Situasi ${run.ids.length+1}/${N} · sedang berjalan`:b&&!b.legacy?`Selesai · ending ${found}/${c.endings.length}`:`Situasi 0/${N}`;
-  const best=b?`Terbaik ${fmt(b.score)} · ${pitaT(b.score)}${b.legacy?" · versi lama":""}`:"Skor terbaik: –";
-  const tg=play?"button":"div";return `<${tg} ${play?`type="button" data-sm="open" `:""}class="gs-file${play?"":" soon"}" data-id="${c.id}" style="--i:${i};--cc:${CCOL[i%CCOL.length]}"><span class="gs-fn gs-m"><span>Kasus ${pad(i+1)} / ${pad(GLD.SIM.length)}</span><span>${play?(run?"Lanjutkan":b&&!b.legacy?"✓":"Baru"):"Segera hadir"}</span></span>
-   <span class="gs-fi">${ST()?ST().thumb(c):""}</span><span class="gs-ft">${esc(c.t)}</span><span class="gs-m">Aspek ${i+1} · bobot ${Math.round(c.w*100)}%</span><span class="gs-fa">${esc(c.aspek)}</span><span class="gs-fd">${esc(c.intro)}</span>
+  const stat=!play?"Segera hadir":run?`Lagi di situasi ${run.ids.length+1} dari ${N}`:b&&!b.legacy?`Selesai, ${found} dari ${c.endings.length} akhir cerita ditemukan`:`Situasi 0/${N}`;
+  const best=b?`Terbaik ${fmt(b.score)}, ${pitaT(b.score)}${b.legacy?", versi lama":""}`:"Skor terbaik: –";
+  const tg=play?"button":"div";return `<${tg} ${play?`type="button" data-sm="open" `:""}class="gs-file${play?"":" soon"}" data-id="${c.id}" style="--i:${i};--cc:${CCOL[i%CCOL.length]}"><span class="gs-fn gs-m"><span>Kasus ${i+1} dari ${GLD.SIM.length}</span><span>${play?(run?"Lanjutkan":b&&!b.legacy?"✓":"Baru"):"Segera hadir"}</span></span>
+   <span class="gs-fi">${ST()?ST().thumb(c):""}</span><span class="gs-ft">${esc(c.t)}</span><span class="gs-m">Aspek ${i+1}, bobot ${Math.round(c.w*100)}%</span><span class="gs-fa">${esc(c.aspek)}</span><span class="gs-fd">${esc(c.intro)}</span>
    <span class="gs-fm"><span>${best}</span><span>${stat}</span></span><span class="gs-go">${!play?"Segera hadir":`${run?"Lanjutkan":b&&!b.legacy?"Main ulang":"Mulai kasus"} ${IC.arrow}`}</span></${tg}>`}).join("");
- return `<div class="gs-home"><div class="gs-hh"><span class="gs-m">// Simulasi kasus dunia kerja</span><h3 class="gs-h">Pilih <span>kasusmu</span></h3>
-  <p>Setiap kasus berisi ${N} situasi. Pilihanmu menentukan alur cerita, kondisi tokoh, dan ending-nya. Setiap pilihan bernilai 0–100 sesuai rubrik dan terkunci setelah dipilih. Coba jalur lain lewat <b>Main ulang</b>.</p>
-  <p class="gs-note">Skor aspek = rata-rata skor ${N} pilihanmu. Nilai simulasi = (Aspek 1 × 0,35) + (Aspek 2 × 0,35) + (Aspek 3 × 0,30), memakai skor terbaik tiap kasus. Bobot simulasi di Nilai Akhir: 70%.${GLS.db.persistent()?"":" <b>Penyimpanan browser tidak tersedia</b>, jadi progres hanya bertahan sampai halaman ditutup."}</p></div>
- <div class="gs-files">${cards}</div><div class="gs-foot">${U.sndCtl()}<span class="gs-m">Progres tersimpan otomatis setelah setiap pilihan</span></div>${DEBUG?debugHTML():""}</div>`}
+ return `<div class="gs-home"><div class="gs-hh"><h3 class="gs-h">Pilih <span>kasusmu</span></h3>
+  <p>Tiap kasus punya ${N} situasi. Pilihanmu yang menentukan jalan cerita dan akhirnya. Setiap pilihan diberi skor 0–100 dan tidak bisa diubah setelah dipilih, tapi kamu bisa mencoba jalur lain lewat <b>Main ulang</b>.</p>
+  <p class="gs-note">Skor tiap kasus adalah rata-rata dari ${N} pilihanmu, dan yang dipakai skor terbaik. Nilai simulasi = (Aspek 1 × 0,35) + (Aspek 2 × 0,35) + (Aspek 3 × 0,30), lalu masuk nilai akhir sebesar 70%.${GLS.db.persistent()?"":" <b>Browser ini tidak bisa menyimpan data</b>, jadi progresmu hilang begitu halaman ditutup."}</p></div>
+ <div class="gs-files">${cards}</div><div class="gs-foot">${U.sndCtl()}<span class="gs-m">Progres tersimpan tiap kali kamu memilih</span></div>${DEBUG?debugHTML():""}</div>`}
 
 /* ---------- layar: pembuka kasus ---------- */
 function introHTML(){const c=V.c,i=GLD.SIM.indexOf(c),run=V.resume;
- return `<div class="gs-title"><span class="gs-m">Kasus ${pad(i+1)} / ${pad(GLD.SIM.length)} · ${esc(c.aspek)}</span><h3 class="gs-h"><span class="sr">${esc(c.t)}</span><span class="gs-scr" aria-hidden="true" data-t="${esc(c.t)}">${esc(c.t)}</span></h3>
+ return `<div class="gs-title"><span class="gs-m">Kasus ${i+1} dari ${GLD.SIM.length}, ${esc(c.aspek)}</span><h3 class="gs-h"><span class="sr">${esc(c.t)}</span><span class="gs-scr" aria-hidden="true" data-t="${esc(c.t)}">${esc(c.t)}</span></h3>
   <p class="gs-intro"><span class="sr">${esc(c.intro)}</span><span class="gs-tw" aria-hidden="true" data-tw="${esc(c.intro)}"></span></p>
-  ${c.dasar?`<details class="gs-dasar"><summary>Dasar kasus nyata</summary><p>${esc(c.dasar.x)}</p><ul>${c.dasar.src.map(s=>`<li>${esc(s.t)} <a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.o)}</a></li>`).join("")}</ul></details>`:""}
-  <p class="gs-m gv-im">${N} situasi · 2 meter: ${c.meters.map(m=>esc(m.t)).join(" & ")} · ${c.endings.length} kemungkinan ending</p>
+  ${c.dasar?`<details class="gs-dasar"><summary>Kasus ini terinspirasi kejadian nyata</summary><p>${esc(c.dasar.x)}</p><ul>${c.dasar.src.map(s=>`<li>${esc(s.t)} <a href="${esc(s.u)}" target="_blank" rel="noopener">${esc(s.o)}</a></li>`).join("")}</ul></details>`:""}
+  <p class="gs-m gv-im">${N} situasi dan ${c.endings.length} kemungkinan akhir cerita. Yang dipantau: ${c.meters.map(m=>esc(m.t)).join(" dan ")}.</p>
   <div class="gs-tbtn">${run?`<button type="button" class="gs-btn" data-sm="resume">${IC.play} Lanjutkan dari situasi ${run.ids.length+1}/${N}</button><button type="button" class="gs-btn gh" data-sm="restart">${IC.redo} Mulai ulang</button>`:`<button type="button" class="gs-btn" data-sm="go">${IC.play} Mulai kasus</button>`}<button type="button" class="gs-btn gh" data-sm="home">Kembali</button></div><span class="gs-m">Tekan Enter untuk ${run?"melanjutkan":"mulai"}</span></div>`}
 
 /* ---------- layar: situasi ---------- */
 function situHTML(){const c=V.c,st=V.st,k=st.ids.length+1,tx=E.text(c,st),locked=V.ph!=="narasi"&&V.ph!=="pilih",ad=E.adaptive?E.adaptive(c,st):null;
  return `<div class="gv" data-ph="${V.ph}" style="--cc:${ccOf(c)}">${bar(k)}${meterHTML(c,locked?V.after.meters:st.meters)}
   <div class="gv-stage" id="gvst" aria-hidden="true">${ST()?ST().scene(c,E.node(c,st),st):""}</div>
-  ${ad?`<span class="gv-adapt" data-a="${ad}">${ad==="bantu"?"Cerita menyesuaikan caramu bermain: ada yang mau membantumu":"Cerita menyesuaikan caramu bermain: tantangannya naik"}</span>`:""}
+  ${ad?`<span class="gv-adapt" data-a="${ad}">${ad==="bantu"?"Ceritanya menyesuaikan caramu: ada yang mau bantu kamu":"Ceritanya menyesuaikan caramu: tantangannya jadi lebih berat"}</span>`:""}
   <p class="gv-x" id="simx" tabindex="-1"><span class="sr">${esc(tx)}</span><span class="gs-tw" aria-hidden="true" data-tw="${esc(tx)}"></span></p>
   <div class="gv-cs" role="group" aria-labelledby="simx">${V.ord.map((ch,j)=>`<button type="button" class="gv-c" data-sm="pick" data-c="${ch.id}" style="--i:${j}"><kbd>${j+1}</kbd><span>${esc(ch.t)}</span></button>`).join("")}</div>
   <div class="gv-fb" id="gvfb" aria-live="polite"></div>
-  <div class="gv-act"><span class="gs-m gv-hint">Pilih dengan tombol 1–${V.ord.length} · Spasi untuk mempercepat</span><button type="button" class="gs-btn gh gv-skip" data-sm="skip">Lewati animasi</button><button type="button" class="gs-btn gv-next" data-sm="next" id="gvnext" disabled>${E.done(V.after||st)&&V.after?"Lihat hasil":"Lanjut"} ${IC.arrow}</button></div></div>`}
+  <div class="gv-act"><span class="gs-m gv-hint">Tekan 1–${V.ord.length} buat memilih, Spasi buat mempercepat</span><button type="button" class="gs-btn gh gv-skip" data-sm="skip">Lewati animasi</button><button type="button" class="gs-btn gv-next" data-sm="next" id="gvnext" disabled>${E.done(V.after||st)&&V.after?"Lihat hasil":"Lanjut"} ${IC.arrow}</button></div></div>`}
 function fbHTML(){const ch=V.pick,p=S.pita(ch.s);
  return `<div class="gv-fbin t-${tone(ch.s)}"><div class="gv-sc"><span class="gs-m">Skor pilihan</span><b id="gvsc">${ch.s}</b><small>${GLD.LEVEL[p][0]}</small></div><div><span class="gs-m">Dampak keputusan ${V.after.ids.length}</span><p>${esc(ch.fb)}</p></div></div>`}
 function enterNode(){V.ph="narasi";V.ord=mix(E.choices(V.c,V.st));V.pick=null;V.after=null;const p=panel();if(!p)return;FX.clear();p.innerHTML=situHTML();
@@ -111,10 +111,10 @@ function restore(p){const g=ST();g&&g.enter(q("#gvst",p),V.c,E.node(V.c,V.st),V.
 function hasilHTML(){const c=V.c,F=V.fin,e=F.e,sc=F.rec.score,p=S.pita(sc),i=GLD.SIM.indexOf(c),log=V.st.log;
  const head=e.type==="fail"?"Belum berhasil":e.type==="win"?"Berhasil":"Hampir sampai";
  return `<div class="gv-end t-${e.type}" style="--cc:${ccOf(c)}"><div class="gv-ehero" id="gvend" aria-hidden="true">${ST()?ST().ending(c,e.type):""}<div class="gv-ebig">${head}</div></div>
- <div class="gv-eh"><span class="gs-m">Kasus ${pad(i+1)} selesai · ending ${F.found}/${c.endings.length} ditemukan</span><h3 class="gs-h" id="gvet" tabindex="-1">${esc(e.t)}</h3><p class="gv-ex">${esc(e.x)}</p></div>
+ <div class="gv-eh"><span class="gs-m">Kasus ${i+1} selesai. Kamu sudah menemukan ${F.found} dari ${c.endings.length} akhir cerita</span><h3 class="gs-h" id="gvet" tabindex="-1">${esc(e.t)}</h3><p class="gv-ex">${esc(e.x)}</p></div>
  <div class="gv-score"><div><span class="gs-m">Skor aspek</span><b id="gvbig">${fmt(sc)}</b><small>/100</small></div><div class="gs-stamp l${p}">${GLD.LEVEL[p][0]}</div>
-  <p class="gv-best">${F.prev&&!F.prev.legacy?(F.better?`Skor terbaik baru! Sebelumnya ${fmt(F.prev.score)}.`:`Skor terbaikmu tetap ${fmt(F.prev.score)}.`):F.prev&&F.prev.legacy?`Skor versi lama (${fmt(F.prev.score)}) diganti hasil ini.`:"Skor ini menjadi skor terbaikmu."}${F.persist?"":" (Tersimpan sementara: penyimpanan browser tidak tersedia.)"}</p></div>
- <p class="gv-desk"><b>${esc(c.aspek)} · ${GLD.LEVEL[p][0]} (${S.pitaLabel(p)}).</b> ${esc(GLD.DESK[c.aspek][p])}</p>
+  <p class="gv-best">${F.prev&&!F.prev.legacy?(F.better?`Skor terbaik baru! Sebelumnya ${fmt(F.prev.score)}.`:`Skor terbaikmu tetap ${fmt(F.prev.score)}.`):F.prev&&F.prev.legacy?`Skor versi lama (${fmt(F.prev.score)}) diganti hasil ini.`:"Ini skor terbaikmu sejauh ini."}${F.persist?"":" (Cuma tersimpan sementara karena browser ini tidak bisa menyimpan data.)"}</p></div>
+ <p class="gv-desk"><b>${esc(c.aspek)}, ${GLD.LEVEL[p][0]} (${S.pitaLabel(p)}).</b> ${esc(GLD.DESK[c.aspek][p])}</p>
  ${meterHTML(c,V.st.meters)}
  <h4 class="gs-h4">Ringkasan jalurmu</h4><ol class="gv-trail">${log.map((l,j)=>`<li style="--i:${j}"><span class="gs-m">Situasi ${j+1}</span><p class="gv-tc">${esc(l.t)}</p><b>${l.s}</b><p class="gv-tf">${esc(l.fb)}</p></li>`).join("")}</ol>
  <p class="gs-note">Skor aspek = rata-rata (${log.map(l=>l.s).join(" + ")}) ÷ ${N} = ${fmt(F.rec.raw)}.</p>
@@ -124,8 +124,8 @@ function hasilHTML(){const c=V.c,F=V.fin,e=F.e,sc=F.rec.score,p=S.pita(sc),i=GLD
 /* ---------- debug (?debug=1) ---------- */
 function debugHTML(){const V2=GLS.validateAll(),T=GLS.tests(),bad=T.filter(t=>!t.ok),err=V2.reduce((a,v)=>a+v.errors.length,0);
  try{err||bad.length?console.error("[GLS debug] validator/tes gagal",V2.flatMap(v=>v.errors),bad):console.info(`[GLS debug] validator OK, ${T.length} tes lolos`)}catch(e){}
- return `<details class="gv-dbg" open><summary>Debug: validator ${err?"✕ "+err+" error":"✓"} · tes ${T.length-bad.length}/${T.length}</summary>
-  ${V2.map(v=>`<p><b>${v.id}</b> ${v.soon?"segera hadir":`${v.paths} jalur · ending ${Object.entries(v.ends).map(([k,n])=>k+":"+n).join(", ")}`}</p>${v.errors.map(e=>`<p class="no">✕ ${esc(e)}</p>`).join("")}`).join("")}
+ return `<details class="gv-dbg" open><summary>Debug: validator ${err?"✕ "+err+" error":"✓"}, tes ${T.length-bad.length}/${T.length}</summary>
+  ${V2.map(v=>`<p><b>${v.id}</b> ${v.soon?"segera hadir":`${v.paths} jalur, ending ${Object.entries(v.ends).map(([k,n])=>k+":"+n).join(", ")}`}</p>${v.errors.map(e=>`<p class="no">✕ ${esc(e)}</p>`).join("")}`).join("")}
   <ul>${T.map(t=>`<li class="${t.ok?"ok":"no"}">${t.ok?"✓":"✕"} ${esc(t.name)}${t.ok?"":" → "+esc(t.detail)}</li>`).join("")}</ul>
   <p>Uji ending (mengisi skor sungguhan): ${GLD.SIM.filter(E.playable).map(c=>["best","mid","worst"].map(m=>`<button type="button" class="chip" data-sm="dbg" data-id="${c.id}" data-m="${m}">${c.id} ${m==="best"?"terbaik":m==="mid"?"tengah":"terburuk"}</button>`).join(" ")).join(" ")}</p></details>`}
 

@@ -1,5 +1,5 @@
 /* ==================================================================
-   GAMIFIKASI · tampilan (chip XP di navbar, kartu level di halaman Materi,
+   GAMIFIKASI, tampilan (chip XP di navbar, kartu level di halaman Materi,
    notifikasi +XP, naik level, panel detail & toggle "Mode gamifikasi")
    Semua elemen berkelas .gx dan disembunyikan oleh html.gx-off.
    ================================================================== */
@@ -38,15 +38,15 @@
   const weekDots = s => `<span class="gx-week" aria-hidden="true">${s.weekDays.map((d, i) => `<i class="${d.on ? "on" : ""}${d.today ? " td" : ""}" title="${HARI[i]}">${HARI[i][0]}</i>`).join("")}</span>`;
   const streakLine = s => {
     const w = `Minggu ini ${Math.min(s.thisWeek, 7)}/${s.target} hari belajar`;
-    if (s.thisWeek >= s.target) return `${w} · target tercapai`;
-    if (s.cur > 0) return `${w} · streak ${s.cur} minggu`;
-    if (s.broke) return `${w} · yuk mulai lagi minggu ini`;
+    if (s.thisWeek >= s.target) return `${w}, target tercapai`;
+    if (s.cur > 0) return `${w}, streak ${s.cur} minggu`;
+    if (s.broke) return `${w}, yuk mulai lagi minggu ini`;
     return w;
   };
 
   /* ---------- quest, skill map, remedial (Fase 3) ---------- */
-  const questLine = q => q.claimed ? "Quest minggu ini selesai" : `Quest minggu ini ${q.goals.filter(g => g.cur >= g.n).length}/${q.goals.length}`;
-  const lesLink = k => { const [i, j] = k.split("-").map(Number); let t = k; try { t = GLD.COURSE.chapters[i].l[j].t } catch (e) {} return `<a href="#/lesson/${i}-${j}">Bab ${i + 1} · ${esc(t)}</a>` };
+  const questLine = q => q.claimed ? "Misi minggu ini selesai" : `Misi minggu ini ${q.goals.filter(g => g.cur >= g.n).length}/${q.goals.length}`;
+  const lesLink = k => { const [i, j] = k.split("-").map(Number); let t = k; try { t = GLD.COURSE.chapters[i].l[j].t } catch (e) {} return `<a href="#/lesson/${i}-${j}">Bab ${i + 1}, ${esc(t)}</a>` };
   function radar(sk) {
     const R = 70, cx = 100, cy = 92, ang = i => -Math.PI / 2 + i * 2 * Math.PI / sk.length;
     const pt = (i, r) => [cx + Math.cos(ang(i)) * r, cy + Math.sin(ang(i)) * r].map(v => v.toFixed(1)).join(",");
@@ -81,11 +81,11 @@
     const I = G.info();
     chip.innerHTML = `${STAR}<b>Lv ${I.level}</b><span>${nf(I.xp)} XP</span>`;
     chip.setAttribute("aria-label", `Level ${I.level}, ${I.tier}, ${I.xp} XP. Buka detail`);
-    card.innerHTML = `<div class="gx-card-h">${STAR}<div><span class="mono">Level ${I.level} · ${esc(I.tier)}</span><b>${nf(I.xp)} XP</b></div>
+    card.innerHTML = `<div class="gx-card-h">${STAR}<div><span class="mono">Level ${I.level}, ${esc(I.tier)}</span><b>${nf(I.xp)} XP</b></div>
       <button type="button" class="chip" data-gx-open>Detail</button></div>${bar(I.p)}
-      <small>${nf(I.to - I.xp)} XP lagi ke Level ${I.level + 1}${G.tier(I.level + 1) !== I.tier ? ` · ${esc(G.tier(I.level + 1))}` : ""}</small>
+      <small>${nf(I.to - I.xp)} XP lagi ke Level ${I.level + 1}${G.tier(I.level + 1) !== I.tier ? `, ${esc(G.tier(I.level + 1))}` : ""}</small>
       <div class="gx-card-s">${weekDots(G.streak())}<span>${streakLine(G.streak())}</span></div>
-      <small>${questLine(G.quest())} · Badge ${G.badgeList().filter(b => b.got).length}/${G.CFG.badges.length}</small>`;
+      <small>${questLine(G.quest())}, lencana ${G.badgeList().filter(b => b.got).length}/${G.CFG.badges.length}</small>`;
   }
 
   /* ---------- notifikasi ---------- */
@@ -107,7 +107,7 @@
       toast(`<b>+${r.e.xp} XP</b><span>${esc(r.e.meta.label || "")}</span>`, "", 3200);
       if (!RM()) { chip.classList.remove("bump"); void chip.offsetWidth; chip.classList.add("bump") }
     }
-    (r.badges || []).forEach(b => { delay += 700; setTimeout(() => toast(`${medal(b)}<div><b>Badge baru: ${esc(b.name)}</b><span>${esc(b.req)}${b.e && b.e.xp ? ` · +${b.e.xp} XP` : ""}</span></div>`, "bdg", 5200), delay) });
+    (r.badges || []).forEach(b => { delay += 700; setTimeout(() => toast(`${medal(b)}<div><b>Badge baru: ${esc(b.name)}</b><span>${esc(b.req)}${b.e && b.e.xp ? `, +${b.e.xp} XP` : ""}</span></div>`, "bdg", 5200), delay) });
     if (r.quest && r.quest.xp) { delay += 700; setTimeout(() => toast(`<div><b>Quest mingguan selesai! +${r.quest.xp} XP</b><span>Semua tujuan minggu ini tercapai. Quest baru muncul Senin depan.</span></div>`, "bdg", 5200), delay) }
     if (r.remedial) { const m = Object.keys(G.state().remedial).find(k => G.state().remedial[k] === r.remedial); setTimeout(() => sheet(remedialHTML(r.remedial, m)), 900) }
     const sa = G.streak();
@@ -129,20 +129,20 @@
     return `<header class="gx-hero">
       <div class="gx-lv">${ring(I.p, 54, 9)}<div><small>Level</small><b data-cu="${I.level}">${I.level}</b></div></div>
       <div class="gx-hi">
-        <span class="mono">Perjalanan karier kamu</span>
+        <span class="mono">Perjalanan kariermu</span>
         <h2 id="gx-dt">${esc(I.tier)}</h2>
-        <p><b class="gx-xpn" data-cu="${I.xp}">${nf(I.xp)}</b> XP · ${nf(I.to - I.xp)} XP lagi ke Level ${I.level + 1}</p>
+        <p><b class="gx-xpn" data-cu="${I.xp}">${nf(I.xp)}</b> XP, ${nf(I.to - I.xp)} XP lagi ke Level ${I.level + 1}</p>
         <div class="gx-road" data-x="${I.xp}" data-n="${C.tiers.map(([m]) => G.need(m)).join(",")}">
           <svg viewBox="0 0 640 120" aria-hidden="true"><path class="rd" d="M24 92C110 92 120 34 214 34S320 92 416 92 520 30 616 30"/><path class="rd-done" d="M24 92C110 92 120 34 214 34S320 92 416 92 520 30 616 30"/><g class="gx-walker"><circle r="15" class="wb"/><circle cy="-3" r="5.5" class="wh"/><path d="M-6 9c1-6 11-6 12 0" class="wt"/></g></svg>
-          <ol>${C.tiers.map(([m, nm], k) => `<li class="${I.level >= m ? "on" : ""}" style="--k:${k}"><i aria-hidden="true">${I.level >= m ? "✓" : k + 1}</i><b>${esc(nm)}</b><small>Lv ${m}${k === C.tiers.length - 1 ? "+" : "–" + (C.tiers[k + 1][0] - 1)} · ${nf(G.need(m))} XP</small></li>`).join("")}</ol>
+          <ol>${C.tiers.map(([m, nm], k) => `<li class="${I.level >= m ? "on" : ""}" style="--k:${k}"><i aria-hidden="true">${I.level >= m ? "✓" : k + 1}</i><b>${esc(nm)}</b><small>Lv ${m}${k === C.tiers.length - 1 ? "+" : "–" + (C.tiers[k + 1][0] - 1)}, ${nf(G.need(m))} XP</small></li>`).join("")}</ol>
         </div>
       </div>
     </header>`;
   }
   function questHTML(q) {
-    return `<section class="gx gx-card2" aria-labelledby="gx-qt"><h3 id="gx-qt">Quest minggu ini <em>+${q.xp} XP</em></h3>
+    return `<section class="gx gx-card2" aria-labelledby="gx-qt"><h3 id="gx-qt">Misi minggu ini <em>+${q.xp} XP</em></h3>
       <ul class="gx-quest2">${q.goals.map(g => { const ok = g.cur >= g.n; return `<li class="${ok ? "ok" : ""}">${ring(g.cur / g.n, 20, 5)}<span class="gx-qn">${Math.min(g.cur, g.n)}/${g.n}</span><b>${esc(g.t)}</b>${ok ? '<span class="gx-stamp">Selesai</span>' : ""}</li>` }).join("")}</ul>
-      <p class="gx-how">${q.claimed ? "Quest minggu ini sudah selesai. Quest baru muncul Senin depan." : "Quest berganti setiap Senin. Tidak ada hukuman bila tidak selesai."}</p></section>`;
+      <p class="gx-how">${q.claimed ? "Misi minggu ini sudah selesai. Quest baru muncul Senin depan." : "Misinya ganti tiap Senin. Kalau nggak selesai juga nggak apa-apa."}</p></section>`;
   }
   function streakHTML(s) {
     const msg = s.thisWeek >= s.target ? "Target minggu ini tercapai. Hari tambahan tetap dihitung."
@@ -156,8 +156,8 @@
   function skillHTML() {
     const sk = G.skills();
     return `<section class="gx gx-card2" aria-labelledby="gx-sk"><h3 id="gx-sk">Profil kesiapan kerja</h3>
-      <div class="gx-skill2">${radar(sk)}<ul>${sk.map((s, k) => `<li data-k="${k}" tabindex="0"><b>${esc(s.t)}</b><span class="gx-bp2"><i style="--w:${s.v / 100}"></i></span><small><strong>${s.v}</strong>/100 · pelajaran ${s.les}% · kuis ${s.quiz || "–"} · simulasi ${s.sim || "–"}</small></li>`).join("")}</ul></div>
-      <p class="gx-how">Skor = 20% pelajaran bab + 40% kuis bab terbaik + 40% simulasi terbaik. Arahkan kursor ke skill untuk menyorotnya di radar.</p></section>`;
+      <div class="gx-skill2">${radar(sk)}<ul>${sk.map((s, k) => `<li data-k="${k}" tabindex="0"><b>${esc(s.t)}</b><span class="gx-bp2"><i style="--w:${s.v / 100}"></i></span><small><strong>${s.v}</strong>/100, pelajaran ${s.les}%, kuis ${s.quiz || "–"}, simulasi ${s.sim || "–"}</small></li>`).join("")}</ul></div>
+      <p class="gx-how">Skor = 20% pelajaran bab + 40% kuis bab terbaik + 40% simulasi terbaik. Arahkan kursor ke salah satu skill buat melihatnya di grafik.</p></section>`;
   }
   function remHTML() {
     const R = G.state().remedial || {}, ks = Object.keys(R);
@@ -166,16 +166,16 @@
   }
   function badgesHTML() {
     const L = G.badgeList(), n = L.filter(b => b.got).length;
-    return `<section class="gx gx-card2 gx-bwrap" aria-labelledby="gx-bt"><h3 id="gx-bt">Koleksi badge <em>${n}/${L.length}</em></h3>
-      <p class="gx-how">Klik medali untuk membaliknya dan melihat syarat atau progresnya.</p>
+    return `<section class="gx gx-card2 gx-bwrap" aria-labelledby="gx-bt"><h3 id="gx-bt">Koleksi lencana <em>${n}/${L.length}</em></h3>
+      <p class="gx-how">Klik medalinya buat lihat syarat dan progresnya.</p>
       <ul class="gx-bgrid">${L.map((b, k) => `<li style="--k:${k}"><button type="button" class="gx-flip ${b.got ? "got" : ""}" aria-pressed="false" aria-label="${esc(b.name)}, ${b.got ? "sudah didapat" : "terkunci"}. Balik untuk melihat syarat">
         <span class="f"><span class="gx-med" style="--bc:${esc(b.color)}">${b.got ? esc(b.icon) : '<i class="lk"></i>'}</span><b>${esc(b.name)}</b><small>${b.got ? "Didapat " + new Date(b.at).toLocaleDateString("id-ID", { day: "numeric", month: "short" }) : b.max > 1 ? `${b.cur}/${b.max}` : "Terkunci"}</small>${!b.got && b.max > 1 ? `<span class="gx-bp2"><i style="--w:${b.cur / b.max}"></i></span>` : ""}</span>
         <span class="bk" style="--bc:${esc(b.color)}"><small>Syarat</small><span>${esc(b.req)}</span><em>+${b.xp} XP</em></span></button></li>`).join("")}</ul></section>`;
   }
   function feedHTML(recent) {
     return `<section class="gx gx-card2" aria-labelledby="gx-ft"><h3 id="gx-ft">XP terakhir</h3>
-      ${recent.length ? `<ol class="gx-feed">${recent.map((e, k) => `<li style="--k:${k}"><b>+${e.xp}</b><span>${esc(e.meta.label || e.type)}${e.meta.awal ? " <small>(progres sebelumnya)</small>" : ""}</span></li>`).join("")}</ol>` : "<p>Belum ada XP. Selesaikan pelajaran atau latihan untuk mulai.</p>"}
-      <p class="gx-how">XP didapat dari pelajaran dan skor latihan. Mengulang latihan hanya menambah XP bila skormu naik.</p></section>`;
+      ${recent.length ? `<ol class="gx-feed">${recent.map((e, k) => `<li style="--k:${k}"><b>+${e.xp}</b><span>${esc(e.meta.label || e.type)}${e.meta.awal ? " <small>(progres sebelumnya)</small>" : ""}</span></li>`).join("")}</ol>` : "<p>Belum ada XP. Selesaikan satu pelajaran atau latihan dulu.</p>"}
+      <p class="gx-how">XP datang dari pelajaran dan skor latihan. Kalau mengulang latihan, XP cuma nambah kalau skormu naik.</p></section>`;
   }
   /* animasi setelah panel tampil: hitung naik, jalan karier, radar */
   function animate(root) {
@@ -249,9 +249,9 @@
     const draw = () => {
       const s1 = G.has(base + 1), s2 = G.has(base + 2), xp = G.total();
       w.innerHTML = (s1 && L ? `<p class="gx-hint-t"><b>Ingat lagi “${esc(L.t)}”:</b> ${esc(String(L.poin || "").replace(/<[^>]+>/g, ""))}</p>` : "")
-        + (!s1 ? `<button type="button" class="gx-hb" data-h="1"${xp < cost[0] ? " disabled" : ""}>Petunjuk · −${cost[0]} XP</button>`
-          : !s2 ? `<button type="button" class="gx-hb" data-h="2"${xp < cost[1] ? " disabled" : ""}>Hilangkan 1 jawaban salah · −${cost[1]} XP</button>` : "")
-        + (xp < cost[s1 ? 1 : 0] && !s2 ? `<small>XP belum cukup untuk petunjuk.</small>` : "");
+        + (!s1 ? `<button type="button" class="gx-hb" data-h="1"${xp < cost[0] ? " disabled" : ""}>Petunjuk, −${cost[0]} XP</button>`
+          : !s2 ? `<button type="button" class="gx-hb" data-h="2"${xp < cost[1] ? " disabled" : ""}>Hilangkan 1 jawaban salah, −${cost[1]} XP</button>` : "")
+        + (xp < cost[s1 ? 1 : 0] && !s2 ? `<small>XP-mu belum cukup buat beli petunjuk.</small>` : "");
     };
     w.addEventListener("click", e => {
       const b = e.target.closest("[data-h]"); if (!b) return;

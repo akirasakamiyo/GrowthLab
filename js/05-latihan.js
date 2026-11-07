@@ -1,5 +1,5 @@
 /* ==========================================================================
-   GL v7 · MESIN LATIHAN (#/latihan)
+   GL v7, MESIN LATIHAN (#/latihan)
    - Kuis bergaya Quizizz: layar permainan penuh, hitung mundur, timer per soal,
      poin + bonus kecepatan, beruntun, power-up, musik & efek suara.
    - Drag & drop interaktif: kartu diseret dengan efek pegas dan miring, kotak
@@ -37,7 +37,7 @@ function hitung(d=load()){const sc=GLS.score,pg=d.kuis.best.all?d.kuis.best.all.
  return{pg,asp,sim,akhir,ki,capped}}
 
 /* ==================================================================
-   MOTION · Web Animations API (mati otomatis saat prefers-reduced-motion)
+   MOTION, Web Animations API (mati otomatis saat prefers-reduced-motion)
    ================================================================== */
 const EZ="cubic-bezier(.2,.72,.24,1)",SPR="cubic-bezier(.34,1.56,.64,1)";
 function A(el,kf,o){if(!el||!el.animate||rmq())return null;try{return el.animate(kf,Object.assign({duration:420,easing:EZ,fill:"backwards"},o))}catch(e){return null}}
@@ -60,7 +60,7 @@ const IC={x:I('<path d="M6 6l12 12M18 6L6 18"/>'),note:I('<g class="bm-bob"><pat
  redo:I('<path d="M20 11a8 8 0 10-2.3 5.7"/><path class="ba bm-wig" d="M20 4v7h-7"/>'),grip:I('<circle cx="9" cy="6" r="1.4"/><circle cx="15" cy="6" r="1.4"/><circle cx="9" cy="12" r="1.4"/><circle cx="15" cy="12" r="1.4"/><circle cx="9" cy="18" r="1.4"/><circle cx="15" cy="18" r="1.4"/>',1)};
 
 /* ==================================================================
-   SUARA · disintesis langsung (Web Audio). Musik kuis, suara latar simulasi, efek.
+   SUARA, disintesis langsung (Web Audio). Musik kuis, suara latar simulasi, efek.
    ================================================================== */
 const SND=(()=>{
  const PK="gl-sfx",P={sfx:true,music:true,timer:45,pu:true};try{Object.assign(P,JSON.parse(localStorage.getItem(PK)||"{}"))}catch(e){}
@@ -125,27 +125,27 @@ const SND=(()=>{
 const sndCtl=()=>`<span class="gx-snd"><button type="button" data-snd="music" aria-pressed="${SND.P.music}" aria-label="Musik" title="Musik">${IC.note}</button><button type="button" data-snd="sfx" aria-pressed="${SND.P.sfx}" aria-label="Efek suara" title="Efek suara">${IC.vol}</button></span>`;
 
 /* ==================================================================
-   KUIS · gaya Quizizz (layar penuh)
+   KUIS, gaya Quizizz (layar penuh)
    ================================================================== */
 let QZ=null,OV=null,INERT=[],TQ=0;
-const MODES=()=>[["all","Gabungan",GLD.QUIZ.length]].concat(GLD.COURSE.chapters.map((c,i)=>["b"+i,"Bab "+(i+1)+" · "+c.t,GLD.QUIZ.filter(x=>x.b===i).length]));
+const MODES=()=>[["all","Gabungan",GLD.QUIZ.length]].concat(GLD.COURSE.chapters.map((c,i)=>["b"+i,"Bab "+(i+1)+": "+c.t,GLD.QUIZ.filter(x=>x.b===i).length]));
 const modeName=m=>(MODES().find(x=>x[0]===m)||[0,"Kuis"])[1];
 const PU={x2:["2×","Poin ganda","Poin soal ini dikali dua jika benar","bolt"],frz:["Beku","Bekukan waktu","Timer soal ini berhenti","snow"],shd:["Perisai","Perisai beruntun","Jika salah, beruntunmu tidak hilang","shield"],ff:["50:50","Hapus dua","Menghapus dua pilihan yang salah","half"]};
 const CHEER={ok:["Mantap!","Keren!","Tepat sekali!","Luar biasa!","Jago!","Pertahankan!"],no:["Hampir!","Tidak apa-apa, baca penjelasannya","Belajar dari sini","Tetap semangat!"],to:["Sedikit lebih cepat, ya!","Waktunya habis!"]};
 const running=()=>QZ&&QZ.list&&!QZ.done;
 
 function quizHome(){const d=load(),P=GLD.PASS_MCQ,pb=d.kuis.ptsBest||{};
- return `${running()?`<div class="gq-resume"><div><span class="mono">Kuis belum selesai</span><b>${esc(modeName(QZ.m))} · soal ${Math.min(QZ.i+1,QZ.list.length)} dari ${QZ.list.length} · ${nf(QZ.pts)} poin</b></div><div class="gq-rr"><button class="btn p" data-qz="resume">Lanjutkan</button><button class="btn" data-qz="drop">Batalkan</button></div></div>`:""}
+ return `${running()?`<div class="gq-resume"><div><span class="mono">Kuis belum selesai</span><b>${esc(modeName(QZ.m))}, soal ${Math.min(QZ.i+1,QZ.list.length)} dari ${QZ.list.length}, ${nf(QZ.pts)} poin</b></div><div class="gq-rr"><button class="btn p" data-qz="resume">Lanjutkan</button><button class="btn" data-qz="drop">Batalkan</button></div></div>`:""}
  <div class="lx-intro"><h3>Kuis pilihan ganda</h3><p>Empat pilihan (A–D), satu jawaban benar, urutan soal dan pilihan diacak tiap main. Nilai = benar ÷ jumlah soal × 100, batas lulus <b>${P}</b>.</p></div>
  <div class="gq-modes2">${(()=>{const M=MODES(),[m0,t0,n0]=M[0],b0=d.kuis.best[m0],meta=(m,n,b)=>`${n} soal, ${b?`terbaik ${fmt(b.score)} ${b.score>=P?"(lulus)":"(belum lulus)"}`:"belum dikerjakan"}${pb[m]?`, rekor ${nf(pb[m])} poin`:""}`;
   return `<button class="gq-main" data-qz="open" data-m="${m0}"><span class="gq-mtag">Masuk nilai akhir 30%</span><b>${esc(t0)}</b><p>Semua ${n0} soal dari ${M.length-1} bab. Skor terbaikmu di sini yang dipakai untuk nilai akhir.</p><small>${meta(m0,n0,b0)}</small><span class="gq-play">${IC.play}${b0?"Main lagi":"Main"}</span></button>
-  <div class="gq-side"><p class="gq-sidet">Latihan per bab <span>tidak masuk nilai, buat pemanasan</span></p>${M.slice(1).map(([m,t,n],i)=>{const b=d.kuis.best[m],[bn,bt]=t.split(" · ");return `<button class="gq-row m${i+1}" data-qz="open" data-m="${m}"><span class="gq-rt"><small>${esc(bn)}</small><b>${esc(bt||t)}</b><em>${meta(m,n,b)}</em></span><span class="gq-play">${IC.play}${b?"Lagi":"Main"}</span></button>`}).join("")}</div>`})()}</div>
+  <div class="gq-side"><p class="gq-sidet">Latihan per bab <span>tidak masuk nilai, buat pemanasan</span></p>${M.slice(1).map(([m,t,n],i)=>{const b=d.kuis.best[m],[bn,bt]=t.split(": ");return `<button class="gq-row m${i+1}" data-qz="open" data-m="${m}"><span class="gq-rt"><small>${esc(bn)}</small><b>${esc(bt||t)}</b><em>${meta(m,n,b)}</em></span><span class="gq-play">${IC.play}${b?"Lagi":"Main"}</span></button>`}).join("")}</div>`})()}</div>
  <p class="qz-kbd" style="margin-top:18px">Tips: saat bermain, tekan 1–4 atau A–D untuk menjawab, Enter untuk lanjut, dan Esc untuk keluar.</p>`}
 function reviewHTML(){return `<div class="gq-rv">${QZ.list.map((it,i)=>{const a=QZ.ans[i],good=a>=0&&it.o[a].ok,kk=it.o.findIndex(o=>o.ok),st=good?"ok":a<0?"to":"no";
  return `<details class="${st}"><summary><span class="gq-rn">${pad(i+1)}</span><span class="gq-rs">${good?IC.check:a<0?IC.clock:IC.cross}</span><span class="gq-rq">${esc(it.x.q)}</span></summary><div class="gq-rb"><p><b>Jawabanmu:</b> ${a<0?"tidak menjawab (waktu habis)":`${LT[a]}. ${esc(it.o[a].t)}`}</p>${good?"":`<p><b>Kunci:</b> ${LT[kk]}. ${esc(it.o[kk].t)}</p>`}<p><b>Penjelasan:</b> ${esc(it.x.e)}</p><p class="lx-src">Materi: ${lesA(it.x.b,it.x.l)}</p></div></details>`}).join("")}</div>`}
 const qScore=()=>{const n=QZ.list.length,ben=QZ.ans.filter((a,i)=>a>=0&&QZ.list[i].o[a].ok).length;return{n,ben,sc:ben/n*100}};
 function quizRes(){const{n,ben,sc}=qScore(),P=GLD.PASS_MCQ,ok=sc>=P;
- return `<div class="qres gq-pres"><div><span class="mono">${esc(modeName(QZ.m))} · hasil terakhir</span><div class="lx-big" data-cu="${sc}">${fmt(sc)}</div><span class="badge ${ok?"ok":"no"}">${ok?"Lulus":"Belum lulus"}</span><p>Benar ${ben} dari ${n} soal · ${ben}/${n} × 100 = ${fmt(sc)} · batas lulus ${P} · ${nf(QZ.pts)} poin · beruntun terbaik ${QZ.maxS} · waktu ${dur((QZ.t1||Date.now())-QZ.t0)}</p>
+ return `<div class="qres gq-pres"><div><span class="mono">${esc(modeName(QZ.m))}, hasil terakhir</span><div class="lx-big" data-cu="${sc}">${fmt(sc)}</div><span class="badge ${ok?"ok":"no"}">${ok?"Lulus":"Belum lulus"}</span><p>Benar ${ben} dari ${n} soal, jadi nilainya ${fmt(sc)} (batas lulus ${P}). Kamu dapat ${nf(QZ.pts)} poin dalam ${dur((QZ.t1||Date.now())-QZ.t0)}, paling banyak benar ${QZ.maxS} kali berturut-turut.</p>
  <div class="row"><button class="btn p" data-qz="open" data-m="${QZ.m}">Main lagi</button><button class="btn" data-qz="home">Pilih mode lain</button></div></div></div>
  <h3 class="lx-h">Pembahasan</h3>${reviewHTML()}`}
 function drawQuiz(fx){const p=q("#ltp");if(!p||cur!=="kuis")return;p.innerHTML=QZ&&QZ.done?quizRes():quizHome();obs();
@@ -181,7 +181,7 @@ function lobbyHTML(){const m=QZ.m,mi=MODES().find(x=>x[0]===m),b=load().kuis.bes
   <p class="gq-lmeta"><span>${mi[2]} soal</span><span>Batas lulus ${GLD.PASS_MCQ}</span>${b?`<span>Terbaik ${fmt(b.score)}</span>`:""}</p>
   <div class="gq-set"><span>Timer per soal</span><div class="gq-seg" role="radiogroup" aria-label="Timer per soal">${tm.map(([v,t])=>`<button type="button" role="radio" aria-checked="${QZ.lim===v}" data-qz="tm" data-v="${v}">${t}</button>`).join("")}</div></div>
   <div class="gq-set"><span>Power-up</span><button type="button" class="gq-sw" role="switch" aria-checked="${QZ.pu}" data-qz="pu"><i aria-hidden="true"></i>${QZ.pu?"Aktif":"Mati"}</button></div>
-  <ul class="gq-rules"><li>Jawaban benar = 600 poin + bonus kecepatan (maks. 400) + bonus beruntun.</li><li>${QZ.lim?"Jika waktu habis, soal dihitung salah.":"Mode santai: tanpa batas waktu. Bonus kecepatan tetap dihitung."}</li>${QZ.pu?`<li>Setiap 3 jawaban benar berturut-turut, kamu mendapat satu power-up.${m==="all"?" Power-up 50:50 tidak tersedia di mode Gabungan agar nilai akhir tetap adil.":""}</li>`:""}<li>Poin hanya untuk keseruan. Nilai = benar ÷ jumlah soal × 100.</li></ul>
+  <ul class="gq-rules"><li>Tiap jawaban benar dapat 600 poin, ditambah bonus kalau cepat (sampai 400) dan kalau benar berturut-turut.</li><li>${QZ.lim?"Kalau waktunya habis, soal itu dihitung salah.":"Mode santai: nggak ada batas waktu, tapi bonus cepat tetap dihitung."}</li>${QZ.pu?`<li>Tiap 3 kali benar berturut-turut, kamu dapat satu power-up.${m==="all"?" Power-up 50:50 dimatikan di mode Gabungan biar nilai akhirnya tetap adil.":""}</li>`:""}<li>Poin cuma buat seru-seruan. Nilaimu tetap dihitung dari jumlah jawaban benar.</li></ul>
   <button type="button" class="gq-start" data-qz="go">${IC.play}<span>Mulai</span></button><small class="gq-hint">Tekan Enter untuk mulai</small>
  </div></div>`}
 function begin(){const m=QZ.m,lim=QZ.lim,pu=QZ.pu,pool=m==="all"?GLD.QUIZ:GLD.QUIZ.filter(x=>"b"+x.b===m);SND.wake();
@@ -200,9 +200,9 @@ function hudHTML(){const n=QZ.list.length;return `<div class="gq-hud"><div class
  <span class="gq-pill gq-pts" id="gqp"><b>${nf(QZ.pts)}</b><small>poin</small></span>
  <div class="gq-ctl">${sndCtl()}<button class="gq-ib" data-qz="quit" aria-label="Keluar dari kuis">${IC.x}</button></div></div></div>`}
 function puHTML(){if(!QZ.pu)return "";const ks=Object.keys(PU).filter(k=>QZ.inv[k]>0||QZ.act[k]);
- return `<div class="gq-pu" id="gqpu">${ks.length?ks.map(k=>`<button type="button" class="gq-pub p-${k}${QZ.act[k]?" act":""}" data-qz="pu-use" data-p="${k}" title="${PU[k][2]}"${QZ.act[k]||QZ.phase!=="q"?" disabled":""}><i>${IC[PU[k][3]]}</i><span>${PU[k][1]}${QZ.act[k]?" · aktif":""}</span>${QZ.inv[k]>1?`<em>${QZ.inv[k]}</em>`:""}</button>`).join(""):`<span class="gq-puh">${IC.bolt} Jawab benar 3× berturut-turut untuk mendapat power-up</span>`}</div>`}
+ return `<div class="gq-pu" id="gqpu">${ks.length?ks.map(k=>`<button type="button" class="gq-pub p-${k}${QZ.act[k]?" act":""}" data-qz="pu-use" data-p="${k}" title="${PU[k][2]}"${QZ.act[k]||QZ.phase!=="q"?" disabled":""}><i>${IC[PU[k][3]]}</i><span>${PU[k][1]}${QZ.act[k]?", aktif":""}</span>${QZ.inv[k]>1?`<em>${QZ.inv[k]}</em>`:""}</button>`).join(""):`<span class="gq-puh">${IC.bolt} Benar 3 kali berturut-turut, kamu dapat power-up</span>`}</div>`}
 function qHTML(){const it=QZ.list[QZ.i],x=it.x,a=QZ.ans[QZ.i],ans=a!=null,kk=it.o.findIndex(o=>o.ok);
- return `${hudHTML()}<div class="gq-stage" id="gqst"><div class="gq-qc"><span class="gq-chip">Bab ${x.b+1} · ${esc(lesT(x.b,x.l))}</span><p id="gqq" tabindex="-1">${esc(x.q)}</p></div>
+ return `${hudHTML()}<div class="gq-stage" id="gqst"><div class="gq-qc"><span class="gq-chip">Bab ${x.b+1}, ${esc(lesT(x.b,x.l))}</span><p id="gqq" tabindex="-1">${esc(x.q)}</p></div>
   <div class="gq-opts" role="group" aria-labelledby="gqq">${it.o.map((o,k)=>{const cl=ans?(k===kk?" ok":k===a?" no":" fade"):"";return `<button type="button" class="gq-o${cl}" data-qz="ans" data-k="${k}" style="--c:var(--q${k});--i:${k}"${ans||QZ.hide&&QZ.hide.has(k)?" disabled":""}${QZ.hide&&QZ.hide.has(k)?" data-gone":""}><b aria-hidden="true">${LT[k]}</b><span>${esc(o.t)}</span>${ans&&(k===kk||k===a)?`<i class="gq-mk">${k===kk?IC.check:IC.cross}</i>`:""}</button>`}).join("")}</div>
  </div>${puHTML()}<div class="gq-ban" id="gqban" aria-live="assertive"></div><div class="gq-sheet" id="gqsh"></div>`}
 function showQ(keep){const box=q("#gqin");if(!box)return;
@@ -252,7 +252,7 @@ function streakFx(prev,saved){const p=q("#gqs");if(!p)return;p.querySelector("b"
 function popMsg(h,c){if(!OV)return;const m=document.createElement("div");m.className="gq-pop "+c;m.setAttribute("role","status");m.innerHTML=h;OV.appendChild(m);
  A(m,[{opacity:0,transform:"translate(-50%,24px) scale(.8)"},{opacity:1,transform:"translate(-50%,0) scale(1)",offset:.18},{opacity:1,transform:"translate(-50%,0) scale(1)",offset:.82},{opacity:0,transform:"translate(-50%,-24px)"}],{duration:1900,fill:"forwards",easing:"ease-out"});setTimeout(()=>m.remove(),1950)}
 function sheet(ok,k,kk,quiet){const it=QZ.list[QZ.i],x=it.x,last=QZ.i+1>=QZ.list.length,sh=q("#gqsh"),p=QZ.parts[QZ.i];if(!sh)return;
- sh.innerHTML=`<div class="gq-sh-in ${ok?"ok":k<0?"to":"no"}"><div class="gq-exp"><p><b>${ok?"Jawabanmu benar.":k<0?"Kamu belum menjawab.":`Jawabanmu: ${LT[k]}.`}</b> ${ok?"":`Jawaban yang benar: <b>${LT[kk]}</b>. `}${esc(x.e)}</p>${ok&&p?`<small class="gq-brk">600 dasar + ${nf(p.bon)} kecepatan${p.sb?` + ${nf(p.sb)} beruntun`:""}${p.x2?" · ×2 poin ganda":""}</small>`:""}<span class="lx-src">Materi: ${lesA(x.b,x.l)}</span></div>
+ sh.innerHTML=`<div class="gq-sh-in ${ok?"ok":k<0?"to":"no"}"><div class="gq-exp"><p><b>${ok?"Jawabanmu benar.":k<0?"Kamu belum menjawab.":`Jawabanmu: ${LT[k]}.`}</b> ${ok?"":`Jawaban yang benar: <b>${LT[kk]}</b>. `}${esc(x.e)}</p>${ok&&p?`<small class="gq-brk">600 dasar + ${nf(p.bon)} kecepatan${p.sb?` + ${nf(p.sb)} beruntun`:""}${p.x2?", ×2 poin ganda":""}</small>`:""}<span class="lx-src">Materi: ${lesA(x.b,x.l)}</span></div>
  <button type="button" class="gq-next" data-qz="next" id="gqnext">${last?"Lihat hasil":"Soal berikutnya"}${IC.arrow}</button></div>`;
  sh.classList.add("on");if(!quiet)A(sh.firstChild,[{transform:"translateY(115%)"},{transform:"none"}],{duration:480,easing:SPR});
  const nb=q("#gqnext");nb&&nb.focus({preventScroll:true})}
@@ -272,9 +272,9 @@ function qFinish(){qTimerStop();SND.music(null);const{n,ben,sc}=qScore(),d=load(
 function resHTML(){const{n,ben,sc}=qScore(),P=GLD.PASS_MCQ,ok=sc>=P,to=QZ.ans.filter(a=>a<0).length,avg=QZ.times.reduce((a,b)=>a+(b||0),0)/n;
  const bd=[[ben===n,"Sempurna","Semua jawaban benar"],[QZ.maxS>=5,"Beruntun "+QZ.maxS,"Lima jawaban benar berturut-turut atau lebih"],[avg<10000&&ok,"Kilat","Rata-rata kurang dari 10 detik per soal"],[ok,"Lulus","Nilai mencapai batas lulus "+P],[QZ.prevPts>0&&QZ.pts>QZ.prevPts,"Rekor poin baru","Melewati rekor poinmu sebelumnya"]].filter(x=>x[0]);
  return `<div class="gq-top"><span class="gq-brand"><i aria-hidden="true">G</i>GrowthLab <b>Kuis</b></span><div class="gq-ctl">${sndCtl()}<button class="gq-ib" data-qz="close" aria-label="Tutup">${IC.x}</button></div></div>
- <div class="gq-res"><div class="gq-rcard"><span class="gq-tag">${esc(modeName(QZ.m))} · selesai</span>
+ <div class="gq-res"><div class="gq-rcard"><span class="gq-tag">${esc(modeName(QZ.m))}, selesai</span>
   <div class="gq-ring${ok?"":" low"}" style="--a:${ben/n}"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="52"/><circle class="v" cx="60" cy="60" r="52" pathLength="100"/></svg><div><b id="gqsc">${fmt(sc)}</b><small>nilai</small></div></div>
-  <span class="badge ${ok?"ok":"no"}">${ok?"Lulus":"Belum lulus"}</span><p class="gq-rline">Benar ${ben} dari ${n} soal · ${ben}/${n} × 100 = ${fmt(sc)} · batas lulus ${P}</p>
+  <span class="badge ${ok?"ok":"no"}">${ok?"Lulus":"Belum lulus"}</span><p class="gq-rline">Benar ${ben} dari ${n} soal, jadi nilainya ${ben}/${n} × 100 = ${fmt(sc)}. Batas lulusnya ${P}.</p>
   <div class="gq-stats">${[["Benar",ben,"ok"],["Salah",n-ben-to,"no"],["Waktu habis",to,"to"],["Poin",nf(QZ.pts),"pt"],["Beruntun terbaik",QZ.maxS,"st"],["Waktu",dur(QZ.t1-QZ.t0),"tm"]].map(([a,b,c],i)=>`<div class="s-${c}" style="--i:${i}"><b>${b}</b><small>${a}</small></div>`).join("")}</div>
   ${bd.length?`<div class="gq-badges">${bd.map((x,i)=>`<span title="${esc(x[2])}" style="--i:${i}">${IC.star}${esc(x[1])}</span>`).join("")}</div>`:""}
   <div class="gq-rbtn"><button type="button" class="gq-start sm" data-qz="again">${IC.redo}<span>Main lagi</span></button><button type="button" class="gq-gh" data-qz="review">Lihat pembahasan</button><button type="button" class="gq-gh" data-qz="close">Tutup</button></div>
@@ -307,12 +307,12 @@ function quizKey(e){if(!ovOn()||!QZ||e.ctrlKey||e.metaKey||e.altKey)return;const
  if(QZ.phase==="rev"&&(k==="Enter"||k===" ")&&!onBtn){e.preventDefault();qNext()}}
 
 /* ==================================================================
-   DRAG & DROP · "group sort" (kelompokkan) & "rank order" (urutkan)
+   DRAG & DROP, "group sort" (kelompokkan) & "rank order" (urutkan)
    ================================================================== */
 let DD=null,DR=null,supp=false,DTI=0;
 function ddStart(id){const S=GLD.DND.find(s=>s.id===id)||GLD.DND[0],ord=S.mode==="order";let seq=mix(S.items.map((_,i)=>i));
  if(ord)for(let t=0;t<8&&seq.every((v,j)=>S.items[v].k===String(j+1));t++)seq=mix(seq);
- DD={S,ord,bins:ord?[]:S.bins,cap:ord?0:(S.cap||0),order:seq,seq:ord?seq.slice():null,place:{},sel:null,checked:false,rv:false,res:"",moves:0,t0:0,t1:0,rot:S.items.map(()=>+(Math.random()*5-2.5).toFixed(1))}}
+ DD={S,ord,bins:ord?[]:S.bins,cap:ord?0:(S.cap||0),order:seq,seq:ord?seq.slice():null,place:{},sel:null,checked:false,rv:false,res:"",moves:0,t0:0,t1:0,rot:S.items.map(()=>0),tries:0}}
 const posOf=i=>DD.ord?String(DD.seq.indexOf(i)+1):DD.place[i];
 const ddEl=()=>DD&&DD.t0?(DD.t1||Date.now())-DD.t0:0;
 function ddTimerGo(){if(!DD.t0)DD.t0=Date.now();if(DTI||DD.t1)return;DTI=setInterval(()=>{const t=q("#gdtm");if(!t||cur!=="dnd"||!DD||DD.t1){ddTimerStop();return}t.textContent=dur(ddEl())},1000)}
@@ -321,15 +321,19 @@ function ddCard(i){const it=DD.S.items[i],z=posOf(i),st=DD.checked&&z!=null?(it.
  if(DD.ord){const p=DD.seq.indexOf(i),n=DD.seq.length;return `<li class="gd-card gd-r${st}${sh}${DD.sel===i?" sel":""}" data-i="${i}" tabindex="0" aria-roledescription="kartu urutan" aria-describedby="gdkh" aria-label="Posisi ${p+1} dari ${n}: ${esc(it.t)}${st?st===" ok"?" (benar)":" (belum tepat)":""}"><span class="gd-num" aria-hidden="true">${p+1}</span><span class="gd-txt">${esc(it.t)}</span>${mk}<span class="gd-mv"><button type="button" data-mv="-1" tabindex="-1" aria-label="Naikkan"${p===0?" disabled":""}>${IC.up}</button><button type="button" data-mv="1" tabindex="-1" aria-label="Turunkan"${p===n-1?" disabled":""}>${IC.down}</button></span></li>`}
  return `<button type="button" class="gd-card${st}${sh}${DD.sel===i?" sel":""}" data-i="${i}" style="--r:${z==null?DD.rot[i]:0}deg" aria-pressed="${DD.sel===i}"><span class="gd-grip">${IC.grip}</span><span class="gd-txt">${esc(it.t)}</span>${mk}</button>`}
 function ddHTML(){const d=load(),S=DD.S,b=d.dnd[S.id],n=S.items.length,pool=DD.order.filter(i=>DD.place[i]==null),placed=n-pool.length,ben=DD.checked?S.items.filter((it,i)=>posOf(i)===it.k).length:0;
- const sets=`<div class="gd-sets" role="group" aria-label="Pilih set">${GLD.DND.map((s,i)=>{const o=d.dnd[s.id],pf=o&&o.best.benar===o.best.n;return `<button type="button" class="gd-set${pf?" done":""}" data-dd="set" data-id="${s.id}" aria-pressed="${s.id===S.id}"><span>${pad(i+1)}</span>${esc(s.t)}${pf?IC.check:""}</button>`}).join("")}</div>`;
- const head=`<div class="gd-head"><div class="gd-ht"><span class="mono">${DD.ord?"Susun urutan":"Kelompokkan kartu"} · ${n} kartu</span><h3>${esc(S.t)}</h3><p>${S.p} <span class="lx-src">Materi: ${lesA(S.les[0],S.les[1])}</span></p></div>
-  <div class="gd-hud"><div class="gd-st"><b id="gdpl">${DD.checked?ben+"/"+n:DD.ord?DD.moves:placed+"/"+n}</b><small>${DD.checked?"benar":DD.ord?"langkah":"ditempatkan"}</small></div><div class="gd-st"><b id="gdtm">${dur(ddEl())}</b><small>waktu</small></div><div class="gd-st"><b>${b?b.best.benar+"/"+b.best.n:"–"}</b><small>terbaik${b&&b.bestT?" · "+dur(b.bestT):""}</small></div>${sndCtl()}</div></div>
+ const tgt=n*9000,tot=GLD.DND.reduce((a,x)=>a+((d.dnd[x.id]||{}).stars||0),0),mx=GLD.DND.length*3,stars=k=>[0,1,2].map(j=>`<i class="${j<k?"on":""}">${IC.star}</i>`).join("");
+ const sets=`<div class="gd-lv"><div class="gd-lvh"><b>Pilih level</b><span class="gd-tot">${IC.star}<b>${tot}</b>/${mx} bintang</span><span class="gd-lvbar" aria-hidden="true"><i style="--p:${tot/mx}"></i></span></div>
+  <div class="gd-lvg" role="group" aria-label="Pilih level">${GLD.DND.map((x,i)=>{const o=d.dnd[x.id],st=(o&&o.stars)||0;return `<button type="button" class="gd-set${st?" done":""}" data-dd="set" data-id="${x.id}" aria-pressed="${x.id===S.id}" aria-label="Level ${i+1}: ${esc(x.t)}, ${st} dari 3 bintang"><span class="gd-lvn">${i+1}</span><span class="gd-lvt">${esc(x.t)}</span><span class="gd-stars" aria-hidden="true">${stars(st)}</span></button>`}).join("")}</div></div>`;
+ const li=GLD.DND.indexOf(S)+1,okT=DD.checked&&DD.perfect,t1=okT&&DD.tries===1,t2=okT&&ddEl()<=tgt;
+ const head=`<div class="gd-head"><div class="gd-ht"><span class="gd-kick">Level ${li}, ${DD.ord?"susun urutan":"kelompokkan"} ${n} kartu</span><h3>${esc(S.t)}</h3><p>${S.p} <span class="lx-src">Materi: ${lesA(S.les[0],S.les[1])}</span></p></div>
+  <div class="gd-hud"><div class="gd-st"><b id="gdpl">${DD.checked?ben+"/"+n:DD.ord?DD.moves:placed+"/"+n}</b><small>${DD.checked?"benar":DD.ord?"langkah":"ditempatkan"}</small></div><div class="gd-st"><b id="gdtm">${dur(ddEl())}</b><small>waktu</small></div><div class="gd-st"><b>${b?b.best.benar+"/"+b.best.n:"–"}</b><small>terbaik${b&&b.bestT?", "+dur(b.bestT):""}</small></div>${sndCtl()}</div></div>
+  <ul class="gd-goal" aria-label="Syarat bintang"><li class="${okT?"on":""}">${IC.star}Semua benar</li><li class="${t1?"on":""}">${IC.star}Benar di percobaan pertama</li><li class="${t2?"on":""}">${IC.star}Selesai di bawah ${dur(tgt)}</li></ul>
   <div class="gd-prog" aria-hidden="true"><i style="--p:${DD.checked?ben/n:DD.ord?0:placed/n}"></i></div>`;
- const body=DD.ord?`<p class="lx-note">Seret kartu ke atas atau ke bawah untuk menyusun urutan; kartu lain otomatis bergeser. Bisa juga memakai tombol panah di kartu, atau ketuk satu kartu lalu ketuk posisi tujuannya.</p><p class="sr" id="gdkh">Tekan Spasi atau Enter untuk mengangkat kartu, panah atas atau bawah untuk memindahkannya, lalu Spasi atau Enter untuk menaruh.</p><div class="gd-board gd-rb"><ol class="gd-rank" aria-label="Urutan langkah">${DD.seq.map(ddCard).join("")}</ol></div>`
-  :`<p class="lx-note">Seret kartu ke kotak yang tepat; kotak menyala saat kartu siap dilepas. Bisa juga tanpa menyeret: ketuk/klik kartu, lalu ketuk kotak tujuan. Kartu yang sudah ditaruh bisa dipindah lagi.${DD.cap?" Setiap kotak hanya muat satu kartu; kartu lama otomatis kembali ke tumpukan.":""}</p>
-  <div class="gd-board"><div class="gd-pool dz" data-z="pool"><button type="button" class="gd-tgt" data-z="pool"><span>Tumpukan kartu</span><small>${pool.length?pool.length+" kartu tersisa":"Semua kartu sudah ditempatkan"}${DD.sel!=null&&DD.place[DD.sel]!=null?" · ketuk untuk mengembalikan":""}</small></button><div class="gd-deck">${pool.map(ddCard).join("")||`<p class="gd-empty">${IC.check}<span>Semua kartu sudah di kotak. Tekan <b>Periksa jawaban</b>!</span></p>`}</div></div>
+ const body=DD.ord?`<p class="gd-hint">Seret kartu ke atas atau bawah, atau pakai tombol panah di kartu.</p><p class="sr" id="gdkh">Tekan Spasi atau Enter untuk mengangkat kartu, panah atas atau bawah untuk memindahkannya, lalu Spasi atau Enter untuk menaruh.</p><div class="gd-board gd-rb"><ol class="gd-rank" aria-label="Urutan langkah">${DD.seq.map(ddCard).join("")}</ol></div>`
+  :`<p class="gd-hint">Seret kartu ke kotak yang tepat, atau klik kartu lalu klik kotaknya.${DD.cap?" Tiap kotak muat satu kartu.":""}</p>
+  <div class="gd-board"><div class="gd-pool dz" data-z="pool"><button type="button" class="gd-tgt" data-z="pool"><span>Tumpukan kartu</span><small>${pool.length?pool.length+" kartu tersisa":"Semua kartu sudah ditempatkan"}${DD.sel!=null&&DD.place[DD.sel]!=null?", ketuk untuk mengembalikan":""}</small></button><div class="gd-deck">${pool.map(ddCard).join("")||`<p class="gd-empty">${IC.check}<span>Semua kartu sudah di kotak. Tekan <b>Periksa jawaban</b>!</span></p>`}</div></div>
   <div class="gd-bins" style="--n2:${Math.min(DD.bins.length,2)}">${DD.bins.map((bn,j)=>{const inn=DD.order.filter(i=>DD.place[i]===bn.k);return `<div class="gd-bin dz" data-z="${esc(bn.k)}" style="--h:${j}"><button type="button" class="gd-tgt" data-z="${esc(bn.k)}"><span>${esc(bn.t)}</span><em class="gd-cnt">${inn.length}${DD.cap?"/"+DD.cap:""}</em><small>${DD.sel!=null?"Ketuk untuk menaruh di sini":inn.length?"":"Seret kartu ke sini"}</small></button><div class="gd-list">${inn.map(ddCard).join("")}</div></div>`}).join("")}</div></div>`;
- const row=`<div class="gd-row"><button type="button" class="btn p gd-check${(DD.ord||!pool.length)&&!DD.checked?" ready":""}" data-dd="check"${DD.shown?" disabled":""}>Periksa jawaban</button><button type="button" class="btn" data-dd="reset">${IC.redo} Acak ulang</button>${DD.checked&&!DD.perfect&&!DD.ord?`<button type="button" class="btn" data-dd="back">Kembalikan yang salah</button>`:""}${DD.checked&&!DD.perfect?`<button type="button" class="chip" data-dd="show">Tunjukkan jawaban</button>`:""}<span class="dres gd-res" aria-live="polite">${DD.res||""}</span></div><p class="sr" id="dlive" aria-live="assertive"></p>`;
+ const row=`<div class="gd-row"><button type="button" class="btn p gd-check${(DD.ord||!pool.length)&&!DD.checked?" ready":""}" data-dd="check"${DD.shown?" disabled":""}>Periksa jawaban</button><button type="button" class="btn" data-dd="reset">${IC.redo} Acak ulang</button>${DD.checked&&!DD.perfect&&!DD.ord?`<button type="button" class="btn" data-dd="back">Kembalikan yang salah</button>`:""}${DD.checked&&!DD.perfect?`<button type="button" class="chip" data-dd="show">Tunjukkan jawaban</button>`:""}<span class="dres gd-res" aria-live="polite">${DD.res||""}</span></div>${DD.rv&&DD.sc?`<div class="gd-card-res${DD.perfect?" win":""}"><div class="gd-rs-st">${[0,1,2].map(j=>`<i class="${j<DD.sc.stars?"on":""}" style="--j:${j}">${IC.star}</i>`).join("")}</div><div class="gd-rs-tx"><b>${DD.perfect?["Lumayan!","Keren!","Sempurna!"][DD.sc.stars-1]:"Belum semua benar"}</b><span>Skor <b class="gd-sc" data-v="${DD.sc.pts}">${nf(DD.sc.pts)}</b>${DD.sc.combo>1?`, kombo terbaik ×${DD.sc.combo}`:""}</span></div>${DD.perfect&&li<GLD.DND.length?`<button type="button" class="btn p" data-dd="next">Level ${li+1} ${IC.arrow}</button>`:""}</div>`:""}<p class="sr" id="dlive" aria-live="assertive"></p>`;
  return `<div class="gd${DD.sel!=null?" picking":""}" data-mode="${S.mode}">${sets}${head}${body}${row}</div>`}
 function drawDD(fi,o={}){const p=q("#ltp");if(!p||cur!=="dnd")return;const fl=o.flip&&!rmq(),old={};
  if(fl)qa(".gd-card",p).forEach(e=>{old[e.dataset.i]=e.getBoundingClientRect()});if(o.from)old[o.from.i]=o.from.r;
@@ -351,16 +355,21 @@ function ddPlace(i,z,from){if(i==null)return;const S=DD.S;z=z==="pool"?null:z;co
  if(Object.keys(DD.place).length===S.items.length){bump(q(".gd-check"),1.1);SND.play("sel")}}
 function rankMove(i,to,focus){const a=DD.seq,p=a.indexOf(i);to=clamp(to,0,a.length-1);if(p===to)return;a.splice(p,1);a.splice(to,0,i);DD.moves++;ddDirty();ddTimerGo();drawDD(focus?i:null,{flip:true});SND.play("swap");live(`Dipindah ke posisi ${to+1} dari ${a.length}.`)}
 function ddCheck(){if(DD.shown)return;const S=DD.S,n=S.items.length,ben=S.items.filter((it,i)=>posOf(i)===it.k).length,sisa=DD.ord?0:n-Object.keys(DD.place).length;
- DD.checked=true;DD.rv=false;DD.perfect=ben===n;DD.res=`${ben} dari ${n} benar${sisa?` · ${sisa} kartu belum ditempatkan`:""}`;if(DD.perfect&&!DD.t1)DD.t1=Date.now();if(DD.perfect)ddTimerStop();
- const d=load(),o=d.dnd[S.id]||{best:{benar:0,n},n:0};o.n++;if(ben>=o.best.benar)o.best={benar:ben,n,t:Date.now()};if(DD.perfect&&DD.t0){const el=DD.t1-DD.t0;if(!o.bestT||el<o.bestT)o.bestT=el}d.dnd[S.id]=o;save(d);window.GLG&&GLG.emit("dnd",{id:S.id,benar:ben,n});
+ DD.checked=true;DD.rv=false;DD.perfect=ben===n;DD.tries++;DD.res=`${ben} dari ${n} benar${sisa?`, ${sisa} kartu belum ditempatkan`:""}`;if(DD.perfect&&!DD.t1)DD.t1=Date.now();if(DD.perfect)ddTimerStop();
+ const d=load(),o=d.dnd[S.id]||{best:{benar:0,n},n:0};o.n++;if(ben>=o.best.benar)o.best={benar:ben,n,t:Date.now()};if(DD.perfect&&DD.t0){const el=DD.t1-DD.t0;if(!o.bestT||el<o.bestT)o.bestT=el}
+ {const el=ddEl(),st=DD.perfect?1+(DD.tries===1?1:0)+(el<=n*9000?1:0):0,ord=S.items.map((it,i)=>posOf(i)===it.k);let c=0,cm=0,pts=0;ord.forEach(v=>{c=v?c+1:0;cm=Math.max(cm,c);pts+=v?100*Math.min(c,4):0});if(DD.perfect)pts+=300+Math.max(0,Math.round((n*9000-el)/50));DD.sc={stars:st,pts,combo:cm};o.stars=Math.max(o.stars||0,st)}
+ d.dnd[S.id]=o;save(d);window.GLG&&GLG.emit("dnd",{id:S.id,benar:ben,n});
  DD.sel=null;drawDD();live(DD.res);
  const cs=qa(".gd-card.ok,.gd-card.no").sort((a,b)=>{const x=a.getBoundingClientRect(),y=b.getBoundingClientRect();return x.top-y.top||x.left-y.left});const tok=DD.tok={};
- const fin=()=>{if(DD.tok!==tok)return;DD.rv=true;cs.forEach(c=>c.classList.add("show"));
+ const fin=()=>{if(DD.tok!==tok)return;DD.rv=true;drawDD();
   if(DD.perfect){stamp("Sempurna!");SND.play("fan");const r=q(".gd-row");if(r){const b=r.getBoundingClientRect();ping(b.left+140,b.top,34)}say("Sempurna! Semua jawaban tepat.")}else{SND.play(ben/n>=.5?"mid":"no");say(DD.res+".")}
-  const rs=q(".gd-res");rs&&A(rs,[{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"none"}],{duration:320})};
+  const rs=q(".gd-res");rs&&A(rs,[{opacity:0,transform:"translateY(8px)"},{opacity:1,transform:"none"}],{duration:320});
+  const cr=q(".gd-card-res");if(cr){qa(".gd-rs-st i.on",cr).forEach((x,j)=>setTimeout(()=>{x.classList.add("pop");SND.play("step",j+2)},250+j*260));const sc=q(".gd-sc",cr),v=+sc.dataset.v,t0=performance.now();if(!rmq()){const f=t=>{const k=Math.min(1,(t-t0)/900);sc.textContent=nf(v*k*(2-k));if(k<1)requestAnimationFrame(f)};requestAnimationFrame(f)}if(DD.perfect)confetti(cr)}};
  if(rmq())return fin();
- cs.forEach((c,j)=>setTimeout(()=>{if(DD.tok!==tok)return;c.classList.add("show");const ok=c.classList.contains("ok");ok?bump(c,1.06):shake(c);SND.play(ok?"step":"dud",j)},120+j*115));
+ let cb=0;cs.forEach((c,j)=>setTimeout(()=>{if(DD.tok!==tok)return;c.classList.add("show");const ok=c.classList.contains("ok");cb=ok?cb+1:0;ok?bump(c,1.06):shake(c);SND.play(ok?"step":"dud",j);if(ok&&cb>1)combo(c,cb)},120+j*115));
  setTimeout(fin,260+cs.length*115)}
+function combo(c,k){if(rmq())return;const r=c.getBoundingClientRect(),e=document.createElement("div");e.className="gd-combo";e.textContent="Kombo ×"+k;e.style.left=(r.right-20)+"px";e.style.top=(r.top-6)+"px";document.body.appendChild(e);A(e,[{opacity:0,transform:"translateY(8px) scale(.7)"},{opacity:1,transform:"translateY(-10px) scale(1.1)",offset:.3},{opacity:0,transform:"translateY(-34px) scale(1)"}],{duration:900,easing:"ease-out"});setTimeout(()=>e.remove(),950)}
+function confetti(host){if(rmq()||!host)return;const r=host.getBoundingClientRect(),C=["#ffd23f","#ff6b3d","#2a56f5","#0b7285","#ff8fd1"];for(let i=0;i<46;i++){const p=document.createElement("i");p.className="gd-cf";p.style.background=C[i%C.length];p.style.left=(r.left+r.width*Math.random())+"px";p.style.top=(r.top+10)+"px";document.body.appendChild(p);const dx=(Math.random()-.5)*260,dy=-120-Math.random()*160,rot=Math.random()*720;A(p,[{transform:"translate(0,0) rotate(0)",opacity:1},{transform:`translate(${dx}px,${dy}px) rotate(${rot/2}deg)`,opacity:1,offset:.35},{transform:`translate(${dx*1.3}px,${dy+320}px) rotate(${rot}deg)`,opacity:0}],{duration:1400+Math.random()*500,easing:"cubic-bezier(.2,.6,.4,1)"});setTimeout(()=>p.remove(),2000)}}
 function stamp(t){const b=q(".gd-board");if(!b)return;const s=document.createElement("div");s.className="gd-stamp";s.setAttribute("aria-hidden","true");s.textContent=t;b.appendChild(s);SND.play("stamp");
  A(s,[{opacity:0,transform:"translate(-50%,-50%) scale(2.6) rotate(-16deg)"},{opacity:1,transform:"translate(-50%,-50%) scale(1) rotate(-8deg)"}],{duration:440,easing:"cubic-bezier(.3,1.4,.5,1)"})}
 function ddBackWrong(){const w=Object.keys(DD.place).map(Number).filter(i=>DD.place[i]!==DD.S.items[i].k);w.forEach(i=>delete DD.place[i]);ddDirty();DD.res=`${w.length} kartu dikembalikan ke tumpukan. Coba lagi!`;drawDD(null,{flip:true});SND.play("back");live(DD.res)}
@@ -395,7 +404,7 @@ function ddUp(e){if(!DR||e.pointerId!==DR.id)return;const d=DR;DR=null;clearTime
  if(!cancel&&d.z){const r=d.g.getBoundingClientRect();d.g.remove();ddPlace(d.i,d.z.dataset.z,{r,rot:d.rot});return}
  landGhost(d.g,d.el,()=>d.el.classList.remove("gd-ph"));SND.play("back")}
 function ddClick(e){const b=e.target.closest("[data-dd]");
- if(b){const a=b.dataset.dd;if(a==="set"){SND.play("tap");ddStart(b.dataset.id);drawDD();enter(q(".gd"),40);deal()}else if(a==="reset"){ddStart(DD.S.id);drawDD();SND.play("whoosh");deal();say("Kartu diacak ulang.")}else if(a==="check")ddCheck();else if(a==="back")ddBackWrong();else if(a==="show")ddShow();return}
+ if(b){const a=b.dataset.dd;if(a==="set"){SND.play("tap");ddStart(b.dataset.id);drawDD();enter(q(".gd"),40);deal()}else if(a==="reset"){ddStart(DD.S.id);drawDD();SND.play("whoosh");deal();say("Kartu diacak ulang.")}else if(a==="check")ddCheck();else if(a==="back")ddBackWrong();else if(a==="show")ddShow();else if(a==="next"){const k=GLD.DND.indexOf(DD.S)+1;if(GLD.DND[k]){SND.play("tap");ddStart(GLD.DND[k].id);drawDD();enter(q(".gd"),40);deal()}}return}
  if(DD.shown)return;
  const mv=e.target.closest("[data-mv]");if(mv){const c=mv.closest(".gd-card"),i=+c.dataset.i;rankMove(i,DD.seq.indexOf(i)+(+mv.dataset.mv),false);return}
  if(supp)return;
@@ -419,21 +428,21 @@ function syarat(d){const H=hitung(d),dn=GLD.DND.filter(s=>d.dnd[s.id]&&d.dnd[s.i
  return {it,ok:it.every(x=>x[1]>=x[2])}}
 function lockHTML(d){const S=syarat(d),n=S.it.filter(x=>x[1]>=x[2]).length;
  return `<div class="nilai nl-lock"><div class="nl-lk-ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5"/><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3"/><circle cx="12" cy="15.5" r="1.4"/></svg></div>
-  <div><span class="mono">Nilai akhir terkunci · ${n}/3 syarat</span><h3>Selesaikan semua latihan dulu, ya</h3><p>Nilai akhirmu akan muncul setelah kuis, drag &amp; drop, dan simulasi semuanya selesai.</p>
+  <div><span class="mono">Nilai akhir masih terkunci (${n} dari 3 syarat)</span><h3>Selesaikan semua latihan dulu, ya</h3><p>Nilai akhirmu muncul setelah kuis, drag &amp; drop, dan simulasi beres semua.</p>
   <ul class="nl-req">${S.it.map(([t,v,m,hf])=>`<li class="${v>=m?"ok":""}"><span class="nl-ck" aria-hidden="true">${v>=m?"✓":""}</span><span>${t}</span><small>${m>1?`${v}/${m}`:v?"selesai":"belum"}</small>${v>=m?"":`<a class="chip" href="${hf}">Kerjakan →</a>`}</li>`).join("")}</ul></div></div>`}
 function nilaiHTML(){const d=load();if(!syarat(d).ok)return lockHTML(d);const H=hitung(d),P=GLD.PASS_MCQ,K=H.ki!=null?GLD.KATEGORI[H.ki]:null;
  const miss=[];if(H.pg==null)miss.push("kuis mode Gabungan");H.asp.forEach((a,i)=>{if(a.v==null)miss.push("Skenario "+(i+1))});
  const hist=[].concat(d.kuis.hist.map(h=>({t:h.t,x:`Kuis ${h.m==="all"?"Gabungan":"Bab "+(+h.m.slice(1)+1)}: ${fmt(h.score)} (${h.benar}/${h.n})`})),
-  ...GLD.SIM.map((s,i)=>((d.sim[s.id]||{}).hist||[]).map(h=>({t:h.t,x:`Skenario ${i+1}: ${fmt(h.score)} · ${GLD.LEVEL[level(h.score)][0]}${h.legacy?" (versi lama)":""}`}))),
-  d.akhir.hist.map(h=>({t:h.t,x:`Nilai akhir: ${fmt(h.akhir)} · ${h.kat}`}))).sort((a,b)=>b.t-a.t).slice(0,12);
+  ...GLD.SIM.map((s,i)=>((d.sim[s.id]||{}).hist||[]).map(h=>({t:h.t,x:`Skenario ${i+1}: ${fmt(h.score)}, ${GLD.LEVEL[level(h.score)][0]}${h.legacy?" (versi lama)":""}`}))),
+  d.akhir.hist.map(h=>({t:h.t,x:`Nilai akhir: ${fmt(h.akhir)}, ${h.kat}`}))).sort((a,b)=>b.t-a.t).slice(0,12);
  const tgl=t=>new Date(t).toLocaleString("id-ID",{day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});
  return `<div class="nilai"><div class="nl-head"><span class="mono">Nilai akhir</span><div class="lx-big"${H.akhir!=null?` data-cu="${H.akhir}"`:""}>${fmt(H.akhir)}</div>
   ${K?`<span class="badge k${H.ki}">${esc(K[0])}</span><p>${esc(K[2])}${H.capped?` <b>Catatan:</b> nilai pilihan gandamu belum mencapai batas lulus ${P}, sehingga kategori dibatasi di “Cukup Siap”.`:""}</p>`:`<p>Lengkapi dulu: ${miss.join(", ")}.</p>`}</div>
-  <div class="nl-grid"><div class="nl-c"><span class="mono">Pilihan ganda · bobot 30%</span><b${H.pg!=null?` data-cu="${H.pg}"`:""}>${fmt(H.pg)}</b><small>${H.pg==null?"Belum ada skor mode Gabungan.":`Skor terbaik mode Gabungan · ${H.pg>=P?"lulus":"belum lulus"} (batas ${P})`}</small><small>Kontribusi: ${fmt(H.pg)} × 0,30 = <b>${H.pg==null?"–":fmt(H.pg*GLD.W_MCQ)}</b></small><i class="nl-bar" style="--w:${(H.pg||0)/100}"></i></div>
-  <div class="nl-c"><span class="mono">Simulasi · bobot 70%</span><b${H.sim!=null?` data-cu="${H.sim}"`:""}>${fmt(H.sim)}</b><small>${H.sim==null?"Selesaikan ketiga skenario.":"Gabungan berbobot tiga aspek"}</small><small>Kontribusi: ${fmt(H.sim)} × 0,70 = <b>${H.sim==null?"–":fmt(H.sim*GLD.W_SIM)}</b></small><i class="nl-bar" style="--w:${(H.sim||0)/100}"></i></div></div>
+  <div class="nl-grid"><div class="nl-c"><span class="mono">Pilihan ganda, bobot 30%</span><b${H.pg!=null?` data-cu="${H.pg}"`:""}>${fmt(H.pg)}</b><small>${H.pg==null?"Belum ada skor mode Gabungan.":`Skor terbaik mode Gabungan, ${H.pg>=P?"lulus":"belum lulus"} (batas ${P})`}</small><small>Kontribusi: ${fmt(H.pg)} × 0,30 = <b>${H.pg==null?"–":fmt(H.pg*GLD.W_MCQ)}</b></small><i class="nl-bar" style="--w:${(H.pg||0)/100}"></i></div>
+  <div class="nl-c"><span class="mono">Simulasi, bobot 70%</span><b${H.sim!=null?` data-cu="${H.sim}"`:""}>${fmt(H.sim)}</b><small>${H.sim==null?"Selesaikan ketiga skenario.":"Gabungan berbobot tiga aspek"}</small><small>Kontribusi: ${fmt(H.sim)} × 0,70 = <b>${H.sim==null?"–":fmt(H.sim*GLD.W_SIM)}</b></small><i class="nl-bar" style="--w:${(H.sim||0)/100}"></i></div></div>
   <div class="nl-tw"><table class="nl-t"><thead><tr><th>Aspek simulasi</th><th>Bobot</th><th>Skor</th><th>Level</th><th>Kontribusi</th></tr></thead><tbody>${H.asp.map(a=>`<tr><td>${esc(a.s.aspek)}${a.legacy?` <small class="nl-old">skor versi lama</small>`:""}</td><td data-l="Bobot">${Math.round(a.s.w*100)}%</td><td data-l="Skor">${fmt(a.v)}</td><td data-l="Level">${a.v==null?"–":GLD.LEVEL[level(a.v)][0]}</td><td data-l="Kontribusi">${a.v==null?"–":fmt(a.v*a.s.w)}</td></tr>`).join("")}</tbody></table></div>
   <p class="nl-f">Nilai Akhir = (Nilai Pilihan Ganda × 0,30) + (Nilai Simulasi × 0,70)${H.akhir!=null?` = (${fmt(H.pg)} × 0,30) + (${fmt(H.sim)} × 0,70) = <b>${fmt(H.akhir)}</b>`:""}</p>
-  <div class="nl-k">${GLD.KATEGORI.map(([t],i)=>`<span class="${H.ki===i?"on":""}">${esc(GLS.score.katLabel(i))} · ${esc(t)}</span>`).join("")}</div>
+  <div class="nl-k">${GLD.KATEGORI.map(([t],i)=>`<span class="${H.ki===i?"on":""}">${esc(GLS.score.katLabel(i))}, ${esc(t)}</span>`).join("")}</div>
   <details class="nl-h"><summary>Riwayat percobaan (${hist.length})</summary>${hist.length?`<ul>${hist.map(h=>`<li><small>${tgl(h.t)}</small> ${esc(h.x)}</li>`).join("")}</ul>`:"<p>Belum ada percobaan.</p>"}</details>
   <div class="nl-print"><label>Nama untuk kartu hasil<input id="nlname" maxlength="60" autocomplete="name" placeholder="Nama lengkap"></label><button class="btn p" data-n="print">Cetak kartu hasil</button></div>
   <button class="chip" data-n="reset">Hapus semua hasil latihan</button></div>`}
@@ -446,9 +455,9 @@ function cetak(){const d=load(),H=hitung(d),K=H.ki!=null?GLD.KATEGORI[H.ki]:null
  const old=q("#cetak");if(old)old.remove();
  const tgl=new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}),logo=(q("[data-logo] svg")||{}).outerHTML||"";
  const KC=["#1a9e5c","#2a56f5","#d99a00","#e2552b"][H.ki]||"#5a6390",pct=H.akhir==null?0:Math.max(0,Math.min(1,H.akhir/100)),C=2*Math.PI*54;
- const sel=(t,v,w)=>`<div class="ck-k"><span>${t}</span><b>${v==null?"–":fmt(v)}</b><small>bobot ${w}% · kontribusi ${v==null?"–":fmt(v*w/100)}</small></div>`;
+ const sel=(t,v,w)=>`<div class="ck-k"><span>${t}</span><b>${v==null?"–":fmt(v)}</b><small>bobot ${w}%, kontribusi ${v==null?"–":fmt(v*w/100)}</small></div>`;
  const c=document.createElement("section");c.id="cetak";
- c.innerHTML=`<header class="ck-top"><div class="ck-logo">${logo}</div><div><small>GrowthLab · Self Development for Job Seeker</small><h1>Kartu Hasil Belajar</h1></div><div class="ck-date"><small>Tanggal</small><b>${tgl}</b></div></header>
+ c.innerHTML=`<header class="ck-top"><div class="ck-logo">${logo}</div><div><small>GrowthLab, Self Development for Job Seeker</small><h1>Kartu Hasil Belajar</h1></div><div class="ck-date"><small>Tanggal</small><b>${tgl}</b></div></header>
  <div class="ck-id"><div><small>Nama peserta</small><b>${nm?esc(nm):"&nbsp;"}</b></div><div><small>Pelajaran selesai</small><b>${n} / ${tot}</b></div><div><small>Kuis pilihan ganda</small><b>${H.pg==null?"–":H.pg>=P?"Lulus":"Belum lulus"}</b></div></div>
  <section class="ck-hero"><div class="ck-ring"><svg viewBox="0 0 128 128"><circle cx="64" cy="64" r="54" class="bg"/><circle cx="64" cy="64" r="54" class="fg" style="stroke:${KC};stroke-dasharray:${C.toFixed(1)};stroke-dashoffset:${(C*(1-pct)).toFixed(1)}"/></svg><div><small>Nilai akhir</small><b>${H.akhir==null?"–":fmt(H.akhir)}</b></div></div>
   <div class="ck-kat"><span class="ck-pill" style="background:${KC}">${K?esc(K[0]):"Belum lengkap"}</span><p>${K?esc(K[2]):"Lengkapi kuis Gabungan dan ketiga simulasi untuk mendapatkan nilai akhir."}</p>${H.capped?`<p class="ck-note">Nilai pilihan ganda belum mencapai batas lulus ${P}, sehingga kategori dibatasi di “Cukup Siap”.</p>`:""}</div></section>
