@@ -184,3 +184,11 @@ body:before{opacity:0!important}
 #ltp .gs-h{font:800 clamp(1.8rem,3.4vw,2.6rem)/1.05 "Bricolage Grotesque",system-ui,sans-serif!important;text-transform:none!important;letter-spacing:-.02em!important}
 #ltp .gs-h span{color:#ffd23f}
 .gs-ft{font:800 1.3rem/1.15 "Bricolage Grotesque",system-ui,sans-serif!important;text-transform:none!important;letter-spacing:-.01em!important}
+/* hero: gradasi gelap digambar langsung di latar (dulu lapisan ::after; di Safari tidak menutup tepi sehingga ada bingkai biru terang) */
+.hero.blk:after{display:none!important}
+.hero{background:linear-gradient(90deg,rgba(6,14,70,.7) 0,rgba(6,14,70,.3) 45%,rgba(6,14,70,0) 72%),#2340d8!important}
+@media(max-width:900px){.hero{background:linear-gradient(rgba(6,14,70,.62),rgba(6,14,70,.5)),#2340d8!important}}
+/* latar di balik sudut membulat bagian beranda disamakan dengan gradasi hero, supaya tidak ada garis biru terang di tepi */
+body[data-view=home]{background:linear-gradient(90deg,rgba(6,14,70,.7) 0,rgba(6,14,70,.3) 45%,rgba(6,14,70,0) 72%),#2340d8!important}
+@media(max-width:900px){body[data-view=home]{background:linear-gradient(rgba(6,14,70,.56),rgba(6,14,70,.56)),#2340d8!important}}
+#panduan{--prev:transparent!important}
