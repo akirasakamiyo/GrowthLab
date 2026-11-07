@@ -299,7 +299,7 @@ L.k5=L["2-4"];L.komunitas=L.team;L.tentang=L.team;
 return k=>{const b=L[k]||L.course;return`<svg class="ill" viewBox="0 0 200 140" preserveAspectRatio="xMidYMid meet" aria-hidden="true"><g stroke="${K}" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">${b}</g></svg>`}})();
 /* unslop (2026-11-07): ilustrasi kapur pengganti "orang + laptop + grafik batang" gaya stok.
    Cerita: dari toga (lulus) lewat CV yang menumbuhkan tunas, menuju koper kerja yang dilingkari. */
-const CHALK=(c,a,b)=>`<svg class="chalk" viewBox="0 0 600 520" aria-hidden="true"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="5" filter="url(#gl-boil)">
+const CHALK=(c,a,b)=>`<svg class="chalk" viewBox="0 0 600 520" aria-hidden="true"><g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="5">
 <path class="ck-path" stroke="${c}" stroke-width="3.5" stroke-dasharray="3 14" d="M120 160C150 270 210 300 280 300S430 250 470 170"/>
 <g class="ck-a"><path stroke="${c}" d="M40 110l70-30 70 30-70 30z"/><path stroke="${c}" d="M72 124v34c24 16 52 16 76 0v-34"/><path stroke="${a}" d="M180 110v38"/><circle cx="180" cy="154" r="6" stroke="${a}"/></g>
 <g class="ck-b"><rect x="420" y="78" width="110" height="78" rx="10" stroke="${c}"/><path stroke="${c}" d="M455 78v-14h40v14M420 108h110"/><rect x="466" y="100" width="18" height="16" rx="3" stroke="${a}"/><path stroke="${b}" stroke-width="4" d="M408 62c22-34 136-36 146 6 8 40-58 104-128 92-50-10-44-72 2-86"/></g>
