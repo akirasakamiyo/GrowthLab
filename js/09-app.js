@@ -11,7 +11,21 @@ const p2=n=>String(n).padStart(2,"0");
 /* pelajaran terkunci sampai semua pelajaran sebelumnya selesai (pelajaran yang sudah selesai tetap terbuka) */
 const FLAT=C.chapters.flatMap((c,i)=>c.l.map((_,j)=>i+"-"+j));
 const locked=(i,j)=>{const k=i+"-"+j;if(done.has(k))return false;const p=FLAT.indexOf(k);return p>0&&!FLAT.slice(0,p).every(x=>done.has(x))};
-window.GLK={locked};
+/* Kunci latihan (2026-11-11): kuis, drag & drop, dan simulasi baru terbuka setelah SEMUA pelajaran bab yang relevan selesai.
+   - Kuis Bab N        -> Bab N selesai
+   - Kuis Gabungan     -> ketiga bab selesai
+   - Set drag & drop   -> bab dari pelajaran terkait set itu (les[0])
+   - Simulasi s1/s2/s3 -> Bab 1/2/3 (satu aspek per bab, urutan sama dengan GLD.SIM)
+   Aturan hanya ada di sini; modul latihan cukup memanggil GLK.latLock(jenis, id). */
+const chDone=i=>!!C.chapters[i]&&C.chapters[i].l.every((_,j)=>done.has(i+"-"+j));
+const chCount=i=>C.chapters[i]?C.chapters[i].l.filter((_,j)=>done.has(i+"-"+j)).length:0;
+const latNeed=(k,id)=>k==="kuis"?(id==="all"?C.chapters.map((_,i)=>i):[+String(id).replace(/\D/g,"")]):k==="dnd"?[((GLD.DND.find(x=>x.id===id)||{les:[0]}).les||[0])[0]]:[Math.max(0,GLD.SIM.findIndex(x=>x.id===id))];
+const babList=a=>a.length<2?"Bab "+(a[0]+1):a.length===2?`Bab ${a[0]+1} dan Bab ${a[1]+1}`:a.map((b,i)=>(i===a.length-1?"dan ":"")+"Bab "+(b+1)).join(", ").replace(", dan",", dan");
+const latLock=(k,id)=>{const need=latNeed(k,id),miss=need.filter(i=>!chDone(i));
+ return{ok:!miss.length,need,miss,msg:miss.length?`Selesaikan semua pelajaran ${babList(miss)} dulu untuk membuka ini.`:"",
+  prog:miss.map(i=>({bab:i,n:chCount(i),of:C.chapters[i].l.length}))}};
+const nextHref=()=>{const[i,j]=nextUp();return"#/lesson/"+i+"-"+j};
+window.GLK={locked,chDone,latLock,nextHref};
 function phase(){$$(".brand i,.dot,.art").forEach((e,i)=>{e.style.setProperty("--ph",(i*1.618%5).toFixed(2));e.style.setProperty("--dur",(4+(i*.73%2.6)).toFixed(2)+"s")})}
 
 /* ---------- render ---------- */
@@ -74,7 +88,7 @@ function renderCourse(){
  $("#cmeta").textContent=`Isinya ${C.chapters.length} bab, ${total} pelajaran, ${GLX.nQuiz} soal, dan ${GLX.nSim} simulasi.`;
  const seen=badgeSeen();
  $("#chaps").innerHTML=C.chapters.map((c,i)=>{const n=c.l.filter((_,j)=>done.has(i+"-"+j)).length;
-  return `<div class="chap ${i===open_?"open":""}"><button data-i="${i}" aria-expanded="${i===open_}"><span class="mono">${p2(i+1)}</span><h3>${esc(c.t)}</h3>${n===c.l.length&&BADGE[i]?`<span class="mono chbadge ${seen.includes(i)?"":"new"}" title="Lencana ${esc(BADGE[i][0])}">${MEDAL}${n}/${c.l.length}</span>`:`<span class="mono">${n}/${c.l.length}</span>`}<svg class="chev" viewBox="0 0 18 18"><path d="M3 6l6 6 6-6"/></svg></button><div class="lessons"><div>${c.l.map((l,j)=>`<button class="les ${done.has(i+"-"+j)?"done":""}${locked(i,j)?" lock":""}" data-k="${i}-${j}"${locked(i,j)?' title="Selesaikan pelajaran sebelumnya dulu"':""}><span class="mono">${p2(j+1)}</span><span>${esc(l.t)}${l.draft?' <small class="mono">· draf</small>':""}</span><b></b></button>`).join("")}${(()=>{const nj=c.l.findIndex((_,j)=>!done.has(i+"-"+j));return `${nj<0&&BADGE[i]?`<div class="chrew">${MEDAL}<div><span class="mono">Lencana diraih</span><b>${esc(BADGE[i][0])}</b><p>${esc(BADGE[i][1])}</p></div></div>`:""}<div class="chact"><span class="chbar" aria-hidden="true"><i style="--p:${n/c.l.length}"></i></span><a class="btn p" href="#/lesson/${i}-${nj<0?0:nj}">${nj<0?"Ulas bab":n?"Lanjut bab":"Mulai bab"}</a><a class="btn" href="#/latihan/kuis/b${i}">Kuis Bab ${i+1}</a></div>`})()}</div></div></div>`}).join("")
+  return `<div class="chap ${i===open_?"open":""}"><button data-i="${i}" aria-expanded="${i===open_}"><span class="mono">${p2(i+1)}</span><h3>${esc(c.t)}</h3>${n===c.l.length&&BADGE[i]?`<span class="mono chbadge ${seen.includes(i)?"":"new"}" title="Lencana ${esc(BADGE[i][0])}">${MEDAL}${n}/${c.l.length}</span>`:`<span class="mono">${n}/${c.l.length}</span>`}<svg class="chev" viewBox="0 0 18 18"><path d="M3 6l6 6 6-6"/></svg></button><div class="lessons"><div>${c.l.map((l,j)=>`<button class="les ${done.has(i+"-"+j)?"done":""}${locked(i,j)?" lock":""}" data-k="${i}-${j}"${locked(i,j)?' title="Selesaikan pelajaran sebelumnya dulu"':""}><span class="mono">${p2(j+1)}</span><span>${esc(l.t)}${l.draft?' <small class="mono">· draf</small>':""}</span><b></b></button>`).join("")}${(()=>{const nj=c.l.findIndex((_,j)=>!done.has(i+"-"+j));return `${nj<0&&BADGE[i]?`<div class="chrew">${MEDAL}<div><span class="mono">Lencana diraih</span><b>${esc(BADGE[i][0])}</b><p>${esc(BADGE[i][1])}</p></div></div>`:""}<div class="chact"><span class="chbar" aria-hidden="true"><i style="--p:${n/c.l.length}"></i></span><a class="btn p" href="#/lesson/${i}-${nj<0?0:nj}">${nj<0?"Ulas bab":n?"Lanjut bab":"Mulai bab"}</a>${n===c.l.length?`<a class="btn" href="#/latihan/kuis/b${i}">Kuis Bab ${i+1}</a>`:`<span class="btn is-lock" role="link" aria-disabled="true" title="Selesaikan semua pelajaran Bab ${i+1} dulu untuk membuka kuis ini"><svg class="lkic" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>Kuis Bab ${i+1}</span>`}</div>`})()}</div></div></div>`}).join("")
   +`<div class="chap"><a class="les" href="#/latihan" style="border:0;padding:30px 0"><span class="mono" style="font:400 2.4rem/1 var(--serif);color:var(--acc-t,var(--acc))">${p2(C.chapters.length+1)}</span><span><h3 style="font-size:clamp(1.8rem,3.4vw,2.8rem)">Latihan</h3><small>Kuis, drag &amp; drop, simulasi, dan nilai akhir</small></span><b></b></a></div>`;
  $$(".chap>button").forEach(b=>{b.onclick=()=>{open_=+b.dataset.i;setActive(open_);renderCourse()};});
  try{localStorage.setItem("gl-badge",JSON.stringify(C.chapters.map((_,i)=>i).filter(chFull)))}catch(e){}
