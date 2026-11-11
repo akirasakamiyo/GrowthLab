@@ -49,14 +49,17 @@ function setMeters(m,dm){qa(".gv-m").forEach((el,i)=>{const k=el.dataset.k,b=q("
 
 /* ---------- layar: daftar kasus ---------- */
 function homeHTML(){const d=data();
- const cards=GLD.SIM.map((c,i)=>{const o=d.sim[c.id],b=o&&o.best,play=E.playable(c),run=play?runOf(d,c):null,found=o?o.endings.length:0;
+ const cards=GLD.SIM.map((c,i)=>{const o=d.sim[c.id],b=o&&o.best,play=E.playable(c),lk=window.GLK?GLK.latLock("sim",c.id):{ok:true},run=play?runOf(d,c):null,found=o?o.endings.length:0;
+  if(play&&!lk.ok){const pr=lk.prog.map(x=>`Bab ${x.bab+1}: ${x.n} dari ${x.of} pelajaran selesai`).join("");return `<div class="gs-file soon is-lock" data-id="${c.id}" role="group" aria-label="Kasus ${i+1}, terkunci. ${esc(lk.msg)}" style="--i:${i};--cc:${CCOL[i%CCOL.length]}"><span class="gs-fn gs-m"><span>Kasus ${i+1} dari ${GLD.SIM.length}</span><span>${IC.lock} Terkunci</span></span>
+   <span class="gs-fi">${ST()?ST().thumb(c):""}</span><span class="gs-ft">${esc(c.t)}</span><span class="gs-m">Aspek ${i+1}, bobot ${Math.round(c.w*100)}%</span><span class="gs-fa">${esc(c.aspek)}</span><span class="gs-fd">${esc(lk.msg)}</span>
+   <span class="gs-fm"><span>${esc(pr)}</span></span><a class="lk-go" href="${window.GLK?GLK.nextHref():"#/course"}">Lanjut belajar ${IC.arrow}</a></div>`}
   const stat=!play?"Segera hadir":run?`Lagi di situasi ${run.ids.length+1} dari ${N}`:b&&!b.legacy?`Selesai, ${found} dari ${c.endings.length} akhir cerita ditemukan`:`Situasi 0/${N}`;
   const best=b?`Terbaik ${fmt(b.score)}, ${pitaT(b.score)}${b.legacy?", versi lama":""}`:"Skor terbaik: –";
   const tg=play?"button":"div";return `<${tg} ${play?`type="button" data-sm="open" `:""}class="gs-file${play?"":" soon"}" data-id="${c.id}" style="--i:${i};--cc:${CCOL[i%CCOL.length]}"><span class="gs-fn gs-m"><span>Kasus ${i+1} dari ${GLD.SIM.length}</span><span>${play?(run?"Lanjutkan":b&&!b.legacy?"✓":"Baru"):"Segera hadir"}</span></span>
    <span class="gs-fi">${ST()?ST().thumb(c):""}</span><span class="gs-ft">${esc(c.t)}</span><span class="gs-m">Aspek ${i+1}, bobot ${Math.round(c.w*100)}%</span><span class="gs-fa">${esc(c.aspek)}</span><span class="gs-fd">${esc(c.intro)}</span>
    <span class="gs-fm"><span>${best}</span><span>${stat}</span></span><span class="gs-go">${!play?"Segera hadir":`${run?"Lanjutkan":b&&!b.legacy?"Main ulang":"Mulai kasus"} ${IC.arrow}`}</span></${tg}>`}).join("");
  return `<div class="gs-home"><div class="gs-hh"><h3 class="gs-h">Pilih <span>kasusmu</span></h3>
-  <p>Tiap kasus punya ${N} situasi. Pilihanmu yang menentukan jalan cerita dan akhirnya. Setiap pilihan diberi skor 0–100 dan tidak bisa diubah setelah dipilih, tapi kamu bisa mencoba jalur lain lewat <b>Main ulang</b>.</p>
+  <p>Tiap kasus punya ${N} situasi. Pilihanmu yang menentukan jalan cerita dan akhirnya. Tiap kasus terbuka setelah semua pelajaran babnya selesai: Kasus 1 untuk Bab 1, Kasus 2 untuk Bab 2, dan Kasus 3 untuk Bab 3. Setiap pilihan diberi skor 0–100 dan tidak bisa diubah setelah dipilih, tapi kamu bisa mencoba jalur lain lewat <b>Main ulang</b>.</p>
   <p class="gs-note">Skor tiap kasus adalah rata-rata dari ${N} pilihanmu, dan yang dipakai skor terbaik. Nilai simulasi = (Aspek 1 × 0,35) + (Aspek 2 × 0,35) + (Aspek 3 × 0,30), lalu masuk nilai akhir sebesar 70%.${GLS.db.persistent()?"":" <b>Browser ini tidak bisa menyimpan data</b>, jadi progresmu hilang begitu halaman ditutup."}</p></div>
  <div class="gs-files">${cards}</div><div class="gs-foot">${U.sndCtl()}<span class="gs-m">Progres tersimpan tiap kali kamu memilih</span></div>${DEBUG?debugHTML():""}</div>`}
 
@@ -143,7 +146,7 @@ function draw(fx){const p=panel();if(!p)return;FX.clear();if(TW)TW.kill();full(!
  p.innerHTML=situHTML();restore(p)}
 function scramble(el){if(rmq())return;const t=el.dataset.t,G="▓▒░█<>/\\|#*+=-_",t0=performance.now();
  const st=n=>{const k=Math.min(1,(n-t0)/900),c=Math.floor(t.length*k);el.textContent=t.slice(0,c)+[...t.slice(c)].map(x=>x===" "?" ":G[Math.random()*G.length|0]).join("");if(k<1)FX.raf(st);else el.textContent=t};FX.raf(st)}
-function open(id){const c=E.kasus(id);if(!c||!E.playable(c)){say("Kasus ini segera hadir.");return}const g=ST();g&&g.preload&&g.preload(c);SND.wake();SND.music("amb");V={c,ph:"intro",resume:runOf(data(),c)};draw(true);U.scrollTop()}
+function open(id){const c=E.kasus(id);if(!c||!E.playable(c)){say("Kasus ini segera hadir.");return}const lk=window.GLK?GLK.latLock("sim",id):{ok:true};if(!lk.ok){say(lk.msg);return}const g=ST();g&&g.preload&&g.preload(c);SND.wake();SND.music("amb");V={c,ph:"intro",resume:runOf(data(),c)};draw(true);U.scrollTop()}
 function begin(resume){const c=V.c;let st=resume&&V.resume?V.resume:null;if(!st){st=E.start(c);saveRun(c,st)}V={c,st,ph:"narasi"};SND.play("tap");enterNode()}
 function home(){FX.clear();if(TW)TW.kill();V=null;SND.play("tap");draw(true)}
 function click(e){const b=e.target.closest("[data-sm]");

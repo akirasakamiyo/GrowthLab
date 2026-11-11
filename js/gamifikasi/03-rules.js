@@ -184,19 +184,29 @@
   /* ---------- quest ---------- */
   const hash = s => [...s].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
   const lessonsLeft = () => { const d = new Set(G.storage.get("mer-done") || []); return GLD.COURSE.chapters.reduce((n, ch, i) => n + ch.l.filter((_, j) => !d.has(i + "-" + j)).length, 0) };
+  /* latihan terkunci sampai semua pelajaran bab terkait selesai (aturan lengkap: GLK.latLock di js/09-app.js),
+     jadi misi hanya ditawarkan bila aktivitasnya sudah bisa dikerjakan. */
+  const doable = g => {
+    const d = new Set(G.storage.get("mer-done") || []), bd = GLD.COURSE.chapters.map((ch, i) => ch.l.every((_, j) => d.has(i + "-" + j)));
+    if (g.type === "quiz" || g.type === "sim") return bd.some(Boolean);
+    if (g.type === "dnd") return GLD.DND.filter(x => bd[x.les[0]]).length >= g.n;
+    return true;
+  };
   G.quest = (now = Date.now()) => {
     const wk = G.weekKey(now), S = G.state(), Q = C.quest;
     S.quests = S.quests || {};
-    if (!S.quests[wk]) {
-      /* pilih tujuan minggu ini sekali, lalu simpan agar tidak berubah walau kondisi berubah */
-      const pool = Q.goals.filter(g => g.type !== "lesson" || lessonsLeft() >= g.n);
+    const ev = S.ledger.filter(e => !e.meta.awal && inWeek(e.t, wk));
+    const count = type => type === "days" ? S.days.filter(k => G.weekKey(new Date(k.replace(/-/g, "/"))) === wk).length : ev.filter(e => e.type === type).length;
+    const stuck = S.quests[wk] && S.quests[wk].goals.some(t => !doable(Q.goals.find(x => x.type === t) || { type: t, n: 0 })) && S.quests[wk].goals.every(t => count(t) === 0);
+    if (!S.quests[wk] || stuck) {
+      /* pilih tujuan minggu ini sekali, lalu simpan agar tidak berubah walau kondisi berubah
+         (kecuali misi yang belum bisa dikerjakan dan belum ada kemajuannya: dipilih ulang) */
+      const pool = Q.goals.filter(g => (g.type !== "lesson" || lessonsLeft() >= g.n) && doable(g));
       const h = hash(wk), picked = [];
       for (let k = 0; picked.length < Math.min(Q.pick, pool.length); k++) { const g = pool[(h + k * 7) % pool.length]; if (!picked.includes(g)) picked.push(g) }
       S.quests[wk] = { goals: picked.map(g => g.type) };
       G.save();
     }
-    const ev = S.ledger.filter(e => !e.meta.awal && inWeek(e.t, wk));
-    const count = type => type === "days" ? S.days.filter(k => G.weekKey(new Date(k.replace(/-/g, "/"))) === wk).length : ev.filter(e => e.type === type).length;
     const goals = S.quests[wk].goals.map(type => { const g = Q.goals.find(x => x.type === type); return { type, t: g.t, n: g.n, cur: Math.min(g.n, count(type)) } });
     return { wk, goals, done: goals.every(g => g.cur >= g.n), claimed: G.has("quest:" + wk), xp: Q.xp };
   };

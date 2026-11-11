@@ -1,0 +1,37 @@
+/* kunci latihan (2026-11-11): kuis, drag & drop, dan simulasi terkunci sampai pelajaran bab terkait selesai */
+.lk-go{display:inline-flex;align-items:center;gap:8px;align-self:flex-start;margin-top:8px;padding:9px 14px;border:2px solid #0a1a6b;border-radius:10px;background:#ffd23f;color:#0a1a6b!important;font:800 .88rem/1 "DM Sans",system-ui,sans-serif;text-decoration:none;box-shadow:3px 3px 0 #0a1a6b;transition:transform .15s,box-shadow .15s}
+.lk-go:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 #0a1a6b}
+.lk-go svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.gq-mtag .gi,.gq-rt small .gi,.gs-fn .gi{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:-2px;margin-right:5px}
+/* kuis */
+.gq-main.is-lock{background:#e4e8f4!important;color:#3d4a6e!important;border-style:dashed!important;box-shadow:none!important;cursor:default}
+.gq-main.is-lock:hover{transform:none;box-shadow:none!important}
+.gq-main.is-lock b,.gq-main.is-lock p,.gq-main.is-lock small{color:#3d4a6e!important}
+.gq-main.is-lock .gq-mtag{background:#0a1a6b!important;color:#fff!important}
+.gq-row.is-lock{background:#f2f4fa!important;border-style:dashed!important;box-shadow:none!important;cursor:default}
+.gq-row.is-lock:hover{transform:none;box-shadow:none!important}
+.gq-row.is-lock .gq-rt b{color:#5a6390}
+.gq-row.is-lock .lk-go{flex:none;margin:0}
+/* drag & drop */
+.gd-lv .gd-set.is-lock{background:#eef1f8!important;border-style:dashed!important;box-shadow:none!important;color:#5a6390!important}
+.gd-lv .gd-set.is-lock:hover{transform:none;box-shadow:none!important}
+.gd-lv .gd-set.is-lock[aria-pressed=true]{background:#dfe4f2!important;color:#0a1a6b!important;border-style:solid!important;box-shadow:3px 3px 0 #0a1a6b!important}
+.gd-lkic{display:flex!important;align-items:center;gap:6px}
+.gd-lkic .gi{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.gd-lkic small{font:700 .72rem/1 "DM Sans",system-ui,sans-serif}
+.gd-lockp{display:flex;gap:18px;align-items:center;margin-top:8px;padding:24px;border:2.5px dashed #0a1a6b;border-radius:16px;background:#f2f5fc}
+.gd-lkbig{flex:none;display:grid;place-items:center;width:64px;height:64px;border-radius:18px;background:#0a1a6b;color:#ffd23f}
+.gd-lkbig .gi{width:34px;height:34px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.gd-lockp h3{margin:0 0 6px;font:800 1.4rem/1.1 "Bricolage Grotesque",system-ui,sans-serif!important;text-transform:none!important;color:#0a1a6b}
+.gd-lockp p{margin:0 0 6px;color:#1e2a4a;font-size:.95rem}.gd-lkprog{font-weight:700;color:#3d4a86!important}
+@media(max-width:560px){.gd-lockp{flex-direction:column;align-items:flex-start}}
+/* simulasi */
+.gs-file.is-lock{cursor:default;filter:grayscale(.6)}
+.gs-file.is-lock:hover{transform:none}
+.gs-file.is-lock .lk-go{margin-top:12px}
+/* tombol Kuis Bab N di daftar pelajaran */
+.btn.is-lock{opacity:.6;cursor:not-allowed;background:#eef1f8!important;color:#5a6390!important}
+.btn.is-lock::before,.btn.is-lock::after{display:none!important}
+.btn .lkic{width:14px;height:14px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;margin-right:6px;vertical-align:-2px}
+.gq-row.is-lock{border-left-style:solid!important;border-left-color:#b9c2e8!important}
+@media(max-width:560px){.gq-row.is-lock{flex-direction:column;align-items:flex-start}.gq-row.is-lock .lk-go{margin-top:2px}}
