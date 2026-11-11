@@ -6,6 +6,7 @@ const sl = ms => new Promise(r => setTimeout(r, ms));
 (async () => {
   const b = await (which === "webkit" ? webkit : chromium).launch(which === "chrome" ? { channel: "chrome" } : {});
   const p = await b.newPage({ viewport: { width: W, height: 800 } }); const errs = [];
+  await p.addInitScript(() => { try { if (!localStorage.getItem("mer-done")) localStorage.setItem("mer-done", JSON.stringify(["0-0","0-1","0-2","0-3","0-4","1-0","1-1","1-2","1-3","1-4","2-0","2-1","2-2","2-3","2-4"])) } catch (e) {} });   // semua pelajaran selesai: tautan langsung ke latihan harus terbuka (t-kunci.js menguji kuncinya)
   p.on("pageerror", e => errs.push("pageerror " + e.message));
   p.on("console", m => { if (/error|warning/.test(m.type())) { const t = m.text(); if (!/api\/config|api\/me|WebGL|Failed to load resource|GPU stall|GroupMarkerNotSet/i.test(t)) errs.push(m.type() + " " + t) } });
   await p.goto(BASE + "?s=" + Date.now() + "#/", { waitUntil: "load" });

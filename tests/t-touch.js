@@ -5,6 +5,7 @@ let fails = 0; const ok = (c, m) => { console.log((c ? "ok: " : "GAGAL: ") + m);
 (async () => {
   const b = await chromium.launch({ channel: "chrome" });
   const ctx = await b.newContext({ viewport: { width: 375, height: 740 }, hasTouch: true, isMobile: true, deviceScaleFactor: 2 });
+  await ctx.addInitScript(() => { try { if (!localStorage.getItem("mer-done")) localStorage.setItem("mer-done", JSON.stringify(["0-0","0-1","0-2","0-3","0-4","1-0","1-1","1-2","1-3","1-4","2-0","2-1","2-2","2-3","2-4"])) } catch (e) {} });   // semua pelajaran selesai: latihan baru terbuka setelah pelajaran bab terkait selesai (t-kunci.js menguji kuncinya)
   const p = await ctx.newPage(); const errs = [];
   p.on("pageerror", e => errs.push(e.message));
   await p.goto("http://localhost:8000/index.html?t=" + Date.now() + "#/latihan/dnd/stres");

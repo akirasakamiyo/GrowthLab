@@ -12,6 +12,7 @@ const V1 = { v: 1, kuis: { best: { all: { score: 88.2, benar: 30, n: 34, t: 1 } 
   const browser = await bt.launch(which === "chrome" ? { channel: "chrome" } : {});
   const mk = async (opt = {}) => {
     const ctx = await browser.newContext({ viewport: { width: +W, height: 820 }, reducedMotion: rm ? "reduce" : "no-preference", hasTouch: +W < 600 });
+    await ctx.addInitScript(() => { try { if (!localStorage.getItem("mer-done")) localStorage.setItem("mer-done", JSON.stringify(["0-0","0-1","0-2","0-3","0-4","1-0","1-1","1-2","1-3","1-4","2-0","2-1","2-2","2-3","2-4"])) } catch (e) {} });   // semua pelajaran selesai: latihan baru terbuka setelah pelajaran bab terkait selesai (t-kunci.js menguji kuncinya)
     await ctx.addInitScript(() => { window.GL_NO_GATE = 1 });   // lewati saran urutan (gamifikasi fase 3)
     if (opt.block) await ctx.addInitScript(() => { Object.defineProperty(window, "localStorage", { get() { throw new DOMException("blocked", "SecurityError") } }) });
     if (opt.seed !== undefined) await ctx.addInitScript(s => { if (!sessionStorage.getItem("__seeded")) { localStorage.setItem("gl-latihan", s); sessionStorage.setItem("__seeded", "1") } }, typeof opt.seed === "string" ? opt.seed : JSON.stringify(opt.seed));
@@ -131,7 +132,10 @@ const V1 = { v: 1, kuis: { best: { all: { score: 88.2, benar: 30, n: 34, t: 1 } 
   await ctx.close();
 
   /* H. penyimpanan diblokir (Safari privat) */
-  ({ ctx, page } = await mk({ block: true })); await go(page, "#/latihan/sim");
+  ({ ctx, page } = await mk({ block: true })); await go(page, "#/lesson/0-0");
+  /* penyimpanan diblokir: progres pelajaran hanya di memori sesi, jadi selesaikan Bab 1 lewat tombol (tanpa reload) agar Kasus 1 terbuka */
+  for (let j = 0; j < 5; j++) { await page.evaluate(j => { location.hash = "#/lesson/0-" + j }, j); await sl(1300); await page.click("#mark"); await sl(500) }
+  await page.evaluate(() => { location.hash = "#/latihan/sim" }); await page.waitForSelector("#ltp .gs-file"); await sl(700);
   ok(/tidak bisa menyimpan data/.test(await page.textContent(".gs-note")), "pemberitahuan penyimpanan tidak tersedia");
   await page.click('.gs-file[data-id="s1"]'); await page.click('[data-sm="go"]');
   for (let k = 0; k < 5; k++) { await playOne(page, "best"); await finishOne(page, true) }

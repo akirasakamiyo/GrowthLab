@@ -15,6 +15,7 @@ const kat = (a, pg) => { let k = r1(a) >= 86 ? 0 : r1(a) >= 71 ? 1 : r1(a) >= 56
   const browser = await (which === "webkit" ? webkit : chromium).launch(which === "chrome" ? { channel: "chrome" } : {});
   const mk = async (o = {}) => {
     const ctx = await browser.newContext({ viewport: { width: o.w || 1280, height: 820 } });
+    await ctx.addInitScript(() => { try { if (!localStorage.getItem("mer-done")) localStorage.setItem("mer-done", JSON.stringify(["0-0","0-1","0-2","0-3","0-4","1-0","1-1","1-2","1-3","1-4","2-0","2-1","2-2","2-3","2-4"])) } catch (e) {} });   // semua pelajaran selesai: latihan baru terbuka setelah pelajaran bab terkait selesai (t-kunci.js menguji kuncinya)
     await ctx.addInitScript(() => { window.GL_NO_GATE = 1 });   // lewati saran urutan (gamifikasi fase 3)
     if (o.quota) await ctx.addInitScript(() => { const f = Storage.prototype.setItem; Storage.prototype.setItem = function (k, v) { if (k === "gl-latihan") throw new DOMException("penuh", "QuotaExceededError"); return f.call(this, k, v) } });
     if (o.seed) await ctx.addInitScript(s => { if (!sessionStorage.getItem("__s")) { localStorage.setItem("gl-latihan", s); sessionStorage.setItem("__s", "1") } }, JSON.stringify(o.seed));
