@@ -539,6 +539,8 @@ const crumb=a=>`<nav class="crumb2 mono" aria-label="Breadcrumb"><a href="#/">Be
 const hero=(bg,cr,kick,title,lead,btns,art)=>`<section class="blk phr" style="--b:${bg};--prev:transparent"><div class="wrap phg"><div>${crumb(cr)}<h1 class="rv" style="margin-top:22px">${title}</h1><p class="lead rv" style="--d:.1s">${lead}</p><div class="row rv" style="--d:.18s">${btns}</div></div>${art}</div></section>`;
 const sec=(bg,prev,inner,x="")=>`<section class="blk sc2" style="--b:${bg};--prev:${prev};${x}"><div class="wrap">${inner}</div></section>`;
 const cta=(prev,t,b)=>sec("#ff5a3c",prev,`<div class="ctab"><h2 class="rv">${t}</h2><div class="rv">${b}</div></div>`,"--fg:#fff");
+/* 2026-11-13: bingkai berisi video promo (bisa dinyalakan suaranya), dipakai di halaman Latihan */
+const frV=(c,n,lbl)=>`<div data-par=".05"><div class="rv" data-in="z"><div class="frame promo" style="--c1:${c}"><video class="promo-v" src="assets/video/${n}.mp4" poster="assets/video/${n}.jpg" width="1560" height="1200" muted loop playsinline preload="metadata" disablepictureinpicture aria-label="${lbl}"></video><button type="button" class="promo-snd" aria-pressed="false">Nyalakan suara</button></div></div></div>`;
 const fr=(c,k)=>`<div data-par=".05"><div class="rv" data-in="z"><div class="frame" style="--c1:${c}">${window.GLLOOP&&GLLOOP[k]?GLLOOP[k]():ILL(k)}</div></div></div>`;
 const LES=C.chapters.flatMap((ch,i)=>ch.l.map((l,j)=>({i,j,ch,l,n:i*5+j})));
 const lesLink=(i,j)=>`<a href="#/lesson/${i}-${j}">${esc(C.chapters[i].l[j].t)}</a>`;
@@ -583,7 +585,7 @@ function renderPage(h){const[s,x,y]=h.split("/"),n=+x||0;let H="";const nQ=GLX.n
   +sec(CR,LT[0],GLU.glos());
  else if(s==="referensi")H=hero(LT[2],[["Peta konsep","#/peta"],["Referensi"]],"Panduan · Referensi","<em>Referensi</em> materi",`Semua sumber yang dipakai GrowthLab: ${GLD.REF.length} artikel rujukan pelajaran, sumber kasus simulasi, dan dokumen rancangan tim.`,`<a class="btn p" href="#/referensi" data-sc="ref-materi">Rujukan materi</a>`+A_("#/peta","Peta konsep"),fr(CO[2],"glosarium"))
   +sec(CR,LT[2],GLU.ref())+cta(CR,"Udah tahu sumbernya? Lanjut belajar, yuk",A_("#/course","Buka materi"));
- else if(s==="latihan")H=hero(LT[2],[["Latihan"]],"","Latihan dulu, wawancara <em>kemudian</em>","Ada tiga jenis latihan: kuis pilihan ganda, drag &amp; drop, dan simulasi kasus kerja. Nilai akhirmu diambil 30% dari kuis dan 70% dari simulasi.",`<a class="btn p" href="#/latihan" data-sc="nilai-sec">Lihat nilai akhir</a>`+A_("#/alur","Cara menghitung nilai"),fr(CO[2],"latihan"))
+ else if(s==="latihan")H=hero(LT[2],[["Latihan"]],"","Latihan dulu, wawancara <em>kemudian</em>","Ada tiga jenis latihan: kuis pilihan ganda, drag &amp; drop, dan simulasi kasus kerja. Nilai akhirmu diambil 30% dari kuis dan 70% dari simulasi.",`<a class="btn p" href="#/latihan" data-sc="nilai-sec">Lihat nilai akhir</a>`+A_("#/alur","Cara menghitung nilai"),frV(CO[2],"latihan","Video 30 detik: kuis, drag and drop, simulasi, dan nilai akhir di GrowthLab"))
   +sec(CR,LT[2],GLX.tabsHTML())
   +`<section class="blk sc2" id="nilai-sec" style="--b:#0a1a6b;--prev:${CR};--fg:#fff"><div class="wrap"><h2 class="rv">Nilai akhir</h2><div id="nilai"></div></div></section>`;
  else if(s==="tentang")H=hero(LT[0],[["Tentang"]],"Tentang","Tentang <em>GrowthLab</em>","GrowthLab adalah prototipe media belajar berbasis website yang kami buat untuk tugas mata kuliah Pengembangan Multimedia Pendidikan.",A_("#/tujuan","Tujuan belajar","p")+A_("#/course","Buka materi"),fr(CO[0],"tentang"))
