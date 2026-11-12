@@ -1,0 +1,45 @@
+/* ==================================================================
+   Labi, maskot GrowthLab (2026-11-12). Sprite pixel 48x48, 6 bingkai di assets/maskot/labi.png:
+   0 diam, 1 diam naik, 2 kedip, 3 senang, 4 senang melompat, 5 mikir.
+   Ukuran: --k (kelipatan 48px). Gerak memakai steps() supaya tetap terasa pixel.
+   ================================================================== */
+.labi{--k:2;--f:0;display:inline-block;flex:none;width:calc(48px*var(--k));height:calc(48px*var(--k));
+  background:url(../assets/maskot/labi.png) no-repeat;background-size:calc(288px*var(--k)) calc(48px*var(--k));
+  background-position:calc(-48px*var(--k)*var(--f)) 0;image-rendering:pixelated;image-rendering:crisp-edges;vertical-align:middle}
+.labi.idle{animation:labiIdle 3.6s steps(1) infinite}
+.labi.happy{animation:labiHappy .7s steps(1) infinite}
+.labi.think{--f:5;animation:labiThink 2.4s ease-in-out infinite}
+@keyframes labiIdle{0%{background-position:0 0}18%{background-position:calc(-48px*var(--k)) 0}36%{background-position:0 0}54%{background-position:calc(-48px*var(--k)) 0}72%{background-position:0 0}86%{background-position:calc(-96px*var(--k)) 0}90%{background-position:0 0}}
+@keyframes labiHappy{0%{background-position:calc(-144px*var(--k)) 0}50%{background-position:calc(-192px*var(--k)) 0}}
+@keyframes labiThink{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+
+/* beranda: Labi menyapa di samping tombol hero */
+.hero-labi{display:inline-flex;align-items:flex-end;gap:10px;margin-left:6px;vertical-align:middle;position:relative}
+.hero-labi .labi{--k:2;filter:drop-shadow(0 6px 0 rgba(10,26,107,.35));cursor:pointer}
+.labi-say{position:relative;background:#fff;color:#0a1a6b;border:2px solid #0a1a6b;border-radius:12px 12px 12px 3px;padding:7px 11px;font:700 .82rem/1.25 var(--sans,inherit);white-space:nowrap;box-shadow:3px 3px 0 #0a1a6b;margin-bottom:58px;opacity:0;transform:translateY(6px) scale(.9);transform-origin:left bottom;transition:opacity .25s,transform .3s cubic-bezier(.34,1.56,.64,1)}
+.hero-labi:hover .labi-say,.hero-labi.say .labi-say{opacity:1;transform:none}
+.hero-labi:hover .labi{animation:labiHappy .7s steps(1) infinite}
+@media(max-width:760px){.hero-labi{margin:14px 0 0}.hero-labi .labi{--k:1.5}.labi-say{margin-bottom:40px}}
+
+/* chat: Labi di kepala jendela, di samping balasan, dan mengintip di atas tombol */
+.chat .ch .labi{--k:1;margin:-4px 0}
+.chat .cb.bot{position:relative;margin-left:40px}
+.chat .cb.bot::before{content:"";position:absolute;left:-42px;bottom:-2px;width:36px;height:36px;background:url(../assets/maskot/labi.png) no-repeat 0 0/216px 36px;image-rendering:pixelated}
+.chat .cb.bot.typing::before{background-position:-180px 0}
+#chatfab .labi-peek{--k:.9;position:absolute;left:-4px;top:-38px;pointer-events:none;rotate:3deg}
+@media(max-width:520px){#chatfab .labi-peek{--k:.75;top:-32px}}
+
+/* pelajaran selesai: Labi melompat dengan balon kata */
+.labi-cheer{position:fixed;left:50%;bottom:92px;z-index:70;display:flex;align-items:flex-end;gap:8px;pointer-events:none;transform:translate(-50%,40px) scale(.6);opacity:0;transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .25s}
+.labi-cheer.on{transform:translate(-50%,0) scale(1);opacity:1}
+.labi-cheer .labi{--k:2.2}
+.labi-cheer .labi-say{opacity:1;transform:none;margin-bottom:70px;font-size:.95rem}
+
+/* halaman Tentang dan tampilan kosong */
+.labi-card{display:flex;align-items:center;gap:22px;background:#fff;border:2px solid var(--ink);border-radius:18px;box-shadow:5px 5px 0 var(--ink);padding:18px 24px;margin-top:20px}
+.labi-card .labi{--k:2.5}
+.labi-card h3{margin:0 0 6px}.labi-card p{margin:0;line-height:1.55}
+.labi-empty{display:flex;align-items:center;gap:14px;margin:18px 0}
+.labi-empty .labi{--k:1.5}
+@media(max-width:520px){.labi-card{flex-direction:column;align-items:flex-start}}
+@media(prefers-reduced-motion:reduce){.labi,.hero-labi:hover .labi{animation:none!important}.labi-cheer{transition:opacity .2s}}
