@@ -372,5 +372,34 @@ function glos(){const L=GLD.GLOS.slice().sort((a,b)=>a.t.localeCompare(b.t,"id")
 function bindGlos(){let qv="",bb=-1;const I=qa("#glist .gl-i");const draw=()=>{let n=0;I.forEach(e=>{const s=(bb<0||+e.dataset.b===bb)&&(!qv||e.dataset.s.includes(qv));e.hidden=!s;if(s)n++});q("#gn").textContent=`${n} istilah`;q("#gnone").hidden=!!n};
  q("#gq").oninput=e=>{qv=e.target.value.toLowerCase().trim();draw()};qa("#gch .chip").forEach(c=>c.onclick=()=>{bb=+c.dataset.b;qa("#gch .chip").forEach(x=>setP(x,x===c));draw()});draw()}
 
-return{lesson,labsAt,home,peta,glos,bindGlos,ico,LABS,W,load};
+/* ==================================================================
+   REFERENSI (#/referensi, 2026-11-12): semua rujukan materi di satu tempat.
+   Tautan ditulis sebagai teks + tombol Salin (sesuai ketentuan proyek: tanpa tautan keluar, tetap jalan offline).
+   ================================================================== */
+const refN=()=>({art:GLD.REF.length,kas:GLD.SIM.reduce((a,s)=>a+(s.dasar?s.dasar.src.length:0),0)});
+const refU=u=>`<span class="rfr-u"><code>${esc(u)}</code><button type="button" class="rfr-cp" data-u="${esc(u)}" aria-label="Salin alamat">Salin</button></span>`;
+function ref(){const C=CH(),N=refN();let k=0;
+ const use=(i,j)=>{const qz=GLD.QUIZ.filter(x=>x.b===i&&x.l===j).length,gl=GLD.GLOS.filter(x=>x.b===i&&x.l===j).length,
+   sm=GLD.SIM.map((s,n)=>s.les.some(([a,b])=>a===i&&b===j)?"Simulasi "+(n+1):"").filter(Boolean);
+   return [`<a href="#/lesson/${i}-${j}">Pelajaran ${i+1}.${j+1}</a>`,qz&&qz+" soal kuis",gl&&gl+" istilah glosarium",...sm].filter(Boolean).join(" · ")};
+ const bab=C.map((c,i)=>`<div class="rfr-bab rv"><h3><span class="mono">Bab ${i+1}</span>${esc(c.t)}</h3><ol class="rfr-l">${c.l.map((l,j)=>{const u=GLD.REF[k++];
+   return `<li><b class="rfr-n">${pad(k)}</b><div><p class="rfr-c">MySkill. (t.t.). <i>${esc(l.t)}</i>. Medium.</p>${refU(u)}<p class="rfr-m">Dipakai di ${use(i,j)}</p></div></li>`}).join("")}</ol></div>`).join("");
+ const kas=GLD.SIM.filter(s=>s.dasar).map(s=>{const n=GLD.SIM.indexOf(s)+1;return `<div class="rfr-bab rv"><h3><span class="mono">Simulasi ${n}</span>${esc(s.t)}</h3><ol class="rfr-l">${s.dasar.src.map(x=>`<li><b class="rfr-n">•</b><div><p class="rfr-c">${(t=>esc(t)+(/dikutip$/.test(t)?" dari ":". "))(x.t.replace(/,\s*$/,""))}<i>${esc(x.o)}</i>.</p>${refU(x.u)}</div></li>`).join("")}</ol></div>`}).join("");
+ return `<div class="rfr-sum rv"><div><b>${N.art}</b><span>artikel rujukan materi</span></div><div><b>${N.kas}</b><span>sumber kasus simulasi</span></div><div><b>2</b><span>dokumen rancangan tim</span></div></div>
+ <p class="rfr-note rv">Alamat ditulis sebagai teks, bukan tautan, supaya GrowthLab tetap bisa dipakai tanpa internet. Tekan <b>Salin</b>, lalu tempel di browser kalau mau membaca sumber aslinya. Hak cipta artikel tetap milik penulisnya.</p>
+ <h2 class="rv" id="ref-materi">Rujukan materi per pelajaran</h2><p class="rv lead2">Setiap pelajaran merujuk satu artikel dari seri soft skill MySkill di Medium, sesuai kolom Pustaka di Jabaran Materi.</p>${bab}
+ <h2 class="rv" id="ref-kasus" style="margin-top:56px">Sumber kasus simulasi</h2><p class="rv lead2">Kasus simulasi disusun dari kejadian nyata. Data dan aturan di dalamnya diambil dari sumber berikut.</p>${kas}
+ <h2 class="rv" id="ref-dok" style="margin-top:56px">Dokumen rancangan</h2><ol class="rfr-l rfr-doc rv">
+  <li><b class="rfr-n">•</b><div><p class="rfr-c">Kelompok 8, Teknologi Pendidikan FIP UNJ. (2026). <i>Garis Besar Isi Media (GBIM): ${esc(GLD.GBIM.judul)}</i>. Tugas mata kuliah Pengembangan Multimedia Pendidikan.</p></div></li>
+  <li><b class="rfr-n">•</b><div><p class="rfr-c">Kelompok 8, Teknologi Pendidikan FIP UNJ. (2026). <i>Jabaran Materi: Self Development for Job Seeker</i>. Tugas mata kuliah Pengembangan Multimedia Pendidikan.</p></div></li></ol>
+ <h2 class="rv" style="margin-top:56px">Kredit aset</h2><ul class="chk rv">
+  <li>Huruf Anton, Bricolage Grotesque, DM Sans, dan Space Mono, lisensi SIL Open Font License, disimpan di dalam paket situs.</li>
+  <li>Animasi memakai GSAP (ScrollTrigger, MotionPathPlugin) dan Lenis untuk gulir halus.</li>
+  <li>Ilustrasi halaman, lukisan kartu bab, dan transisi bergaya impasto dibuat khusus untuk GrowthLab.</li></ul>`}
+function refTeaser(){const N=refN();return `<div class="rfr-tz rv"><div><span class="mono">Referensi</span><h3>Dari mana isi peta ini berasal?</h3><p>${N.art} artikel rujukan materi, ${N.kas} sumber kasus simulasi, dan dokumen rancangan tim, lengkap dengan pelajaran yang memakainya.</p></div><a class="btn p" href="#/referensi">Lihat referensi</a></div>`}
+function bindRef(){qa(".rfr-cp").forEach(b=>b.onclick=()=>{const u=b.dataset.u,ok=()=>{b.textContent="Tersalin";b.classList.add("ok");setTimeout(()=>{b.textContent="Salin";b.classList.remove("ok")},1600)};
+ const fb=()=>{const t=document.createElement("textarea");t.value=u;t.style.cssText="position:fixed;opacity:0";document.body.appendChild(t);t.select();try{document.execCommand("copy");ok()}catch(e){}t.remove()};
+ if(navigator.clipboard&&isSecureContext)navigator.clipboard.writeText(u).then(ok,fb);else fb()})}
+
+return{lesson,labsAt,home,peta,glos,bindGlos,ref,refTeaser,bindRef,ico,LABS,W,load};
 })();
