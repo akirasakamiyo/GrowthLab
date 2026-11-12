@@ -86,3 +86,6 @@ img.luk{display:block;width:100%;height:100%;object-fit:cover;object-position:50
 /* 2026-11-13: video pengenalan materi di Ringkasan kursus */
 #cart .promo{margin:0;width:100%;height:100%;border-radius:0;box-shadow:none}
 #cart .promo video{height:100%;object-fit:cover}
+/* 2026-11-13: video promo di dalam bingkai (halaman Latihan) */
+.frame.promo{margin:0;width:100%;max-width:none;line-height:0}
+.frame.promo video{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;object-fit:cover}
