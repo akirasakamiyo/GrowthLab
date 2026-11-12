@@ -81,5 +81,5 @@ window.GLLOOP = (() => {
   }
   /* lukisan impasto kartu bab (2026-11-12): Bab 1 kintsugi, Bab 2 dua lentera, Bab 3 gunung es */
   const luk = (n, alt) => `<img class="luk" src="assets/lukisan/bab${n}.jpg" alt="${alt}" width="1000" height="500" decoding="async">`;
-  return { latihan: () => vid("latihan"), petunjuk: () => vid("petunjuk"), alur, kursus: () => vid("kursus"), c0: () => luk(1, "Lukisan pot retak bertambal emas dengan tunas"), c1: () => luk(2, "Lukisan dua lentera yang cahayanya saling bertemu"), c2: () => luk(3, "Lukisan gunung es dengan bara kecil di dasarnya"), svgLatihan: latihan, svgKursus: kursus };
+  return { latihan: () => vid("latihan"), petunjuk: () => vid("petunjuk"), alur: () => vid("alur"), glosarium: () => vid("glosarium"), faq: () => vid("faq"), svgAlur: alur, kursus: () => vid("kursus"), c0: () => luk(1, "Lukisan pot retak bertambal emas dengan tunas"), c1: () => luk(2, "Lukisan dua lentera yang cahayanya saling bertemu"), c2: () => luk(3, "Lukisan gunung es dengan bara kecil di dasarnya"), svgLatihan: latihan, svgKursus: kursus };
 })();
