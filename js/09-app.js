@@ -505,11 +505,11 @@ function refresh(){const h=location.hash.replace("#/",""),v=document.body.datase
 renderAuth();boot();
 
 /* ---------- v5: halaman-halaman ---------- */
-const PK=["e-learning","komunitas","faq","kontak","terms","privacy","tentang","tujuan","petunjuk","alur","latihan","peta","glosarium"];
+const PK=["e-learning","komunitas","faq","kontak","terms","privacy","tentang","tujuan","petunjuk","alur","latihan","peta","glosarium","referensi"];
 function vOfH(h){const s=h.split("/")[0];if(s==="lesson")return"lesson";if(s==="course")return"course";return PK.includes(s)?"page":"home"}
 const keyOf=()=>{const h=location.hash.replace("#/",""),v=vOfH(h);return v==="home"?"home":v==="lesson"?"lesson":h};let lastK=keyOf();
 const goC=n=>n?"#/course/"+n:"#/course";
-const NAVK={lesson:"course","e-learning":"course",tujuan:"petunjuk",alur:"petunjuk",peta:"petunjuk",glosarium:"petunjuk"};
+const NAVK={lesson:"course","e-learning":"course",tujuan:"petunjuk",alur:"petunjuk",peta:"petunjuk",glosarium:"petunjuk",referensi:"petunjuk"};
 function navOn(h){const s0=h.split("/")[0],s=NAVK[s0]||s0;$$(".links a[data-k]").forEach(a=>a.classList.toggle("cur",a.dataset.k===s))}
 const LT=["#f3ead6","#f3ead6","#f3ead6","#f3ead6"],CR="#fbf6ea";/* unslop: satu warna kertas, bukan pastel acak per halaman */
 /* avatar doodle tim pengembang: garis tangan yang "digambar" saat kartu muncul, lalu berkedip, melambai, dan coretan melayang */
@@ -576,10 +576,12 @@ function renderPage(h){const[s,x,y]=h.split("/"),n=+x||0;let H="";const nQ=GLX.n
    <h2 class="rv" style="margin-top:44px">Level tiap aspek simulasi</h2>${kt(GLD.LEVEL.map(([t],i)=>[GLS.score.pitaLabel(i),t]))}
    <h2 class="rv" style="margin-top:44px">Rubrik penilaian simulasi</h2><div class="fq rv">${GLD.SIM.map((sm,i)=>`<details${i?"":" open"}><summary>Aspek ${i+1}: ${esc(sm.aspek)} (bobot ${Math.round(sm.w*100)}%)</summary><p>${GLD.DESK[sm.aspek].map((d,k)=>`<b>${GLD.LEVEL[k][0]} (${GLS.score.pitaLabel(k)}):</b> ${esc(d)}`).join("<br><br>")}</p></details>`).join("")}</div>`)
   +cta(LT[2],"Tahap pertamanya: baca materi",A_("#/course","Buka materi"));
- else if(s==="peta")H=hero(LT[1],[["Peta konsep"]],"Panduan · Peta konsep","Peta <em>konsep</em>","Semua isi GrowthLab digambar jadi satu peta. Klik kotak mana saja buat langsung membukanya. Yang ada centangnya berarti sudah kamu selesaikan.",A_("#/course","Buka materi","p")+A_("#/glosarium","Glosarium"),fr(CO[3],"peta"))
-  +sec(CR,LT[1],GLU.peta())+cta(CR,"Bingung mulai dari mana? Dari Bab 1 aja",A_("#/course/1","Mulai dari Bab 1"));
- else if(s==="glosarium")H=hero(LT[0],[["Glosarium"]],"Panduan · Glosarium","Glosarium <em>istilah</em>",`${GLD.GLOS.length} istilah asing yang dipakai di materi, lengkap dengan artinya dan tautan ke pelajarannya.`,A_("#/e-learning","Katalog pelajaran","p")+A_("#/peta","Peta konsep"),fr(CO[5],"glosarium"))
+ else if(s==="peta")H=hero(LT[1],[["Peta konsep"]],"Panduan · Peta konsep","Peta <em>konsep</em>","Semua isi GrowthLab digambar jadi satu peta. Klik kotak mana saja buat langsung membukanya. Yang ada centangnya berarti sudah kamu selesaikan.",A_("#/course","Buka materi","p")+A_("#/glosarium","Glosarium")+A_("#/referensi","Referensi"),fr(CO[3],"peta"))
+  +sec(CR,LT[1],GLU.peta()+GLU.refTeaser())+cta(CR,"Bingung mulai dari mana? Dari Bab 1 aja",A_("#/course/1","Mulai dari Bab 1"));
+ else if(s==="glosarium")H=hero(LT[0],[["Glosarium"]],"Panduan · Glosarium","Glosarium <em>istilah</em>",`${GLD.GLOS.length} istilah asing yang dipakai di materi, lengkap dengan artinya dan tautan ke pelajarannya.`,A_("#/e-learning","Katalog pelajaran","p")+A_("#/peta","Peta konsep")+A_("#/referensi","Referensi"),fr(CO[5],"glosarium"))
   +sec(CR,LT[0],GLU.glos());
+ else if(s==="referensi")H=hero(LT[2],[["Peta konsep","#/peta"],["Referensi"]],"Panduan · Referensi","<em>Referensi</em> materi",`Semua sumber yang dipakai GrowthLab: ${GLD.REF.length} artikel rujukan pelajaran, sumber kasus simulasi, dan dokumen rancangan tim.`,`<a class="btn p" href="#/referensi" data-sc="ref-materi">Rujukan materi</a>`+A_("#/peta","Peta konsep"),fr(CO[2],"referensi"))
+  +sec(CR,LT[2],GLU.ref())+cta(CR,"Udah tahu sumbernya? Lanjut belajar, yuk",A_("#/course","Buka materi"));
  else if(s==="latihan")H=hero(LT[2],[["Latihan"]],"","Latihan dulu, wawancara <em>kemudian</em>","Ada tiga jenis latihan: kuis pilihan ganda, drag &amp; drop, dan simulasi kasus kerja. Nilai akhirmu diambil 30% dari kuis dan 70% dari simulasi.",`<a class="btn p" href="#/latihan" data-sc="nilai-sec">Lihat nilai akhir</a>`+A_("#/alur","Cara menghitung nilai"),fr(CO[2],"latihan"))
   +sec(CR,LT[2],GLX.tabsHTML())
   +`<section class="blk sc2" id="nilai-sec" style="--b:#0a1a6b;--prev:${CR};--fg:#fff"><div class="wrap"><h2 class="rv">Nilai akhir</h2><div id="nilai"></div></div></section>`;
@@ -595,7 +597,7 @@ function renderPage(h){const[s,x,y]=h.split("/"),n=+x||0;let H="";const nQ=GLX.n
  $("#pg").innerHTML=H;
  if(s==="e-learning")bindEL();
  if(s==="latihan")GLX.mount(x,y);
- if(s==="glosarium")GLU.bindGlos();
+ if(s==="glosarium")GLU.bindGlos();if(s==="referensi")GLU.bindRef();
  if(s==="kontak")$("#fs").onclick=()=>{const ok=$("#f1").value.trim()&&/.+@.+\..+/.test($("#f3").value);if(!ok){toast("Isi nama dan email yang valid dulu.");return}boom(innerWidth/2,innerHeight/2,40);toast("Terima kasih! (Prototipe: pesan tidak dikirim.)");["f1","f3","f4"].forEach(k=>$("#"+k).value="")}}
 function bindEL(){let q="",cat="Semua",st="Semua status";const cats=["Semua",...C.chapters.map(c=>c.t)],sts=["Semua status","Belum selesai","Selesai","Draf"];
  const okSt=o=>st==="Semua status"||(st==="Selesai"?done.has(o.i+"-"+o.j):st==="Belum selesai"?!done.has(o.i+"-"+o.j):!!o.l.draft);

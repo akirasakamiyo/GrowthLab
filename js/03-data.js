@@ -287,6 +287,10 @@ const COURSE={id:0,t:"Self Development for Job Seeker",media:"GrowthLab",k:"Soft
   {t:"Emotional Intelligence",c1:"#ffd23f",d:"Menyadari emosi diri dan orang lain, berkomunikasi dengan empati, serta menghadapi stres, kritik, dan kegagalan.",l:S2},
   {t:"Thinking Skill",c1:"#2b55ff",d:"Berpikir sistem, kritis, strategis, reflektif, dan kreatif untuk mengambil keputusan karier yang tepat.",l:S3}]};
 
+/* 2026-11-12: rujukan tiap pelajaran (kolom PUSTAKA di Jabaran Materi, materi.pdf), urut sama dengan COURSE. Dipakai halaman #/referensi */
+const REF=["recognise-your-strength-eb7388067d11","thoughts-feelings-what-you-do-507aa3e8c1fe","change-your-thinking-f412bbaaa144","problem-solving-46d258b9d59a","keeping-well-6d4db20e6906",
+ "emotional-and-social-awareness-3815fff6d97f","facing-stress-and-burnout-2e6b11735278","criticism-weakness-and-failure-d65ca5ae5bc8","happiness-in-life-5318916b4f3a","communicate-with-empathy-9fbfc86572c4",
+ "system-thinking-dd6d32120053","critical-thinking-2a6d25e0ed8","strategic-thinking-90257bbc6a17","reflective-thinking-8155a7734d58","creative-thinking-427f7d0ab588"].map(x=>"https://medium.com/@myskill.id/"+x);
 const GBIM={media:"GrowthLab",judul:"Pengembangan Multimedia Interaktif Berbasis Website untuk Meningkatkan Soft Skill Fresh Graduate saat mencari kerja",jenis:"Multimedia Interaktif Berbasis Website",sasaran:"Peserta didik SMK Kelas XII",topik:"Pengembangan diri (Soft Skill)"};
 
 /* ---------- SOAL PILIHAN GANDA (b = bab 0..2, l = pelajaran 0..4, a = indeks opsi benar sebelum diacak) ---------- */
@@ -669,5 +673,5 @@ const TUJ=[
  ["membedakan berpikir sistem dari pola pikir linear, menganalisis elemen sistem dan <i>feedback loop</i>, serta memetakan masalah dengan Model Gunung Es untuk solusi holistik.", "membedakan fakta, opini, dan asumsi, mengenali bias kognitif dan kesesatan logika, serta menyusun argumen berbasis bukti.", "merumuskan visi jangka panjang, menganalisis kondisi eksternal dan internal, membedakan strategi dan taktik, serta menyusun langkah taktis yang lentur.", "menjelaskan siklus belajar dari pengalaman, melakukan introspeksi terstruktur dengan pertanyaan evaluasi diri, dan mengubah wawasan menjadi rencana aksi.", "mengatasi hambatan kreativitas, menerapkan <i>brainstorming</i> dan <i>mind mapping</i>, serta mengembangkan solusi adaptif lewat berpikir lateral dan sintesis ide."]];
 COURSE.chapters.forEach((c,i)=>c.l.forEach((l,j)=>{l.tuj=TUJ[i][j]}));
 
-return{COURSE,GBIM,QUIZ,DND,SIM,LEVEL,DESK,KATEGORI,DIAG,scene,CEK,GLOS,PASS_MCQ:70,W_MCQ:.30,W_SIM:.70};
+return{COURSE,GBIM,REF,QUIZ,DND,SIM,LEVEL,DESK,KATEGORI,DIAG,scene,CEK,GLOS,PASS_MCQ:70,W_MCQ:.30,W_SIM:.70};
 })();
