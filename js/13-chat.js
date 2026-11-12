@@ -17,7 +17,7 @@ let KB=null;
 const mkKB=()=>{const G=window.GLG&&GLG.CFG;
 const LVL=G?G.tiers.map(([n,t])=>`${t} (mulai Level ${n})`).join(", "):"Pemula, Calon Kandidat, Siap Interview, dan Job Ready";
 return[
- {k:["halo","hai","hello","selamat pagi","selamat siang","selamat sore","selamat malam","assalamualaikum"],t:"Halo! Aku asisten GrowthLab. Tanyakan apa saja soal materi, latihan, nilai, XP dan badge, sertifikat, atau cara memakai situs ini."},
+ {k:["halo","hai","hello","selamat pagi","selamat siang","selamat sore","selamat malam","assalamualaikum"],t:"Halo! Aku Labi, asisten GrowthLab. Tanyakan apa saja soal materi, latihan, nilai, XP dan badge, sertifikat, atau cara memakai situs ini."},
  {k:["terima kasih","makasih","thanks","thx"],t:"Sama-sama! Semangat belajarnya. Kalau ada yang bingung lagi, tanya saja."},
  {k:["apa itu growthlab","growthlab itu","tentang growthlab","media apa","situs apa","web apa"],t:`GrowthLab adalah media pembelajaran interaktif berbasis website berjudul Self Development for Job Seeker, untuk siswa SMK kelas XII dan fresh graduate. Isinya ${NB} bab dan ${NL} pelajaran soft skill, latihan (kuis, drag & drop, simulasi kasus kerja), nilai akhir, dan gamifikasi. Gratis, tanpa akun, dan bisa dipakai offline.`,a:["Tentang GrowthLab","#/tentang"]},
  {k:["bab","materi","pelajaran apa","daftar pelajaran","topik","kurikulum","silabus","isi materi"],t:`Ada ${NB} bab dan ${NL} pelajaran. ${BAB}.`,a:["Buka materi","#/course"]},
@@ -59,7 +59,7 @@ return[
  {k:["hp","handphone","ponsel","tablet","mobile","layar kecil"],t:"GrowthLab menyesuaikan HP, tablet, dan laptop. Drag & drop bisa dimainkan dengan sentuhan, dan navigasi ada di tombol Menu."},
  {k:["harga","biaya","bayar","berbayar","gratis","pembayaran"],t:"GrowthLab gratis untuk pembelajaran dan tidak memerlukan akun."},
  {k:["akun","login","masuk","daftar","register","sign in"],t:"Tidak perlu akun. GrowthLab berjalan langsung di browser dan semua progres tersimpan di perangkatmu."},
- {k:["tanya ai","asisten","chatbot","kamu siapa","kamu ai"],t:"Aku asisten offline GrowthLab. Jawabanku diambil dari materi, glosarium, dan panduan situs ini, jadi aku tidak memakai layanan AI di internet."},
+ {k:["tanya ai","asisten","chatbot","kamu siapa","kamu ai","labi","maskot"],t:"Aku Labi, maskot sekaligus asisten offline GrowthLab. Badanku labu Erlenmeyer dengan tunas di kepala, sama seperti logo GrowthLab. Jawabanku diambil dari materi, glosarium, dan panduan situs ini, jadi aku tidak memakai layanan AI di internet."},
  {k:["pembuat","kelompok","siapa yang membuat","dibuat oleh","yang bikin","siapa yang buat","dibuat siapa","dibikin siapa","nim","tim"],t:"GrowthLab dibuat oleh Rifa Haqi Putra Wibowo (NIM 1101624089) dan Thumpal Alvin (NIM 1101624069), Kelompok 8, Prodi Teknologi Pendidikan FIP UNJ, sebagai tugas mata kuliah Pengembangan Multimedia Pendidikan. Materinya merujuk pada artikel MySkill.",a:["Tentang GrowthLab","#/tentang"]},
  {k:["kontak","hubungi","admin","email","saran","kritik untuk"],t:"Kamu bisa menulis pesan lewat halaman Kontak (prototipe: pesan belum dikirim ke mana pun).",a:["Buka Kontak","#/kontak"]},
  {k:["komunitas","belajar bareng","teman belajar","kelompok belajar"],t:"Halaman Komunitas berisi ide kegiatan belajar bersama teman, misalnya lingkaran umpan balik, peta kekuatan kelompok, dan jurnal syukur mingguan.",a:["Buka Komunitas","#/komunitas"]},
@@ -93,7 +93,7 @@ async function ask(text){
  ty.remove();add("bot",out);hist.push({role:"assistant",content:out.t});busy=false;
  try{sessionStorage.setItem("gl-chat",JSON.stringify(hist.slice(-20)))}catch(e){}}
 function setOpen(o){box.classList.toggle("open",o);box.setAttribute("aria-hidden",!o);fab.setAttribute("aria-expanded",o);
- if(o){if(!started){started=true;add("bot",{t:"Halo! Aku asisten GrowthLab. Tanyakan apa saja soal materi dan istilahnya, latihan, nilai akhir, XP dan badge, sertifikat, atau cara memakai situs ini."});
+ if(o){if(!started){started=true;add("bot",{t:"Halo! Aku Labi, asisten GrowthLab. Tanyakan apa saja soal materi dan istilahnya, latihan, nilai akhir, XP dan badge, sertifikat, atau cara memakai situs ini."});
   ["Ada bab apa saja?","Kenapa pelajaran terkunci?","Cara menghitung nilai","Cara dapat XP","Apa itu burnout?","Kapan nilai akhir muncul?"].forEach(q=>{const b=document.createElement("button");b.type="button";b.className="chip";b.textContent=q;b.onclick=()=>ask(q);cq.append(b)})}
   setTimeout(()=>inp.focus(),200)}else fab.focus()}
 fab.onclick=()=>setOpen(!box.classList.contains("open"));$("#chx").onclick=()=>setOpen(false);
