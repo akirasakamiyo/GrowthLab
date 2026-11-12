@@ -224,3 +224,7 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc-t,var(--acc));ma
 /* video promo dibatasi agar muat utuh di layar (tidak tertutup navbar/tepi bawah), di tengah */
 .promo{width:min(100%,82%,calc((100svh - 190px)*16/9));margin-left:auto;margin-right:auto}
 @media(max-width:700px){.promo{width:100%}}
+/* 2026-11-12: versi teks video tutorial di halaman Petunjuk */
+.tut-tr{margin:18px auto 0;width:min(100%,82%,calc((100svh - 190px)*16/9));background:#fff;border:2px solid var(--ink);border-radius:14px;padding:14px 20px}
+.tut-tr summary{cursor:pointer;font-weight:800}.tut-tr ol{margin:12px 0 4px;padding-left:22px;display:grid;gap:8px;line-height:1.55}
+@media(max-width:700px){.tut-tr{width:100%}}
