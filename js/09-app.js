@@ -147,7 +147,7 @@ function route(){
 }
 /* ke atas halaman: juga saat Lenis sedang dihentikan oleh lapisan motion ketika pindah rute */
 function toTop(y=0){scrollTo({top:y,left:0,behavior:"instant"});try{window.__lenis&&window.__lenis.scrollTo(y,{immediate:true,force:true})}catch(e){}}
-addEventListener("hashchange",()=>{const k=keyOf();if(k===lastK||RM){lastK=k;route();return}lastK=k;if(window.GLPaint&&GLPaint.ok){GLPaint.play(route);return}/* transisi cat impasto, lihat js/28-transisi-impasto.js */const c=$("#curtain"),v=window.pickTrans?pickTrans():"";/* transisi acak, lihat js/21-transisi.js */c.className="curtain "+v;void c.offsetWidth;c.className="curtain "+v+" in";setTimeout(()=>{route();c.className="curtain "+v+" out";setTimeout(()=>{c.className="curtain"},650)},520)});
+addEventListener("hashchange",()=>{const k=keyOf();if(k===lastK||RM){lastK=k;route();return}lastK=k;const c=$("#curtain"),v=window.pickTrans?pickTrans():"";/* transisi acak, lihat js/21-transisi.js */c.className="curtain "+v;void c.offsetWidth;c.className="curtain "+v+" in";setTimeout(()=>{route();c.className="curtain "+v+" out";setTimeout(()=>{c.className="curtain"},650)},520)});
 const setMenu=o=>{$("#links").classList.toggle("open",o);$("#burger").setAttribute("aria-expanded",o);$("#burger").textContent=o?"Tutup":"Menu"};$("#burger").onclick=()=>setMenu(!$("#links").classList.contains("open"));
 $$("[data-close]").forEach(a=>a.addEventListener("click",()=>setMenu(false)));
 const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}}),{threshold:.12});
@@ -580,7 +580,7 @@ function renderPage(h){const[s,x,y]=h.split("/"),n=+x||0;let H="";const nQ=GLX.n
   +sec(CR,LT[1],GLU.peta()+GLU.refTeaser())+cta(CR,"Bingung mulai dari mana? Dari Bab 1 aja",A_("#/course/1","Mulai dari Bab 1"));
  else if(s==="glosarium")H=hero(LT[0],[["Glosarium"]],"Panduan · Glosarium","Glosarium <em>istilah</em>",`${GLD.GLOS.length} istilah asing yang dipakai di materi, lengkap dengan artinya dan tautan ke pelajarannya.`,A_("#/e-learning","Katalog pelajaran","p")+A_("#/peta","Peta konsep")+A_("#/referensi","Referensi"),fr(CO[5],"glosarium"))
   +sec(CR,LT[0],GLU.glos());
- else if(s==="referensi")H=hero(LT[2],[["Peta konsep","#/peta"],["Referensi"]],"Panduan · Referensi","<em>Referensi</em> materi",`Semua sumber yang dipakai GrowthLab: ${GLD.REF.length} artikel rujukan pelajaran, sumber kasus simulasi, dan dokumen rancangan tim.`,`<a class="btn p" href="#/referensi" data-sc="ref-materi">Rujukan materi</a>`+A_("#/peta","Peta konsep"),fr(CO[2],"referensi"))
+ else if(s==="referensi")H=hero(LT[2],[["Peta konsep","#/peta"],["Referensi"]],"Panduan · Referensi","<em>Referensi</em> materi",`Semua sumber yang dipakai GrowthLab: ${GLD.REF.length} artikel rujukan pelajaran, sumber kasus simulasi, dan dokumen rancangan tim.`,`<a class="btn p" href="#/referensi" data-sc="ref-materi">Rujukan materi</a>`+A_("#/peta","Peta konsep"),fr(CO[2],"glosarium"))
   +sec(CR,LT[2],GLU.ref())+cta(CR,"Udah tahu sumbernya? Lanjut belajar, yuk",A_("#/course","Buka materi"));
  else if(s==="latihan")H=hero(LT[2],[["Latihan"]],"","Latihan dulu, wawancara <em>kemudian</em>","Ada tiga jenis latihan: kuis pilihan ganda, drag &amp; drop, dan simulasi kasus kerja. Nilai akhirmu diambil 30% dari kuis dan 70% dari simulasi.",`<a class="btn p" href="#/latihan" data-sc="nilai-sec">Lihat nilai akhir</a>`+A_("#/alur","Cara menghitung nilai"),fr(CO[2],"latihan"))
   +sec(CR,LT[2],GLX.tabsHTML())
