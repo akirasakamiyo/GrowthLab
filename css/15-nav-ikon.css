@@ -114,3 +114,22 @@
 @keyframes bmNudge{0%,100%{transform:translateX(0)}50%{transform:translateX(2px)}}
 @keyframes bmFlick{0%{transform:scale(1) rotate(-3deg)}100%{transform:scale(1.06,1.12) rotate(3deg)}}
 @media(prefers-reduced-motion:reduce){.ico svg [class*="bm-"],svg.gi [class*="bm-"]{animation:none!important}.bm-draw{stroke-dashoffset:0}}
+
+/* ===== dropdown menu Panduan (2026-11-12) ===== */
+.ndd{position:relative;display:inline-flex}
+.links .ndd-m a{display:block;color:#0a1a6b;background:none;border-radius:10px;padding:9px 14px;font:600 .92rem/1.2 var(--sans);white-space:nowrap;box-shadow:none}
+.links .ndd-m a:hover,.links .ndd-m a:focus-visible,.links .ndd-m a.cur{background:#ffd23f;color:#0a1a6b}
+.links .ndd-m a.ndd-tm{margin-top:4px;border-top:1.5px dashed rgba(10,26,107,.25);border-radius:0 0 10px 10px;padding-top:12px}
+@media(min-width:761px){
+  .ndd-m{position:absolute;top:calc(100% + 12px);left:50%;z-index:30;min-width:240px;display:grid;gap:2px;padding:8px;background:#fff;border:2px solid var(--ink);border-radius:16px;box-shadow:5px 5px 0 var(--ink);opacity:0;visibility:hidden;transform:translate(-50%,-6px);transition:opacity .2s,transform .25s cubic-bezier(.2,.8,.2,1),visibility .2s}
+  .ndd-m::before{content:"";position:absolute;left:0;right:0;top:-16px;height:16px}
+  .ndd:hover .ndd-m,.ndd:focus-within .ndd-m{opacity:1;visibility:visible;transform:translate(-50%,0)}
+  .ndd.ndd-x .ndd-m{opacity:0;visibility:hidden;transform:translate(-50%,-6px)}
+}
+@media(max-width:760px){
+  .ndd{flex-direction:column;align-items:center}
+  .ndd-m{display:flex;flex-wrap:wrap;justify-content:center;gap:6px;max-width:340px;margin-top:8px}
+  .links .ndd-m a{font:600 .9rem/1 var(--sans);padding:8px 12px;color:#fff;border:1.5px solid rgba(255,255,255,.4);border-radius:99px}
+  .links .ndd-m a.ndd-tm{margin-top:0;padding-top:8px;border:1.5px solid #ffd23f;border-radius:99px;background:#ffd23f;color:#0a1a6b}
+}
+@media(prefers-reduced-motion:reduce){.ndd-m{transition:none}}
