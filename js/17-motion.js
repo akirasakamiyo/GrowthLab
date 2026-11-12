@@ -6,12 +6,25 @@ const pre=$("#zpre"),endPre=()=>{body.classList.remove("zload");pre&&pre.remove(
 const ok=window.gsap&&window.ScrollTrigger;
 let lenis=null;
 
-/* tombol bulat kiri-bawah (dipakai juga tanpa motion) */
-body.insertAdjacentHTML("beforeend",'<button id="ztop" type="button" aria-label="Gulir ke bawah"><svg viewBox="0 0 52 52" aria-hidden="true"><circle class="zt0" cx="26" cy="26" r="23"/><circle class="zt1" cx="26" cy="26" r="23"/><path d="M20 20l12 12M32 22v10H22"/></svg></button>');
-const zt=$("#ztop"),zt1=$("#ztop .zt1");
-function topUI(){const max=Math.max(1,document.documentElement.scrollHeight-innerHeight),p=Math.min(1,scrollY/max),up=scrollY>innerHeight*.6;
- zt1.style.strokeDashoffset=(144.5*(1-p)).toFixed(1);zt.classList.toggle("up",up);zt.setAttribute("aria-label",up?"Kembali ke atas":"Gulir ke bawah")}
-zt.onclick=()=>{const up=scrollY>innerHeight*.6,y=up?0:scrollY+innerHeight*.9;lenis?lenis.scrollTo(y,{duration:up?1.8:1.2}):scrollTo({top:y,behavior:rm?"auto":"smooth"})};
+/* tombol bulat Kembali (2026-11-12): dulu tombol naik/turun di kiri bawah, sekarang tombol kembali ke halaman sebelumnya,
+   diletakkan di samping tombol "Bingung? Tanya". Cincinnya tetap menunjukkan sampai mana halaman sudah dibaca.
+   Kalau tidak ada riwayat di dalam situs (dibuka lewat tautan langsung), kembali ke halaman induknya. */
+body.insertAdjacentHTML("beforeend",'<button id="ztop" type="button" aria-label="Kembali ke halaman sebelumnya" title="Kembali"><svg viewBox="0 0 52 52" aria-hidden="true"><circle class="zt0" cx="26" cy="26" r="23"/><circle class="zt1" cx="26" cy="26" r="23"/><path d="M30 18l-8 8 8 8"/></svg></button>');
+const zt=$("#ztop"),zt1=$("#ztop .zt1");let inApp=0;
+addEventListener("hashchange",()=>{inApp++;requestAnimationFrame(place)});
+const parent=()=>{const h=location.hash.replace(/^#\/?/,""),[v,x]=h.split("/");
+ if(v==="lesson"){const b=+(String(x||"0").split("-")[0])||0;return "#/course/"+(b+1)}
+ if(v==="course"&&x)return "#/course";if(v==="latihan"&&x)return "#/latihan";if(v==="komunitas"&&x)return "#/komunitas";
+ if(["tujuan","alur","peta","glosarium","referensi"].includes(v))return "#/petunjuk";return "#/"};
+function topUI(){const max=Math.max(1,document.documentElement.scrollHeight-innerHeight),p=Math.min(1,scrollY/max);zt1.style.strokeDashoffset=(144.5*(1-p)).toFixed(1);place()}
+zt.onclick=()=>{if(inApp>0){inApp-=2;history.back()}else location.hash=parent()};
+/* posisi: tepat di kiri tombol "Bingung? Tanya", sejajar tengahnya */
+const fab=$("#chatfab");
+function place(){if(!fab)return;const r=fab.getBoundingClientRect(),w=zt.offsetWidth||52;
+ if(!r.width){zt.style.right="18px";zt.style.bottom="18px";return}
+ zt.style.right=Math.round(innerWidth-r.left+12)+"px";zt.style.bottom=Math.round(innerHeight-r.bottom+(r.height-w)/2)+"px"}
+if(fab&&"ResizeObserver" in window)new ResizeObserver(place).observe(fab);
+addEventListener("resize",place);setTimeout(place,300);setTimeout(place,1500);
 addEventListener("scroll",topUI,{passive:true});addEventListener("resize",topUI);topUI();
 
 if(!ok||rm){endPre();return}

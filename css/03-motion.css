@@ -56,11 +56,11 @@ footer{padding-top:230px}
 .zb.y{background:var(--sun)}.zb.o{background:var(--acc);color:#fff}.zb.b{background:var(--blue);color:#fff}
 .zphys:active .zb{cursor:grabbing}
 /* tombol bulat kiri-bawah: progres + arah */
-#ztop{position:fixed;left:22px;bottom:20px;z-index:36;width:52px;height:52px;padding:0;border:0;border-radius:50%;background:rgba(10,26,107,.88);backdrop-filter:blur(8px);color:#fff;cursor:pointer;display:grid;place-items:center}
+#ztop{position:fixed;right:200px;bottom:20px;z-index:39;width:52px;height:52px;padding:0;border:0;border-radius:50%;background:rgba(10,26,107,.88);backdrop-filter:blur(8px);color:#fff;cursor:pointer;display:grid;place-items:center}
 #ztop svg{width:52px;height:52px;overflow:visible}
 #ztop circle{fill:none;stroke-width:2}#ztop .zt0{stroke:rgba(255,255,255,.25)}#ztop .zt1{stroke:var(--sun);stroke-dasharray:144.5;stroke-dashoffset:144.5;transform:rotate(-90deg);transform-origin:center}
-#ztop path{fill:none;stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transform-origin:26px 26px;transition:transform .6s var(--e)}
-#ztop.up path{transform:rotate(180deg)}#ztop:hover{background:var(--acc)}
-body[data-view=lesson] #ztop{display:none}
-@media(max-width:760px){.zp{font-size:13vw}.zbig{font-size:19vw}#ztop{width:44px;height:44px;left:12px;bottom:14px}#ztop svg{width:44px;height:44px}.zcue{bottom:12px}.ztab{top:16px}.zrow .ol{-webkit-text-stroke-width:2px}footer{padding-top:170px}.zcl{height:150px}}
+#ztop path{fill:none;stroke:#fff;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round;transform-origin:26px 26px;transition:transform .6s var(--e)}
+#ztop:hover{background:var(--acc)}#ztop:hover path{transform:translateX(-3px)}
+body[data-view=home] #ztop{display:none}
+@media(max-width:760px){.zp{font-size:13vw}.zbig{font-size:19vw}#ztop{width:44px;height:44px}#ztop svg{width:44px;height:44px}.zcue{bottom:12px}.ztab{top:16px}.zrow .ol{-webkit-text-stroke-width:2px}footer{padding-top:170px}.zcl{height:150px}}
 @media(prefers-reduced-motion:reduce){#zpre{display:none}.zcue .zrg i{animation:none}}
