@@ -76,7 +76,8 @@ const MEDAL=`<svg class="medal" viewBox="0 0 48 56" aria-hidden="true"><path d="
 const badgeSeen=()=>{try{return JSON.parse(localStorage.getItem("gl-badge")||"[]")}catch(e){return[]}};
 function badgeEarned(i){if(!BADGE[i]||window.GLG)return;/* bila modul gamifikasi ada, notifikasi badge diurus GLG */toast(`Lencana baru: “${BADGE[i][0]}”! Bab ${i+1} tuntas 5/5.`)}
 function renderCourse(){
- $("#cart").innerHTML=ILL("course");$("#ctitle").innerHTML=esc(C.t).replace(/(job seeker)$/i,"<em>$1</em>");$("#cdesc").textContent=C.d;
+ /* 2026-11-13: ilustrasi loop diganti video 30 detik pengenalan materi (gaya video promo); tidak dipasang ulang saat render ulang supaya tidak mulai dari awal */
+ if(!$("#cart video.promo-v"))$("#cart").innerHTML=`<div class="promo"><video class="promo-v" src="assets/video/kenal.mp4" poster="assets/video/kenal.jpg" width="1920" height="1080" muted loop playsinline preload="metadata" disablepictureinpicture aria-label="Video 30 detik: pengenalan tiga bab dan lima belas pelajaran GrowthLab"></video><button type="button" class="promo-snd" aria-pressed="false">Nyalakan suara</button></div>`;$("#ctitle").innerHTML=esc(C.t).replace(/(job seeker)$/i,"<em>$1</em>");$("#cdesc").textContent=C.d;
  $("#cmeta").textContent=`Isinya ${C.chapters.length} bab, ${total} pelajaran, ${GLX.nQuiz} soal, dan ${GLX.nSim} simulasi.`;
  const seen=badgeSeen();
  $("#chaps").innerHTML=C.chapters.map((c,i)=>{const n=c.l.filter((_,j)=>done.has(i+"-"+j)).length;
@@ -85,7 +86,7 @@ function renderCourse(){
  $$(".chap>button").forEach(b=>{b.onclick=()=>{open_=+b.dataset.i;setActive(open_);renderCourse()};});
  try{localStorage.setItem("gl-badge",JSON.stringify(C.chapters.map((_,i)=>i).filter(chFull)))}catch(e){}
  $$(".les[data-k]").forEach(b=>b.onclick=()=>location.hash="#/lesson/"+b.dataset.k);
- $("#cart").onclick=()=>$("#cont").click();$("#cart").style.cursor="pointer";$("#cart").title="Lanjut belajar";
+ 
 }
 /* isi pelajaran dari data: konsep/vis/contoh disisipkan setelah bagian ke-`at` (-1 = sebelum bagian pertama) */
 function lessonHTML(i,j,L){const ch=C.chapters[i],last=i===C.chapters.length-1&&j===ch.l.length-1;
