@@ -142,3 +142,10 @@ body.dnd-on,body.dnd-on *{cursor:grabbing!important;user-select:none}
 @keyframes dd-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
 @media(prefers-reduced-motion:reduce){.dd .dd-l{stroke-dashoffset:0;fill-opacity:1!important}.dd .dd-blob{transform:none}.dd *,.team .tmc{animation:none!important;transition:none!important}}
 @media(max-width:520px){.team{grid-template-columns:1fr}}
+/* 2026-11-12: jobdesk tim pengembang (keduanya full stack developer) */
+.team .tm-role{align-self:flex-start;margin-top:4px;padding:4px 10px;border-radius:99px;background:#ffd23f;color:#0a1a6b;font:800 .72rem/1.2 var(--sans);letter-spacing:.06em;text-transform:uppercase}
+.jd-h{margin-top:40px}
+.jd{list-style:none;margin:18px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.jd li{background:#fff;border:2px solid var(--ink);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:6px;box-shadow:4px 4px 0 var(--ink)}
+.jd li b{font:800 1.02rem/1.25 var(--serif,inherit);color:var(--ink)}.jd li span{font-size:.92rem;line-height:1.5;color:var(--mut)}
+@media(max-width:900px){.jd{grid-template-columns:1fr 1fr}}@media(max-width:520px){.jd{grid-template-columns:1fr}}
