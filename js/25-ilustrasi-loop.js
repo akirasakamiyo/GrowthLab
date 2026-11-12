@@ -79,5 +79,7 @@ window.GLLOOP = (() => {
     const io = window.__vloopIO = new IntersectionObserver(es => es.forEach(e => { const v = e.target; if (e.isIntersecting && !rm) { const p = v.play(); p && p.catch(() => {}) } else v.pause() }), { rootMargin: "80px" });
     new MutationObserver(() => document.querySelectorAll("video.vloop:not([data-io])").forEach(v => { v.dataset.io = 1; if (rm) { v.removeAttribute("autoplay"); v.pause() } io.observe(v) })).observe(document.body, { childList: true, subtree: true });
   }
-  return { latihan: () => vid("latihan"), petunjuk: () => vid("petunjuk"), alur, kursus: () => vid("kursus"), c0: () => vid("bab1"), c1: () => vid("bab2"), c2: () => vid("bab3"), svgLatihan: latihan, svgKursus: kursus };
+  /* lukisan impasto kartu bab (2026-11-12): Bab 1 kintsugi, Bab 2 dua lentera, Bab 3 gunung es */
+  const luk = (n, alt) => `<img class="luk" src="assets/lukisan/bab${n}.jpg" alt="${alt}" width="1000" height="500" decoding="async">`;
+  return { latihan: () => vid("latihan"), petunjuk: () => vid("petunjuk"), alur, kursus: () => vid("kursus"), c0: () => luk(1, "Lukisan pot retak bertambal emas dengan tunas"), c1: () => luk(2, "Lukisan dua lentera yang cahayanya saling bertemu"), c2: () => luk(3, "Lukisan gunung es dengan bara kecil di dasarnya"), svgLatihan: latihan, svgKursus: kursus };
 })();
