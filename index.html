@@ -41,7 +41,10 @@
   <nav class="links" id="links" aria-label="Utama">
     <a href="#/course" data-k="course" data-close>Materi</a>
     <a href="#/latihan" data-k="latihan" data-close>Latihan</a>
-    <a href="#/petunjuk" data-k="petunjuk" data-close>Panduan</a>
+    <!-- 2026-11-12: menu Panduan jadi dropdown (desktop: muncul saat hover/fokus; HP: daftar chip di bawah Panduan) -->
+    <div class="ndd"><a href="#/petunjuk" data-k="petunjuk" data-close aria-haspopup="true">Panduan</a><div class="ndd-m" role="group" aria-label="Halaman panduan">
+      <a href="#/petunjuk" data-close>Petunjuk penggunaan</a><a href="#/tujuan" data-close>Tujuan belajar</a><a href="#/alur" data-close>Alur belajar</a><a href="#/peta" data-close>Peta konsep</a><a href="#/glosarium" data-close>Glosarium</a><a href="#/referensi" data-close>Referensi</a><a href="#/faq" data-close>FAQ</a><a href="#/tentang" class="ndd-tm" data-close>Tentang &amp; tim pengembang</a>
+    </div></div>
     <a href="#/course" class="pill" data-close>Progres kamu <b id="navbar"></b></a><button class="lb" id="lg">Masuk</button>
   </nav>
   <button class="burger" id="burger" aria-label="Menu" aria-expanded="false">Menu</button>

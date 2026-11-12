@@ -509,7 +509,7 @@ const PK=["e-learning","komunitas","faq","kontak","terms","privacy","tentang","t
 function vOfH(h){const s=h.split("/")[0];if(s==="lesson")return"lesson";if(s==="course")return"course";return PK.includes(s)?"page":"home"}
 const keyOf=()=>{const h=location.hash.replace("#/",""),v=vOfH(h);return v==="home"?"home":v==="lesson"?"lesson":h};let lastK=keyOf();
 const goC=n=>n?"#/course/"+n:"#/course";
-const NAVK={lesson:"course","e-learning":"course",tujuan:"petunjuk",alur:"petunjuk",peta:"petunjuk",glosarium:"petunjuk",referensi:"petunjuk"};
+const NAVK={lesson:"course","e-learning":"course",tujuan:"petunjuk",alur:"petunjuk",peta:"petunjuk",glosarium:"petunjuk",referensi:"petunjuk",faq:"petunjuk",tentang:"petunjuk"};
 function navOn(h){const s0=h.split("/")[0],s=NAVK[s0]||s0;$$(".links a[data-k]").forEach(a=>a.classList.toggle("cur",a.dataset.k===s))}
 const LT=["#f3ead6","#f3ead6","#f3ead6","#f3ead6"],CR="#fbf6ea";/* unslop: satu warna kertas, bukan pastel acak per halaman */
 /* avatar doodle tim pengembang: garis tangan yang "digambar" saat kartu muncul, lalu berkedip, melambai, dan coretan melayang */

@@ -28,5 +28,8 @@
   const bar = document.getElementById("navbar");
   if (pill && bar) { const sync = () => pill.style.setProperty("--p", bar.style.getPropertyValue("--p") || 0); sync(); new MutationObserver(sync).observe(bar, { attributes: true, attributeFilter: ["style"] }) }
   /* tombol Masuk (hanya tampil bila ada server akun): isinya diganti 09-app, jadi cukup diberi kelas */
+  /* dropdown Panduan: tutup setelah salah satu halaman dipilih (lepas fokus supaya :focus-within tidak menahannya terbuka) */
+  links.querySelectorAll(".ndd-m a, .ndd > a").forEach(a => a.addEventListener("click", () => setTimeout(() => { a.blur(); const m = a.closest(".ndd"); if (m) m.classList.add("ndd-x") }, 0)));
+  links.querySelectorAll(".ndd").forEach(m => m.addEventListener("mouseleave", () => m.classList.remove("ndd-x")));
   const lg = document.getElementById("lg"); if (lg) lg.classList.add("ni-lg");
 })();
