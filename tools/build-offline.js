@@ -18,7 +18,7 @@ const walk = rel => {
   }
 };
 list.push("index.html");
-["css", "js", "vendor", "assets/sim", "assets/sb", "assets/video", "assets/lukisan"].forEach(d => fs.existsSync(path.join(ROOT, d)) && walk(d));
+["css", "js", "vendor", "assets/sim", "assets/sb", "assets/video", "assets/lukisan", "assets/maskot"].forEach(d => fs.existsSync(path.join(ROOT, d)) && walk(d));
 
 /* pemeriksaan: tidak boleh ada sumber eksternal (http/https) yang dimuat halaman */
 const html = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
