@@ -83,3 +83,6 @@ video.vloop{display:block;width:100%;height:100%;object-fit:cover;background:#1d
 img.luk{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 45%;background:#1d34d8}
 .card .art img.luk{height:190px}
 .frame img.luk{position:absolute;inset:0}
+/* 2026-11-13: video pengenalan materi di Ringkasan kursus */
+#cart .promo{margin:0;width:100%;height:100%;border-radius:0;box-shadow:none}
+#cart .promo video{height:100%;object-fit:cover}
