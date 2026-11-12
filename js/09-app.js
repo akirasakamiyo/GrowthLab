@@ -30,16 +30,8 @@ function phase(){$$(".brand i,.dot,.art").forEach((e,i)=>{e.style.setProperty("-
 
 /* ---------- render ---------- */
 let cat="All",cur=[0,0];
-function renderDiscover(){
- const cats=["Semua",...C.chapters.map(c=>c.t)];if(!cats.includes(cat))cat="Semua";
- $("#chips").innerHTML=cats.map(k=>`<button class="chip" aria-pressed="${k===cat}">${esc(k)}</button>`).join("");
- $$("#chips .chip").forEach((b,i)=>b.onclick=()=>{cat=cats[i];renderDiscover()});
- const f=C;$("#feat").innerHTML=`<div class="art" style="--c1:${f.c1}">${window.GLLOOP?GLLOOP.kursus():CHALK(W,Y,"#ff8a6b")}</div><div class="body"><div><h3 style="font-size:clamp(2.2rem,4vw,3.4rem);margin:0 0 12px">${esc(f.t)}</h3><p style="color:var(--mut)">Urutannya sengaja begini: kenali dirimu dulu, lalu belajar membaca emosi, baru melatih cara berpikir. Tiap pelajaran pendek, bisa selesai sekali duduk.</p></div><div class="tags"><span>${C.chapters.length} bab</span><span>${total} pelajaran</span><span>${GLX.nQuiz} soal</span><span>${GLX.nSim} simulasi</span></div></div>`;
- $("#feat").setAttribute("aria-label","Buka kursus "+f.t);
- $("#grid").innerHTML=C.chapters.map((c,i)=>({c,i})).filter(o=>cat==="Semua"||o.c.t===cat).map(({c,i})=>{const n=c.l.filter((_,j)=>done.has(i+"-"+j)).length;
-  return `<a class="card" href="${goC(i+1)}"><div class="art" style="--c1:${c.c1}">${ILL("c"+i)}</div><div class="body"><small class="bab-n">Bab ${i+1}</small><h3>${esc(c.t)}</h3><p style="color:var(--mut);font-size:.95rem">${esc(c.d)}</p><div class="tags"><span>${c.l.length} pelajaran</span><span>${n}/${c.l.length} selesai</span></div></div></a>`}).join("");
- heroStack();phase();$("#feat").onclick=()=>location.hash="#/course";$("#feat").onkeydown=e=>{if(e.key==="Enter")location.hash="#/course"};
-}
+/* 2026-11-12: bagian "Materi" (chip, kartu kursus, kartu bab) dihapus dari beranda; fungsi ini kini hanya memasang tumpukan kartu bab di hero */
+function renderDiscover(){heroStack();phase()}
 /* tumpukan kartu bab di hero (laptop saja, 2026-11-07): kartu teratas bisa digeser (drag) ke kiri/kanan
    untuk mengganti bab; klik kartu belakang, titik di bawah, atau tombol panah juga bisa. Awalnya bab yang sedang dikerjakan. */
 let hsTop=null;
@@ -680,7 +672,7 @@ if(R){
  document.addEventListener("visibilitychange",kick);["scroll","pointermove","hashchange","resize"].forEach(ev=>addEventListener(ev,kick,{passive:true}));
  const _s=setActive;setActive=i=>{_s(i);kick()};kick();
 }
-$("#grid").addEventListener("pointermove",e=>{const c=e.target.closest(".card");if(!c)return;const r=c.getBoundingClientRect(),w=c.offsetWidth||r.width,h=c.offsetHeight||r.height,cl=v=>Math.max(-.5,Math.min(.5,v));c.style.setProperty("--ry",(cl((e.clientX-r.left-r.width/2)/w)*7).toFixed(2)+"deg");c.style.setProperty("--rx",(-cl((e.clientY-r.top-r.height/2)/h)*7).toFixed(2)+"deg")});
-$("#grid").addEventListener("pointerout",e=>{const c=e.target.closest(".card");if(c){c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")}});
+$("#grid")&&$("#grid").addEventListener("pointermove",e=>{const c=e.target.closest(".card");if(!c)return;const r=c.getBoundingClientRect(),w=c.offsetWidth||r.width,h=c.offsetHeight||r.height,cl=v=>Math.max(-.5,Math.min(.5,v));c.style.setProperty("--ry",(cl((e.clientX-r.left-r.width/2)/w)*7).toFixed(2)+"deg");c.style.setProperty("--rx",(-cl((e.clientY-r.top-r.height/2)/h)*7).toFixed(2)+"deg")});
+$("#grid")&&$("#grid").addEventListener("pointerout",e=>{const c=e.target.closest(".card");if(c){c.style.setProperty("--rx","0deg");c.style.setProperty("--ry","0deg")}});
 renderDiscover();renderPath();GLU.home();/* isi beranda sejak awal agar animasi v9 (kartu bertingkat) punya target walau halaman dibuka di rute lain */
 route();
