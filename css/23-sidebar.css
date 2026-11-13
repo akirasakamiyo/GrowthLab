@@ -1,0 +1,219 @@
+/* ==================================================================
+   Sidebar ala LMS (js/31-sidebar.js, 2026-11-14)
+   Palet: navy tua GrowthLab (bukan putih), teks krem lembut, aksen kuning matahari.
+   >= 1100px : sidebar 248px, bisa diciutkan jadi rel 76px lewat tombol panel (seperti di Claude)
+   761–1099  : rel ikon 76px
+   <= 760    : navbar lama di atas, sidebar jadi laci dari kiri lewat tombol Menu
+   ================================================================== */
+:root{--sbw:248px;--sb-bg:#11184a;--sb-bg2:#0b1038;--sb-tx:#e9e6f7;--sb-mut:#9ea4cf;--sb-line:rgba(255,255,255,.08);--sb-hv:rgba(255,255,255,.06);--sb-sun:#ffc83d;--sb-cream:#fff3d6}
+body.sbx.sbn-min{--sbw:76px}
+
+.sbn{position:fixed;top:0;bottom:0;left:0;z-index:30;width:var(--sbw);display:flex;flex-direction:column;
+  background:linear-gradient(180deg,var(--sb-bg) 0%,var(--sb-bg2) 100%);color:var(--sb-tx);font-family:var(--sans);
+  padding:14px 12px 14px;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:none;
+  box-shadow:inset -1px 0 0 var(--sb-line);transition:width .28s cubic-bezier(.2,.8,.2,1)}
+.sbn::-webkit-scrollbar{display:none}
+/* titik halus di latar, senada dengan ilustrasi pixel */
+.sbn::before{content:"";position:absolute;inset:0;pointer-events:none;opacity:.5;
+  background-image:radial-gradient(rgba(255,255,255,.07) 1px,transparent 1.2px);background-size:14px 14px}
+.sbn>*{position:relative}
+
+.sbn-top{display:flex;align-items:center;gap:6px;padding:2px 2px 14px 6px}
+.sbn-brand{display:flex;align-items:center;gap:10px;flex:1;min-width:0;color:#fff;text-decoration:none;border-radius:10px}
+.sbn-brand .logo{width:34px;height:34px;flex:none;display:grid;place-items:center}
+.sbn-brand .logo svg{width:100%;height:100%}
+.sbn-brand b{font:800 1.12rem/1 var(--serif);letter-spacing:-.01em;white-space:nowrap}
+.sbn-tg{flex:none;width:34px;height:34px;display:grid;place-items:center;border:0;border-radius:9px;background:none;color:var(--sb-mut);cursor:pointer;transition:background .15s,color .15s}
+.sbn-tg svg{width:20px;height:20px}
+.sbn-tg:hover{background:var(--sb-hv);color:#fff}
+
+.sbn-nav{display:flex;flex-direction:column;gap:2px}
+.sbn-nav a,.sbn-gh,.sbn-fly a{position:relative;display:flex;align-items:center;gap:11px;width:100%;min-height:42px;padding:0 10px 0 6px;border:0;border-radius:12px;
+  background:none;color:var(--sb-tx);text-decoration:none;font:600 .92rem/1.2 var(--sans);text-align:left;cursor:pointer;transition:background .15s,color .15s}
+.sbn-nav a:hover,.sbn-gh:hover,.sbn-fly a:hover{background:var(--sb-hv);color:#fff}
+.sbn :focus-visible,.sbn-fly :focus-visible{outline:2px solid var(--sb-sun);outline-offset:-2px}
+.sbn-nav a.cur{background:var(--sb-cream);color:#1b1740}
+.sbn-nav a.cur::before{content:"";position:absolute;left:-12px;top:9px;bottom:9px;width:4px;border-radius:0 4px 4px 0;background:var(--sb-sun)}
+.sbn-t{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sbn-n{font:700 .7rem/1 var(--sans);padding:4px 8px;border-radius:99px;background:rgba(255,255,255,.1);color:var(--sb-tx)}
+.sbn-nav a.cur .sbn-n{background:#1b1740;color:var(--sb-sun)}
+.sbn-n:empty{display:none}
+.sbn-sep{display:block;height:1px;margin:10px 8px;background:var(--sb-line)}
+
+/* ikon duotone dalam ubin berwarna; tiap menu punya warnanya sendiri (--c) */
+.sbn-ic{--c:#ffc83d;flex:none;width:32px;height:32px;display:grid;place-items:center;border-radius:10px;
+  background:color-mix(in srgb,var(--c) 22%,transparent);color:#fff;transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .2s}
+.sbn-ic svg{width:19px;height:19px}
+.sbn-ic .f{fill:var(--c);opacity:.9}
+a:hover>.sbn-ic,.sbn-gh:hover>.sbn-ic{transform:rotate(-8deg) scale(1.08)}
+a.cur>.sbn-ic{background:var(--c);color:#1b1740;box-shadow:0 3px 0 rgba(27,23,64,.25)}
+a.cur>.sbn-ic .f{fill:#fff;opacity:.55}
+
+/* grup lipat */
+.sbn-cv{flex:none;width:18px;height:18px;color:var(--sb-mut);transition:transform .25s}
+.sbn-cv svg{width:18px;height:18px}
+.sbn-g.open>.sbn-gh .sbn-cv{transform:rotate(90deg)}
+.sbn-gh{color:var(--sb-mut)}
+.sbn-g.has-cur>.sbn-gh{color:#fff}
+.sbn-gl{display:none;flex-direction:column;gap:2px;padding:2px 0 4px 14px;margin-left:14px;border-left:1px solid var(--sb-line)}
+.sbn-g.open>.sbn-gl{display:flex}
+.sbn-gl a{min-height:38px;font-size:.88rem}
+.sbn-gl .sbn-ic{width:28px;height:28px;border-radius:9px}
+.sbn-gl .sbn-ic svg{width:17px;height:17px}
+
+/* kartu profil: Labi + level + progres kursus */
+.sbn-me{margin-top:auto;display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:1px solid rgba(255,255,255,.1);border-radius:14px;
+  background:rgba(255,255,255,.05);color:var(--sb-tx);text-align:left;cursor:pointer;font:inherit;transition:background .15s,border-color .15s}
+.sbn-nav+.sbn-me{margin-top:auto}
+.sbn-me:hover{background:rgba(255,255,255,.1);border-color:rgba(255,200,61,.4)}
+.sbn-me .labi{--k:.85;flex:none}
+.sbn-mt{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
+.sbn-mt b{font:700 .86rem/1.15 var(--sans);color:#fff;white-space:nowrap}
+.sbn-mt small{font:600 .74rem/1.2 var(--sans);color:var(--sb-mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sbn-pb{display:block;height:5px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:3px}
+.sbn-pb i{display:block;height:100%;width:calc(var(--p,0)*100%);background:var(--sb-sun);border-radius:3px;transition:width .4s}
+
+/* tooltip label dan menu melayang (mode rel) */
+.sbn-tip{position:fixed;z-index:47;transform:translateY(-50%) translateX(-4px);padding:7px 11px;border-radius:9px;background:#fff3d6;color:#1b1740;
+  font:700 .8rem/1 var(--sans);white-space:nowrap;box-shadow:0 8px 24px -8px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .12s,transform .12s}
+.sbn-tip.on{opacity:1;transform:translateY(-50%)}
+.sbn-fly{position:fixed;z-index:47;min-width:210px;display:flex;flex-direction:column;gap:2px;padding:8px;border-radius:14px;
+  background:var(--sb-bg);color:var(--sb-tx);box-shadow:0 18px 40px -12px rgba(0,0,0,.5),inset 0 0 0 1px var(--sb-line);font-family:var(--sans)}
+.sbn-fly[hidden]{display:none}
+.sbn-fly p{margin:4px 8px 6px;font:700 .68rem/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--sb-mut)}
+.sbn-fly a.cur{background:var(--sb-cream);color:#1b1740}
+.sbn-fly .sbn-ic{width:28px;height:28px}
+.sbn-dim{display:none}
+
+/* ---------- desktop & tablet: geser konten, sembunyikan navbar lama ---------- */
+@media (min-width:761px){
+  body.sbx{padding-left:var(--sbw);transition:padding-left .28s cubic-bezier(.2,.8,.2,1)}
+  body.sbx header.nav{display:none!important}
+  body.sbx .gph-pill{margin-left:calc(var(--sbw)/2)}
+  /* tumpukan kartu bab di hero beranda: kolomnya menyempit karena sidebar, jadi kartu miringnya diberi ruang supaya tidak terpotong */
+  body.sbx .hero #hero-art .hs{width:min(400px,calc(100% - 96px));margin-left:0}
+}
+/* pil pemandu di layar sedang: naik sedikit supaya tidak menimpa tombol Kembali */
+@media (min-width:761px) and (max-width:1199px){ body.sbx .gph-pill{bottom:86px} }
+/* mode rel: tablet, atau desktop yang diciutkan */
+@media (min-width:761px) and (max-width:1099px){
+  :root{--sbw:76px}
+  .sbn-tg{display:none}
+}
+@media (min-width:761px) and (max-width:1099px){ .sbn{padding:14px 10px} }
+@media (min-width:1100px){ body.sbn-min .sbn{padding:14px 10px} }
+@media (min-width:761px) and (max-width:1099px){
+  .sbn-top{flex-direction:column;padding:2px 0 12px}
+  .sbn :is(.sbn-brand b,.sbn-t,.sbn-n,.sbn-cv,.sbn-mt){display:none}
+  .sbn :is(.sbn-nav a,.sbn-gh){justify-content:center;padding:0}
+  .sbn-nav a.cur::before{left:-10px}
+  .sbn-gl{display:none!important}
+  .sbn-g.has-cur>.sbn-gh>.sbn-ic{box-shadow:inset 0 0 0 2px var(--sb-sun)}
+  .sbn-me{justify-content:center;padding:8px 0}
+  .sbn-brand{flex:none}
+}
+@media (min-width:1100px){
+  body.sbn-min .sbn-top{flex-direction:column;padding:2px 0 12px}
+  body.sbn-min .sbn-brand{flex:none}
+  body.sbn-min .sbn :is(.sbn-brand b,.sbn-t,.sbn-n,.sbn-cv,.sbn-mt){display:none}
+  body.sbn-min :is(.sbn-nav a,.sbn-gh){justify-content:center;padding:0}
+  body.sbn-min .sbn-nav a.cur::before{left:-10px}
+  body.sbn-min .sbn-gl{display:none!important}
+  body.sbn-min .sbn-g.has-cur>.sbn-gh>.sbn-ic{box-shadow:inset 0 0 0 2px var(--sb-sun)}
+  body.sbn-min .sbn-me{justify-content:center;padding:8px 0}
+}
+
+/* daftar pelajaran di halaman pelajaran: dari kolom samping jadi bar ringkas di atas artikel */
+@media (min-width:761px){
+  body.sbx .lay{grid-template-columns:minmax(0,1fr)!important;gap:22px!important}
+  body.sbx .lay>.side{position:static!important;display:flex!important;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px 16px!important;border-radius:16px!important}
+  body.sbx .lay>.side .rd{display:none!important}
+  body.sbx .lay>.side #back{padding:0!important;white-space:nowrap}
+  body.sbx .lay>.side .bar{flex:0 0 120px;margin:0}
+  body.sbx .lay>.side #sprog{white-space:nowrap}
+  body.sbx .lay>.side .list{display:flex!important;flex-wrap:wrap;gap:6px;margin-left:auto}
+  body.sbx #slist button{display:inline-flex;align-items:center;gap:8px;padding:7px 11px!important;border-radius:99px!important;font-size:.85rem;line-height:1;transform:none!important;border:1.5px solid rgba(10,26,107,.14)}
+  body.sbx #slist button .lt{display:none}
+  body.sbx #slist button.act .lt{display:inline;max-width:24ch;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  body.sbx #slist button.act{border-color:transparent}
+  body.sbx #slist button.dn{background:#e6f7f4;border-color:transparent}
+}
+
+/* ==================================================================
+   Penyesuaian tata letak setelah navbar atas diganti sidebar (audit 2026-11-14).
+   Banyak halaman dulu memberi ruang untuk navbar kapsul di atas (padding besar, hero setinggi layar,
+   grid untuk lebar penuh). Semua aturan di sini hanya berlaku >= 761px; HP tidak berubah.
+   ================================================================== */
+@media (min-width:761px){
+  /* jangkar (#id) tidak perlu jarak untuk navbar atas lagi */
+  body.sbx [id]{scroll-margin-top:16px}
+  /* beranda: hero tidak dipaksa setinggi layar, konten mulai dekat atas */
+  body.sbx .hero{min-height:0;padding-top:clamp(40px,4.5vw,64px);padding-bottom:clamp(48px,5vw,72px)}
+  body.sbx .hero .row{align-items:center}
+  body.sbx #panduan{padding-top:clamp(56px,6vw,88px);padding-bottom:clamp(64px,7vw,104px)}
+  /* ukuran judul dihitung dari lebar konten (layar dikurangi sidebar), bukan lebar layar */
+  body.sbx .hero h1{font-size:clamp(3.4rem,min(calc((100vw - var(--sbw))*.09),12vh),7rem)!important}
+  body.sbx .chead h1{font-size:clamp(2.8rem,min(calc((100vw - var(--sbw))*.062),10vh),5.4rem)!important}
+  body.sbx .phr h1{font-size:clamp(2.6rem,min(calc((100vw - var(--sbw))*.056),10vh),4.8rem)!important}
+  /* ringkasan kursus */
+  body.sbx [data-v="course"]>.wrap{padding-top:clamp(32px,3.5vw,48px)}
+  body.sbx [data-v="course"] .crumb{padding-top:0}
+  body.sbx [data-v="course"] .chead{padding-top:20px;align-items:start}
+  body.sbx #chaps{padding-bottom:72px!important}
+  /* halaman pelajaran */
+  body.sbx .lay{padding-top:clamp(24px,2.5vw,36px)}
+  /* hero halaman (katalog, latihan, semua panduan) */
+  body.sbx .phr{padding:clamp(40px,4vw,56px) 0 clamp(36px,3.5vw,48px)}
+  body.sbx .phr .phg{gap:clamp(24px,3vw,48px)}
+  body.sbx .phr~.sc2{padding-block:clamp(44px,4.5vw,64px)}
+  /* latihan: tab tidak menyisakan pita kosong di atas; kartu nilai akhir jadi dua kolom */
+  body.sbx #pg .sc2:has(>.wrap>.lx-tabs){padding-top:40px}
+  body.sbx .nl-head{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto 1fr auto;column-gap:clamp(24px,4vw,56px);align-items:end}
+  body.sbx .nl-head>.mono{grid-column:1/-1}
+  body.sbx .nl-head>.lx-big{grid-column:1;grid-row:2/4;margin-bottom:0}
+  body.sbx .nl-head>.badge{grid-column:2;grid-row:2;justify-self:start;align-self:end}
+  body.sbx .nl-head>p{grid-column:2;grid-row:3;align-self:end}
+  /* kuis: soal dan jawaban di tengah layar, tidak menempel ke atas */
+  body.sbx .gq-stage{grid-template-rows:auto auto;align-content:center}
+  /* pembuka simulasi: di tengah, tidak di pojok kiri atas */
+  body.sbx #ltp[data-cur=sim].sv-full>.gs-title{max-width:880px;min-height:calc(100dvh - 2*clamp(18px,3vw,40px))}
+  body.sbx .gs-title>.gs-dasar{margin-left:0;margin-right:0}
+  /* isi panduan memakai lebar yang tersedia */
+  body.sbx .phr~.sc2 :is(.kt,.fq,.rfr-note){max-width:none}
+  body.sbx .phr~.sc2 .fm{max-width:none;grid-template-columns:1fr 1fr;column-gap:20px}
+  body.sbx .phr~.sc2 .fm>:not(label:nth-of-type(-n+2)){grid-column:1/-1}
+  body.sbx .phr~.sc2 .fm>#fs{justify-self:start;min-width:260px}
+  body.sbx .phr~.sc2 .team{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+  body.sbx .phr~.sc2 .stg:has(>:nth-child(3):last-child){grid-template-columns:repeat(3,minmax(0,1fr))}
+}
+@media (min-width:761px) and (max-width:900px){ body.sbx .gx-road{justify-self:stretch} }
+@media (min-width:761px) and (max-width:1099px){ body.sbx .phr .phg{grid-template-columns:minmax(0,1.25fr) minmax(0,.75fr)} }
+@media (min-width:761px) and (max-width:1279px){ body.sbx [data-v="course"] .chead{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:32px} }
+@media (min-width:1100px){
+  body.sbx .phr .phg{grid-template-columns:minmax(0,1fr) min(42%,480px)}
+  body.sbx .phr~.sc2 .fq:has(>details:nth-child(5)){grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}
+  /* syarat & privasi: poin-poin jadi dua kolom */
+  body.sbx .phr~.sc2 .lg2:not(:has(>:not(h3,p))){display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-flow:row dense;column-gap:56px}
+  body.sbx .lg2:not(:has(>:not(h3,p)))>:is(h3,p):nth-of-type(odd){grid-column:1}
+  body.sbx .lg2:not(:has(>:not(h3,p)))>:is(h3,p):nth-of-type(even){grid-column:2}
+  body.sbx .lg2:not(:has(>:not(h3,p)))>h3:nth-of-type(-n+2){margin-top:0}
+}
+/* panel perjalanan karier: di tengah area konten, tidak menimpa sidebar */
+@media (min-width:1200px){
+  body.sbx .gx-dlg{padding-left:calc(var(--sbw) + 16px)}
+  body.sbx .gx-dlg-in.gx-v2{width:min(1180px,100%)}
+}
+
+/* ---------- HP: laci ---------- */
+@media (max-width:760px){
+  .sbn{width:min(290px,84vw);transform:translateX(-102%);visibility:hidden;transition:transform .32s cubic-bezier(.2,.8,.2,1),visibility 0s linear .32s;z-index:46;padding-top:calc(16px + env(safe-area-inset-top,0px))}
+  .sbn-tg{display:none}
+  .sbn-dim{display:block;position:fixed;inset:0;z-index:45;background:rgba(10,14,40,.5);opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+  body.sbn-open .sbn{transform:none;visibility:visible;transition:transform .32s cubic-bezier(.2,.8,.2,1);box-shadow:12px 0 40px -12px rgba(0,0,0,.45)}
+  body.sbn-open .sbn-dim{opacity:1;visibility:visible}
+  body.sbn-open{overflow:hidden}
+  body.sbx #links{display:none!important}
+  .sbn-nav a,.sbn-gh{min-height:46px}
+}
+@media (prefers-reduced-motion:reduce){.sbn,.sbn-dim,.sbn-pb i,.sbn-ic,.sbn-cv,body.sbx{transition:none!important}}
+@media print{.sbn,.sbn-dim,.sbn-tip,.sbn-fly{display:none!important}body.sbx{padding-left:0!important}}
