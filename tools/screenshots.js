@@ -7,7 +7,8 @@ const BASE = process.env.BASE || "http://localhost:8000/index.html";
 const sl = ms => new Promise(r => setTimeout(r, ms));
 /* contoh progres supaya tampilan terlihat "hidup" */
 const SEED = {
-  "mer-done": ["0-0", "0-1", "0-2", "0-3", "0-4", "1-0", "1-1", "1-2", "2-0"],
+  /* semua pelajaran selesai, supaya latihan (kuis, drag & drop, simulasi) sudah terbuka */
+  "mer-done": ["0-0", "0-1", "0-2", "0-3", "0-4", "1-0", "1-1", "1-2", "1-3", "1-4", "2-0", "2-1", "2-2", "2-3", "2-4"],
   "gl-latihan": { v: 2, kuis: { best: { b0: { score: 90, benar: 9, n: 10, t: 1 }, b1: { score: 80, benar: 8, n: 10, t: 1 } }, hist: [], ptsBest: {} }, dnd: { traps: { best: { benar: 4, n: 4, t: 1 }, n: 1 }, stres: { best: { benar: 7, n: 8, t: 1 }, n: 1 } }, sim: { s1: { best: { score: 88, ending: "bangkit", path: [95, 96, 95, 95, 96], t: 1 }, last: null, hist: [], endings: ["bangkit"], run: null } }, akhir: { last: null, hist: [] } }
 };
 (async () => {
@@ -35,5 +36,6 @@ const SEED = {
   });
   await shot("06-gamifikasi", "/course", {}, async p => { await p.evaluate(() => GLG.open()); await sl(1200) });
   await shot("07-hp", "/", { vp: { width: 390, height: 844 }, dpr: 2, mobile: true });
+  await shot("08-alur", "/alur", {}, async p => { await p.evaluate(() => scrollTo(0, 0)); await sl(800) });
   await b.close();
 })();

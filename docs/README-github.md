@@ -28,21 +28,32 @@ Semua berjalan langsung di browser: **gratis, tanpa akun, tanpa server**, dan bi
 | 2 | **Emotional Intelligence** | Emotional and Social Awareness · Facing Stress and Burnout · Criticism, Weakness and Failure · Happiness in Life · Communicate with Empathy |
 | 3 | **Thinking Skill** | System Thinking · Critical Thinking · Strategic Thinking · Reflective Thinking · Creative Thinking |
 
-Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas "Coba sendiri", dan cek pemahaman cepat.
+Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas "Coba sendiri", dan **uji pemahaman** (4 soal per pelajaran, total 60 soal): studi kasus dengan penjelasan di tiap pilihan, soal dua tingkat (jawaban + alasan), dan soal "jelaskan dengan kata-katamu".
 
 ![Halaman materi](docs/screenshots/02-materi.png)
 
 ## Fitur utama
 
-**📚 Materi interaktif.** 15 pelajaran dalam 3 bab, lengkap dengan peta konsep (dengan pratinjau saat kursor diarahkan) dan glosarium. Pelajaran dibuka berurutan: pelajaran berikutnya terbuka setelah pelajaran sebelumnya ditandai selesai.
+**📚 Materi interaktif.** 15 pelajaran dalam 3 bab, lengkap dengan peta konsep (dengan pratinjau saat kursor diarahkan), glosarium 87 istilah, dan halaman Referensi berisi 15 artikel rujukan. Pelajaran dibuka berurutan: pelajaran berikutnya terbuka setelah pelajaran sebelumnya ditandai selesai.
 
-**🎬 Video promo di beranda.** Video singkat 30 detik berputar otomatis tanpa suara; suaranya bisa dinyalakan lewat tombol di pojok video.
+**🧪 Kenalan sama Labi.** Maskot pixel GrowthLab: labu Erlenmeyer yang menumbuhkan tunas. Labi menyapa di beranda, menemani loading screen, jadi avatar asisten **Bingung? Tanya**, dan melompat senang setiap kali kamu menyelesaikan pelajaran.
+
+<p align="center"><img src="docs/screenshots/10-loading.png" alt="Loading screen dengan Labi" width="420"></p>
+
+**🎬 Video 30 detik di beberapa halaman.** Video promo di beranda, video pengenalan materi di Ringkasan kursus, video Latihan bergaya *motion graphics* 60 fps, dan video tutorial 1 menit di Petunjuk. Semuanya berputar otomatis tanpa suara; suaranya bisa dinyalakan lewat tombol di pojok video.
+
+**🎨 Ilustrasi doodle pixel bergerak.** Setiap halaman panduan dan halaman ide kegiatan punya ilustrasi pixel sendiri (17 adegan) yang bergerak halus 60 fps. Ilustrasinya digambar langsung di browser, jadi tidak menambah file gambar, dan animasinya hanya berjalan saat terlihat di layar.
+
+![Ilustrasi doodle pixel](docs/screenshots/09-ilustrasi.png)
+
+**💬 Asisten Bingung? Tanya.** Jawaban diambil dari materi dan FAQ GrowthLab, berjalan offline tanpa layanan AI dari luar.
 
 ![Halaman pelajaran](docs/screenshots/03-pelajaran.png)
 
 **🎮 Latihan bergaya game.**
-- Kuis pilihan ganda ala Quizizz (34 soal, per bab atau gabungan), dengan petunjuk bertahap di kuis per bab.
+- Kuis pilihan ganda ala Quizizz (34 soal, per bab atau gabungan), dengan poin, bonus beruntun, dan petunjuk bertahap di kuis per bab.
 - 6 set drag & drop yang bisa dimainkan dengan mouse, sentuhan, atau keyboard.
+- Latihan terbuka bertahap: kuis, drag & drop, dan simulasi sebuah bab baru bisa dikerjakan setelah semua pelajaran di bab itu selesai.
 
 ![Kuis](docs/screenshots/04-kuis.png)
 
@@ -67,7 +78,11 @@ Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas
 
 **💾 Data milik pengguna.** Progres tersimpan di browser dan bisa diunduh atau dipulihkan sebagai file cadangan. Catatan aktivitas belajar bisa diekspor (JSON/CSV) untuk keperluan penelitian. Tidak ada data yang dikirim ke pihak lain.
 
-**📱 Nyaman di semua perangkat.** Tampilan menyesuaikan HP, tablet, dan laptop/PC.
+**🗺️ Panduan lengkap.** Petunjuk penggunaan, Tujuan belajar, Alur belajar, Peta konsep, Glosarium, Referensi, FAQ, serta enam ide kegiatan **Belajar bareng** untuk kelas atau kelompok belajar.
+
+![Alur belajar](docs/screenshots/08-alur.png)
+
+**📱 Nyaman di semua perangkat.** Tampilan menyesuaikan HP, tablet, dan laptop/PC. Animasi otomatis dimatikan untuk pengguna yang memilih "kurangi gerakan" di perangkatnya.
 
 <p align="center"><img src="docs/screenshots/07-hp.png" alt="Tampilan di HP" width="300"></p>
 
@@ -83,18 +98,18 @@ Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas
 
 ## Teknologi
 
-HTML, CSS, dan JavaScript murni (tanpa *build step*), dengan pustaka lokal GSAP, Lenis, Matter.js, dan three.js. Semua aset ada di repo ini, jadi situs berjalan tanpa CDN maupun server.
+HTML, CSS, dan JavaScript murni (tanpa *build step*), dengan pustaka lokal GSAP (beserta ScrollTrigger dan MotionPathPlugin) dan Lenis. Semua aset ada di repo ini, jadi situs berjalan tanpa CDN maupun server.
 
 ```
 index.html     kerangka halaman
-css/           gaya (01–14), dimuat berurutan
-js/            skrip (01–21) + js/gamifikasi/ (XP, badge, streak, quest, cadangan, log)
+css/           gaya (01–22), dimuat berurutan
+js/            skrip (01–30) + js/gamifikasi/ (XP, badge, streak, quest, cadangan, log)
 vendor/        pustaka & font lokal
-assets/        gambar simulasi, storyboard & video promo
+assets/        gambar simulasi, storyboard, lukisan bab, sprite Labi & video
 offline/       paket ZIP dan SCORM siap unduh
 ```
 
-Isi materi, kuis, drag & drop, dan simulasi ada di satu file: `js/03-data.js`.
+Isi materi, kuis, drag & drop, dan simulasi ada di `js/03-data.js`; soal uji pemahaman di `js/26-uji-data.js`; ilustrasi doodle pixel di `js/30-ilustrasi-pixel.js`.
 
 > **Catatan:** ini prototipe tugas kuliah. Karena semua data tersimpan di browser, skor dan XP bisa diubah lewat devtools. Logika gamifikasi sengaja dipisah di `js/gamifikasi/` agar mudah dipindah ke server di kemudian hari.
 
