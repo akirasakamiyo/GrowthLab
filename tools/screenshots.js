@@ -3,6 +3,9 @@
    Pakai: BASE=http://localhost:8010/index.html node tools/screenshots.js   (perlu Playwright & server lokal yang jalan) */
 const { webkit } = require("playwright");
 const path = require("path"), OUT = path.join(__dirname, "..", "docs", "screenshots");
+/* akhiran tanggal di nama file supaya browser tidak memakai gambar lama dari cache;
+   ganti setiap kali screenshot diambil ulang, lalu sesuaikan juga docs/README-github.md */
+const V = "20261113";
 const BASE = process.env.BASE || "http://localhost:8000/index.html";
 const sl = ms => new Promise(r => setTimeout(r, ms));
 /* contoh progres supaya tampilan terlihat "hidup" */
@@ -19,7 +22,7 @@ const SEED = {
     const p = await ctx.newPage();
     await p.goto(BASE + "?shot=1#" + hash); await sl(3500);
     if (act) await act(p);
-    await p.screenshot({ path: path.join(OUT, name + ".png") });
+    await p.screenshot({ path: path.join(OUT, name + "-" + V + ".png") });
     console.log("ok", name); await ctx.close();
   };
   await shot("01-beranda", "/");
