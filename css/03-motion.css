@@ -1,12 +1,23 @@
 /* ===== v9: lapisan motion ala motion.zajno.com (GSAP + ScrollTrigger + Lenis + Matter) ===== */
 html.lenis,html.lenis body{height:auto}.lenis.lenis-smooth{scroll-behavior:auto!important}.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}.lenis.lenis-stopped{overflow:hidden}
 #cue{display:none!important}
-/* preloader: titik jatuh ke garis, garis membentang, tirai terangkat */
-#zpre{position:fixed;inset:0;z-index:200;background:var(--ink);color:#fff;display:grid;place-items:center;clip-path:inset(0 0 0 0);animation:zhide .01s 6s forwards}
-#zpre .zc{position:relative;display:grid;justify-items:center;gap:12px}
-#zpre .zd{width:16px;height:16px;border-radius:50%;background:var(--sun);transform:translateY(-70px) scale(0)}
-#zpre .zl{width:46px;height:2px;background:#fff;transform:scaleX(0)}
-#zpre .zn{position:absolute;left:50%;bottom:30px;transform:translateX(-50%);font:400 1rem var(--serif);letter-spacing:.2em;opacity:.7}
+/* preloader (2026-11-13): Labi pixel melompat, bar 20 kotak pixel terisi, lalu layar larut jadi kotak-kotak pixel */
+#zpre{position:fixed;inset:0;z-index:200;background:var(--ink);color:#fff;display:grid;place-items:center;animation:zhide .01s 6s forwards}
+#zpre .zpx{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;image-rendering:crisp-edges}
+#zpre .zc{position:relative;display:grid;justify-items:center;gap:18px;padding:0 16px}
+#zpre .zst{position:relative;width:144px;height:150px;display:grid;place-items:end center}
+#zpre .zlb{--k:3;position:relative;transform-origin:50% 100%;transform:scale(0);filter:drop-shadow(0 0 18px rgba(255,200,61,.25))}
+#zpre .zsh{position:absolute;bottom:2px;left:50%;width:84px;height:12px;margin-left:-42px;border-radius:50%;background:rgba(0,0,0,.28);transform:scale(0)}
+#zpre .zlg{font:800 clamp(1.9rem,5vw,2.6rem)/1 var(--serif);letter-spacing:-.01em;opacity:0;transform:translateY(16px)}
+#zpre .zlg em{font-style:normal;color:var(--sun)}
+#zpre .zbar{display:flex;gap:4px;padding:6px;border:3px solid #fff;box-shadow:4px 4px 0 rgba(0,0,0,.3);opacity:0;
+  clip-path:polygon(0 4px,4px 4px,4px 0,calc(100% - 4px) 0,calc(100% - 4px) 4px,100% 4px,100% calc(100% - 4px),calc(100% - 4px) calc(100% - 4px),calc(100% - 4px) 100%,4px 100%,4px calc(100% - 4px),0 calc(100% - 4px))}
+#zpre .zbar i{width:10px;height:16px;background:rgba(255,255,255,.12);transform-origin:50% 100%}
+#zpre .zbar i.on{background:var(--sun);box-shadow:inset 0 -4px 0 rgba(0,0,0,.18),inset 0 3px 0 rgba(255,255,255,.45)}
+#zpre .zmt{display:flex;justify-content:space-between;align-items:baseline;gap:18px;width:100%;min-width:260px;font:600 .85rem var(--sans);opacity:0}
+#zpre .ztp{opacity:.75}
+#zpre .zn{font:800 1rem var(--serif);letter-spacing:.12em;color:var(--sun)}
+@media(max-width:400px){#zpre .zbar i{width:8px}#zpre .zmt{min-width:0}}
 @keyframes zhide{to{opacity:0;visibility:hidden}}
 body.zload .hero .w>i{transform:translateY(110%)!important}
 body.zload .hero .rv:not(h1){opacity:0!important;transform:translateY(26px)!important}
