@@ -83,22 +83,50 @@ if(window.Lenis){
  window.__lenis=lenis;
 }
 
-/* ---------- preloader ---------- */
+/* ---------- preloader (2026-11-13): Labi pixel melompat sambil bar 20 kotak terisi 000 -> 100,
+   Labi melompat senang, lalu layar larut menjadi kotak-kotak pixel dari tengah ke tepi ---------- */
 lenis&&lenis.stop();
-const n={v:0},zn=pre&&pre.querySelector(".zn");
 const pt=gsap.timeline({onComplete:()=>{endPre();lenis&&lenis.start();ScrollTrigger.refresh()}});
 if(pre){
- pt.to(n,{v:100,duration:1.5,ease:"power2.inOut",onUpdate:()=>zn.textContent=String(Math.round(n.v)).padStart(3,"0")},0)
-  .to("#zpre .zd",{scale:1,duration:.35,ease:"back.out(3)"},.1)
-  .to("#zpre .zd",{y:0,duration:.8,ease:"bounce.out"},.25)
-  .to("#zpre .zl",{scaleX:1,duration:.5,ease:"expo.out"},.75)
-  .to("#zpre .zl",{scaleX:innerWidth/46*1.1,duration:.8,ease:"expo.inOut"},1.35)
-  .to("#zpre .zd",{scale:3.2,duration:.6,ease:"expo.inOut"},1.45)
-  .to("#zpre .zc,#zpre .zn",{opacity:0,duration:.3},1.95)
-  .add(()=>body.classList.remove("zload"),2.05)
-  .to(pre,{clipPath:"inset(0 0 100% 0)",duration:1,ease:"expo.inOut"},2)
-  .fromTo(".zcue .zln",{scaleX:0},{scaleX:1,duration:1.4,ease:"expo.out"},2.4)
-  .fromTo(".zcue .zrg",{scale:0},{scale:1,duration:.8,ease:"back.out(2)"},2.6);
+ const n={v:0},zn=pre.querySelector(".zn"),tp=pre.querySelector(".ztp"),seg=[...pre.querySelectorAll(".zbar i")],lb=pre.querySelector(".zlb");
+ const TIPS=[[0,"Menyiapkan 15 pelajaran"],[34,"Mengasah soal latihan"],[67,"Labi menyiram tunasnya"],[100,"Siap belajar!"]];
+ let lit=0;
+ const upd=()=>{const v=Math.round(n.v);zn.textContent=String(v).padStart(3,"0");
+  const k=Math.min(seg.length,Math.floor(v/100*seg.length+.001));
+  while(lit<k){const e=seg[lit++];e.classList.add("on");gsap.fromTo(e,{scaleY:.3,y:-4},{scaleY:1,y:0,duration:.35,ease:"back.out(4)"})}
+  const t=TIPS.filter(x=>v>=x[0]).pop()[1];if(tp.textContent!==t)tp.textContent=t};
+ /* kanvas: tiap piksel kanvas = satu kotak layar (~26px); dipakai untuk efek larut di akhir */
+ const cv=pre.querySelector(".zpx"),cx=cv.getContext("2d"),CS=26,cols=Math.ceil(innerWidth/CS),rows=Math.ceil(innerHeight/CS);
+ cv.width=cols;cv.height=rows;
+ const ink=getComputedStyle(pre).backgroundColor,ord=[];
+ for(let y=0;y<rows;y++)for(let x=0;x<cols;x++){const dx=(x+.5)/cols-.5,dy=((y+.5)/rows-.5)*rows/cols,h=Math.sin(x*12.9898+y*78.233)*43758.5453;
+  ord.push([x,y,Math.hypot(dx,dy)*1.25+(h-Math.floor(h))*.3])}
+ const mx=Math.max(...ord.map(o=>o[2])),dz={p:0};
+ const ink2="rgb("+(ink.match(/\d+/g)||[27,23,64]).slice(0,3).map(v=>Math.min(255,+v+5)).join(",")+")";
+ const draw=()=>{cx.clearRect(0,0,cols,rows);const th=dz.p*(mx+.08);
+  for(const [x,y,d] of ord)if(d>=th){cx.fillStyle=d-th<.03&&dz.p>0?"#ffc83d":(x+y)%2?ink2:ink;cx.fillRect(x,y,1,1)}};
+ draw();pre.style.background="transparent";
+ /* lompatan Labi: 4 kali, mendarat dengan sedikit gepeng */
+ const hop=gsap.timeline({repeat:3,delay:.35});
+ hop.to(lb,{y:-30,scaleY:1.06,scaleX:.95,duration:.22,ease:"power2.out"})
+  .to(lb,{y:0,scaleY:1,scaleX:1,duration:.2,ease:"power2.in"})
+  .to(lb,{scaleY:.86,scaleX:1.12,duration:.07,ease:"power1.out"})
+  .to(lb,{scaleY:1,scaleX:1,duration:.12,ease:"back.out(3)"});
+ hop.to(".zsh",{scale:.6,duration:.22,ease:"power2.out"},0).to(".zsh",{scale:1,duration:.2,ease:"power2.in"},.22);
+ pt.to(lb,{scale:1,duration:.5,ease:"back.out(2.6)"},0)
+  .to("#zpre .zsh",{scale:1,duration:.4,ease:"expo.out"},.05)
+  .to("#zpre .zlg",{opacity:1,y:0,duration:.6,ease:"expo.out"},.12)
+  .to("#zpre .zbar,#zpre .zmt",{opacity:1,duration:.4,stagger:.08},.2)
+  .add(hop,.3)
+  .to(n,{v:100,duration:1.75,ease:"power2.inOut",onUpdate:upd},.3)
+  .add(()=>{lb.classList.remove("idle");lb.classList.add("happy");gsap.to(seg,{background:"#fff",duration:.08,yoyo:true,repeat:1,stagger:.012})},2.08)
+  .to(lb,{y:-46,rotation:-8,duration:.26,ease:"power2.out"},2.1)
+  .to(lb,{y:0,rotation:0,duration:.3,ease:"bounce.out"},2.36)
+  .to("#zpre .zc",{scale:.92,opacity:0,duration:.35,ease:"power2.in"},2.6)
+  .add(()=>body.classList.remove("zload"),2.85)
+  .to(dz,{p:1,duration:.85,ease:"power1.inOut",onUpdate:draw},2.85)
+  .fromTo(".zcue .zln",{scaleX:0},{scaleX:1,duration:1.4,ease:"expo.out"},3.1)
+  .fromTo(".zcue .zrg",{scale:0},{scale:1,duration:.8,ease:"back.out(2)"},3.3);
 }else endPre();
 
 /* ---------- hero: menjauh saat discroll ---------- */
