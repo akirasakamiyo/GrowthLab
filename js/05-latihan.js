@@ -489,7 +489,7 @@ function nilaiClick(e){const b=e.target.closest("[data-n]");if(b&&b.dataset.n===
    TAB & MOUNT
    ================================================================== */
 const TABS=[["kuis","Kuis"],["dnd","Drag & Drop"],["sim","Simulasi"]];let cur="kuis";
-function scrollTop(){const t=q(".lx-tabs");if(t){const y=t.getBoundingClientRect().top+scrollY-90;if(Math.abs(scrollY-y)>40)try{window.__lenis?window.__lenis.scrollTo(y,{immediate:rmq(),force:true}):scrollTo(0,y)}catch(_){scrollTo(0,y)}}}
+function scrollTop(){const t=q(".lx-tabs");if(t){const y=t.getBoundingClientRect().top+scrollY-(innerWidth>760?56:90);/* 2026-11-14: di desktop tidak ada navbar atas lagi (sidebar) */if(Math.abs(scrollY-y)>40)try{window.__lenis?window.__lenis.scrollTo(y,{immediate:rmq(),force:true}):scrollTo(0,y)}catch(_){scrollTo(0,y)}}}
 function tab(t,user){const prev=cur;cur=TABS.some(x=>x[0]===t)?t:"kuis";qa(".lx-tabs [role=tab]").forEach(b=>{const on=b.dataset.t===cur;b.setAttribute("aria-selected",on);b.tabIndex=on?0:-1});
  const p=q("#ltp");if(!p)return;p.setAttribute("aria-labelledby","lt-"+cur);p.dataset.cur=cur;
  if(prev!==cur||!user){if(cur!=="sim")GLSV.stop();if(cur!=="dnd")ddTimerStop()}
