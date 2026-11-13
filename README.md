@@ -10,7 +10,7 @@ Media pembelajaran interaktif berbasis website untuk mengembangkan **soft skill*
 
 Kelompok 8 · Pengembangan Multimedia Pendidikan · Teknologi Pendidikan FIP Universitas Negeri Jakarta
 
-![Beranda GrowthLab](docs/screenshots/01-beranda.png)
+![Beranda GrowthLab](docs/screenshots/01-beranda-20261113.png)
 
 </div>
 
@@ -30,7 +30,7 @@ Semua berjalan langsung di browser: **gratis, tanpa akun, tanpa server**, dan bi
 
 Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas "Coba sendiri", dan **uji pemahaman** (4 soal per pelajaran, total 60 soal): studi kasus dengan penjelasan di tiap pilihan, soal dua tingkat (jawaban + alasan), dan soal "jelaskan dengan kata-katamu".
 
-![Halaman materi](docs/screenshots/02-materi.png)
+![Halaman materi](docs/screenshots/02-materi-20261113.png)
 
 ## Fitur utama
 
@@ -38,24 +38,24 @@ Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas
 
 **🧪 Kenalan sama Labi.** Maskot pixel GrowthLab: labu Erlenmeyer yang menumbuhkan tunas. Labi menyapa di beranda, menemani loading screen, jadi avatar asisten **Bingung? Tanya**, dan melompat senang setiap kali kamu menyelesaikan pelajaran.
 
-<p align="center"><img src="docs/screenshots/10-loading.png" alt="Loading screen dengan Labi" width="420"></p>
+<p align="center"><img src="docs/screenshots/10-loading-20261113.png" alt="Loading screen dengan Labi" width="420"></p>
 
 **🎬 Video 30 detik di beberapa halaman.** Video promo di beranda, video pengenalan materi di Ringkasan kursus, video Latihan bergaya *motion graphics* 60 fps, dan video tutorial 1 menit di Petunjuk. Semuanya berputar otomatis tanpa suara; suaranya bisa dinyalakan lewat tombol di pojok video.
 
 **🎨 Ilustrasi doodle pixel bergerak.** Setiap halaman panduan dan halaman ide kegiatan punya ilustrasi pixel sendiri (17 adegan) yang bergerak halus 60 fps. Ilustrasinya digambar langsung di browser, jadi tidak menambah file gambar, dan animasinya hanya berjalan saat terlihat di layar.
 
-![Ilustrasi doodle pixel](docs/screenshots/09-ilustrasi.png)
+![Ilustrasi doodle pixel](docs/screenshots/09-ilustrasi-20261113.png)
 
 **💬 Asisten Bingung? Tanya.** Jawaban diambil dari materi dan FAQ GrowthLab, berjalan offline tanpa layanan AI dari luar.
 
-![Halaman pelajaran](docs/screenshots/03-pelajaran.png)
+![Halaman pelajaran](docs/screenshots/03-pelajaran-20261113.png)
 
 **🎮 Latihan bergaya game.**
 - Kuis pilihan ganda ala Quizizz (34 soal, per bab atau gabungan), dengan poin, bonus beruntun, dan petunjuk bertahap di kuis per bab.
 - 6 set drag & drop yang bisa dimainkan dengan mouse, sentuhan, atau keyboard.
 - Latihan terbuka bertahap: kuis, drag & drop, dan simulasi sebuah bab baru bisa dikerjakan setelah semua pelajaran di bab itu selesai.
 
-![Kuis](docs/screenshots/04-kuis.png)
+![Kuis](docs/screenshots/04-kuis-20261113.png)
 
 **🧭 Simulasi kasus dunia kerja yang bercabang dan adaptif.**
 - Ada 3 kasus: ditolak setelah wawancara, kritik keras dari atasan saat magang, dan tenggat proyek tim.
@@ -63,7 +63,7 @@ Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas
 - Cerita menyesuaikan caramu bermain: kalau kamu kesulitan, ada tokoh yang membantu; kalau kamu sedang bagus, tantangannya naik.
 - Setiap kasus disusun dari situasi nyata, dengan dasar kasus yang bisa dicek: data BPS, Permenaker 6/2020 tentang pemagangan, aturan lembur, dan riset PMI tentang *scope creep*.
 
-![Simulasi](docs/screenshots/05-simulasi.png)
+![Simulasi](docs/screenshots/05-simulasi-20261113.png)
 
 **📊 Nilai akhir yang transparan.** Nilai Akhir = Pilihan Ganda × 30% + Simulasi × 70%. Nilai terbuka setelah semua latihan selesai, lalu bisa dicetak sebagai kartu hasil.
 
@@ -74,17 +74,17 @@ Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas
 - **Profil kesiapan kerja:** radar 3 soft skill dan sertifikat penyelesaian (PNG).
 - **Tanpa leaderboard:** tidak ada persaingan antarpengguna; yang dibandingkan hanya progresmu sendiri.
 
-![Panel perjalanan karier](docs/screenshots/06-gamifikasi.png)
+![Panel perjalanan karier](docs/screenshots/06-gamifikasi-20261113.png)
 
 **💾 Data milik pengguna.** Progres tersimpan di browser dan bisa diunduh atau dipulihkan sebagai file cadangan. Catatan aktivitas belajar bisa diekspor (JSON/CSV) untuk keperluan penelitian. Tidak ada data yang dikirim ke pihak lain.
 
 **🗺️ Panduan lengkap.** Petunjuk penggunaan, Tujuan belajar, Alur belajar, Peta konsep, Glosarium, Referensi, FAQ, serta enam ide kegiatan **Belajar bareng** untuk kelas atau kelompok belajar.
 
-![Alur belajar](docs/screenshots/08-alur.png)
+![Alur belajar](docs/screenshots/08-alur-20261113.png)
 
 **📱 Nyaman di semua perangkat.** Tampilan menyesuaikan HP, tablet, dan laptop/PC. Animasi otomatis dimatikan untuk pengguna yang memilih "kurangi gerakan" di perangkatnya.
 
-<p align="center"><img src="docs/screenshots/07-hp.png" alt="Tampilan di HP" width="300"></p>
+<p align="center"><img src="docs/screenshots/07-hp-20261113.png" alt="Tampilan di HP" width="300"></p>
 
 ## Cara memakai
 
