@@ -111,7 +111,8 @@ function renderLesson(i,j){
  cur=[i,j];const ch=C.chapters[i],L=ch&&ch.l[j];if(!L){location.hash="#/course";return}setActive(i);
  const art=$("#lart"),k=i+"-"+j;
  if(art.dataset.k!==k){art.dataset.k=k;art.innerHTML=lessonHTML(i,j,L);GLU.lesson(art,i,j);$("#mark").onclick=markL;$("#nextl").onclick=nextL;document.title=L.t+" · GrowthLab";window.observe&&window.observe()}
- $("#slist").innerHTML=ch.l.map((l,k)=>`<button class="${k===j?"act":""}${locked(i,k)?" lock":""}" data-k="${i}-${k}">${p2(k+1)} ${esc(l.t)}${done.has(i+"-"+k)?" ✓":locked(i,k)?' <i class="lk" aria-label="terkunci"></i>':""}</button>`).join("");
+ /* 2026-11-14: nomor dan judul dibungkus terpisah supaya di desktop daftar ini bisa tampil sebagai bar ringkas (lihat css/23-sidebar.css) */
+ $("#slist").innerHTML=ch.l.map((l,k)=>`<button class="${k===j?"act":""}${locked(i,k)?" lock":""}${done.has(i+"-"+k)?" dn":""}" data-k="${i}-${k}" title="${esc(l.t)}"${k===j?' aria-current="page"':""}><span class="ln">${p2(k+1)}</span> <span class="lt">${esc(l.t)}</span>${done.has(i+"-"+k)?" ✓":locked(i,k)?' <i class="lk" aria-label="terkunci"></i>':""}</button>`).join("");
  $$("#slist button").forEach(b=>b.onclick=()=>location.hash="#/lesson/"+b.dataset.k);
  $("#mark").textContent=done.has(k)?"Selesai ✓":"Tandai selesai";
  updateProgress();
