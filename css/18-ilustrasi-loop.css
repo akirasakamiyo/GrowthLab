@@ -91,7 +91,12 @@ img.luk{display:block;width:100%;height:100%;object-fit:cover;object-position:50
 .frame.promo video{position:absolute;inset:0;width:100%;height:100%;aspect-ratio:auto;object-fit:cover}
 
 /* ilustrasi doodle pixel (js/30-ilustrasi-pixel.js): latar diam + sprite yang digerakkan JS 60 fps */
-.frame .pxl{position:absolute;inset:0;overflow:hidden}
-.frame .pxl img{position:absolute;top:0;left:0;display:block;max-width:none;image-rendering:pixelated;image-rendering:crisp-edges;pointer-events:none;user-select:none}
-.frame .pxl img.pxb{width:100%;height:100%}
-.frame .pxl img.pxp{will-change:transform}
+.pxl{position:absolute;inset:0;overflow:hidden}
+/* kartu Belajar Bareng (4:3) memakai adegan 78x60: dipusatkan dengan rasio aslinya supaya tidak gepeng */
+.ph .pic>.pxl{inset:auto;left:0;right:0;top:50%;aspect-ratio:78/60;transform:translateY(-50%)}
+/* kartu pelajaran memakai adegan 90x30 */
+.card .art.pxa{min-height:0;aspect-ratio:3/1}
+.art.pxa:before,.art.pxa:after{display:none}
+.pxl img{position:absolute;top:0;left:0;display:block;max-width:none;image-rendering:pixelated;image-rendering:crisp-edges;pointer-events:none;user-select:none}
+.pxl img.pxb{width:100%;height:100%}
+.pxl img.pxp{will-change:transform}

@@ -120,15 +120,16 @@ window.GLPIX = (() => {
      def(kunci, {dur, still, base(p,c), parts:[{w,h,ax,ay,frames,draw(q,c,f), at(u,t,c)}], fg(p,c)})
      base: lapisan diam (latar sudah dicat p.bg(c)). parts: sprite pixel kecil yang digerakkan HALUS tiap frame layar (60 fps):
      at(u) mengembalikan {x,y (posisi titik poros ax,ay dalam koordinat grid, boleh pecahan), r (derajat), s|sx|sy (skala), o (opasitas), f (indeks bingkai sprite)}.
+     w, h: ukuran grid adegan (bawaan 78x60; kartu pelajaran memakai 90x30).
      fg: lapisan diam di atas semua part (opsional). still: nilai u untuk tampilan tanpa gerak (prefers-reduced-motion). */
   const S = {}, cache = {};
   const def = (k, o) => { S[k] = o };
   const url = q => q.png().toDataURL("image/png");
   const build = (k, c) => {
     const id = k + c; if (cache[id]) return cache[id];
-    const s = S[k], b = grid(); b.bg(c); s.base && s.base(b, c);
+    const s = S[k], gw = s.w || W, gh = s.h || H, b = grid(gw, gh); b.bg(c); s.base && s.base(b, c);
     const parts = (s.parts || []).map(pt => { const urls = []; for (let f = 0; f < (pt.frames || 1); f++) { const q = grid(pt.w, pt.h); pt.draw(q, c, f); urls.push(url(q)) } return { pt, urls } });
-    let fg = null; if (s.fg) { const q = grid(); s.fg(q, c); fg = url(q) }
+    let fg = null; if (s.fg) { const q = grid(gw, gh); s.fg(q, c); fg = url(q) }
     return cache[id] = { s, base: url(b), parts, fg };
   };
   const html = (k, c) => {
@@ -157,10 +158,10 @@ window.GLPIX = (() => {
   const io = "IntersectionObserver" in window ? new IntersectionObserver(es => es.forEach(e => {
     if (e.isIntersecting && !RM.matches) { live.add(e.target); if (!raf) raf = requestAnimationFrame(tick) } else live.delete(e.target);
   }), { rootMargin: "80px" }) : null;
-  const ro = "ResizeObserver" in window ? new ResizeObserver(es => es.forEach(e => { const el = e.target; el._k = el.clientWidth / W; still(el) })) : null;
+  const ro = "ResizeObserver" in window ? new ResizeObserver(es => es.forEach(e => { const el = e.target; if (!el._m) return; el._k = el.clientWidth / (el._m.s.w || W); if (!live.has(el)) still(el) })) : null;
   const still = el => { const s = el._m.s, u = s.still ?? 0; pose(el, u, u * (s.dur || 3)) };
   const bind = el => {
-    if (el._m) return; el._m = build(el.dataset.px, el.dataset.c); el._c = el.dataset.c; el._imgs = [...el.querySelectorAll(".pxp")]; el._k = el.clientWidth / W;
+    if (el._m) return; el._m = build(el.dataset.px, el.dataset.c); el._c = el.dataset.c; el._imgs = [...el.querySelectorAll(".pxp")]; el._k = el.clientWidth / (el._m.s.w || W);
     still(el); ro && ro.observe(el); io && io.observe(el);
   };
   const scan = () => document.querySelectorAll(".pxl[data-px]").forEach(bind);

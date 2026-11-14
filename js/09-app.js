@@ -345,6 +345,8 @@ const CHALK=(c,a,b)=>`<svg class="chalk" viewBox="0 0 600 520" aria-hidden="true
 <path class="ck-e" stroke="${c}" stroke-width="4" d="M70 400h24M82 388v24"/>
 <path class="ck-f" stroke="${a}" stroke-width="4" d="M470 440c14-20 44-16 42 6-2 22-36 20-30-2 6-20 40-24 58-6"/>
 </g></svg>`;
+/* versi pixel (js/30-ilustrasi-pixel.js, js/33-ilustrasi-pelajaran.js) kalau adegannya ada, selain itu ilustrasi garis lama */
+function PXA(k,c,alt){return window.GLPIX&&GLPIX.has(k)?GLPIX.html(k,c):alt()}
 const ILL=k=>k==="course"?(window.GLLOOP?GLLOOP.kursus():CHALK(K,O,T)):window.GLLOOP&&/^c[0-2]$/.test(k)?GLLOOP[k]():ILLX(String(k));
 /* animasi hanya berjalan untuk gambar yang terlihat (hemat baterai & tetap mulus) */
 (()=>{const RMI=matchMedia("(prefers-reduced-motion:reduce)").matches;
@@ -389,7 +391,7 @@ const FAQ=[
  ["Siapa yang membuat GrowthLab?","Kelompok 8 Program Studi Teknologi Pendidikan FIP UNJ (2024) sebagai tugas mata kuliah Pengembangan Multimedia Pendidikan. Materinya merujuk pada buku dan jurnal pengembangan diri serta artikel soft skill MySkill. Daftar lengkapnya ada di halaman Referensi."]];
 ($("#usp")||{}).innerHTML=[[C.chapters.length,"Bab materi","#/course"],[C.chapters.reduce((a,c)=>a+c.l.length,0),"Pelajaran soft skill","#/e-learning"],[GLX.nQuiz,"Soal kuis pilihan ganda","#/latihan/kuis"],[GLX.nSim,"Skenario simulasi kerja","#/latihan/sim"],["Mandiri","Belajar mandiri, kapan saja","#/petunjuk"]].map(([v,t,hf],i)=>`<a class="us" href="${hf}"><div class="ic" style="background:${BGC[i]}">${ILL("u"+i)}</div><strong>${v}</strong><span>${t}</span></a>`).join("");
 ($("#el-art")||{}).innerHTML=`<div class="frame" style="--c1:${CO[0]};width:100%">${ILL("el")}</div>`;
-($("#kom")||{}).innerHTML=Array.from({length:6},(_,i)=>`<div data-par="${i%2?-.05:.06}"><a class="ph" href="#/komunitas/${i}" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="pic" style="--c1:${CO[i]}">${ILL("k"+i)}</div><p>${KOMT[i]}</p></a></div>`).join("");
+($("#kom")||{}).innerHTML=Array.from({length:6},(_,i)=>`<div data-par="${i%2?-.05:.06}"><a class="ph" href="#/komunitas/${i}" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="pic" style="--c1:${CO[i]}">${PXA("k"+i,CO[i],()=>ILL("k"+i))}</div><p>${KOMT[i]}</p></a></div>`).join("");
 ($("#fq")||{}).innerHTML=FAQ.slice(0,5).map(([q,a],i)=>`<details${i?"":" open"}><summary>${q}</summary><p>${a}</p></details>`).join("");
 function pin(){const p=$("#program");if(!p)return;const r=p.getBoundingClientRect();if(r.height<10)return;const pr=Math.min(1,Math.max(0,-r.top/(r.height-innerHeight))),a=Math.min(2,Math.floor(pr*3));
  if(a!==pa_){pa_=a;$$("#program [data-i]").forEach(e=>{const i=+e.dataset.i;e.classList.toggle("on",i===a);e.classList.toggle("off",i<a)});burst=1}}
@@ -545,8 +547,8 @@ const frV=(c,n,lbl)=>`<div data-par=".05"><div class="rv" data-in="z"><div class
 const fr=(c,k)=>`<div data-par=".05"><div class="rv" data-in="z"><div class="frame" style="--c1:${c}">${window.GLPIX&&GLPIX.has(k)?GLPIX.html(k,c):window.GLLOOP&&GLLOOP[k]?GLLOOP[k]():ILL(k)}</div></div></div>`;
 const LES=C.chapters.flatMap((ch,i)=>ch.l.map((l,j)=>({i,j,ch,l,n:i*5+j})));
 const lesLink=(i,j)=>`<a href="#/lesson/${i}-${j}">${esc(C.chapters[i].l[j].t)}</a>`;
-const cardL=o=>`<a class="card" href="#/lesson/${o.i}-${o.j}"><div class="art" style="--c1:${o.ch.c1}">${ILL(o.i+"-"+o.j)}</div><div class="body"><small class="bab-n">Bab ${o.i+1}, ${esc(o.ch.t)}</small><h3>${esc(o.l.t)}</h3><p style="color:var(--mut);font-size:.92rem">${esc(strip(o.l.judul))}</p><div class="tags"><span>${done.has(o.i+"-"+o.j)?"Selesai ✓":locked(o.i,o.j)?"Terkunci <i class=\"lk\" aria-hidden=\"true\"></i>":"Belum selesai"}</span>${o.l.draft?"<span>Draf</span>":""}</div></div></a>`;
-const polK=i=>`<a class="ph" href="#/komunitas/${i}" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="pic" style="--c1:${CO[i]}">${ILL("k"+i)}</div><p>${KOMT[i]}</p></a>`;
+const cardL=o=>`<a class="card" href="#/lesson/${o.i}-${o.j}"><div class="art${window.GLPIX&&GLPIX.has("les"+o.i+"-"+o.j)?" pxa":""}" style="--c1:${o.ch.c1}">${PXA("les"+o.i+"-"+o.j,o.ch.c1,()=>ILL(o.i+"-"+o.j))}</div><div class="body"><small class="bab-n">Bab ${o.i+1}, ${esc(o.ch.t)}</small><h3>${esc(o.l.t)}</h3><p style="color:var(--mut);font-size:.92rem">${esc(strip(o.l.judul))}</p><div class="tags"><span>${done.has(o.i+"-"+o.j)?"Selesai ✓":locked(o.i,o.j)?"Terkunci <i class=\"lk\" aria-hidden=\"true\"></i>":"Belum selesai"}</span>${o.l.draft?"<span>Draf</span>":""}</div></div></a>`;
+const polK=i=>`<a class="ph" href="#/komunitas/${i}" style="--r:${[-2,1.5,-1,2,-1.5,1][i]}deg"><div class="pic" style="--c1:${CO[i]}">${PXA("k"+i,CO[i],()=>ILL("k"+i))}</div><p>${KOMT[i]}</p></a>`;
 const faqL=n=>`<div class="fq rv">${FAQ.slice(0,n).map(([q,a],i)=>`<details${i?"":" open"}><summary>${q}</summary><p>${a}</p></details>`).join("")}</div>`;
 const stp=(a)=>`<div class="stg rv">${a.map(([t,d],i)=>`<div class="stp"><b>${p2(i+1)}</b><h3>${t}</h3><p>${d}</p></div>`).join("")}</div>`;
 const lg2=a=>`<div class="lg2">${a.map(([t,d],i)=>`<h3 class="rv">${i+1}. ${t}</h3><p class="rv">${d}</p>`).join("")}</div>`;
