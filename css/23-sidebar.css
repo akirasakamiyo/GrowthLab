@@ -24,7 +24,7 @@ body.sbx.sbn-min{--sbw:76px}
 .sbn-brand .logo svg{width:100%;height:100%}
 .sbn-brand b{font:800 1.12rem/1 var(--serif);letter-spacing:-.01em;white-space:nowrap}
 .sbn-tg{flex:none;width:34px;height:34px;display:grid;place-items:center;border:0;border-radius:9px;background:none;color:var(--sb-mut);cursor:pointer;transition:background .15s,color .15s}
-.sbn-tg svg{width:24px;height:24px}
+.sbn-tg svg{width:21px;height:21px}
 .sbn-tg:hover{background:var(--sb-hv);color:#fff}
 
 .sbn-nav{display:flex;flex-direction:column;gap:2px}
@@ -43,20 +43,18 @@ body.sbx.sbn-min{--sbw:76px}
 /* ikon duotone dalam ubin berwarna; tiap menu punya warnanya sendiri (--c) */
 .sbn-ic{--c:#ffc83d;flex:none;width:32px;height:32px;display:grid;place-items:center;border-radius:10px;
   background:color-mix(in srgb,var(--c) 22%,transparent);color:#fff;transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .2s}
-.sbn-ic svg{width:24px;height:24px}
-/* ikon pixel art (js/31-sidebar.js, PX): garis currentColor, bidang warna menu, sorotan krem */
-svg.pxi .o{fill:currentColor}
-/* sorotan: warna menu yang dimudakan, supaya tidak menyatu dengan garis putih */
-svg.pxi .h{fill:color-mix(in srgb,var(--c,#ffc83d) 40%,#fff3d6)}
+.sbn-ic svg{width:22px;height:22px;overflow:visible}
+/* ikon doodle (js/31-sidebar.js): garis tinta + bidang warna menu yang sedikit bergeser */
+svg.dd .f{fill:var(--c,#ffc83d);stroke:none;opacity:.95}
+svg.dd circle:not(.f),svg.dd rect:not(.f){fill:none}
 .sbn-ic .f{fill:var(--c)}
 a:hover>.sbn-ic,.sbn-gh:hover>.sbn-ic{transform:rotate(-8deg) scale(1.08)}
 a.cur>.sbn-ic{background:var(--c);color:#1b1740;box-shadow:0 3px 0 rgba(27,23,64,.25)}
-a.cur>.sbn-ic .f{fill:#fff;opacity:.6}
-a.cur>.sbn-ic .h{fill:#fff}
+a.cur>.sbn-ic .f{fill:#fff;opacity:.55}
 
 /* grup lipat */
-.sbn-cv{flex:none;width:24px;height:24px;margin:-3px;color:var(--sb-mut);transition:transform .25s}
-.sbn-cv svg{width:24px;height:24px}
+.sbn-cv{flex:none;width:18px;height:18px;color:var(--sb-mut);transition:transform .25s}
+.sbn-cv svg{width:18px;height:18px}
 .sbn-g.open>.sbn-gh .sbn-cv{transform:rotate(90deg)}
 .sbn-gh{color:var(--sb-mut)}
 .sbn-g.has-cur>.sbn-gh{color:#fff}
@@ -64,7 +62,7 @@ a.cur>.sbn-ic .h{fill:#fff}
 .sbn-g.open>.sbn-gl{display:flex}
 .sbn-gl a{min-height:38px;font-size:.88rem}
 .sbn-gl .sbn-ic{width:28px;height:28px;border-radius:9px}
-.sbn-gl .sbn-ic svg{width:24px;height:24px}
+.sbn-gl .sbn-ic svg{width:19px;height:19px;overflow:visible}
 
 /* kartu profil: Labi + level + progres kursus */
 .sbn-me{margin-top:auto;display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:1px solid rgba(255,255,255,.1);border-radius:14px;
