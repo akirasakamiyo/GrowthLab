@@ -11,35 +11,30 @@
   const HP = matchMedia("(max-width: 760px)"), DESK = matchMedia("(min-width: 1100px)");
   const st = { get: k => { try { return localStorage.getItem(k) } catch (_) { return null } }, set: (k, v) => { try { localStorage.setItem(k, v) } catch (_) {} } };
 
-  /* ---------- ikon pixel art 12x12 (2026-11-14), satu gaya dengan Labi dan ilustrasi pixel ----------
-     Tiap ikon digambar per piksel: # = garis (currentColor), f = bidang warna menu (var(--c)), h = sorotan krem, . = kosong.
-     Digambar sebagai <path> berisi kotak-kotak, shape-rendering crispEdges supaya tepinya tajam. */
-  const PX = {
-    home: ["............", ".....##.....", "....#ff#....", "...#ffff#...", "..#ffffff#..", ".##########.", "..#hhhhhh#..", "..#h#ff#h#..", "..#h#ff#h#..", "..#h#ff#h#..", "..########..", "............"],
-    katalog: ["............", ".####..####.", ".#ff#..#hh#.", ".#ff#..#hh#.", ".####..####.", "............", "............", ".####..####.", ".#hh#..#ff#.", ".#hh#..#ff#.", ".####..####.", "............"],
-    course: ["............", ".###....###.", "#fff#..#hhh#", "#ffff##hhhh#", "#ffff##hhhh#", "#ffff##hhhh#", "#ffff##hhhh#", "#ffff##hhhh#", "#ffff##hhhh#", ".####..####.", ".....##.....", "............"],
-    latihan: ["............", "....####....", ".###h##h###.", ".#ffffffff#.", ".#ffffff#f#.", ".#fffff#ff#.", ".#f#ff#fff#.", ".#ff##ffff#.", ".#ffffffff#.", ".#ffffffff#.", ".##########.", "............"],
-    nilai: ["............", ".........###", ".........#f#", ".....###.#f#", ".....#h#.#f#", ".....#h#.#f#", ".###.#h#.#f#", ".#f#.#h#.#f#", ".#f#.#h#.#f#", ".#f#.#h#.#f#", "############", "............"],
-    panduan: [".....##.....", "..########..", "..#fffffff#.", "..#ffffffff#", "..#fffffff#.", "..########..", ".....##.....", ".########...", ".#hhhhhhh#..", "#hhhhhhhh#..", ".#hhhhhhh#..", ".########..."],
-    lain: ["............", "............", "............", "............", "............", ".hh..hh..hh.", ".hhf.hhf.hhf", "..ff..ff..ff", "............", "............", "............", "............"],
-    petunjuk: ["............", ".##########.", ".#ffffffff#.", ".#fffhhfff#.", ".#ffffffff#.", ".#ffhhhfff#.", ".#fffhhfff#.", ".#fffhhfff#.", ".#ffhhhhff#.", ".#ffffffff#.", ".##########.", "............"],
-    tujuan: ["............", "....####....", "..##hhhh##..", ".#hh####hh#.", ".#h#ffff#h#.", "#hh#f##f#hh#", "#hh#f##f#hh#", ".#h#ffff#h#.", ".#hh####hh#.", "..##hhhh##..", "....####....", "............"],
-    alur: ["............", "........###.", ".hhhhhhh#f#.", ".h......###.", ".h..........", ".hhhhhhhhh..", ".........h..", ".........h..", "###......h..", "#f#hhhhhhh..", "###.........", "............"],
-    peta: ["............", ".##########.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".##########.", "............"],
-    glosarium: ["............", ".#########..", ".#hffffff#..", ".#hff##ff#..", ".#hf#ff#f#..", ".#hf####f#..", ".#hf#ff#f#..", ".#hffffff#..", ".##########.", ".#hhhhhhhh#.", ".##########.", "............"],
-    referensi: ["............", "..########..", "..#ffffff#..", "..#fhhhff#..", "..#ffffff#..", "..#fhhhhf#..", "..#ffffff#..", "..#ffffff#..", "..#ff##ff#..", "..#f#..#f#..", "..##....##..", "............"],
-    faq: ["............", ".##########.", ".#ff###fff#.", ".#f#fff#ff#.", ".#fffff#ff#.", ".#ffff#fff#.", ".#fff#ffff#.", ".#ffffffff#.", ".#fff#ffff#.", ".#f########.", ".##.........", "............"],
-    komunitas: ["............", ".###....###.", "#fff#..#hhh#", "#fff#..#hhh#", ".###....###.", "............", ".###....###.", "#fff#..#hhh#", "#fff#..#hhh#", "#fff#..#hhh#", "#####..#####", "............"],
-    tentang: ["............", "............", "..###..###..", ".#hhf##fff#.", "#hfffffffff#", "#ffffffffff#", ".#ffffffff#.", "..#ffffff#..", "...#ffff#...", "....#ff#....", ".....##.....", "............"],
-    panel: ["............", "............", ".##########.", ".#hh#.....#.", ".#hh#.....#.", ".#hh#.....#.", ".#hh#.....#.", ".#hh#.....#.", ".#hh#.....#.", ".##########.", "............", "............"],
-    chev: ["............", "............", "............", "....##......", ".....##.....", "......##....", "......##....", ".....##.....", "....##......", "............", "............", "............"]
+  /* ---------- ikon doodle HD (2026-11-14), digambar khusus untuk GrowthLab ----------
+     Garis tinta tangan (currentColor, ujung bulat, sedikit miring) di atas bidang warna menu (var(--c))
+     yang sengaja digeser sedikit dari garisnya, seperti sablon/risograph. Bukan set ikon bawaan. */
+  const S = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" class="dd"';
+  const I = {
+    home: `<svg ${S}><path class="f" d="M6.6 11.2L12.8 6.2l6.6 5.2v9.2H6.7z"/><path d="M3.6 11.4C6.4 9 9.2 6.7 12 4.4c2.9 2.2 5.7 4.5 8.4 6.8"/><path d="M5.7 10v9.5c4.3.4 8.5.4 12.7 0V9.8"/><path d="M10 19.7v-4.6c1.3-.9 2.7-.9 4 0v4.6"/><path d="M16.2 7.1V4.5h2v4.2"/></svg>`,
+    katalog: `<svg ${S}><rect class="f" x="4.4" y="4.8" width="7" height="7" rx="2" transform="rotate(-6 7.9 8.3)"/><rect class="f" x="4.6" y="14.6" width="6.8" height="6.8" rx="2"/><rect x="3.2" y="3.4" width="7.2" height="7.2" rx="2.2" transform="rotate(-6 6.8 7)"/><rect x="13.6" y="3.2" width="7.2" height="7.2" rx="2.2" transform="rotate(4 17.2 6.8)"/><rect x="3.4" y="13.6" width="7.2" height="7.2" rx="2.2" transform="rotate(3 7 17.2)"/><path class="f" d="M17.6 13.4c.3 2.3 1.3 3.3 3.6 3.6-2.3.3-3.3 1.3-3.6 3.6-.3-2.3-1.3-3.3-3.6-3.6 2.3-.3 3.3-1.3 3.6-3.6z"/><path d="M17.2 13.2c.3 2.3 1.3 3.3 3.6 3.6-2.3.3-3.3 1.3-3.6 3.6-.3-2.3-1.3-3.3-3.6-3.6 2.3-.3 3.3-1.3 3.6-3.6z"/></svg>`,
+    course: `<svg ${S}><path class="f" d="M12.8 7.4c2.2-1.6 4.7-2.1 7.6-1.7v12.4c-2.9-.3-5.3.2-7.6 1.6z"/><path d="M12 6.6C9.8 5 7.1 4.5 3.8 4.9v12.8c3.2-.4 5.9.1 8.2 1.8 2.3-1.7 5-2.2 8.2-1.8V4.9c-3.3-.4-6 .1-8.2 1.7zM12 6.6v12.8"/><path d="M6.4 8.6c1.2-.1 2.3.1 3.3.6M6.4 11.8c1.2-.1 2.3.1 3.3.6"/></svg>`,
+    latihan: `<svg ${S}><rect class="f" x="6.2" y="6" width="13.4" height="15.2" rx="2.4"/><rect x="4.6" y="4.4" width="13.8" height="16.2" rx="2.6" transform="rotate(-2 11.5 12.5)"/><path d="M9 5.6V4.6c0-1.2.9-1.9 2.5-1.9s2.5.7 2.5 1.9v1z"/><path d="M8.2 13.2l2.4 2.6 4.8-5.8"/></svg>`,
+    nilai: `<svg ${S}><path class="f" d="M11 8.4h4v12h-4z"/><path class="f" d="M19.6 3.6l.6 1.5 1.6.2-1.2 1 .4 1.6-1.4-.8-1.4.8.4-1.6-1.2-1 1.6-.2z"/><path d="M3.6 20.4c5.6-.3 11.2-.3 16.8.1"/><path d="M5.6 20.2v-6.6h3.6v6.6M10.2 20.2V8.8h3.6v11.4M14.8 20.3v-9h3.6v9"/><path d="M19 3.2l.6 1.5 1.6.2-1.2 1 .4 1.6-1.4-.8-1.4.8.4-1.6-1.2-1 1.6-.2z"/></svg>`,
+    panduan: `<svg ${S}><path class="f" d="M12.8 5.4h7l2 2.3-2 2.3h-7z"/><path class="f" d="M11.6 11.8H5.4l-1.8 2.2 1.8 2.2h6.2z"/><path d="M12 2.8v18.6M8.6 21.4h6.8"/><path d="M12 4.6h7l2.2 2.4-2.2 2.4h-7"/><path d="M12 11h-6.6l-2 2.3 2 2.4H12"/></svg>`,
+    lain: `<svg ${S}><circle class="f" cx="6.8" cy="12.9" r="2.1"/><circle class="f" cx="12.8" cy="12.9" r="2.1"/><circle class="f" cx="18.8" cy="12.9" r="2.1"/><circle cx="6" cy="12" r="1.9"/><circle cx="12" cy="12" r="1.9"/><circle cx="18" cy="12" r="1.9"/></svg>`,
+    petunjuk: `<svg ${S}><path class="f" d="M13 4.6a6 6 0 0 1 4.2 10.4c-.8.8-1.2 1.6-1.2 2.6h-5.4c0-1-.4-1.9-1.2-2.6A6 6 0 0 1 13 4.6z"/><path d="M12 3.4a6.1 6.1 0 0 0-4 10.7c.8.7 1.2 1.6 1.2 2.6h5.6c0-1 .4-1.9 1.2-2.6A6.1 6.1 0 0 0 12 3.4z"/><path d="M9.6 19.2h4.8M10.4 21.4h3.2"/><path d="M10.2 9.4c.4-1 1.1-1.6 2-1.8"/><path d="M2.6 9.4h1.2M20.2 9.4h1.2M4.4 3.8l.9.9M19.6 3.8l-.9.9"/></svg>`,
+    tujuan: `<svg ${S}><circle class="f" cx="12.6" cy="13.2" r="8"/><circle cx="11.6" cy="12.4" r="8.4"/><circle cx="11.6" cy="12.4" r="4.6"/><circle cx="11.6" cy="12.4" r="1"/><path d="M11.8 12.2l8.4-8.2M17.2 3.2l3.2.4.4 3.2"/></svg>`,
+    alur: `<svg ${S}><circle class="f" cx="5.8" cy="18.8" r="2.5"/><path class="f" d="M18.4 3.6l4 1.8-4 1.8z"/><circle cx="5" cy="18" r="2.2"/><path d="M7.6 18h5.9c2 0 3.2-1.2 3.2-2.8s-1.2-2.8-3.2-2.8h-3c-2 0-3.2-1.2-3.2-2.8S8.5 6.8 10.5 6.8h4.6" stroke-dasharray="0.01 2.7"/><path d="M17.8 10V2.8l3.8 1.7-3.8 1.7"/></svg>`,
+    peta: `<svg ${S}><path class="f" d="M9.8 5l5.4 2.4v13.4l-5.4-2.4z"/><path d="M3.4 6.4L9 4l6 2.6L20.6 4v13.6L15 20l-6-2.6-5.6 2.4z"/><path d="M9 4v13.4M15 6.6V20"/><path d="M17.8 9.6c0-1 .7-1.6 1.4-1.6"/></svg>`,
+    glosarium: `<svg ${S}><path class="f" d="M7.2 4.2h12.6v13.6H7.6c-.9 0-1.6.4-2 1z"/><path d="M4.4 19V5.4c0-1.3.9-2.2 2.2-2.2h12.8v14.2H6.6c-1.3 0-2.2.8-2.2 2s.9 2 2.2 2h12.8"/><path d="M9.4 13.4l2.6-6.6 2.6 6.6M10.3 11.4h3.4"/></svg>`,
+    referensi: `<svg ${S}><path class="f" d="M8.2 4.4h10v16.4l-5-3.4-5 3.4z"/><path d="M6.8 3.2h10.4v17.4l-5.2-3.6-5.2 3.6z"/><path d="M9.6 8h4.8M9.6 11h3"/></svg>`,
+    faq: `<svg ${S}><path class="f" d="M5.4 5.4h14.4c.9 0 1.6.7 1.6 1.6v8.8c0 .9-.7 1.6-1.6 1.6h-7.6l-4.4 3.6v-3.6H5.4c-.9 0-1.6-.7-1.6-1.6V7c0-.9.7-1.6 1.6-1.6z"/><path d="M4.4 4.2h14.4c1 0 1.8.8 1.8 1.8v8.8c0 1-.8 1.8-1.8 1.8h-7.4l-4.6 3.8v-3.8H4.4c-1 0-1.8-.8-1.8-1.8V6c0-1 .8-1.8 1.8-1.8z"/><path d="M9.6 8.6c0-1.2.9-2 2.1-2s2.1.8 2.1 1.9c0 1.6-2.1 1.7-2.1 3.2"/><path d="M11.7 14.2h.01"/></svg>`,
+    komunitas: `<svg ${S}><circle class="f" cx="9.4" cy="8.6" r="3.5"/><path class="f" d="M3.8 20.6c.4-3.6 2.8-5.8 5.8-5.8s5.4 2.2 5.8 5.8z"/><circle cx="8.6" cy="7.8" r="3.4"/><path d="M2.8 20.2c.5-3.7 2.8-5.9 5.8-5.9s5.3 2.2 5.8 5.9"/><path d="M15.4 4.8c1.9-.3 3.6 1 3.6 3s-1.4 3.2-3.2 3.2"/><path d="M17.2 14.6c2.3.6 3.6 2.6 4 5.6"/></svg>`,
+    tentang: `<svg ${S}><path class="f" d="M12.8 20.6s-7.6-4.4-7.6-10.2a4.2 4.2 0 0 1 7.6-2.5 4.2 4.2 0 0 1 7.6 2.5c0 5.8-7.6 10.2-7.6 10.2z"/><path d="M12 19.8S4.4 15.4 4.4 9.6A4.2 4.2 0 0 1 12 7.1a4.2 4.2 0 0 1 7.6 2.5c0 5.8-7.6 10.2-7.6 10.2z"/><path d="M7.6 9.4c.2-1 .9-1.7 1.8-1.9"/></svg>`,
+    panel: `<svg ${S}><rect class="f" x="4.4" y="5.4" width="5.4" height="14.2" rx="2"/><rect x="3.2" y="4.2" width="17.6" height="15.6" rx="3.4"/><path d="M9.4 4.4v15.2"/></svg>`,
+    chev: `<svg ${S}><path d="M9.2 6.2c2.1 1.9 4 3.8 5.8 5.8-1.8 2-3.7 3.9-5.8 5.8"/></svg>`
   };
-  const pxPath = (rows, ch) => rows.map((r, y) => { let d = "", x = 0; while (x < r.length) { if (r[x] !== ch) { x++; continue } let n = 0; while (r[x + n] === ch) n++; d += `M${x} ${y}h${n}v1h-${n}z`; x += n } return d }).join("");
-  const I = {};
-  for (const k in PX) {
-    const r = PX[k], h = pxPath(r, "h"), f = pxPath(r, "f");
-    I[k] = `<svg class="pxi" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">${f ? `<path class="f" d="${f}"/>` : ""}${h ? `<path class="h" d="${h}"/>` : ""}<path class="o" d="${pxPath(r, "#")}"/></svg>`;
-  }
   /* [kunci, label, alamat, warna] */
   const UTAMA = [["home", "Beranda", "#/", "#ff7a3d"], ["katalog", "Katalog", "#/e-learning", "#7c5cff"], ["course", "Materi", "#/course", "#2b55ff"], ["latihan", "Latihan", "#/latihan", "#14b8a6"], ["nilai", "Nilai akhir", "#/latihan", "#f5a524"]];
   const GRUP = [
