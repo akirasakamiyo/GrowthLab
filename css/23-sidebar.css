@@ -222,3 +222,6 @@ a.cur>.sbn-ic .h{fill:#fff}
 }
 @media (prefers-reduced-motion:reduce){.sbn,.sbn-dim,.sbn-pb i,.sbn-ic,.sbn-cv,body.sbx{transition:none!important}}
 @media print{.sbn,.sbn-dim,.sbn-tip,.sbn-fly{display:none!important}body.sbx{padding-left:0!important}}
+
+/* Beranda (2026-11-14): hero mengisi satu layar penuh supaya bagian video di bawahnya baru terlihat setelah digulir */
+@media (min-width:761px){body.sbx [data-v="home"]>.hero{min-height:100vh;min-height:100svh;justify-content:center}}
