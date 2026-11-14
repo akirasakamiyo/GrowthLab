@@ -287,10 +287,26 @@ const COURSE={id:0,t:"Self Development for Job Seeker",media:"GrowthLab",k:"Soft
   {t:"Emotional Intelligence",c1:"#ffd23f",d:"Menyadari emosi diri dan orang lain, berkomunikasi dengan empati, serta menghadapi stres, kritik, dan kegagalan.",l:S2},
   {t:"Thinking Skill",c1:"#2b55ff",d:"Berpikir sistem, kritis, strategis, reflektif, dan kreatif untuk mengambil keputusan karier yang tepat.",l:S3}]};
 
-/* 2026-11-12: rujukan tiap pelajaran (kolom PUSTAKA di Jabaran Materi, materi.pdf), urut sama dengan COURSE. Dipakai halaman #/referensi */
-const REF=["recognise-your-strength-eb7388067d11","thoughts-feelings-what-you-do-507aa3e8c1fe","change-your-thinking-f412bbaaa144","problem-solving-46d258b9d59a","keeping-well-6d4db20e6906",
- "emotional-and-social-awareness-3815fff6d97f","facing-stress-and-burnout-2e6b11735278","criticism-weakness-and-failure-d65ca5ae5bc8","happiness-in-life-5318916b4f3a","communicate-with-empathy-9fbfc86572c4",
- "system-thinking-dd6d32120053","critical-thinking-2a6d25e0ed8","strategic-thinking-90257bbc6a17","reflective-thinking-8155a7734d58","creative-thinking-427f7d0ab588"].map(x=>"https://medium.com/@myskill.id/"+x);
+/* 2026-11-14: rujukan tiap pelajaran, urut sama dengan COURSE. Dipakai halaman #/referensi.
+   Sumber dibuat beragam (buku dan jurnal yang konsepnya dipakai di materi); artikel MySkill di Medium
+   (kolom PUSTAKA di Jabaran Materi) tetap dipakai untuk 4 pelajaran. a = penulis, y = tahun, t = judul (miring), p = penerbit/jurnal, u = alamat (opsional); e = edisi/penyunting; jurnal (j:1): p = nama jurnal, v = volume, n = nomor dan halaman */
+const MSK=x=>({a:"MySkill.",y:"t.t.",p:"Medium",u:"https://medium.com/@myskill.id/"+x});
+const REF=[
+ {a:"Buckingham, M.",y:"2007",t:"Go put your strengths to work: 6 powerful steps to achieve outstanding performance",p:"Free Press"},
+ {a:"Greenberger, D., & Padesky, C. A.",y:"2016",t:"Mind over mood: Change how you feel by changing the way you think",e:"Edisi ke-2",p:"Guilford Press"},
+ {a:"Dweck, C. S.",y:"2006",t:"Mindset: The new psychology of success",p:"Random House"},
+ MSK("problem-solving-46d258b9d59a"),
+ MSK("keeping-well-6d4db20e6906"),
+ {a:"Goleman, D.",y:"1995",t:"Emotional intelligence: Why it can matter more than IQ",p:"Bantam Books"},
+ {a:"Maslach, C., & Leiter, M. P.",y:"2016",t:"Understanding the burnout experience: Recent research and its implications for psychiatry",p:"World Psychiatry",v:"15",n:"(2), 103–111",u:"https://doi.org/10.1002/wps.20311",j:1},
+ {a:"Stone, D., & Heen, S.",y:"2014",t:"Thanks for the feedback: The science and art of receiving feedback well",p:"Viking"},
+ {a:"Seligman, M. E. P.",y:"2011",t:"Flourish: A visionary new understanding of happiness and well-being",p:"Free Press"},
+ {a:"Rosenberg, M. B.",y:"2015",t:"Nonviolent communication: A language of life",e:"Edisi ke-3",p:"PuddleDancer Press"},
+ {a:"Meadows, D. H.",y:"2008",t:"Thinking in systems: A primer",e:"D. Wright, Ed.",p:"Chelsea Green Publishing"},
+ {a:"Kahneman, D.",y:"2011",t:"Thinking, fast and slow",p:"Farrar, Straus and Giroux"},
+ MSK("strategic-thinking-90257bbc6a17"),
+ {a:"Kolb, D. A.",y:"1984",t:"Experiential learning: Experience as the source of learning and development",p:"Prentice Hall"},
+ MSK("creative-thinking-427f7d0ab588")];
 const GBIM={media:"GrowthLab",judul:"Pengembangan Multimedia Interaktif Berbasis Website untuk Meningkatkan Soft Skill Fresh Graduate saat mencari kerja",jenis:"Multimedia Interaktif Berbasis Website",sasaran:"Peserta didik SMK Kelas XII",topik:"Pengembangan diri (Soft Skill)"};
 
 /* ---------- SOAL PILIHAN GANDA (b = bab 0..2, l = pelajaran 0..4, a = indeks opsi benar sebelum diacak) ---------- */
