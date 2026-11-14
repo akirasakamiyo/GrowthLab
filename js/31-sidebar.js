@@ -11,28 +11,35 @@
   const HP = matchMedia("(max-width: 760px)"), DESK = matchMedia("(min-width: 1100px)");
   const st = { get: k => { try { return localStorage.getItem(k) } catch (_) { return null } }, set: (k, v) => { try { localStorage.setItem(k, v) } catch (_) {} } };
 
-  /* ---------- ikon duotone: garis tinta + bidang warna (var(--c)) ---------- */
-  const S = 'viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"';
-  const I = {
-    home: `<svg ${S}><path class="f" d="M5 11.5V20h5v-5h4v5h5v-8.5" stroke="none"/><path d="M3 11l9-7 9 7"/><path d="M5 10v10h5v-5h4v5h5V10"/></svg>`,
-    katalog: `<svg ${S}><rect class="f" x="3" y="3" width="8" height="8" rx="2"/><rect x="13" y="3" width="8" height="8" rx="2"/><rect x="3" y="13" width="8" height="8" rx="2"/><rect class="f" x="13" y="13" width="8" height="8" rx="2"/></svg>`,
-    course: `<svg ${S}><path class="f" d="M12 6c-2-1.6-5-2-8-1.6V19c3-.4 6 0 8 1.6z"/><path d="M12 6c-2-1.6-5-2-8-1.6V19c3-.4 6 0 8 1.6 2-1.6 5-2 8-1.6V4.4c-3-.4-6 0-8 1.6zM12 6v14.6"/></svg>`,
-    latihan: `<svg ${S}><rect class="f" x="4" y="3" width="16" height="18" rx="3"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/><rect x="4" y="3" width="16" height="18" rx="3"/></svg>`,
-    nilai: `<svg ${S}><rect class="f" x="10" y="5" width="4" height="15" rx="1"/><path d="M4 20h16M6 20v-6M12 20V5M18 20v-9"/></svg>`,
-    panduan: `<svg ${S}><circle class="f" cx="12" cy="12" r="9" stroke="none"/><circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/></svg>`,
-    lain: `<svg ${S}><circle class="f" cx="12" cy="12" r="9" stroke="none"/><circle cx="7.5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="16.5" cy="12" r="1"/></svg>`,
-    petunjuk: `<svg ${S}><circle class="f" cx="12" cy="12" r="9" stroke="none"/><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>`,
-    tujuan: `<svg ${S}><circle cx="12" cy="12" r="9"/><circle class="f" cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2"/></svg>`,
-    alur: `<svg ${S}><circle class="f" cx="5" cy="18" r="2.5"/><circle class="f" cx="19" cy="6" r="2.5"/><path d="M7.5 18H13a3 3 0 0 0 0-6h-2a3 3 0 0 1 0-6h5.5"/></svg>`,
-    peta: `<svg ${S}><path class="f" d="M9 3v15l6 3V6z" stroke="none"/><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3z"/><path d="M9 3v15M15 6v15"/></svg>`,
-    glosarium: `<svg ${S}><path class="f" d="M6 3h14v14H6a2 2 0 0 0-2 2V5a2 2 0 0 1 2-2z" stroke="none"/><path d="M4 19V5a2 2 0 0 1 2-2h14v14H6a2 2 0 0 0-2 2zm0 0a2 2 0 0 0 2 2h14"/><path d="M9.5 13l2.5-6 2.5 6M10.4 11h3.2"/></svg>`,
-    referensi: `<svg ${S}><path class="f" d="M6 3h12v18l-6-4-6 4z"/><path d="M10 8h4"/></svg>`,
-    faq: `<svg ${S}><path class="f" d="M4 5h16v11H9l-5 4z"/><path d="M10 9a2 2 0 1 1 2.8 1.8c-.5.2-.8.7-.8 1.2M12 14h.01"/></svg>`,
-    komunitas: `<svg ${S}><circle class="f" cx="9" cy="8" r="3"/><path d="M3 20c0-3.3 2.7-6 6-6s6 2.7 6 6"/><circle cx="9" cy="8" r="3"/><path d="M16 4a3 3 0 0 1 0 6M18 14c2 .6 3 2.6 3 6"/></svg>`,
-    tentang: `<svg ${S}><path class="f" d="M12 20s-7-4.2-7-9.6A4 4 0 0 1 12 8a4 4 0 0 1 7 2.4C19 15.8 12 20 12 20z"/></svg>`,
-    panel: `<svg ${S}><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M9.5 4v16"/></svg>`,
-    chev: `<svg ${S}><path d="M9 6l6 6-6 6"/></svg>`
+  /* ---------- ikon pixel art 12x12 (2026-11-14), satu gaya dengan Labi dan ilustrasi pixel ----------
+     Tiap ikon digambar per piksel: # = garis (currentColor), f = bidang warna menu (var(--c)), h = sorotan krem, . = kosong.
+     Digambar sebagai <path> berisi kotak-kotak, shape-rendering crispEdges supaya tepinya tajam. */
+  const PX = {
+    home: ["............", ".....##.....", "....#ff#....", "...#ffff#...", "..#ffffff#..", ".##########.", "..#hhhhhh#..", "..#h#ff#h#..", "..#h#ff#h#..", "..#h#ff#h#..", "..########..", "............"],
+    katalog: ["............", ".####..####.", ".#ff#..#hh#.", ".#ff#..#hh#.", ".####..####.", "............", "............", ".####..####.", ".#hh#..#ff#.", ".#hh#..#ff#.", ".####..####.", "............"],
+    course: ["............", ".###....###.", "#fff#..#hhh#", "#ffff##hhhh#", "#ffff##hhhh#", "#ffff##hhhh#", "#ffff##hhhh#", "#ffff##hhhh#", "#ffff##hhhh#", ".####..####.", ".....##.....", "............"],
+    latihan: ["............", "....####....", ".###h##h###.", ".#ffffffff#.", ".#ffffff#f#.", ".#fffff#ff#.", ".#f#ff#fff#.", ".#ff##ffff#.", ".#ffffffff#.", ".#ffffffff#.", ".##########.", "............"],
+    nilai: ["............", ".........###", ".........#f#", ".....###.#f#", ".....#h#.#f#", ".....#h#.#f#", ".###.#h#.#f#", ".#f#.#h#.#f#", ".#f#.#h#.#f#", ".#f#.#h#.#f#", "############", "............"],
+    panduan: [".....##.....", "..########..", "..#fffffff#.", "..#ffffffff#", "..#fffffff#.", "..########..", ".....##.....", ".########...", ".#hhhhhhh#..", "#hhhhhhhh#..", ".#hhhhhhh#..", ".########..."],
+    lain: ["............", "............", "............", "............", "............", ".hh..hh..hh.", ".hhf.hhf.hhf", "..ff..ff..ff", "............", "............", "............", "............"],
+    petunjuk: ["............", ".##########.", ".#ffffffff#.", ".#fffhhfff#.", ".#ffffffff#.", ".#ffhhhfff#.", ".#fffhhfff#.", ".#fffhhfff#.", ".#ffhhhhff#.", ".#ffffffff#.", ".##########.", "............"],
+    tujuan: ["............", "....####....", "..##hhhh##..", ".#hh####hh#.", ".#h#ffff#h#.", "#hh#f##f#hh#", "#hh#f##f#hh#", ".#h#ffff#h#.", ".#hh####hh#.", "..##hhhh##..", "....####....", "............"],
+    alur: ["............", "........###.", ".hhhhhhh#f#.", ".h......###.", ".h..........", ".hhhhhhhhh..", ".........h..", ".........h..", "###......h..", "#f#hhhhhhh..", "###.........", "............"],
+    peta: ["............", ".##########.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".#ff#hh#ff#.", ".##########.", "............"],
+    glosarium: ["............", ".#########..", ".#hffffff#..", ".#hff##ff#..", ".#hf#ff#f#..", ".#hf####f#..", ".#hf#ff#f#..", ".#hffffff#..", ".##########.", ".#hhhhhhhh#.", ".##########.", "............"],
+    referensi: ["............", "..########..", "..#ffffff#..", "..#fhhhff#..", "..#ffffff#..", "..#fhhhhf#..", "..#ffffff#..", "..#ffffff#..", "..#ff##ff#..", "..#f#..#f#..", "..##....##..", "............"],
+    faq: ["............", ".##########.", ".#ff###fff#.", ".#f#fff#ff#.", ".#fffff#ff#.", ".#ffff#fff#.", ".#fff#ffff#.", ".#ffffffff#.", ".#fff#ffff#.", ".#f########.", ".##.........", "............"],
+    komunitas: ["............", ".###....###.", "#fff#..#hhh#", "#fff#..#hhh#", ".###....###.", "............", ".###....###.", "#fff#..#hhh#", "#fff#..#hhh#", "#fff#..#hhh#", "#####..#####", "............"],
+    tentang: ["............", "............", "..###..###..", ".#hhf##fff#.", "#hfffffffff#", "#ffffffffff#", ".#ffffffff#.", "..#ffffff#..", "...#ffff#...", "....#ff#....", ".....##.....", "............"],
+    panel: ["............", "............", ".##########.", ".#hh#.....#.", ".#hh#.....#.", ".#hh#.....#.", ".#hh#.....#.", ".#hh#.....#.", ".#hh#.....#.", ".##########.", "............", "............"],
+    chev: ["............", "............", "............", "....##......", ".....##.....", "......##....", "......##....", ".....##.....", "....##......", "............", "............", "............"]
   };
+  const pxPath = (rows, ch) => rows.map((r, y) => { let d = "", x = 0; while (x < r.length) { if (r[x] !== ch) { x++; continue } let n = 0; while (r[x + n] === ch) n++; d += `M${x} ${y}h${n}v1h-${n}z`; x += n } return d }).join("");
+  const I = {};
+  for (const k in PX) {
+    const r = PX[k], h = pxPath(r, "h"), f = pxPath(r, "f");
+    I[k] = `<svg class="pxi" viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">${f ? `<path class="f" d="${f}"/>` : ""}${h ? `<path class="h" d="${h}"/>` : ""}<path class="o" d="${pxPath(r, "#")}"/></svg>`;
+  }
   /* [kunci, label, alamat, warna] */
   const UTAMA = [["home", "Beranda", "#/", "#ff7a3d"], ["katalog", "Katalog", "#/e-learning", "#7c5cff"], ["course", "Materi", "#/course", "#2b55ff"], ["latihan", "Latihan", "#/latihan", "#14b8a6"], ["nilai", "Nilai akhir", "#/latihan", "#f5a524"]];
   const GRUP = [

@@ -53,3 +53,6 @@
 .curtain.v-fade.out i{opacity:0}
 
 @media(prefers-reduced-motion:reduce){.curtain{display:none!important}}
+
+/* transisi gelombang pixel (js/32-transisi-pixel.js) memindah fokus ke judul halaman baru untuk pembaca layar; tanpa garis fokus */
+[data-v] h1[tabindex="-1"]:focus{outline:none}
