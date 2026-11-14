@@ -221,9 +221,10 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc-t,var(--acc));ma
 .promo-snd:hover{background:rgba(17,24,74,.95);transform:translateY(-2px) scale(1.05);border-color:#ffc83d}
 .promo-snd:focus-visible{outline:3px solid var(--sun);outline-offset:3px}
 .promo-snd[aria-pressed=true]{border-color:#ffc83d}
-.promo-snd svg{width:24px;height:24px;display:block;margin-left:2px}
-.promo-snd .o{fill:currentColor}.promo-snd .f{fill:#ffc83d}.promo-snd .h{fill:#fff}
-.promo-snd[aria-pressed=false] .f{fill:#9aa3c7}
+/* position:static wajib: .frame svg (01-base) membuat semua svg di bingkai absolut di pojok kiri atas */
+.frame .promo-snd svg,.promo-snd svg{position:static;inset:auto;width:24px;height:24px;display:block;overflow:visible}
+.promo-snd .f{fill:#ffc83d;stroke:none}
+.promo-snd[aria-pressed=false] .f{fill:#7d87b8}
 @media(max-width:600px){.promo-snd{right:10px;bottom:10px;width:44px;height:44px}}
 
 /* ikon gembok buatan sendiri (pengganti emoji 🔒): ikut warna teks lewat mask */
