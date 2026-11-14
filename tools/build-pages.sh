@@ -7,7 +7,9 @@ OUT="$HOME/Desktop/growthlab-web"
 PUSH=""
 for a in "$@"; do case "$a" in --push) PUSH=1;; *) OUT="$a";; esac; done
 mkdir -p "$OUT/assets"
-cp "$SRC/index.html" "$OUT/index.html"
+# tiap file css/js/vendor diberi ?v=<commit> supaya browser tidak memakai versi lama dari cache (GitHub Pages: max-age 600)
+V="$(git -C "$SRC" rev-parse --short HEAD 2>/dev/null || date +%s)"
+sed -E "s#(src|href)=\"((css|js|vendor)/[^\"?]+\.(js|css))\"#\1=\"\2?v=$V\"#g" "$SRC/index.html" > "$OUT/index.html"
 for d in css js vendor assets/sim assets/sb assets/video assets/lukisan assets/maskot; do rsync -a --delete --exclude src --exclude .DS_Store "$SRC/$d/" "$OUT/$d/"; done
 # paket offline (hasil `node tools/build-offline.js`) untuk diunduh
 if [ -d "$SRC/dist" ]; then rsync -a --delete "$SRC/dist/" "$OUT/offline/"; fi
