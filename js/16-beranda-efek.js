@@ -49,10 +49,15 @@ window.observe();draw();
 /* video promo beranda dan video tutorial Petunjuk (2026-11-12): main otomatis tanpa suara saat terlihat, jeda saat keluar layar atau pindah halaman.
    Video selalu mulai tanpa suara (aturan autoplay browser); tombol suara di pojok video menyalakannya. Video di halaman dinamis diikat lewat MutationObserver. */
 (()=>{if(!("IntersectionObserver" in window))return;
-const SP='<path d="M11 5 6 9H3v6h3l5 4z"/>',ON=SP+'<path d="M15.5 8.5a5 5 0 0 1 0 7M18.5 5.5a9 9 0 0 1 0 13"/>',OFF=SP+'<path d="m16 9 6 6M22 9l-6 6"/>';
+/* ikon megafon pixel art 12x12 (2026-11-14): # garis, f kuning, h krem; versi bunyi + gelombang, versi bisu + tanda silang */
+const PXR=(rows,ch)=>rows.map((r,y)=>{let d="",x=0;while(x<r.length){if(r[x]!==ch){x++;continue}let n=0;while(r[x+n]===ch)n++;d+=`M${x} ${y}h${n}v1h-${n}z`;x+=n}return d}).join("");
+const MG=w=>{const r=[".......##...",".....##f#...","....#fff#...","...#ffff#...","####ffff#...","#hh#ffff#...","#hh#ffff#...","####ffff#...","...#ffff#...","....#fff#...",".....##f#...",".......##..."].map(x=>x.split(""));
+ const px=w?[[11,3],[11,4],[10,5],[11,5],[10,6],[11,6],[11,7],[11,8]]:[[9,4],[11,4],[10,5],[9,6],[11,6]];px.forEach(([x,y])=>r[y][x]="#");r.forEach((x,i)=>r[i]=x.join(""));
+ return `<path class="f" d="${PXR(r,"f")}"/><path class="h" d="${PXR(r,"h")}"/><path class="o" d="${PXR(r,"#")}"/>`};
+const ON=MG(1),OFF=MG(0);
 const io=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting){const p=v.play();p&&p.catch(()=>{})}else v.pause()}),{threshold:.15});
 const bind=()=>document.querySelectorAll(".promo video:not([data-pb])").forEach(v=>{v.dataset.pb=1;v.muted=true;io.observe(v);
  const b=v.parentNode.querySelector(".promo-snd");if(!b)return;
- const draw=()=>{const m=v.muted;b.innerHTML=`<svg viewBox="0 0 24 24" aria-hidden="true">${m?OFF:ON}</svg>${m?"Nyalakan suara":"Matikan suara"}`;b.setAttribute("aria-pressed",String(!m))};
+ const draw=()=>{const m=v.muted;b.innerHTML=`<svg viewBox="0 0 12 12" shape-rendering="crispEdges" aria-hidden="true">${m?OFF:ON}</svg>`;b.setAttribute("aria-label",m?"Nyalakan suara video":"Matikan suara video");b.title=m?"Nyalakan suara":"Matikan suara";b.setAttribute("aria-pressed",String(!m))};
  b.onclick=()=>{v.muted=!v.muted;if(!v.muted){v.volume=1;const p=v.play();p&&p.catch(()=>{})}draw()};draw()});
 bind();new MutationObserver(bind).observe(document.body,{childList:true,subtree:true})})();
