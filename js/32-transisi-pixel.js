@@ -10,7 +10,9 @@ window.GLTR = (() => {
   const T_IN = 470, T_HOLD = 300, T_OUT = 560;
   const cv = document.createElement("canvas");
   cv.className = "gltr"; cv.setAttribute("aria-hidden", "true");
-  cv.style.cssText = "position:fixed;inset:0;z-index:9990;pointer-events:none;display:none";
+  /* lebar/tinggi 100% wajib: tanpa itu canvas memakai ukuran bawaannya (300x150) dan hanya menutup pojok kiri atas.
+     100% (bukan 100vh) supaya di HP pas dengan layar yang terlihat, tidak memanjang di bawah toolbar. */
+  cv.style.cssText = "position:fixed;left:0;top:0;width:100%;height:100%;z-index:9990;pointer-events:none;display:none";
   const cx = cv.getContext("2d");
   const sr = document.createElement("div");
   sr.setAttribute("role", "status"); sr.setAttribute("aria-live", "polite");
