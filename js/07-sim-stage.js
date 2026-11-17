@@ -26,6 +26,9 @@ const HAIR={
 const HAIRBACK={long:h=>`<path class="o" d="M-31 -176q0-34 31-34t31 34v40q-7 6-14 0v-34h-34v34q-7 6-14 0z" fill="${h}"/>`,
  hijab:h=>`<path class="o" d="M-35 -176q0-38 35-38t35 38v20q0 22-35 26q-35-4-35-26z" fill="${h}"/>`};
 function tokoh(id,o){const p=Object.assign({},NPC[o.who||id]||NPC.hero,o),{x,y=FLOOR,s=1,flip=false,skin="#e2a97e"}=p;
+  /* sprite pixel HD (js/34-sim-pixel.js) kalau asetnya ada; hero memakai variasi kostum kasus (warna kemeja, lanyard) */
+  const who=o.who||id;if(window.SIMPX&&SIMPX.has(who)){const opt=who==="hero"?{lan:!!(p.lan||p.lanyard),shirt:o.shirt&&o.shirt!==NPC.hero.shirt?o.shirt:""}:null;
+   return `<g class="chw" transform="translate(${x} ${y}) scale(${flip?-s:s} ${s})">${SIMPX.svgChar(id,who,{opt:opt&&(opt.lan||opt.shirt)?opt:null},o.still)}</g>`}
  return `<g class="chw" transform="translate(${x} ${y}) scale(${flip?-s:s} ${s})"><g class="ch pose-idle ex-neutral${o.still?" still":""}" data-ch="${id}">
 <ellipse class="ch-sh" cx="0" cy="2" rx="44" ry="7"/>
 <g class="ch-b">
@@ -78,7 +81,7 @@ function sceneSVG(sc,who,o={}){const HO=o.heroOpt||{};const S=SC[sc]||SC.kamar,t
  const npc=who==="tim"?[["rekan",430,.86],["rekan2",520,.8]]:who?[[who,420,1]]:[];
  return `<svg class="gvs${S.dark?" dark":""}" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid slice" style="--ac:${S.ac}" aria-hidden="true">
  <rect width="${W}" height="${FLOOR}" fill="${S.wall}"/><rect y="${FLOOR}" width="${W}" height="${H-FLOOR}" fill="${S.dark?"#2a2d5a":"#e0b07a"}"/><path d="M0 ${FLOOR}H${W}" stroke="${K}" stroke-width="4"/>
- <g class="bgd">${S.d()}</g>${IMG.has(sc)?`<image class="bgi" href="${SIMSRC(sc)}" x="0" y="-42" width="${W}" height="360" preserveAspectRatio="xMidYMid slice" onerror="this.remove()"/>`:""}
+ <g class="bgd">${S.d()}</g>${window.SIMPX&&SIMPX.hasBg(sc)?`<image class="bgi bgp" href="${SIMPX.bgURL(sc)}" x="0" y="0" width="${W}" height="${H}" preserveAspectRatio="none" style="image-rendering:pixelated;image-rendering:crisp-edges"/>`:IMG.has(sc)?`<image class="bgi" href="${SIMSRC(sc)}" x="0" y="-42" width="${W}" height="360" preserveAspectRatio="xMidYMid slice" onerror="this.remove()"/>`:""}
  ${npc.map(([id,x,s])=>tokoh("npc-"+id,{who:id,x,s,flip:true,still})).join("")}
  ${o.hero===false?"":tokoh("hero",Object.assign({},HO,{x:hx,still}))}
  <g class="bb" opacity="0"><path class="bbt" d=""/><rect class="bbr" rx="12"/><text class="bbx"></text></g>
@@ -113,9 +116,9 @@ let T=new Set(),EL=null;
 const later=(fn,ms)=>{const id=setTimeout(()=>{T.delete(id);fn()},rmq()?0:ms);T.add(id)};
 function pose(el,p,still){if(!el)return;el.setAttribute("class",`ch pose-${p} ex-${EX[p]||"neutral"}${still?" still":""}`);if(!still&&!rmq()){void el.getBoundingClientRect()}}
 function bubble(svg,who,text,instant){const g=svg&&svg.querySelector(".bb");if(!g)return;const ch=svg.querySelector(`[data-ch="${who}"]`);if(!ch||!text){g.setAttribute("opacity","0");return}
- const words=text.split(" "),lines=[];let cur="";words.forEach(w=>{if((cur+" "+w).trim().length>22&&cur){lines.push(cur);cur=w}else cur=(cur+" "+w).trim()});if(cur)lines.push(cur);lines.splice(3);
- const m=ch.parentNode.getAttribute("transform").match(/translate\(([\d.]+) ([\d.]+)\)/),cx=+m[1],w=Math.min(260,Math.max(...lines.map(l=>l.length))*8.7+26),h=lines.length*19+16;
- let bx=Math.max(150,Math.min(490-w,who==="hero"?cx-w+30:cx-30)),by=Math.max(6,FLOOR-262-h+40);
+ const words=text.split(" "),lines=[];let cur="";words.forEach(w=>{if((cur+" "+w).trim().length>(window.SIMPX&&SIMPX.has(who.replace(/^npc-/,""))?30:22)&&cur){lines.push(cur);cur=w}else cur=(cur+" "+w).trim()});if(cur)lines.push(cur);lines.splice(3);
+ const m=ch.parentNode.getAttribute("transform").match(/translate\(([\d.]+) ([\d.]+)\)/),cx=+m[1],w=Math.min(window.SIMPX&&SIMPX.has(who.replace(/^npc-/,""))?340:260,Math.max(...lines.map(l=>l.length))*8.7+26),h=lines.length*19+16;
+ let bx=Math.max(w>260?110:150,Math.min((w>260?530:490)-w,who==="hero"?cx-w+30:cx-30)),by=Math.max(6,FLOOR-262-h+40);
  const r=g.querySelector(".bbr"),t=g.querySelector(".bbx"),tail=g.querySelector(".bbt");r.setAttribute("x",bx);r.setAttribute("y",by);r.setAttribute("width",w);r.setAttribute("height",h);
  const tx=Math.max(bx+14,Math.min(bx+w-14,cx+(who==="hero"?-14:14)));tail.setAttribute("d",`M${tx-8} ${by+h-2}L${tx} ${by+h+14}L${tx+9} ${by+h-2}z`);
  t.textContent="";lines.forEach((l,i)=>{const s=document.createElementNS("http://www.w3.org/2000/svg","tspan");s.setAttribute("x",bx+13);s.setAttribute("y",by+23+i*19);s.dataset.full=l;s.textContent=instant||rmq()?l:"";t.appendChild(s)});
@@ -148,6 +151,6 @@ return{
   if(type==="mid")later(()=>bubble(svg,"hero","Langkah kecil dulu, lalu konsisten.",false),700);
   if(type==="fail")later(()=>bubble(svg,"hero","Aku belajar dari sini.",false),1600)},
  stop(){T.forEach(clearTimeout);T.clear();PC.stop()},
- preload(c){try{new Set(Object.values(c.nodes).map(n=>n.sc).concat(c.endScene||"lobi")).forEach(sc=>{if(IMG.has(sc)){const i=new Image();i.src=SIMSRC(sc)}})}catch(e){}},
+ preload(c){try{new Set(Object.values(c.nodes).map(n=>n.sc).concat(c.endScene||"lobi")).forEach(sc=>{if(window.SIMPX&&SIMPX.hasBg(sc))SIMPX.bgURL(sc);else if(IMG.has(sc)){const i=new Image();i.src=SIMSRC(sc)}})}catch(e){}},
  tokoh,sceneSVG,SC:Object.keys(SC),POSES:Object.keys(EX)};
 })();
