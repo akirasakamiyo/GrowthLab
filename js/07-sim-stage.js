@@ -73,7 +73,8 @@ const SC={
  pantry:{ac:"#14b8a6",wall:"#e2f7f3",d:()=>`${box(40,40,200,70,"#ededed",6)}<path d="M140 40v70" stroke="${K}" stroke-width="4"/>${box(30,180,300,70,"#9a9a9a",6)}<rect x="30" y="180" width="300" height="14" fill="#bdbdbd" stroke="${K}" stroke-width="4"/>
   ${box(70,126,56,54,"#555",6)}<rect x="84" y="140" width="28" height="14" class="acf"/>${box(150,154,22,26,"#fff",4)}${box(184,158,22,22,"#fff",4)}${box(520,50,80,190,"#cfcfcf",6)}<path d="M520 120h80M590 74v24M590 140v30" stroke="${K}" stroke-width="4"/>`}};
 /* adegan → letak tokoh */
-/* latar ilustrasi (dibuat dengan gpt-image via Figma, disimpan di assets/sim). Jika file belum ada/gagal dimuat, latar SVG di bawahnya tetap terlihat. */
+/* 2026-11-17: foto latar JPG di assets/sim dihapus; latar kini pixel art (js/35-sim-pixel-aset.js). Jalur di bawah hanya cadangan lama.
+   latar ilustrasi (dibuat dengan gpt-image via Figma, disimpan di assets/sim). Jika file belum ada/gagal dimuat, latar SVG di bawahnya tetap terlihat. */
 /* paket offline (tools/build-offline.js) menanam gambar sebagai data URI di window.GL_SIMIMG; tanpa itu dipakai file di assets/sim */
 const SIMSRC=sc=>(window.GL_SIMIMG&&window.GL_SIMIMG[sc])||`assets/sim/${sc}.jpg`;
 const IMG=new Set(["kamar","kamar-malam","rumah","teras","meja","lobi","kantor","pantry","rapat"]);
