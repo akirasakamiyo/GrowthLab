@@ -40,7 +40,7 @@ function heroStack(){const el=$("#hero-art");if(!el)return;
  const fg=c=>c==="#2b55ff"?"#fff":"#0a1a6b";
  const card=i=>{const c=C.chapters[i],n=c.l.filter((_,j)=>done.has(i+"-"+j)).length,j=c.l.findIndex((_,k)=>!done.has(i+"-"+k)),fin=j<0,L=c.l[fin?0:j],lk=!fin&&locked(i,j);
   return `<div class="hs-c" data-i="${i}" style="--c1:${c.c1};--fg:${fg(c.c1)}"><div class="hs-peek"><small>Bab ${i+1}</small><b>${esc(c.t)}</b><span>${n}/${c.l.length}</span></div>
-  <div class="hs-art">${ILL("c"+i)}</div><div class="hs-body"><small class="bab-n">Bab ${i+1}, ${n}/${c.l.length} pelajaran beres</small><h3>${esc(c.t)}</h3>
+  <div class="hs-art"><video class="vloop" src="assets/video/kenal.mp4" poster="assets/video/kenal.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture aria-hidden="true"></video></div><div class="hs-body"><small class="bab-n">Bab ${i+1}, ${n}/${c.l.length} pelajaran beres</small><h3>${esc(c.t)}</h3>
   <p class="hs-next">${fin?"Bab ini sudah selesai. Mau mengulang?":lk?`Terbuka setelah bab sebelumnya selesai. Pelajaran pertamanya: <b>${esc(L.t)}</b>`:`${n?"Berikutnya":"Mulai dari"}: <b>${esc(L.t)}</b>`}</p>
   <span class="hs-bar" aria-hidden="true"><i style="--p:${n/c.l.length}"></i></span>
   <a class="hs-go" href="${fin||lk?`#/course/${i+1}`:`#/lesson/${i}-${j}`}" draggable="false">${fin?"Ulas bab":lk?"Lihat isi bab":n?"Lanjut belajar":"Mulai belajar"} <svg viewBox="0 0 16 16"><path d="M2 8h12M9 3l5 5-5 5"/></svg></a></div></div>`};
