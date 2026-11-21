@@ -77,7 +77,8 @@ const bind=()=>document.querySelectorAll(".promo video:not([data-pb])").forEach(
   if(!v.requestFullscreen&&!v.webkitRequestFullscreen){alt();return}
   if(r&&r.catch)r.catch(alt);setTimeout(alt,1500)};
  const fsc=()=>{if(!isFs())v.controls=false;drawF()};document.addEventListener("fullscreenchange",fsc);document.addEventListener("webkitfullscreenchange",fsc);v.addEventListener("webkitendfullscreen",fsc);
- bar.append(b,f);(v.closest("#cart")||v.parentNode).after(bar);drawF();
+ /* tombol layar penuh hanya untuk video promo beranda (permintaan pengguna 2026-11-21); video lain cukup tombol suara */
+ const home=!!v.closest("#hero-art");bar.append(b);if(home){bar.append(f);drawF()}(v.closest("#cart")||v.parentNode).after(bar);
  const draw=()=>{const m=v.muted;b.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${m?OFF:ON}</svg>`;b.setAttribute("aria-label",m?"Nyalakan suara video":"Matikan suara video");b.title=m?"Nyalakan suara":"Matikan suara";b.setAttribute("aria-pressed",String(!m))};
  b.onclick=()=>{v.muted=!v.muted;if(!v.muted){v.volume=1;const p=v.play();p&&p.catch(()=>{})}draw()};draw()});
 bind();new MutationObserver(bind).observe(document.body,{childList:true,subtree:true})})();
