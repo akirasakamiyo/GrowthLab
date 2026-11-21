@@ -242,3 +242,39 @@ body.sbn-rail .sbn-nav{flex:1 0 auto;justify-content:flex-start;gap:clamp(4px,ca
 
 /* Beranda (2026-11-14): hero mengisi satu layar penuh supaya bagian video di bawahnya baru terlihat setelah digulir */
 @media (min-width:761px){body.sbx [data-v="home"]>.hero{min-height:100vh;min-height:100svh;justify-content:center}}
+
+/* ==================================================================
+   Gaya "tinta" (2026-11-21, pilihan pengguna dari 3 preview): ubin ikon berwarna dihapus supaya tidak ramai.
+   Ikon = garis krem satu warna tanpa bidang warna; menu aktif = coretan stabilo kuning yang sedikit miring
+   (tepi tidak rata, seperti digambar tangan); judul grup = huruf kapital kecil; pemisah dan garis anak = putus-putus.
+   ================================================================== */
+.sbn .sbn-ic,.sbn-fly .sbn-ic{background:none!important;box-shadow:none!important;color:#f3ecd8}
+.sbn svg.dd .f,.sbn-fly svg.dd .f{opacity:0!important}
+.sbn a:hover>.sbn-ic,.sbn .sbn-gh:hover>.sbn-ic{transform:rotate(-8deg)}
+.sbn-nav a,.sbn-gh{color:#d9d6ee}
+.sbn::before{opacity:.25}
+/* stabilo menu aktif */
+.sbn-nav a.cur,.sbn-fly a.cur{background:none!important;color:#11184a!important;isolation:isolate}
+.sbn-nav a.cur::before{display:none}
+.sbn-nav a.cur::after,.sbn-fly a.cur::after{content:"";position:absolute;inset:4px 6px 4px 2px;z-index:-1;background:var(--sb-sun);
+  border-radius:255px 18px 225px 18px/18px 225px 18px 255px;transform:rotate(-1.2deg)}
+.sbn-nav a.cur .sbn-ic,.sbn-fly a.cur .sbn-ic{color:#11184a}
+.sbn-n{background:none;border:1.5px solid rgba(255,255,255,.3);border-radius:255px 15px 225px 15px/15px 225px 15px 255px}
+.sbn-nav a.cur .sbn-n{background:none;border-color:#11184a;color:#11184a}
+/* pemisah dan garis anak putus-putus */
+.sbn-sep{height:0;background:none;border-top:2px dashed rgba(255,255,255,.12)}
+.sbn-gl{border-left:2px dashed rgba(255,255,255,.14);margin-left:16px;padding-left:10px}
+/* judul grup (mode lebar): teks kapital kecil tanpa ikon */
+body:not(.sbn-rail) .sbn-gh{min-height:30px;margin-top:8px;font:700 .7rem/1 var(--sans);letter-spacing:.16em;text-transform:uppercase;color:#8e95c9}
+body:not(.sbn-rail) .sbn-gh .sbn-ic{display:none}
+body:not(.sbn-rail) .sbn-gh:hover{background:none;color:#fff}
+@media (max-width:760px){.sbn-gh{min-height:34px!important}}
+/* mode rel: stabilo memeluk ikon + label, ubin ikon tanpa latar, lencana Materi tetap kuning */
+body.sbn-rail .sbn-nav>a.cur::after{inset:3px 2px}
+body.sbn-rail .sbn-nav>a.cur .sbn-t{color:#11184a}
+body.sbn-rail .sbn-n{background:var(--sb-sun);border:0;border-radius:99px}
+body.sbn-rail .sbn-g.has-cur>.sbn-gh>.sbn-ic{box-shadow:none!important;color:var(--sb-sun)}
+body.sbn-rail .sbn-gh.fly-on,body.sbn-rail :is(.sbn-nav>a,.sbn-gh):hover{background:rgba(255,255,255,.06)}
+.fly-h b{font-family:var(--sans);font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#8e95c9}
+.fly-h{border-bottom:2px dashed var(--sb-line)}
+.sbn-nav a.cur:focus-visible,.sbn-fly a.cur:focus-visible{outline-color:#fff}
