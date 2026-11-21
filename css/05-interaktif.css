@@ -243,13 +243,6 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc-t,var(--acc));ma
 .vctl .promo-snd{position:static;right:auto;bottom:auto;background:#11184a;border-color:rgba(255,255,255,.18)}
 .vctl .vfs .f{fill:#ffc83d}
 #hero-art .vctl{margin-top:14px}
-/* ikon tombol selalu 24px (aturan lama #hero-art svg{width:100%} membuatnya membesar) */
-.vctl .promo-snd svg,#hero-art .vctl .promo-snd svg{width:24px!important;height:24px!important}
-/* layar penuh cadangan (js/16-beranda-efek.js) */
-.vfs-ov{position:fixed;inset:0;z-index:9995;background:#05081f;display:grid;place-items:center;line-height:0}
-.vfs-ov video{width:100%;height:100%;object-fit:contain;background:#05081f}
-.vfs-ov .vfs-x{position:absolute;top:16px;right:16px;bottom:auto;z-index:2}
-html.vfs-lock,html.vfs-lock body{overflow:hidden}
 /* bar suara mengikuti lebar videonya: video tutorial Petunjuk dibatasi 82% di tengah, jadi barnya juga;
    video bingkai (.frame) punya bayangan geser 8px, jadi barnya mundur 8px supaya tombol rata dengan tepi bingkai;
    ringkasan kursus: bar diberi jarak sebelum panel progres */
@@ -262,6 +255,7 @@ html.vfs-lock,html.vfs-lock body{overflow:hidden}
 /* layar penuh cadangan (js/16-beranda-efek.js) */
 .vfs-ov{position:fixed;inset:0;z-index:9995;background:#05081f;display:grid;place-items:center;line-height:0}
 .vfs-ov video{width:100%;height:100%;object-fit:contain;background:#05081f}
-.vfs-ov .vfs-x{position:absolute;top:max(18px,env(safe-area-inset-top));right:max(18px,env(safe-area-inset-right));bottom:auto;z-index:2}
-.vfs-ov .vfs-s{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:2}
+/* tombol di pojok kanan bawah, urutannya sama dengan bar di bawah video: suara lalu keluar */
+.vfs-ov .vfs-x{position:absolute;top:auto;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:2}
+.vfs-ov .vfs-s{position:absolute;right:calc(max(18px,env(safe-area-inset-right)) + 60px);bottom:max(18px,env(safe-area-inset-bottom));z-index:2}
 html.vfs-lock,html.vfs-lock body{overflow:hidden}
