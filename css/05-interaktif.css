@@ -250,3 +250,10 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc-t,var(--acc));ma
 .vfs-ov video{width:100%;height:100%;object-fit:contain;background:#05081f}
 .vfs-ov .vfs-x{position:absolute;top:16px;right:16px;bottom:auto;z-index:2}
 html.vfs-lock,html.vfs-lock body{overflow:hidden}
+/* bar suara mengikuti lebar videonya: video tutorial Petunjuk dibatasi 82% di tengah, jadi barnya juga;
+   video bingkai (.frame) punya bayangan geser 8px, jadi barnya mundur 8px supaya tombol rata dengan tepi bingkai;
+   ringkasan kursus: bar diberi jarak sebelum panel progres */
+.promo:not(.frame)+.vctl{width:min(100%,82%,calc((100svh - 190px)*16/9));margin-left:auto;margin-right:auto}
+@media(max-width:700px){.promo:not(.frame)+.vctl{width:100%}}
+.frame.promo+.vctl{margin-top:18px;padding-right:2px}
+#cart+.vctl{margin:-4px 0 18px}
