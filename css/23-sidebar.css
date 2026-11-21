@@ -111,10 +111,10 @@ body.sbx.sbn-rail{--sbw:92px}
 body.sbn-rail .sbn{padding:14px 10px}
 body.sbn-rail .sbn-top{flex-direction:column;align-items:center;gap:10px;padding:2px 0 14px}
 body.sbn-rail .sbn-brand{flex:none;width:auto}
-body.sbn-rail .sbn-brand .logo{width:42px;height:42px}
+body.sbn-rail .sbn-brand .logo{width:56px;height:56px}
 body.sbn-rail .sbn-brand b,body.sbn-rail .sbn-cv,body.sbn-rail .sbn-mt{display:none}
-body.sbn-rail .sbn-tg{width:42px;height:28px;border-radius:9px;background:rgba(255,255,255,.06)}
-body.sbn-rail .sbn-tg svg{width:18px;height:18px}
+body.sbn-rail .sbn-tg{width:56px;height:42px;border-radius:12px;background:rgba(255,255,255,.06)}
+body.sbn-rail .sbn-tg svg{width:26px;height:26px}
 body.sbn-rail .sbn-nav{gap:4px;align-items:center}
 body.sbn-rail :is(.sbn-nav>a,.sbn-gh){flex-direction:column;justify-content:center;gap:5px;width:68px;min-height:68px;padding:7px 0 6px;border-radius:16px;text-align:center}
 /* rel: semua ubin satu ukuran, menu aktif tanpa bayangan supaya tidak tampak lebih besar */
