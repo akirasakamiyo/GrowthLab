@@ -257,3 +257,11 @@ html.vfs-lock,html.vfs-lock body{overflow:hidden}
 @media(max-width:700px){.promo:not(.frame)+.vctl{width:100%}}
 .frame.promo+.vctl{margin-top:18px;padding-right:2px}
 #cart+.vctl{margin:-4px 0 18px}
+/* ikon tombol selalu 24px (aturan lama #hero-art svg{width:100%} membuatnya membesar) */
+.vctl .promo-snd svg,#hero-art .vctl .promo-snd svg{width:24px!important;height:24px!important}
+/* layar penuh cadangan (js/16-beranda-efek.js) */
+.vfs-ov{position:fixed;inset:0;z-index:9995;background:#05081f;display:grid;place-items:center;line-height:0}
+.vfs-ov video{width:100%;height:100%;object-fit:contain;background:#05081f}
+.vfs-ov .vfs-x{position:absolute;top:max(18px,env(safe-area-inset-top));right:max(18px,env(safe-area-inset-right));bottom:auto;z-index:2}
+.vfs-ov .vfs-s{position:absolute;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:2}
+html.vfs-lock,html.vfs-lock body{overflow:hidden}
