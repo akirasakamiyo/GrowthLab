@@ -1,0 +1,19 @@
+/* Latar animasi hero beranda (js/36-latar-hero.js, 2026-11-21): bintang pixel berkelip, awan pixel lewat, cahaya lembut bergeser.
+   Cahaya memakai radial-gradient (bukan filter blur) supaya ringan. */
+[data-v="home"]>.hero{position:relative;overflow:hidden}
+[data-v="home"]>.hero>:not(.hbg){position:relative;z-index:1}
+.hbg{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.hbg i{position:absolute;display:block}
+.hbg svg{display:block;width:100%;height:100%}
+.hbg-bl{border-radius:50%;background:radial-gradient(closest-side,rgba(var(--c),.42),rgba(var(--c),0));animation:hbgBl var(--d) ease-in-out infinite alternate;will-change:transform}
+@keyframes hbgBl{0%{transform:translate(0,0) scale(1)}50%{transform:translate(var(--x),var(--y)) scale(1.12)}100%{transform:translate(calc(var(--x)*-.6),calc(var(--y)*.8)) scale(.92)}}
+.hbg-px{width:var(--s);height:var(--s);opacity:0;animation:hbgPx var(--d) steps(4) infinite;animation-delay:var(--dl)}
+@keyframes hbgPx{0%,100%{opacity:0;transform:scale(.5)}30%,60%{opacity:.9;transform:scale(1)}}
+.hbg-cl{height:auto;opacity:.16;animation:hbgCl var(--d) linear infinite;animation-delay:var(--dl)}
+.hbg-cl svg{height:auto}
+@keyframes hbgCl{from{transform:translateX(-30vw)}to{transform:translateX(110vw)}}
+@media (prefers-reduced-motion:reduce){
+  .hbg i{animation:none!important}
+  .hbg-px{opacity:.6}
+  .hbg-cl{transform:translateX(20vw)}
+}
