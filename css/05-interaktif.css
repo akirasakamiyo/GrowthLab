@@ -259,3 +259,5 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc-t,var(--acc));ma
 .vfs-ov .vfs-x{position:absolute;top:auto;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:2}
 .vfs-ov .vfs-s{position:absolute;right:calc(max(18px,env(safe-area-inset-right)) + 60px);bottom:max(18px,env(safe-area-inset-bottom));z-index:2}
 html.vfs-lock,html.vfs-lock body{overflow:hidden}
+/* tablet dan HP: tombol Bingung? Tanya menempel di kanan bawah layar, jadi tombol video dipindah ke kiri supaya tidak tertutup */
+@media(max-width:1099px){.vctl{justify-content:flex-start}}
