@@ -53,9 +53,19 @@ window.observe();draw();
    Bunyi = gelombang suara, bisu = tanda silang */
 const MB='<path class="f" d="M5.6 10.4h3l7.4-4.2v13.2l-7.4-4.2h-3z"/><path d="M4.4 9.2h3.4l7.8-4.6v14.8l-7.8-4.6H4.4c-.6 0-1-.4-1-1V10.2c0-.6.4-1 1-1z"/><path d="M7.2 14.9l1.1 4.2c.2.7.9 1 1.5.8.6-.2.9-.8.7-1.4l-.9-3.2"/>';
 const ON=MB+'<path d="M18.4 9.4c.9.8 1.3 1.6 1.3 2.6s-.4 1.8-1.3 2.6M20.6 7c1.5 1.4 2.3 3 2.3 5s-.8 3.6-2.3 5"/>',OFF=MB+'<path d="M18.4 9.8l4 4.6M22.4 9.8l-4 4.6"/>';
+/* ikon layar penuh: empat sudut bingkai (masuk) / sudut menghadap ke dalam (keluar), gaya doodle yang sama */
+const FS_IN='<path class="f" d="M7 7h10v10H7z" opacity=".35"/><path d="M3.6 9V5.2c0-.9.7-1.6 1.6-1.6H9M15 3.6h3.8c.9 0 1.6.7 1.6 1.6V9M20.4 15v3.8c0 .9-.7 1.6-1.6 1.6H15M9 20.4H5.2c-.9 0-1.6-.7-1.6-1.6V15"/>',FS_OUT='<path d="M9 3.6V7.4c0 .9-.7 1.6-1.6 1.6H3.6M20.4 9h-3.8c-.9 0-1.6-.7-1.6-1.6V3.6M15 20.4v-3.8c0-.9.7-1.6 1.6-1.6h3.8M3.6 15h3.8c.9 0 1.6.7 1.6 1.6v3.8"/>';
 const io=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting){const p=v.play();p&&p.catch(()=>{})}else v.pause()}),{threshold:.15});
 const bind=()=>document.querySelectorAll(".promo video:not([data-pb])").forEach(v=>{v.dataset.pb=1;v.muted=true;io.observe(v);
  const b=v.parentNode.querySelector(".promo-snd");if(!b)return;
+ /* 2026-11-21: tombol suara dipindah ke bar di bawah video (tidak menutupi isi video), ditambah tombol layar penuh */
+ const bar=document.createElement("div");bar.className="vctl";const f=document.createElement("button");f.type="button";f.className="promo-snd vfs";
+ const isFs=()=>(document.fullscreenElement||document.webkitFullscreenElement)===v;
+ const drawF=()=>{const o=isFs();f.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${o?FS_OUT:FS_IN}</svg>`;f.setAttribute("aria-label",o?"Keluar dari layar penuh":"Putar video layar penuh");f.title=o?"Keluar layar penuh":"Layar penuh"};
+ f.onclick=()=>{if(isFs()){(document.exitFullscreen||document.webkitExitFullscreen).call(document);return}
+  v.controls=true;const r=v.requestFullscreen?v.requestFullscreen():v.webkitRequestFullscreen?v.webkitRequestFullscreen():v.webkitEnterFullscreen&&v.webkitEnterFullscreen();r&&r.catch&&r.catch(()=>{v.controls=false})};
+ const fsc=()=>{if(!isFs())v.controls=false;drawF()};document.addEventListener("fullscreenchange",fsc);document.addEventListener("webkitfullscreenchange",fsc);v.addEventListener("webkitendfullscreen",fsc);
+ bar.append(b,f);(v.closest("#cart")||v.parentNode).after(bar);drawF();
  const draw=()=>{const m=v.muted;b.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${m?OFF:ON}</svg>`;b.setAttribute("aria-label",m?"Nyalakan suara video":"Matikan suara video");b.title=m?"Nyalakan suara":"Matikan suara";b.setAttribute("aria-pressed",String(!m))};
  b.onclick=()=>{v.muted=!v.muted;if(!v.muted){v.volume=1;const p=v.play();p&&p.catch(()=>{})}draw()};draw()});
 bind();new MutationObserver(bind).observe(document.body,{childList:true,subtree:true})})();

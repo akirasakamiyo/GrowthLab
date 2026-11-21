@@ -56,7 +56,7 @@
       <button type="button" class="sbn-tg" id="sbn-tg" aria-label="Ciutkan sidebar" aria-pressed="false" data-tip="Ciutkan sidebar">${I.panel}</button></div>
     <div class="sbn-nav">${UTAMA.map(item).join("")}<i class="sbn-sep" aria-hidden="true"></i>${GRUP.map(grup).join("")}</div>
     <button type="button" class="sbn-me" data-gx-open data-tip="Perjalanan karier" aria-label="Buka perjalanan karier: level, badge, dan sertifikat">
-      <span class="labi idle" aria-hidden="true"></span>
+      <span class="labi idle" aria-hidden="true"></span><b class="sbn-lvb" id="sbn-lvb" aria-hidden="true">Lv 1</b>
       <span class="sbn-mt"><b>Perjalanan karier</b><small id="sbn-lv">Lv 1 · Pemula</small><i class="sbn-pb" aria-hidden="true"><i></i></i></span>
     </button>`;
   const dim = document.createElement("div"); dim.className = "sbn-dim";
@@ -142,12 +142,12 @@
   }, true);
 
   /* ---------- angka progres Materi + kartu profil ---------- */
-  const sprog = $("#sprog"), chip = $("#gx-chip"), lv = $("#sbn-lv"), nn = $("#sbn-n");
+  const sprog = $("#sprog"), chip = $("#gx-chip"), lv = $("#sbn-lv"), lvb = $("#sbn-lvb"), nn = $("#sbn-n");
   const prog = () => {
     const m = sprog && sprog.textContent.match(/(\d+)\s*\/\s*(\d+)/); if (m) nn.textContent = `${m[1]}/${m[2]}`;
     side.style.setProperty("--p", getComputedStyle(document.documentElement).getPropertyValue("--p") || 0);
   };
-  const level = () => { const m = chip && (chip.getAttribute("aria-label") || "").match(/Level\s*(\d+),\s*([^,]+)/); if (m) lv.textContent = `Lv ${m[1]} · ${m[2].trim()}` };
+  const level = () => { const m = chip && (chip.getAttribute("aria-label") || "").match(/Level\s*(\d+),\s*([^,]+)/); if (m) { lv.textContent = `Lv ${m[1]} · ${m[2].trim()}`; lvb.textContent = `Lv ${m[1]}` } };
   prog(); level();
   sprog && new MutationObserver(prog).observe(sprog, { childList: true, characterData: true, subtree: true });
   chip && new MutationObserver(level).observe(chip, { attributes: true, attributeFilter: ["aria-label"] });

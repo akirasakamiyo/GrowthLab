@@ -111,32 +111,39 @@ body.sbx.sbn-rail{--sbw:92px}
 body.sbn-rail .sbn{padding:14px 10px}
 body.sbn-rail .sbn-top{flex-direction:column;align-items:center;gap:10px;padding:2px 0 14px}
 body.sbn-rail .sbn-brand{flex:none;width:auto}
-body.sbn-rail .sbn-brand .logo{width:46px;height:46px}
+body.sbn-rail .sbn-brand .logo{width:42px;height:42px}
 body.sbn-rail .sbn-brand b,body.sbn-rail .sbn-cv,body.sbn-rail .sbn-mt{display:none}
-body.sbn-rail .sbn-tg{width:36px;height:30px;border-radius:9px;background:rgba(255,255,255,.06)}
-body.sbn-rail .sbn-nav{gap:4px;align-items:stretch}
-body.sbn-rail :is(.sbn-nav>a,.sbn-gh){flex-direction:column;justify-content:center;gap:5px;min-height:70px;padding:7px 0 6px;border-radius:16px;text-align:center}
+body.sbn-rail .sbn-tg{width:42px;height:28px;border-radius:9px;background:rgba(255,255,255,.06)}
+body.sbn-rail .sbn-tg svg{width:18px;height:18px}
+body.sbn-rail .sbn-nav{gap:4px;align-items:center}
+body.sbn-rail :is(.sbn-nav>a,.sbn-gh){flex-direction:column;justify-content:center;gap:5px;width:68px;min-height:68px;padding:7px 0 6px;border-radius:16px;text-align:center}
+/* rel: semua ubin satu ukuran, menu aktif tanpa bayangan supaya tidak tampak lebih besar */
+body.sbn-rail a.cur>.sbn-ic{box-shadow:none}
 body.sbn-rail :is(.sbn-nav>a,.sbn-gh) .sbn-ic{width:42px;height:42px;border-radius:14px}
 body.sbn-rail :is(.sbn-nav>a,.sbn-gh) .sbn-ic svg{width:25px;height:25px}
 body.sbn-rail :is(.sbn-nav>a,.sbn-gh) .sbn-t{flex:none;width:100%;font:700 .66rem/1.1 var(--sans);letter-spacing:.01em;text-align:center;color:var(--sb-mut);padding:0 2px}
 body.sbn-rail .sbn-nav>a:hover .sbn-t,body.sbn-rail .sbn-gh:hover .sbn-t,body.sbn-rail .sbn-g.has-cur>.sbn-gh .sbn-t{color:#fff}
 body.sbn-rail .sbn-nav>a.cur .sbn-t{color:#1b1740}
-body.sbn-rail .sbn-nav>a.cur::before{left:-10px;top:14px;bottom:14px}
-body.sbn-rail .sbn-sep{margin:8px 16px}
+body.sbn-rail .sbn-nav>a.cur::before{left:-12px;top:16px;bottom:16px}
+body.sbn-rail .sbn-sep{align-self:stretch;margin:8px 16px}
 body.sbn-rail .sbn-gl{display:none!important}
 body.sbn-rail .sbn-g.has-cur>.sbn-gh>.sbn-ic{box-shadow:0 0 0 2px var(--sb-sun)}
 /* petunjuk kecil: grup membuka kartu ke kanan */
-body.sbn-rail .sbn-gh::after{content:"";position:absolute;right:4px;top:26px;border:4px solid transparent;border-left:5px solid var(--sb-mut);border-right:0;opacity:.7}
+body.sbn-rail .sbn-gh::after{content:"";position:absolute;right:-6px;top:26px;border:4px solid transparent;border-left:5px solid var(--sb-mut);border-right:0;opacity:.7}
 body.sbn-rail .sbn-gh.fly-on{background:var(--sb-hv)}
 /* lencana progres Materi di sudut ubin */
 body.sbn-rail .sbn-n{position:absolute;top:3px;right:5px;padding:3px 6px;font-size:.58rem;background:#ffc83d;color:#1b1740;box-shadow:0 0 0 2px var(--sb-bg2)}
 body.sbn-rail .sbn-nav>a.cur .sbn-n{background:#1b1740;color:var(--sb-sun);box-shadow:0 0 0 2px var(--sb-cream)}
-/* Labi dengan cincin progres kursus */
-body.sbn-rail .sbn-me{position:relative;display:grid;place-items:center;width:66px;height:66px;margin:12px auto 0;padding:0;border:0;border-radius:50%;
-  background:conic-gradient(var(--sb-sun) calc(var(--p,0)*1turn),rgba(255,255,255,.14) 0)}
-body.sbn-rail .sbn-me::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--sb-bg2);box-shadow:inset 0 0 0 1px var(--sb-line)}
-body.sbn-rail .sbn-me .labi{--k:.8;position:relative;z-index:1}
-body.sbn-rail .sbn-me:hover{background:conic-gradient(var(--sb-sun) calc(var(--p,0)*1turn),rgba(255,255,255,.3) 0)}
+/* Labi dengan cincin progres kursus + lencana level; di dasar rel (margin-top:auto) */
+.sbn-lvb{display:none}
+body.sbn-rail .sbn-me{position:relative;display:grid;place-items:center;flex:none;width:58px;height:58px;margin:auto auto 10px;padding:0;border:0;border-radius:50%;
+  background:conic-gradient(var(--sb-sun) calc(var(--p,0)*1turn),rgba(255,255,255,.16) 0);box-shadow:0 0 0 4px rgba(255,200,61,.08),0 10px 24px -8px rgba(255,200,61,.35);transition:transform .25s cubic-bezier(.34,1.56,.64,1),box-shadow .2s}
+body.sbn-rail .sbn-me::after{content:"";position:absolute;inset:5px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#2b3aa8 0%,#17206a 60%,#0e1450 100%);box-shadow:inset 0 -3px 0 rgba(0,0,0,.25)}
+body.sbn-rail .sbn-me .labi{--k:.72;position:relative;z-index:1;margin-top:-2px}
+body.sbn-rail .sbn-lvb{display:block;position:absolute;z-index:2;left:50%;bottom:-9px;transform:translateX(-50%);padding:3px 7px;border-radius:99px;background:var(--sb-sun);color:#1b1740;font:800 .6rem/1 var(--sans);white-space:nowrap;box-shadow:0 0 0 2px var(--sb-bg2)}
+body.sbn-rail .sbn-me:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 0 0 5px rgba(255,200,61,.16),0 14px 28px -8px rgba(255,200,61,.5)}
+/* rel mengisi tinggi layar: jarak antar menu ikut melebar di layar tinggi supaya tidak ada ruang kosong besar di bawah */
+body.sbn-rail .sbn-nav{flex:1 0 auto;justify-content:flex-start;gap:clamp(4px,calc((100vh - 760px)/14),18px)}
 
 /* daftar pelajaran di halaman pelajaran: dari kolom samping jadi bar ringkas di atas artikel */
 @media (min-width:761px){
