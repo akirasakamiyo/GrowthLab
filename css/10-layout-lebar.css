@@ -10,5 +10,7 @@
 .hero .hg{grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr)!important;align-items:center}
 .hero #hero-art{display:block!important;max-width:560px;justify-self:center;width:100%}
 #hero-art .fl,#hero-art .pop{animation:none!important}#hero-art [data-par]{transform:none!important}
-@media(max-width:900px){.hero .hg{grid-template-columns:1fr!important}.hero #hero-art{display:none!important}}
+@media(max-width:900px){.hero .hg{grid-template-columns:1fr!important}.hero #hero-art{margin-top:28px}}
 @media(max-width:700px){.wrap{width:calc(100% - 32px)}.nav .wrap{width:calc(100% - 20px)}}
+/* video promo dipindah dari bagian bawah beranda ke sisi kanan hero (2026-11-21) */
+.hero #hero-art .promo{margin:0;width:100%}
