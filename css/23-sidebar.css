@@ -6,7 +6,6 @@
    <= 760    : navbar lama di atas, sidebar jadi laci dari kiri lewat tombol Menu
    ================================================================== */
 :root{--sbw:248px;--sb-bg:#11184a;--sb-bg2:#0b1038;--sb-tx:#e9e6f7;--sb-mut:#9ea4cf;--sb-line:rgba(255,255,255,.08);--sb-hv:rgba(255,255,255,.06);--sb-sun:#ffc83d;--sb-cream:#fff3d6}
-body.sbx.sbn-min{--sbw:76px}
 
 .sbn{position:fixed;top:0;bottom:0;left:0;z-index:30;width:var(--sbw);display:flex;flex-direction:column;
   background:linear-gradient(180deg,var(--sb-bg) 0%,var(--sb-bg2) 100%);color:var(--sb-tx);font-family:var(--sans);
@@ -80,12 +79,18 @@ a.cur>.sbn-ic .f{fill:#fff;opacity:.55}
 .sbn-tip{position:fixed;z-index:47;transform:translateY(-50%) translateX(-4px);padding:7px 11px;border-radius:9px;background:#fff3d6;color:#1b1740;
   font:700 .8rem/1 var(--sans);white-space:nowrap;box-shadow:0 8px 24px -8px rgba(0,0,0,.4);opacity:0;pointer-events:none;transition:opacity .12s,transform .12s}
 .sbn-tip.on{opacity:1;transform:translateY(-50%)}
-.sbn-fly{position:fixed;z-index:47;min-width:210px;display:flex;flex-direction:column;gap:2px;padding:8px;border-radius:14px;
-  background:var(--sb-bg);color:var(--sb-tx);box-shadow:0 18px 40px -12px rgba(0,0,0,.5),inset 0 0 0 1px var(--sb-line);font-family:var(--sans)}
+.sbn-fly{position:fixed;z-index:47;min-width:236px;display:flex;flex-direction:column;gap:2px;padding:10px;border-radius:18px;
+  background:var(--sb-bg);color:var(--sb-tx);box-shadow:0 22px 48px -14px rgba(0,0,0,.55),inset 0 0 0 1px var(--sb-line),6px 6px 0 rgba(8,12,40,.55);font-family:var(--sans);
+  transform-origin:left center;animation:sbFly .18s cubic-bezier(.2,.9,.3,1.2)}
+.sbn-fly::before{content:"";position:absolute;left:-7px;top:calc(var(--ay,28px) - 7px);width:14px;height:14px;background:var(--sb-bg);transform:rotate(45deg);border-radius:3px 0 0 3px;box-shadow:inset 1px -1px 0 var(--sb-line)}
 .sbn-fly[hidden]{display:none}
-.sbn-fly p{margin:4px 8px 6px;font:700 .68rem/1 var(--sans);letter-spacing:.12em;text-transform:uppercase;color:var(--sb-mut)}
+@keyframes sbFly{from{opacity:0;transform:translateX(-8px) scale(.96)}to{opacity:1;transform:none}}
+.fly-h{display:flex;align-items:center;gap:10px;padding:2px 6px 10px;margin-bottom:6px;border-bottom:1px solid var(--sb-line)}
+.fly-h b{font:800 1.05rem/1 var(--serif);color:#fff;letter-spacing:-.01em}
+.fly-h .sbn-ic{width:34px;height:34px}
 .sbn-fly a.cur{background:var(--sb-cream);color:#1b1740}
-.sbn-fly .sbn-ic{width:28px;height:28px}
+.sbn-fly .sbn-ic{width:30px;height:30px;border-radius:10px}
+.sbn-fly .sbn-ic svg{width:20px;height:20px;overflow:visible}
 .sbn-dim{display:none}
 
 /* ---------- desktop & tablet: geser konten, sembunyikan navbar lama ---------- */
@@ -98,33 +103,40 @@ a.cur>.sbn-ic .f{fill:#fff;opacity:.55}
 }
 /* pil pemandu di layar sedang: naik sedikit supaya tidak menimpa tombol Kembali */
 @media (min-width:761px) and (max-width:1199px){ body.sbx .gph-pill{bottom:86px} }
-/* mode rel: tablet, atau desktop yang diciutkan */
-@media (min-width:761px) and (max-width:1099px){
-  :root{--sbw:76px}
-  .sbn-tg{display:none}
-}
-@media (min-width:761px) and (max-width:1099px){ .sbn{padding:14px 10px} }
-@media (min-width:1100px){ body.sbn-min .sbn{padding:14px 10px} }
-@media (min-width:761px) and (max-width:1099px){
-  .sbn-top{flex-direction:column;padding:2px 0 12px}
-  .sbn :is(.sbn-brand b,.sbn-t,.sbn-n,.sbn-cv,.sbn-mt){display:none}
-  .sbn :is(.sbn-nav a,.sbn-gh){justify-content:center;padding:0}
-  .sbn-nav a.cur::before{left:-10px}
-  .sbn-gl{display:none!important}
-  .sbn-g.has-cur>.sbn-gh>.sbn-ic{box-shadow:inset 0 0 0 2px var(--sb-sun)}
-  .sbn-me{justify-content:center;padding:8px 0}
-  .sbn-brand{flex:none}
-}
-@media (min-width:1100px){
-  body.sbn-min .sbn-top{flex-direction:column;padding:2px 0 12px}
-  body.sbn-min .sbn-brand{flex:none}
-  body.sbn-min .sbn :is(.sbn-brand b,.sbn-t,.sbn-n,.sbn-cv,.sbn-mt){display:none}
-  body.sbn-min :is(.sbn-nav a,.sbn-gh){justify-content:center;padding:0}
-  body.sbn-min .sbn-nav a.cur::before{left:-10px}
-  body.sbn-min .sbn-gl{display:none!important}
-  body.sbn-min .sbn-g.has-cur>.sbn-gh>.sbn-ic{box-shadow:inset 0 0 0 2px var(--sb-sun)}
-  body.sbn-min .sbn-me{justify-content:center;padding:8px 0}
-}
+/* mode rel: tablet, atau desktop yang diciutkan (kelas body.sbn-rail dipasang js/31-sidebar.js).
+   2026-11-21: rel 92px, tiap menu = ubin ikon besar + label kecil di bawahnya; menu aktif = kapsul krem dengan penanda kuning;
+   grup (Panduan, Lainnya) membuka kartu melayang bertajuk dengan panah; Labi dikelilingi cincin progres. */
+@media (min-width:761px) and (max-width:1099px){:root{--sbw:92px}.sbn-tg{display:none}}
+body.sbx.sbn-rail{--sbw:92px}
+body.sbn-rail .sbn{padding:14px 10px}
+body.sbn-rail .sbn-top{flex-direction:column;align-items:center;gap:10px;padding:2px 0 14px}
+body.sbn-rail .sbn-brand{flex:none;width:auto}
+body.sbn-rail .sbn-brand .logo{width:46px;height:46px}
+body.sbn-rail .sbn-brand b,body.sbn-rail .sbn-cv,body.sbn-rail .sbn-mt{display:none}
+body.sbn-rail .sbn-tg{width:36px;height:30px;border-radius:9px;background:rgba(255,255,255,.06)}
+body.sbn-rail .sbn-nav{gap:4px;align-items:stretch}
+body.sbn-rail :is(.sbn-nav>a,.sbn-gh){flex-direction:column;justify-content:center;gap:5px;min-height:70px;padding:7px 0 6px;border-radius:16px;text-align:center}
+body.sbn-rail :is(.sbn-nav>a,.sbn-gh) .sbn-ic{width:42px;height:42px;border-radius:14px}
+body.sbn-rail :is(.sbn-nav>a,.sbn-gh) .sbn-ic svg{width:25px;height:25px}
+body.sbn-rail :is(.sbn-nav>a,.sbn-gh) .sbn-t{flex:none;width:100%;font:700 .66rem/1.1 var(--sans);letter-spacing:.01em;text-align:center;color:var(--sb-mut);padding:0 2px}
+body.sbn-rail .sbn-nav>a:hover .sbn-t,body.sbn-rail .sbn-gh:hover .sbn-t,body.sbn-rail .sbn-g.has-cur>.sbn-gh .sbn-t{color:#fff}
+body.sbn-rail .sbn-nav>a.cur .sbn-t{color:#1b1740}
+body.sbn-rail .sbn-nav>a.cur::before{left:-10px;top:14px;bottom:14px}
+body.sbn-rail .sbn-sep{margin:8px 16px}
+body.sbn-rail .sbn-gl{display:none!important}
+body.sbn-rail .sbn-g.has-cur>.sbn-gh>.sbn-ic{box-shadow:0 0 0 2px var(--sb-sun)}
+/* petunjuk kecil: grup membuka kartu ke kanan */
+body.sbn-rail .sbn-gh::after{content:"";position:absolute;right:4px;top:26px;border:4px solid transparent;border-left:5px solid var(--sb-mut);border-right:0;opacity:.7}
+body.sbn-rail .sbn-gh.fly-on{background:var(--sb-hv)}
+/* lencana progres Materi di sudut ubin */
+body.sbn-rail .sbn-n{position:absolute;top:3px;right:5px;padding:3px 6px;font-size:.58rem;background:#ffc83d;color:#1b1740;box-shadow:0 0 0 2px var(--sb-bg2)}
+body.sbn-rail .sbn-nav>a.cur .sbn-n{background:#1b1740;color:var(--sb-sun);box-shadow:0 0 0 2px var(--sb-cream)}
+/* Labi dengan cincin progres kursus */
+body.sbn-rail .sbn-me{position:relative;display:grid;place-items:center;width:66px;height:66px;margin:12px auto 0;padding:0;border:0;border-radius:50%;
+  background:conic-gradient(var(--sb-sun) calc(var(--p,0)*1turn),rgba(255,255,255,.14) 0)}
+body.sbn-rail .sbn-me::after{content:"";position:absolute;inset:5px;border-radius:50%;background:var(--sb-bg2);box-shadow:inset 0 0 0 1px var(--sb-line)}
+body.sbn-rail .sbn-me .labi{--k:.8;position:relative;z-index:1}
+body.sbn-rail .sbn-me:hover{background:conic-gradient(var(--sb-sun) calc(var(--p,0)*1turn),rgba(255,255,255,.3) 0)}
 
 /* daftar pelajaran di halaman pelajaran: dari kolom samping jadi bar ringkas di atas artikel */
 @media (min-width:761px){

@@ -38,11 +38,13 @@
   /* [kunci, label, alamat, warna] */
   const UTAMA = [["home", "Beranda", "#/", "#ff7a3d"], ["katalog", "Katalog", "#/e-learning", "#7c5cff"], ["course", "Materi", "#/course", "#2b55ff"], ["latihan", "Latihan", "#/latihan", "#14b8a6"], ["nilai", "Nilai akhir", "#/latihan", "#f5a524"]];
   const GRUP = [
-    ["panduan", "Panduan", "#ff5a3c", [["petunjuk", "Petunjuk", "", "#ff5a3c"], ["tujuan", "Tujuan belajar", "", "#14b8a6"], ["alur", "Alur belajar", "", "#7c5cff"], ["peta", "Peta konsep", "", "#2b55ff"], ["glosarium", "Glosarium", "", "#f5a524"], ["referensi", "Referensi", "", "#ff7a3d"], ["faq", "FAQ", "", "#e0459b"]]],
-    ["lain", "Lainnya", "#7c5cff", [["komunitas", "Belajar bareng", "", "#14b8a6"], ["tentang", "Tentang & tim", "", "#e0459b"]]]
+    ["panduan", "Panduan", "#ff5a3c", [["petunjuk", "Petunjuk", "", "#ff5a3c"], ["tujuan", "Tujuan belajar", "", "#14b8a6"], ["alur", "Alur belajar", "", "#7c5cff"], ["peta", "Peta konsep", "", "#2b55ff"], ["glosarium", "Glosarium", "", "#f5a524"], ["referensi", "Referensi", "", "#ff7a3d"], ["faq", "FAQ", "", "#e0459b"], ["tentang", "Identitas tim", "", "#14b8a6", "Identitas tim pengembang"]]],
+    /* 2026-11-17: identitas pengembang dipindah ke grup Panduan (masukan dosen: panduan memuat identitas pengembang) */
+    ["lain", "Lainnya", "#7c5cff", [["komunitas", "Belajar bareng", "", "#14b8a6"]]]
   ];
   const ic = (k, c) => `<span class="sbn-ic" style="--c:${c}">${I[k]}</span>`;
-  const item = ([k, t, h, c]) => `<a href="${h || "#/" + k}" data-sk="${k}" data-tip="${t}" aria-label="${t}">${ic(k, c)}<span class="sbn-t">${t}</span>${k === "course" ? '<b class="sbn-n" id="sbn-n"></b>' : ""}</a>`;
+  /* elemen ke-5 (opsional) = nama lengkap untuk tooltip dan pembaca layar bila label tampil dipendekkan */
+  const item = ([k, t, h, c, full = t]) => `<a href="${h || "#/" + k}" data-sk="${k}" data-tip="${full}" aria-label="${full}">${ic(k, c)}<span class="sbn-t">${t}</span>${k === "course" ? '<b class="sbn-n" id="sbn-n"></b>' : ""}</a>`;
   const grup = ([g, t, c, list]) => `<div class="sbn-g" data-g="${g}">
       <button type="button" class="sbn-gh" aria-expanded="false" aria-controls="sbn-g-${g}" data-tip="${t}">${ic(g, c)}<span class="sbn-t">${t}</span><span class="sbn-cv">${I.chev}</span></button>
       <div class="sbn-gl" id="sbn-g-${g}" role="group" aria-label="${t}">${list.map(item).join("")}</div></div>`;
@@ -67,13 +69,15 @@
   /* ---------- ciutkan / bentangkan (desktop) ---------- */
   const tg = $("#sbn-tg");
   const rel = () => !HP.matches && (!DESK.matches || body.classList.contains("sbn-min"));
+  /* kelas sbn-rail = sidebar sedang tampil sebagai rel ikon (tablet, atau desktop yang diciutkan); semua gaya rel di css/23 membaca kelas ini */
+  const syncRail = () => body.classList.toggle("sbn-rail", rel());
   const setMin = m => {
-    body.classList.toggle("sbn-min", m); st.set("gl-sb-min", m ? "1" : "0");
+    body.classList.toggle("sbn-min", m); st.set("gl-sb-min2", m ? "1" : "0"); syncRail();
     tg.setAttribute("aria-pressed", m); const t = m ? "Bentangkan sidebar" : "Ciutkan sidebar"; tg.setAttribute("aria-label", t); tg.dataset.tip = t;
-    tutupFly(); dispatchEvent(new Event("resize"));
+    tip.classList.remove("on"); tutupFly(); dispatchEvent(new Event("resize"));
   };
   tg.addEventListener("click", () => setMin(!body.classList.contains("sbn-min")));
-  setMin(st.get("gl-sb-min") === "1");
+  setMin(st.get("gl-sb-min2") !== "0");   /* 2026-11-21: rel ikon jadi tampilan awal; pilihan lama (gl-sb-min) diabaikan */
   addEventListener("keydown", e => { if ((e.metaKey || e.ctrlKey) && e.key === "\\" && DESK.matches) { e.preventDefault(); setMin(!body.classList.contains("sbn-min")) } });
 
   /* ---------- grup lipat (mode lebar) / menu melayang (mode rel) ---------- */
@@ -88,10 +92,11 @@
     if (!rel()) { setGrup(g, !b.parentElement.classList.contains("open")); return }
     if (b.classList.contains("fly-on")) { tutupFly(); return }
     tutupFly();
-    fly.innerHTML = `<p>${b.dataset.tip}</p>` + b.nextElementSibling.innerHTML.replace(/ id="[^"]*"/g, "");
+    fly.innerHTML = `<div class="fly-h">${b.querySelector(".sbn-ic").outerHTML}<b>${b.dataset.tip}</b></div>` + b.nextElementSibling.innerHTML.replace(/ id="[^"]*"/g, "");
     fly.hidden = false; b.classList.add("fly-on"); b.setAttribute("aria-expanded", "true");
-    const r = b.getBoundingClientRect(); fly.style.left = r.right + 10 + "px";
-    fly.style.top = Math.max(8, Math.min(r.top - 8, innerHeight - fly.offsetHeight - 8)) + "px";
+    const r = b.getBoundingClientRect(); fly.style.left = r.right + 12 + "px";
+    const top = Math.max(8, Math.min(r.top - 6, innerHeight - fly.offsetHeight - 8)); fly.style.top = top + "px";
+    fly.style.setProperty("--ay", r.top + r.height / 2 - top + "px");   /* ujung panah menunjuk ikon grupnya */
     tandai(); (fly.querySelector("a.cur") || fly.querySelector("a")).focus({ preventScroll: true });
   }));
   fly.addEventListener("click", e => { if (e.target.closest("a")) tutupFly() });
@@ -100,7 +105,7 @@
 
   /* ---------- tooltip label di mode rel (hover dan fokus keyboard) ---------- */
   const tunjuk = el => {
-    if (!rel() || !el || el.classList.contains("fly-on")) { tip.classList.remove("on"); return }
+    if (!rel() || !el || el.classList.contains("fly-on") || el.matches(".sbn-nav > a, .sbn-gh")) { tip.classList.remove("on"); return }   /* menu utama sudah berlabel di rel */
     tip.textContent = el.dataset.tip; const r = el.getBoundingClientRect();
     tip.style.left = r.right + 12 + "px"; tip.style.top = r.top + r.height / 2 + "px"; tip.classList.add("on");
   };
@@ -165,7 +170,7 @@
   dim.addEventListener("click", () => setOpen(false));
   addEventListener("keydown", e => { if (e.key === "Escape" && body.classList.contains("sbn-open")) setOpen(false) });
   side.addEventListener("click", e => { if (e.target.closest("a[href]")) setOpen(false, true) });
-  HP.addEventListener("change", () => { if (!HP.matches) setOpen(false, true); kunciLaci(); tutupFly() });
-  DESK.addEventListener("change", tutupFly);
+  HP.addEventListener("change", () => { if (!HP.matches) setOpen(false, true); kunciLaci(); tutupFly(); syncRail() });
+  DESK.addEventListener("change", () => { tutupFly(); syncRail() });
   kunciLaci();
 })();
