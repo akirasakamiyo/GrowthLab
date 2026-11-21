@@ -34,7 +34,7 @@ ScrollTrigger.config({ignoreMobileResize:true});
 
 /* ---------- section baru (disisipkan di beranda) ---------- */
 const hero=$(".hero"),mf=$("#manifesto"),el=$("#elearn"),dc=$("#discover");
-if(hero&&!$(".zcue"))hero.insertAdjacentHTML("beforeend",'<div class="zcue" aria-hidden="true"><span class="zln"></span><span class="zrg"><i></i></span></div>');
+/* 2026-11-21: penanda gulir (garis + lingkaran) di bawah hero dihapus atas permintaan pengguna */
 
 const S='class="zs zdr"';
 let rungs="";for(let k=1;k<=6;k++){const y=640-k*50,x=170+(640-y)/310*60;rungs+=`<path ${S} d="M${x.toFixed(1)} ${y}H${(x+60).toFixed(1)}"/>`}
@@ -124,16 +124,13 @@ if(pre){
   .to(lb,{y:0,rotation:0,duration:.3,ease:"bounce.out"},2.36)
   .to("#zpre .zc",{scale:.92,opacity:0,duration:.35,ease:"power2.in"},2.6)
   .add(()=>body.classList.remove("zload"),2.85)
-  .to(dz,{p:1,duration:.85,ease:"power1.inOut",onUpdate:draw},2.85)
-  .fromTo(".zcue .zln",{scaleX:0},{scaleX:1,duration:1.4,ease:"expo.out"},3.1)
-  .fromTo(".zcue .zrg",{scale:0},{scale:1,duration:.8,ease:"back.out(2)"},3.3);
+  .to(dz,{p:1,duration:.85,ease:"power1.inOut",onUpdate:draw},2.85);
 }else endPre();
 
 /* ---------- hero: menjauh saat discroll ---------- */
 const trg=(t,o)=>({trigger:t,scrub:true,...o});
 if(hero){
  /* 2026-11-06: isi hero tidak lagi memudar/mengecil saat discroll, dan hero tetap selebar layar (tanpa celah kiri-kanan) — permintaan pengguna */
- gsap.to(".zcue",{y:-60,opacity:0,ease:"none",scrollTrigger:trg(hero,{start:"top top",end:"25% top"})});
 }
 
 /* ---------- manifesto: kata naik satu per satu ---------- */
