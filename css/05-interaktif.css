@@ -243,3 +243,10 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc-t,var(--acc));ma
 .vctl .promo-snd{position:static;right:auto;bottom:auto;background:#11184a;border-color:rgba(255,255,255,.18)}
 .vctl .vfs .f{fill:#ffc83d}
 #hero-art .vctl{margin-top:14px}
+/* ikon tombol selalu 24px (aturan lama #hero-art svg{width:100%} membuatnya membesar) */
+.vctl .promo-snd svg,#hero-art .vctl .promo-snd svg{width:24px!important;height:24px!important}
+/* layar penuh cadangan (js/16-beranda-efek.js) */
+.vfs-ov{position:fixed;inset:0;z-index:9995;background:#05081f;display:grid;place-items:center;line-height:0}
+.vfs-ov video{width:100%;height:100%;object-fit:contain;background:#05081f}
+.vfs-ov .vfs-x{position:absolute;top:16px;right:16px;bottom:auto;z-index:2}
+html.vfs-lock,html.vfs-lock body{overflow:hidden}
