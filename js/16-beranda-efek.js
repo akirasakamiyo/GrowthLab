@@ -60,23 +60,27 @@ const bind=()=>document.querySelectorAll(".promo video:not([data-pb])").forEach(
  const b=v.parentNode.querySelector(".promo-snd");if(!b)return;
  /* 2026-11-21: tombol suara dipindah ke bar di bawah video (tidak menutupi isi video), ditambah tombol layar penuh */
  const bar=document.createElement("div");bar.className="vctl";const f=document.createElement("button");f.type="button";f.className="promo-snd vfs";
- const isFs=()=>(document.fullscreenElement||document.webkitFullscreenElement)===v;
- const drawF=()=>{const o=isFs();f.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${o?FS_OUT:FS_IN}</svg>`;f.setAttribute("aria-label",o?"Keluar dari layar penuh":"Putar video layar penuh");f.title=o?"Keluar layar penuh":"Layar penuh"};
- /* layar penuh cadangan: kalau Fullscreen API ditolak (mis. browser tertanam/iframe), video dipindah ke lapisan fixed di <body>
-    (bukan di tempatnya, karena leluhur yang ber-transform membuat position:fixed tidak menutupi layar), lalu dikembalikan saat ditutup */
- const pseudo=()=>{if(v.closest(".vfs-ov"))return;const ph=document.createComment("video"),ov=document.createElement("div");v.before(ph);
+ const drawF=()=>{f.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${FS_IN}</svg>`;f.setAttribute("aria-label","Putar video layar penuh");f.title="Layar penuh"};
+ /* layar penuh instan (2026-11-21): video langsung dipindah ke lapisan fixed di <body> sehingga tampil seketika di semua browser,
+    lalu lapisan itu diminta masuk Fullscreen API supaya menutup seluruh monitor bila browser mengizinkan. Kalau API ditolak atau
+    tidak menjawab (browser tertanam), lapisan tetap menutupi jendela. Keluar: tombol X, Esc, atau keluar dari layar penuh bawaan.
+    Video dipindah ke <body>, bukan diberi fixed di tempatnya, karena leluhur yang ber-transform membuat position:fixed tidak menutupi layar. */
+ const fsEl=()=>document.fullscreenElement||document.webkitFullscreenElement;let close=null;
+ f.onclick=()=>{if(close)return close();
+  const ph=document.createComment("video"),ov=document.createElement("div");v.before(ph);
   ov.className="vfs-ov";ov.setAttribute("role","dialog");ov.setAttribute("aria-label","Video layar penuh");
   ov.innerHTML=`<button type="button" class="promo-snd vfs-x" aria-label="Keluar dari layar penuh" title="Keluar layar penuh"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${FS_OUT}</svg></button>`;
-  ov.prepend(v);document.body.append(ov);v.controls=true;const p=v.play();p&&p.catch(()=>{});document.documentElement.classList.add("vfs-lock");
-  const close=()=>{removeEventListener("keydown",k,true);ph.replaceWith(v);ov.remove();v.controls=false;document.documentElement.classList.remove("vfs-lock");const q=v.play();q&&q.catch(()=>{});f.focus()};
-  const k=e=>{if(e.key==="Escape"){e.stopPropagation();close()}};addEventListener("keydown",k,true);ov.querySelector(".vfs-x").onclick=close;ov.querySelector(".vfs-x").focus()};
- f.onclick=()=>{if(isFs()){(document.exitFullscreen||document.webkitExitFullscreen).call(document);return}
-  v.controls=true;let r;try{r=v.requestFullscreen?v.requestFullscreen():v.webkitRequestFullscreen?v.webkitRequestFullscreen():null}catch(_){r=null}
-  /* ditolak = langsung cadangan; tidak ada jawaban (browser tertanam bisa menggantung janjinya) = cadangan setelah 1,5 detik */
-  const alt=()=>{if(!isFs()){v.controls=false;pseudo()}};
-  if(!v.requestFullscreen&&!v.webkitRequestFullscreen){alt();return}
-  if(r&&r.catch)r.catch(alt);setTimeout(alt,1500)};
- const fsc=()=>{if(!isFs())v.controls=false;drawF()};document.addEventListener("fullscreenchange",fsc);document.addEventListener("webkitfullscreenchange",fsc);v.addEventListener("webkitendfullscreen",fsc);
+  /* tanpa kontrol bawaan browser (pengguna tidak mau bar putar bawaan); cukup tombol suara dan tombol keluar milik GrowthLab */
+  const sb=b.cloneNode(true);sb.classList.add("vfs-s");sb.onclick=()=>{b.click();sb.innerHTML=b.innerHTML;sb.setAttribute("aria-label",b.getAttribute("aria-label"));sb.setAttribute("aria-pressed",b.getAttribute("aria-pressed"))};ov.append(sb);
+  ov.prepend(v);document.body.append(ov);const p=v.play();p&&p.catch(()=>{});document.documentElement.classList.add("vfs-lock");
+  const k=e=>{if(e.key==="Escape"&&!fsEl()){e.stopPropagation();close()}};
+  const fsc=()=>{if(!fsEl()&&close)close()};
+  close=()=>{close=null;removeEventListener("keydown",k,true);document.removeEventListener("fullscreenchange",fsc);document.removeEventListener("webkitfullscreenchange",fsc);
+   if(fsEl())try{const r=(document.exitFullscreen||document.webkitExitFullscreen).call(document);r&&r.catch&&r.catch(()=>{})}catch(_){}
+   ph.replaceWith(v);ov.remove();document.documentElement.classList.remove("vfs-lock");const q=v.play();q&&q.catch(()=>{});f.focus()};
+  addEventListener("keydown",k,true);ov.querySelector(".vfs-x").onclick=()=>close&&close();ov.querySelector(".vfs-x").focus();
+  try{const r=ov.requestFullscreen?ov.requestFullscreen():ov.webkitRequestFullscreen?ov.webkitRequestFullscreen():null;r&&r.catch&&r.catch(()=>{})}catch(_){}
+  document.addEventListener("fullscreenchange",fsc);document.addEventListener("webkitfullscreenchange",fsc)};
  /* tombol layar penuh hanya untuk video promo beranda (permintaan pengguna 2026-11-21); video lain cukup tombol suara */
  const home=!!v.closest("#hero-art");bar.append(b);if(home){bar.append(f);drawF()}(v.closest("#cart")||v.parentNode).after(bar);
  const draw=()=>{const m=v.muted;b.innerHTML=`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${m?OFF:ON}</svg>`;b.setAttribute("aria-label",m?"Nyalakan suara video":"Matikan suara video");b.title=m?"Nyalakan suara":"Matikan suara";b.setAttribute("aria-pressed",String(!m))};
