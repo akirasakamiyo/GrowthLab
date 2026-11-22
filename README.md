@@ -51,8 +51,8 @@ Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas
 ![Halaman pelajaran](docs/screenshots/03-pelajaran-20261113.png)
 
 **🎮 Latihan bergaya game.**
-- Kuis pilihan ganda ala Quizizz (34 soal, per bab atau gabungan), dengan poin, bonus beruntun, dan petunjuk bertahap di kuis per bab.
-- 6 set drag & drop yang bisa dimainkan dengan mouse, sentuhan, atau keyboard.
+- Kuis pilihan ganda ala Quizizz (48 soal, per bab atau gabungan), dengan poin, bonus beruntun, dan petunjuk bertahap di kuis per bab.
+- 8 set drag & drop yang bisa dimainkan dengan mouse, sentuhan, atau keyboard.
 - Latihan terbuka bertahap: kuis, drag & drop, dan simulasi sebuah bab baru bisa dikerjakan setelah semua pelajaran di bab itu selesai.
 
 ![Kuis](docs/screenshots/04-kuis-20261113.png)
