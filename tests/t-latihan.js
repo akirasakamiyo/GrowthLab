@@ -109,7 +109,7 @@ const ok = (c, m) => { if (!c) { fails++; log("GAGAL:", m) } else log("ok:", m) 
       for (const [t, k] of info.items) {
         const card = page.locator(".gd-card", { hasText: t }).first();
         if (id === "stres" && which === "chrome" && !rm && +W >= 1000 && t === info.items[0][0]) { // seret dengan mouse
-          await page.evaluate(k => { const e = document.querySelector(`.gd-bin[data-z="${k}"]`), y = e.getBoundingClientRect().top + scrollY - 260; window.__lenis ? __lenis.scrollTo(y, { immediate: true, force: true }) : scrollTo(0, y) }, k); await sl(300);
+          await page.evaluate(k => { const e = document.querySelector(`.gd-bin[data-z="${k}"]`), y = e.getBoundingClientRect().top + scrollY - 120 /* 2026-11-17: dari 260, karena daftar level DnD kini 8 set sehingga kartu terdorong ke bawah layar */; window.__lenis ? __lenis.scrollTo(y, { immediate: true, force: true }) : scrollTo(0, y) }, k); await sl(300);
           const a = await card.boundingBox(), b = await page.locator(`.gd-bin[data-z="${k}"]`).boundingBox();
           log("seret dari", Math.round(a.x), Math.round(a.y), "ke", Math.round(b.x + 60), Math.round(b.y + 60));
           await page.mouse.move(a.x + 30, a.y + a.height / 2); await page.mouse.down();
