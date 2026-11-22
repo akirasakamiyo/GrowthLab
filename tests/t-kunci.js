@@ -42,7 +42,9 @@ const BAB = i => [0, 1, 2, 3, 4].map(j => `${i}-${j}`);
   ok(await n("#gqz .gq-lcard") === 0 && /Bab 1, Bab 2, dan Bab 3/.test(await p.textContent("#toast")), "A6 kuis: tautan langsung ke kuis Gabungan ditolak, pesan menyebut ketiga bab");
 
   await hashTo("#/latihan/dnd");
-  ok(await n(".gd-set.is-lock") === 6 && await n(".gd-lockp") === 1 && await n(".gd-card") === 0, "A7 drag & drop: enam level terkunci, papan diganti panel kunci");
+  /* 2026-11-22: 8 set (tambah "bahagia" Bab 2 dan "kreatif" Bab 3, masukan dosen); jumlahnya diambil dari data */
+  const nDnd = await p.evaluate(() => GLD.DND.length);
+  ok(nDnd === 8 && await n(".gd-set.is-lock") === nDnd && await n(".gd-lockp") === 1 && await n(".gd-card") === 0, "A7 drag & drop: " + nDnd + " level terkunci, papan diganti panel kunci");
   await hashTo("#/latihan/dnd/stres");
   ok(/Bab 2/.test(await p.textContent(".gd-lockp")), "A8 drag & drop: set 'stres' (bab 2) menyebut Bab 2");
   await hashTo("#/latihan/sim");
@@ -70,9 +72,9 @@ const BAB = i => [0, 1, 2, 3, 4].map(j => `${i}-${j}`);
   await hashTo("#/latihan/kuis/b1");
   ok(await n("#gqz .gq-lcard") === 0 || !(await p.$eval("#gqz", e => e.classList.contains("on"))), "C3 kuis Bab 2 tetap terkunci");
   await hashTo("#/latihan/dnd");
-  ok(await n(".gd-set.is-lock") === 2 && await n(".gd-card") > 0, "C4 drag & drop: 4 set Bab 1 terbuka, 2 set (Bab 2 dan Bab 3) terkunci, papan set pertama tampil");
+  ok(await n(".gd-set.is-lock") === 4 && await n(".gd-card") > 0, "C4 drag & drop: 4 set Bab 1 terbuka, 4 set (Bab 2 dan Bab 3) terkunci, papan set pertama tampil");
   const lockedIds = await p.$$eval(".gd-set.is-lock", e => e.map(x => x.dataset.id));
-  ok(lockedIds.sort().join() === "foa,stres", "C5 drag & drop: yang terkunci adalah 'stres' dan 'foa' (" + lockedIds.join() + ")");
+  ok(lockedIds.sort().join() === "bahagia,foa,kreatif,stres", "C5 drag & drop: yang terkunci adalah set Bab 2 dan Bab 3 (" + lockedIds.join() + ")");
   await hashTo("#/latihan/sim");
   ok(await n(".gs-file.is-lock") === 2 && await n('[data-sm="open"]') === 1, "C6 simulasi: Kasus 1 terbuka, Kasus 2 dan 3 terkunci");
 
