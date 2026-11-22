@@ -34,6 +34,12 @@ function choices(list,ok,onOk,hint,okText="Tepat!"){const fb=h("p",{class:"lab-f
 const copy=(t,btn)=>{const done_=()=>{const o=btn.textContent;btn.textContent="Tersalin ✓";setTimeout(()=>btn.textContent=o,1500)};
  try{navigator.clipboard.writeText(t).then(done_,()=>{fallback()})}catch(e){fallback()}
  function fallback(){const ta=h("textarea",{style:"position:fixed;opacity:0"});ta.value=t;document.body.append(ta);ta.select();try{document.execCommand("copy");done_()}catch(e){say("Salin manual teks di atas.")}ta.remove()}};
+/* daftar soal situasi bergaya widget "pick": I = [[situasi, [opsi], indeks benar, alasan]], salah = pesan saat opsi keliru */
+function pilih(bd,I,salah){let sc=0,dn=0;const res=h("p",{class:"lab-res","aria-live":"polite"});
+ const items=I.map(([t,o,k,e],n)=>{const wrap=h("div",{class:"pk-i"},h("p",{class:"pk-q"},h("b",{},pad(n+1)+". "),t));let first=true;const fb=h("p",{class:"lab-fb","aria-live":"polite"});
+  const g=h("div",{class:"lab-opts"},o.map((x,i)=>{const b=h("button",{type:"button",class:"lab-opt"},x);b.onclick=()=>{if(i===k){b.classList.add("ok");qa("button",g).forEach(y=>y.disabled=true);fb.className="lab-fb good";fb.textContent="Tepat! "+e;if(first)sc++;dn++;draw()}else{first=false;b.classList.add("no");b.disabled=true;fb.className="lab-fb bad";fb.textContent=salah}};return b}));wrap.append(g,fb);return wrap});
+ function draw(){res.textContent=dn<I.length?`${dn} dari ${I.length} selesai.`:`Selesai! ${sc} dari ${I.length} benar pada percobaan pertama.`;if(dn===I.length&&sc===I.length)pop(res)}
+ bd.append(...items,res);draw()}
 /* ikon gaya "kapur bergetar" (pilihan B, 2026-11-06): garis kapur + bagian beraksen (.ba) yang terus bergerak (.bm-*) */
 const ICO={
  target:'<circle cx="11" cy="13" r="8"/><circle cx="11" cy="13" r="4"/><g class="ba bm-wig"><path d="M11 13l9-9M17 4h3v3"/></g>',
@@ -222,6 +228,12 @@ values(box){const bd=frame(box,"Temukan “mengapa”-mu","Pilih sampai tiga nil
  function draw(){chips.textContent="";V.forEach(v=>{const b=tg(v,on.includes(v));b.onclick=()=>{if(on.includes(v))on=on.filter(x=>x!==v);else if(on.length>=3){say("Pilih maksimal tiga nilai.");return}else on.push(v);upd(d=>{d.values=on});draw()};chips.append(b)});
   out.textContent="";if(on.length)out.append(h("span",{class:"mono"},"Kalimat “mengapa”-ku"),h("p",{},`Aku bekerja dan belajar karena aku menghargai ${on.join(", ").replace(/, ([^,]*)$/," dan $1").toLowerCase()}.`),h("p",{class:"lab-d"},"Gunakan nilai ini saat memilih lowongan dan menjawab pertanyaan “Mengapa kamu melamar di sini?”"))}
  bd.append(chips,out);draw()},
+/* 2026-11-17: penerapan Meaningful Life (syukur, nilai inti, hubungan, altruisme) */
+makna(box){const bd=frame(box,"Pilih langkah yang lebih bermakna","Tiga situasi sehari-hari. Pilih respons yang paling membangun hidup yang bermakna (<i>meaningful life</i>), lalu baca alasannya.");
+ pilih(bd,[["Tiga bulan setelah lulus, kamu belum dapat kerja dan merasa tertinggal dari teman-teman. Apa yang paling membantu?",["Terus membuka unggahan teman yang sudah bekerja untuk memotivasi diri.","Menulis hal yang kamu syukuri hari ini, lalu mengisi waktu luang dengan kegiatan yang sesuai nilaimu, misalnya menjadi relawan.","Membeli barang baru supaya perasaan cepat membaik."],1,"Syukur menggeser fokus dari kekurangan, dan kegiatan yang selaras dengan nilaimu memberi rasa berarti yang lebih awet daripada senang sesaat."],
+  ["Kamu ditawari dua lowongan dengan gaji yang mirip. Pertimbangan mana yang paling sejalan dengan “temukan alasanmu” (Finding Your Why)?",["Memilih kantor yang paling sering muncul di media sosial.","Memilih secara acak karena gajinya sama saja.","Memilih pekerjaan yang paling sesuai dengan nilai inti dan tujuan hidupmu."],2,"Pekerjaan yang terhubung dengan nilai inti membuat kegiatan sehari-hari terasa punya alasan, sehingga kamu lebih tahan menghadapi hari yang berat."],
+  ["Akhir pekan ini kamu punya waktu luang. Mana yang paling mendukung kebahagiaan jangka panjang?",["Menemani sahabat yang sedang sedih mengobrol, lalu membantu tetangga memperbaiki sepedanya.","Rebahan seharian sambil scroll media sosial.","Belanja daring untuk mengisi waktu."],0,"Hubungan yang tulus dan kebiasaan membantu orang lain (altruisme) termasuk sumber bahagia yang paling bertahan lama."]],
+  "Belum tepat. Pilihan ini cenderung memberi senang sesaat. Coba cari yang lebih bermakna.")},
 
 /* 2-0 System Thinking */
 loop(box){const bd=frame(box,"Putar lingkaran umpan balik","Pilih skenario, lalu tekan Putar untuk melihat bagaimana akibat kembali memengaruhi sebabnya.");
@@ -287,13 +299,25 @@ ide(box){const bd=frame(box,"Tantangan brainstorming + kartu pemicu ide","Atur w
  start.onclick=()=>{if(run){stop();return}run=true;left=+sel.value;clock.textContent=fmt(left);start.textContent="Selesai";idea.focus();tm=setInterval(()=>{left--;clock.textContent=fmt(Math.max(0,left));if(left<=0)stop()},1000)};
  idea.onkeydown=e=>{if(e.key!=="Enter")return;e.preventDefault();const v=idea.value.trim();if(!v)return;list.append(h("li",{},v));idea.value="";cnt.textContent=`${list.children.length} ide${run?"":" (timer belum berjalan)"}`};
  addEventListener("hashchange",()=>{if(run){run=false;clearInterval(tm);start.textContent="Mulai"}},{once:true});
- bd.append(h("label",{class:"sm-f"},h("span",{},"Topik"),topic),h("div",{class:"bs"},h("div",{class:"bs-t"},clock,sel,start),idea,cnt,list),h("div",{class:"scm"},card,draw))}
+ bd.append(h("label",{class:"sm-f"},h("span",{},"Topik"),topic),h("div",{class:"bs"},h("div",{class:"bs-t"},clock,sel,start),idea,cnt,list),h("div",{class:"scm"},card,draw))},
+/* 2026-11-17: penerapan solusi out-of-the-box (berpikir lateral, combinatorial play, uji adaptasi) */
+lateral(box){const bd=frame(box,"Dari ide biasa ke ide out-of-the-box","Untuk setiap masalah, pilih alternatif solusi yang memakai berpikir lateral atau <i>combinatorial play</i>, tetapi tetap bisa dijalankan.");
+ pilih(bd,[["Kamu lulusan SMK Tata Busana dan belum punya pengalaman kerja untuk dicantumkan di lamaran.",["Menunggu sampai ada perusahaan yang mau memberi pengalaman pertama.","Menggabungkan keahlian menjahit dengan media sosial: membuat seri video “permak baju lama” dan memakainya sebagai portofolio.","Menulis “pekerja keras” dan “cepat belajar” sebanyak mungkin di CV."],1,"Ini combinatorial play: dua hal yang sudah kamu kuasai digabung menjadi bukti kemampuan yang nyata."],
+  ["Kantin sekolah selalu penuh saat jam istirahat sehingga banyak siswa tidak sempat makan.",["Menambah satu penjual lagi di kantin yang sama.","Meminta siswa makan lebih cepat.","Membalik pertanyaannya: bagaimana kalau makanan yang datang ke kelas? Siswa memesan pagi hari, pesanan diantar saat istirahat."],2,"Berpikir lateral mendekati masalah dari arah yang tidak biasa. Bukan memperbesar kantin, tetapi mengubah cara makanan sampai ke siswa."],
+  ["Kamu punya ide liar: membuat aplikasi pemesanan kantin sendiri. Langkah yang paling masuk akal minggu ini adalah...",["Mengujinya dulu dengan formulir pesanan sederhana dan grup chat kelas sebelum membuat aplikasi.","Membatalkan ide itu karena terlalu sulit.","Langsung meminjam uang untuk menyewa pembuat aplikasi."],0,"Ide liar perlu diuji dan disesuaikan supaya praktis. Versi sederhana membantumu melihat apakah idenya berjalan sebelum mengeluarkan biaya besar."]],
+  "Belum tepat. Cara ini masih cara biasa atau belum bisa dijalankan. Coba cari sudut pandang lain.")}
 };
 /* lokasi widget per pelajaran: kunci "bab-pelajaran", at = sisipkan setelah bagian ke-n */
 const LABS={"0-0":[{at:1,w:"sign"}],"0-1":[{at:1,w:"tri"}],"0-2":[{at:1,w:"reframe"}],"0-3":[{at:0,w:"whys"},{at:2,w:"matrix"}],"0-4":[{at:0,w:"well"},{at:3,w:"habit"}],
- "1-0":[{at:0,w:"emo"}],"1-4":[{at:2,w:"imsg"}],"1-1":[{at:1,w:"stres"},{at:2,w:"breath"}],"1-2":[{at:2,w:"pick"}],"1-3":[{at:1,w:"syukur"},{at:2,w:"values"}],
- "2-0":[{at:1,w:"loop"}],"2-1":[{at:2,w:"flag"}],"2-2":[{at:2,w:"smart"}],"2-3":[{at:2,w:"star"}],"2-4":[{at:1,w:"ide"}]};
-const labsAt=(key,k)=>(LABS[key]||[]).filter(x=>x.at===k).map(x=>`<section class="lab" data-w="${x.w}" id="lab-${x.w}"></section>`).join("");
+ "1-0":[{at:0,w:"emo"}],"1-4":[{at:2,w:"imsg"}],"1-1":[{at:1,w:"stres"},{at:2,w:"breath"}],"1-2":[{at:2,w:"pick"}],"1-3":[{at:1,w:"syukur"},{at:2,w:"values"},{at:2,w:"makna"}],
+ "2-0":[{at:1,w:"loop"}],"2-1":[{at:2,w:"flag"}],"2-2":[{at:2,w:"smart"}],"2-3":[{at:2,w:"star"}],"2-4":[{at:1,w:"ide"},{at:2,w:"lateral"}]};
+/* 2026-11-17: masukan dosen, materi tampil utuh dulu baru aktivitas. Properti at tetap disimpan sebagai catatan bagian yang
+   dilatih, tetapi semua aktivitas kini dikumpulkan dalam satu blok "Coba sendiri" setelah bagian terakhir (sebelum Uji pemahaman).
+   labsAt(key,k) dengan k angka sengaja mengembalikan "" supaya tidak ada aktivitas yang muncul di tengah materi;
+   labsAt(key,"akhir") (atau labsEnd) mengembalikan blok lengkapnya. */
+const labsEnd=key=>{const L=LABS[key]||[];if(!L.length)return "";
+ return `<section class="lab-set" id="coba" aria-labelledby="s-coba"><h2 id="s-coba">Coba sendiri</h2><p class="lab-set-i">Materinya sudah kamu baca sampai habis. Sekarang praktikkan lewat ${L.length>1?L.length+" aktivitas":"aktivitas"} di bawah ini sebelum masuk ke Uji pemahaman. Tidak ada nilai di sini, jadi santai saja dan coba sampai paham.</p>${L.map(x=>`<section class="lab" data-w="${x.w}" id="lab-${x.w}"></section>`).join("")}</section>`};
+const labsAt=(key,k)=>k==="akhir"?labsEnd(key):"";
 
 /* ---------- cek cepat, catatan, daftar isi, info ---------- */
 function cek(box,i,j){const L=GLD.CEK.filter(c=>c.b===i&&c.l===j);if(!L.length){box.remove();return}
@@ -312,7 +336,10 @@ function toc(art){const nav=q(".toc",art);if(!nav)return;nav.textContent="";cons
   const b=h("button",{type:"button",class:"chip"+(x.tagName==="H2"?"":" t2")},lab);b.onclick=()=>{const y=Math.max(0,x.getBoundingClientRect().top+scrollY-110);try{if(window.__lenis){window.__lenis.scrollTo(y,{force:true,immediate:reduce(),onComplete:()=>{const d=x.getBoundingClientRect().top-110;if(Math.abs(d)>14)window.__lenis.scrollTo(scrollY+d,{force:true,duration:.5})}});return}}catch(e){}scrollTo({top:y,behavior:reduce()?"auto":"smooth"})};return b})))}
 function meta(art,i,j){const m=q(".lmeta",art);if(!m)return;const w=(art.textContent||"").split(/\s+/).filter(Boolean).length,min=Math.max(3,Math.round(w/180)),nl=(LABS[i+"-"+j]||[]).length,nc=GLD.CEK.filter(c=>c.b===i&&c.l===j).length;
  const nu=window.GLUJI?GLUJI.count(i,j):0;m.textContent=`Sekitar ${min} menit baca${nl?`, ada ${nl} aktivitas buat dicoba`:""}${nu?`, ${nu} soal uji pemahaman`:""}${nc?` dan ${nc} soal cek cepat`:""}.`}
-function lesson(art,i,j){meta(art,i,j);qa(".lab[data-w]",art).forEach(box=>{try{W[box.dataset.w](box)}catch(e){console.warn("lab",box.dataset.w,e)}});
+function lesson(art,i,j){meta(art,i,j);
+ /* 2026-11-17: blok Coba sendiri disisipkan sebelum Uji pemahaman kalau lessonHTML belum menaruhnya sendiri */
+ if(!q(".lab-set",art)){const blk=labsEnd(i+"-"+j),pos=q(".uji",art)||q(".cek",art)||q(".note",art)||q(".next",art);if(blk&&pos)pos.insertAdjacentHTML("beforebegin",blk)}
+ qa(".lab[data-w]",art).forEach(box=>{try{W[box.dataset.w](box)}catch(e){console.warn("lab",box.dataset.w,e)}});
  const u=q(".uji",art);if(u){if(window.GLUJI)GLUJI.mount(u,i,j);else u.remove()}const c=q(".cek",art);c&&cek(c,i,j);const n=q(".note",art);n&&note(n,i,j);toc(art)}
 
 /* ==================================================================
@@ -358,14 +385,46 @@ function kilat(){const b=q("#kilat");if(!b)return;const Q=GLD.QUIZ;let it=KQ;if(
 /* ==================================================================
    PETA KONSEP & GLOSARIUM
    ================================================================== */
+/* 2026-11-17: peta konsep sungguhan (masukan dosen). Akar → 3 bab → 15 pelajaran → 2-3 konsep kunci yang memang diajarkan
+   di materi, tiap garis diberi kata penghubung supaya bisa dibaca sebagai kalimat (proposisi). Ditambah hubungan antarbab.
+   PK["bab-pelajaran"] = [[kata penghubung, konsep], ...] */
+const PK={"0-0":[["dirumuskan sebagai","Kekuatan = Bakat × Investasi waktu"],["dikenali lewat","Metode S.I.G.N (Success, Instinct, Growth, Need)"]],
+ "0-1":[["dijelaskan dengan","Segitiga kognitif: kejadian → pikiran → perasaan → tindakan"],["dilatih lewat","Jeda (pause) sebelum bereaksi"]],
+ "0-2":[["mengenali","Jebakan pikiran (thinking traps)"],["diubah lewat","Catch it → Check it → Change it (reframing)"],["menumbuhkan","Growth mindset"]],
+ "0-3":[["dimulai dari","Gejala ≠ akar masalah, dicari dengan 5 Whys"],["memilih solusi dengan","Matriks kelayakan dan dampak"]],
+ "0-4":[["menjaga","Keseimbangan aktivitas dan istirahat"],["meluruskan","Self-care ≠ pelarian sesaat"],["dijalankan lewat","Rutinitas self-care yang berkelanjutan"]],
+ "1-0":[["mencakup","Self-awareness (sadar emosi diri)"],["mencakup","Social awareness (membaca isyarat orang lain)"],["berujung pada","Relationship management"]],
+ "1-1":[["membedakan","Stres (terlalu terlibat) vs burnout (menarik diri)"],["dihadapi dengan","Coping mechanism yang sehat"],["dicegah dengan","Boundaries dan manajemen energi"]],
+ "1-2":[["memandang","Kegagalan = peristiwa, bukan identitas"],["membangun","Resilience (bangkit lagi)"],["mengolah","Feedback jadi area pengembangan"]],
+ "1-3":[["membedakan","Kebahagiaan hedonis vs eudaimonik"],["dilatih lewat","Praktik rasa syukur (gratitude)"],["diarahkan ke","Hidup yang bermakna (meaningful life)"]],
+ "1-4":[["dimulai dengan","Mendengarkan aktif (active listening)"],["dilanjutkan dengan","Validasi perasaan lawan bicara"],["disampaikan lewat","I-message yang asertif"]],
+ "2-0":[["dibandingkan dengan","Pola pikir linear"],["membaca","Feedback loop: siklus penguat dan penyeimbang"]],
+ "2-1":[["memisahkan","Fakta, opini, dan asumsi"],["mewaspadai","Bias kognitif dan logical fallacy"],["menghasilkan","Argumen berbasis data"]],
+ "2-2":[["mengikuti alur","Visi → analisis situasi → strategi → taktik"],["diukur lewat","Target SMART"],["tetap lentur dengan","Agility"]],
+ "2-3":[["berpijak pada","Siklus belajar Kolb"],["dipandu oleh","Model refleksi Gibbs"],["diceritakan lewat","Metode STAR"]],
+ "2-4":[["mengatasi","Hambatan kreativitas (mental blocks)"],["menghasilkan ide lewat","Brainstorming dan mind mapping"],["dikembangkan dengan","Berpikir lateral dan combinatorial play"]]};
+/* hubungan antarbab: [pelajaran asal, konsep asal, kata penghubung, pelajaran tujuan, konsep tujuan] */
+const PKX=[["0-1","Jeda sebelum bereaksi","jadi dasar untuk","1-0","Self-awareness"],
+ ["0-4","Rutinitas self-care","membantu mencegah","1-1","Burnout"],
+ ["0-2","Growth mindset","memudahkan menerima","1-2","Kritik dan kegagalan"],
+ ["0-3","Mencari akar masalah (5 Whys)","diperluas oleh","2-0","Feedback loop"],
+ ["0-0","Kekuatan diri (S.I.G.N)","diceritakan lewat","2-3","Metode STAR"]];
 function peta(){const d=GLX.load(),C=CH();const ok=k=>isDone(k)?" ok":"";
  const tx=h=>String(h||"").replace(/<[^>]+>/g,"").replace(/\s+/g," ").trim();
  const pv=(k,t,m,li)=>`<span class="pk-pv" role="tooltip"><small>${esc(k)}</small><b>${esc(t)}</b>${m?`<em>${esc(m)}</em>`:""}${li&&li.length?`<u>${li.map(x=>`<span>${esc(x)}</span>`).join("")}</u>`:""}</span>`;
- const les=(i)=>C[i].l.map((l,j)=>`<a class="pk-g${ok(i+"-"+j)}${window.GLK&&GLK.locked(i,j)?" lock":""}" href="#/lesson/${i}-${j}"><i aria-hidden="true"></i>${esc(l.t)}${pv("Pelajaran "+(i+1)+"."+(j+1)+(ok(i+"-"+j)?", selesai":""),tx(l.judul)||l.t,tx(l.poin),(l.ind||[]).slice(0,3).map(tx))}</a>`).join("");
- return `<div class="peta rv"><a class="pk-root" href="#/course">Self Development for Job Seeker</a>
+ const lk=(i,j)=>window.GLK&&GLK.locked(i,j)?" lock":"";
+ /* simpul pelajaran + cabang konsep kuncinya */
+ const les=(i)=>C[i].l.map((l,j)=>{const k=i+"-"+j;return `<div class="pk-n${lk(i,j)}"><a class="pk-g${ok(k)}${lk(i,j)}" href="#/lesson/${k}"><i aria-hidden="true"></i>${esc(l.t)}${pv("Pelajaran "+(i+1)+"."+(j+1)+(ok(k)?", selesai":""),tx(l.judul)||l.t,tx(l.poin),(l.ind||[]).slice(0,3).map(tx))}</a>
+  <ul class="pk-ks" aria-label="Konsep kunci ${esc(l.t)}">${(PK[k]||[]).map(([r,c])=>`<li><span class="pk-r">${esc(r)}</span><span class="pk-k">${esc(c)}</span></li>`).join("")}</ul></div>`}).join("");
+ const nd=(k,c)=>{const[a,b]=k.split("-").map(Number);return `<a class="pk-xn${lk(a,b)}" href="#/lesson/${k}"><small>Bab ${a+1} · ${esc(C[a].l[b].t)}</small>${esc(c)}</a>`};
+ return `<div class="peta rv"><p class="pk-how">Cara membacanya: ikuti garis dari atas ke bawah. Setiap garis punya kata penghubung, jadi bisa dibaca sebagai kalimat. Contoh: <i>Recognise Your Strengths</i> <span class="pk-r">dikenali lewat</span> Metode S.I.G.N.</p>
+ <a class="pk-root" href="#/course">Self Development for Job Seeker</a><span class="pk-r pk-r0">terdiri dari 3 bab</span>
  <div class="pk-cols">
-  <div class="pk-col pk-m"><div class="pk-bab">${C.map((c,i)=>`<div class="pk-stack"><a class="pk-y" href="#/course/${i+1}">${esc(c.t)}${pv("Bab "+(i+1)+", "+c.l.length+" pelajaran",c.t,tx(c.d),c.l.map(x=>x.t))}</a>${les(i)}</div>`).join("")}</div></div>
- </div><p class="pk-leg"><span class="pk-y">Kuning</span> = menu utama, <span class="pk-g">Abu-abu</span> = isi, <span class="pk-g ok"><i aria-hidden="true"></i>Bertanda centang</span> = sudah selesai</p></div>`}
+  <div class="pk-col pk-m"><div class="pk-bab">${C.map((c,i)=>`<div class="pk-stack"><a class="pk-y" href="#/course/${i+1}">${esc(c.t)}${pv("Bab "+(i+1)+", "+c.l.length+" pelajaran",c.t,tx(c.d),c.l.map(x=>x.t))}</a><span class="pk-r pk-r1">membahas ${c.l.length} pelajaran</span><div class="pk-ls">${les(i)}</div></div>`).join("")}</div></div>
+ </div>
+ <div class="pk-x"><h3>Hubungan antarbab</h3><p>Konsep di satu bab dipakai lagi di bab lain. Baca dari kiri ke kanan.</p>
+  <ul>${PKX.map(([a,ca,r,b,cb])=>`<li>${nd(a,ca)}<span class="pk-xr"><span class="pk-r">${esc(r)}</span></span>${nd(b,cb)}</li>`).join("")}</ul></div>
+ <p class="pk-leg"><span class="pk-y">Kuning</span> = bab, <span class="pk-g">Abu-abu</span> = pelajaran, <span class="pk-k">Bergaris tepi</span> = konsep kunci, <span class="pk-r">teks miring</span> = kata penghubung, <span class="pk-g ok"><i aria-hidden="true"></i>Bertanda centang</span> = sudah selesai, <span class="pk-g lock">Bergembok</span> = belum terbuka</p></div>`}
 function glos(){const L=GLD.GLOS.slice().sort((a,b)=>a.t.localeCompare(b.t,"id"));
  return `<div class="sbar rv"><input id="gq" type="search" placeholder="Cari istilah, misalnya: burnout, STAR, bias…" aria-label="Cari istilah"><div class="chips" id="gch" role="group" aria-label="Saring bab"><button class="chip" aria-pressed="true" data-b="-1">Semua</button>${CH().map((c,i)=>`<button class="chip" aria-pressed="false" data-b="${i}">${esc(c.t)}</button>`).join("")}</div></div>
  <p class="mono gl-n" id="gn" aria-live="polite"></p><div class="gl" id="glist">${L.map(g=>`<div class="gl-i" data-b="${g.b}" data-s="${esc((g.t+" "+g.a).toLowerCase())}"><dt><i>${esc(g.t)}</i></dt><dd>${esc(g.a)}</dd><a href="#/lesson/${g.b}-${g.l}">${esc(lesT(g.b,g.l))} →</a></div>`).join("")}</div><p id="gnone" hidden><span class="labi-empty"><span class="labi think" aria-hidden="true"></span><span>Labi belum nemu istilah itu. Coba ejaan lain, atau tanya Labi lewat tombol Bingung? Tanya.</span></span></p>`}
@@ -397,5 +456,5 @@ function bindRef(){qa(".rfr-cp").forEach(b=>b.onclick=()=>{const u=b.dataset.u,o
  const fb=()=>{const t=document.createElement("textarea");t.value=u;t.style.cssText="position:fixed;opacity:0";document.body.appendChild(t);t.select();try{document.execCommand("copy");ok()}catch(e){}t.remove()};
  if(navigator.clipboard&&isSecureContext)navigator.clipboard.writeText(u).then(ok,fb);else fb()})}
 
-return{lesson,labsAt,home,peta,glos,bindGlos,ref,refTeaser,bindRef,ico,LABS,W,load};
+return{lesson,labsAt,labsEnd,home,peta,glos,bindGlos,ref,refTeaser,bindRef,ico,LABS,W,load};
 })();

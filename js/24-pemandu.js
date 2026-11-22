@@ -13,10 +13,11 @@
   const unanswered = () => cekItems().filter(x => !x.querySelector("button:disabled"));
   const steps = () => {
     const c = cekItems(), u = unanswered(), hasLab = !!$(LAB);
+    /* 2026-11-22: urutan mengikuti halaman pelajaran baru (masukan dosen): baca materi sampai Poin utama, coba aktivitas, jawab cek cepat, tandai selesai */
     return [
-      ...(hasLab ? [{ id: "coba", ok: tried, el: () => $(LAB), t: "Coba yang ini dulu, yuk.", s: "Klik atau isi, lalu lihat hasilnya." }] : []),
-      { id: "cek", ok: c.length > 0 && !u.length, el: () => u[0] || $("#cek"), t: "Yang ini belum dijawab, nih.", s: `Benar atau salah? (${c.length - u.length}/${c.length} beres)` },
       { id: "baca", ok: read, el: () => $("#lart .take"), t: "Baca sampai sini dulu.", s: "Ini poin utamanya." },
+      ...(hasLab ? [{ id: "coba", ok: tried, el: () => $(LAB), t: "Sekarang coba yang ini, yuk.", s: "Klik atau isi, lalu lihat hasilnya." }] : []),
+      { id: "cek", ok: c.length > 0 && !u.length, el: () => u[0] || $("#cek"), t: "Yang ini belum dijawab, nih.", s: `Benar atau salah? (${c.length - u.length}/${c.length} beres)` },
       { id: "tandai", ok: isDone(), el: () => $("#mark"), t: "Udah semua? Tandai selesai di sini.", s: "Pelajaran berikutnya langsung kebuka." }
     ];
   };

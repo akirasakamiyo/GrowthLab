@@ -165,6 +165,36 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc-t,var(--acc));ma
 .pk-y.ok:after{content:"✓";width:18px;height:18px;border-radius:50%;background:#0f8a5f;color:#fff;font-size:.7rem;place-items:center}
 .pk-two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .pk-leg{font-size:.85rem;color:#2c3768;display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:center}.pk-leg span{padding:4px 12px;font-size:.78rem}
+/* 2026-11-17: peta konsep sungguhan: kata penghubung di garis, cabang konsep kunci per pelajaran, hubungan antarbab */
+.pk-how{max-width:760px;text-align:center;color:#2c3768;font-size:.92rem;line-height:1.5;margin:0 auto}
+.pk-r{display:inline-block;font:italic 600 .74rem/1.3 var(--sans,system-ui);color:#6a4bd8;letter-spacing:.01em}
+.pk-r0,.pk-r1{display:flex;flex-direction:column;align-items:center;gap:4px;margin:-10px 0 -12px;background:none}.pk-r0:before,.pk-r0:after,.pk-r1:before,.pk-r1:after{content:"";height:12px;border-left:3px dashed var(--ink)}
+.pk-r1{margin:0;justify-self:center}
+.pk-cols{padding-top:0}
+.pk-ls{display:grid;gap:14px}.pk-bab .pk-stack{align-content:start}
+.pk-n{display:grid;gap:6px;position:relative}
+.pk-ks{list-style:none;margin:0 0 0 18px;padding:2px 0 2px 14px;border-left:2px dashed rgba(10,26,107,.45);display:grid;gap:6px}
+.pk-ks li{display:grid;gap:2px;position:relative}.pk-ks li:before{content:"";position:absolute;left:-14px;top:.62em;width:10px;border-top:2px dashed rgba(10,26,107,.45)}
+.pk-k{display:block;padding:6px 10px;border:2px solid var(--ink);border-radius:12px;background:#fff;color:var(--ink);font-size:.8rem;font-weight:600;line-height:1.3}
+.pk-n.lock .pk-ks{opacity:.55}
+.pk-x{width:100%;max-width:980px;border:2px dashed var(--ink);border-radius:26px;background:#fff;padding:clamp(16px,3vw,26px);display:grid;gap:10px}
+.pk-x h3{margin:0;font-size:1.3rem;color:var(--ink)}.pk-x p{margin:0;color:#2c3768;font-size:.88rem}
+.pk-x ul{list-style:none;margin:0;padding:0;display:grid;gap:10px}
+.pk-x li{display:grid;grid-template-columns:1fr auto 1fr;gap:10px;align-items:center}
+.pk-xn{display:grid;gap:2px;padding:8px 12px;border:2px solid var(--ink);border-radius:14px;background:#fff;color:var(--ink);text-decoration:none;font-weight:700;font-size:.84rem;line-height:1.3;transition:transform .25s var(--e)}
+.pk-xn small{font:600 .68rem/1.3 var(--sans,system-ui);color:#2c3768;text-transform:none}
+.pk-xn:hover,.pk-xn:focus-visible{transform:translateY(-2px)}.pk-xn.lock{opacity:.6}
+.pk-xr{display:flex;align-items:center;gap:6px;text-align:center}.pk-xr:after{content:"→";font-weight:800;color:var(--ink)}
+.pk-leg .pk-k{display:inline-block;padding:4px 12px}.pk-leg .pk-r{padding:0}
+/* simpul bab kini bukan anak terakhir .pk-stack, jadi kembalikan tooltip-nya ke bawah seperti semula */
+.pk-stack>a.pk-y:nth-last-child(n) .pk-pv{top:calc(100% + 12px);bottom:auto;transform:translate(-50%,8px) scale(.96);transform-origin:50% 0}
+.pk-stack>a.pk-y:nth-last-child(n) .pk-pv:before{top:-8px;bottom:auto;transform:translateX(-50%) rotate(45deg)}
+.pk-stack>a.pk-y:nth-last-child(n):hover .pk-pv,.pk-stack>a.pk-y:nth-last-child(n):focus-visible .pk-pv{transform:translate(-50%,0) scale(1)}
+/* tooltip pelajaran 4 dan 5 tiap bab dibuka ke atas supaya tidak keluar dari peta */
+.pk-n:nth-last-child(-n+2) .pk-g .pk-pv{top:auto;bottom:calc(100% + 12px);transform:translate(-50%,-8px) scale(.96);transform-origin:50% 100%}
+.pk-n:nth-last-child(-n+2) .pk-g .pk-pv:before{top:auto;bottom:-8px;transform:translateX(-50%) rotate(225deg)}
+.pk-n:nth-last-child(-n+2) .pk-g:hover .pk-pv,.pk-n:nth-last-child(-n+2) .pk-g:focus-visible .pk-pv{transform:translate(-50%,0) scale(1)}
+@media(max-width:640px){.pk-x li{grid-template-columns:1fr}.pk-xr{justify-content:center}.pk-xr:after{content:"↓"}}
 /* glosarium */
 .gl{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.gl-i{background:#fff;border-radius:22px;padding:18px 20px;display:grid;gap:6px;align-content:start;color:var(--ink);box-shadow:0 20px 40px -30px rgba(10,26,107,.5)}
 .gl-i dt{font:700 1.15rem var(--sans)}.gl-i dd{margin:0;color:#2c3768;font-size:.94rem}.gl-i a{font-size:.82rem;font-weight:800;color:var(--acc-t,var(--acc));text-decoration:none;margin-top:4px}.gl-i a:hover{text-decoration:underline}
@@ -250,6 +280,8 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc-t,var(--acc));ma
 @media(max-width:700px){.promo:not(.frame)+.vctl{width:100%}}
 .frame.promo+.vctl{margin-top:18px;padding-right:2px}
 #cart+.vctl{margin:-4px 0 18px}
+/* tablet dan HP: tombol Bingung? Tanya menempel di kanan bawah layar, jadi tombol video dipindah ke kiri supaya tidak tertutup */
+@media(max-width:1099px){.vctl{justify-content:flex-start}}
 /* ikon tombol selalu 24px (aturan lama #hero-art svg{width:100%} membuatnya membesar) */
 .vctl .promo-snd svg,#hero-art .vctl .promo-snd svg{width:24px!important;height:24px!important}
 /* layar penuh cadangan (js/16-beranda-efek.js) */
@@ -259,5 +291,13 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc-t,var(--acc));ma
 .vfs-ov .vfs-x{position:absolute;top:auto;right:max(18px,env(safe-area-inset-right));bottom:max(18px,env(safe-area-inset-bottom));z-index:2}
 .vfs-ov .vfs-s{position:absolute;right:calc(max(18px,env(safe-area-inset-right)) + 60px);bottom:max(18px,env(safe-area-inset-bottom));z-index:2}
 html.vfs-lock,html.vfs-lock body{overflow:hidden}
-/* tablet dan HP: tombol Bingung? Tanya menempel di kanan bawah layar, jadi tombol video dipindah ke kiri supaya tidak tertutup */
-@media(max-width:1099px){.vctl{justify-content:flex-start}}
+
+/* 2026-11-22: tujuan pembelajaran ABCD berwarna (js/09-app.js abcd), warna sama dengan video Tujuan belajar */
+/* garis bawah tebal berwarna (bukan latar inline: WebKit tidak menggambar latar inline yang terpotong baris dengan rapi) + huruf bagian di depannya */
+.ab{color:#0a1a6b;text-decoration-line:underline;text-decoration-thickness:5px;text-underline-offset:3px;text-decoration-skip-ink:none}
+.ab::before{display:inline-block;margin-right:4px;padding:0 5px;border-radius:5px;font:800 .7em/1.5 var(--sans);vertical-align:.12em;color:#0a1a6b;text-decoration:none}
+.ab-a{text-decoration-color:#ff9a74}.ab-a::before{content:"A";background:#ff9a74}
+.ab-b{text-decoration-color:#ffd23f}.ab-b::before{content:"B";background:#ffd23f}
+.ab-c{text-decoration-color:#5fd6c4}.ab-c::before{content:"C";background:#5fd6c4}
+.ab-d{text-decoration-color:#a996ff}.ab-d::before{content:"D";background:#a996ff}
+.ab-key{display:flex;flex-wrap:wrap;gap:8px;margin:4px 0 18px;font-size:.88rem;font-weight:700}.ab-key .ab{text-decoration:none;padding:5px 12px 5px 6px;border-radius:99px;background:#fff;border:2px solid #0a1a6b}
