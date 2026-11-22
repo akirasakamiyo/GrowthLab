@@ -4,6 +4,8 @@
 **Jenis media:** multimedia interaktif berbasis website (bisa dibuka daring, paket offline, dan SCORM 1.2)
 **Sasaran:** peserta didik SMK kelas XII dan *fresh graduate*
 **Pengembang:** Kelompok 8, Teknologi Pendidikan FIP UNJ (Rifa Haqi Putra Wibowo, Thumpal Alvin)
+**Dosen pengampu:** Kunto Imbar Nursetyo, S.Pd., M.Pd.
+**Semester:** 5
 **Situs:** https://akirasakamiyo.github.io/GrowthLab/
 
 Dokumen ini berisi skenario pembelajaran (alur belajar yang dialami peserta dari awal sampai akhir) dan storyboard per
@@ -278,4 +280,3 @@ maskot Labi bergaya pixel.
 
 - Gambar storyboard dibuat ulang dengan `node` dan Playwright dari produk yang berjalan (lihat riwayat git), jadi selalu
   bisa diperbarui bila tampilan berubah.
-- Isian dosen pengampu, semester, dan email kontak masih ditandai `[isi: …]` di halaman Tentang sampai datanya diberikan.
