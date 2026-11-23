@@ -114,6 +114,8 @@
   const SNOW = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M3.3 7l17.4 10M3.3 17L20.7 7M9 4l3 2 3-2M9 20l3-2 3 2"/></svg>';
   /* ---------- panel v3 (2026-11-23): gaya LMS GrowthLab (kertas krem, judul Anton biru tua, nomor oranye seperti daftar bab).
      Dibaca dari atas ke bawah: level + status + bar XP, tangga karier dengan Labi, lalu kartu bernomor. ---------- */
+  /* teks di atas warna medali: biru tua untuk warna cerah, putih untuk warna gelap (kontras >= 3) */
+  const inkOn = h => { const m = /^#?([0-9a-f]{6})$/i.exec(String(h).trim()); if (!m) return "#fff"; const n = parseInt(m[1], 16), f = v => (v /= 255) <= .03928 ? v / 12.92 : Math.pow((v + .055) / 1.055, 2.4), L = .2126 * f(n >> 16 & 255) + .7152 * f(n >> 8 & 255) + .0722 * f(n & 255); return L > .3 ? "#14185e" : "#fff" };
   const seg = (p, n) => Array.from({ length: n }, (_, k) => `<i class="${k < Math.floor(p * n) ? "on" : k === Math.floor(p * n) && p * n % 1 > 0 ? "now" : ""}" style="--k:${k}"></i>`).join("");
   const mod = (n, id, title, em, body, ac, cls = "") => `<section class="gx3-mod ${cls}" style="--ac:${ac}" aria-labelledby="${id}"><h3 id="${id}"><span class="gx3-n" aria-hidden="true">${String(n).padStart(2, "0")}</span><span class="gx3-t">${title}</span>${em ? `<em>${em}</em>` : ""}</h3>${body}</section>`;
   function heroHTML(I, C) {
@@ -135,7 +137,7 @@
   function questHTML(q) {
     return mod(1, "gx-qt", "Misi minggu ini", `+${q.xp} XP`,
       `<ul class="gx3-quest">${q.goals.map(g => { const ok = g.cur >= g.n, c = Math.min(g.cur, g.n); return `<li class="${ok ? "ok" : ""}"><span class="gx3-chk" aria-hidden="true">${ok ? "✓" : ""}</span><b>${esc(g.t)}</b><span class="gx3-q">${c}/${g.n}${ok ? " · selesai" : ""}</span><span class="gx3-seg sm" aria-hidden="true">${seg(c / g.n, g.n)}</span></li>` }).join("")}</ul>
-      <p class="gx-how">${q.claimed ? "Misi minggu ini sudah selesai. Misi baru muncul Senin depan." : "Misinya ganti tiap Senin. Kalau nggak selesai juga nggak apa-apa."}</p>`, "#e2552b");
+      <p class="gx-how">${q.claimed ? "Misi minggu ini sudah selesai. Misi baru muncul Senin depan." : "Misinya ganti tiap Senin. Kalau nggak selesai juga nggak apa-apa."}</p>`, "#c4431a");
   }
   function streakHTML(s) {
     const msg = s.thisWeek >= s.target ? "Target minggu ini tercapai. Hari tambahan tetap dihitung."
@@ -144,12 +146,12 @@
     return mod(2, "gx-st", "Streak mingguan", `${Math.min(s.thisWeek, 7)}/${s.target} hari`,
       `<div class="gx3-days">${s.weekDays.map((d, i) => `<span class="${d.on ? "on" : ""}${d.today ? " td" : ""}" style="--k:${i}" title="${HARI[i]}${d.on ? ": belajar" : ""}"><span class="gx3-cell">${d.on ? FLAME : ""}</span><small>${d.today ? "Hari ini" : HARI[i]}</small></span>`).join("")}</div>
       <div class="gx3-stats"><div><b>${s.cur}</b><small>minggu berturut-turut</small></div><div><b>${s.best}</b><small>rekor terbaik</small></div><div class="fz"><b>${SNOW}${s.freeze}</b><small>hari libur</small></div></div>
-      <p class="gx-how">${msg} Setiap ${G.CFG.streak.earnEvery} minggu target tercapai memberi 1 hari libur (maks ${G.CFG.streak.maxFreeze}) yang otomatis menjaga streak.</p>`, "#e2552b");
+      <p class="gx-how">${msg} Setiap ${G.CFG.streak.earnEvery} minggu target tercapai memberi 1 hari libur (maks ${G.CFG.streak.maxFreeze}) yang otomatis menjaga streak.</p>`, "#c4431a");
   }
   function feedHTML(recent) {
     return mod(4, "gx-ft", "XP terakhir", "",
       `${recent.length ? `<ol class="gx3-log">${recent.map((e, k) => `<li style="--k:${k}"><b>+${e.xp} XP</b><span>${esc(e.meta.label || e.type)}${e.meta.awal ? " <small>(progres sebelumnya)</small>" : ""}</span></li>`).join("")}</ol>` : "<p>Belum ada XP. Selesaikan satu pelajaran atau latihan dulu.</p>"}
-      <p class="gx-how">XP datang dari pelajaran dan skor latihan. Kalau mengulang latihan, XP cuma nambah kalau skormu naik.</p>`, "#e2552b");
+      <p class="gx-how">XP datang dari pelajaran dan skor latihan. Kalau mengulang latihan, XP cuma nambah kalau skormu naik.</p>`, "#c4431a");
   }
   function skillHTML() {
     const sk = G.skills(), CL = ["#ff5a3c", "#6d4cff", "#2ec27e"];
@@ -160,15 +162,15 @@
   function remHTML() {
     const R = G.state().remedial || {}, ks = Object.keys(R);
     if (!ks.length) return "";
-    return mod(5, "gx-rm", "Saran belajar ulang", "", ks.map(m => remedialHTML(R[m], m)).join(""), "#e2552b");
+    return mod(5, "gx-rm", "Saran belajar ulang", "", ks.map(m => remedialHTML(R[m], m)).join(""), "#c4431a");
   }
   function badgesHTML() {
     const L = G.badgeList(), n = L.filter(b => b.got).length;
     return mod(6, "gx-bt", "Koleksi lencana", `${n}/${L.length}`,
       `<p class="gx-how">Klik lencananya buat lihat syarat dan progresnya.</p>
       <ul class="gx3-badges">${L.map((b, k) => `<li style="--k:${k}"><button type="button" class="gx-flip ${b.got ? "got" : ""}" aria-pressed="false" aria-label="${esc(b.name)}, ${b.got ? "sudah didapat" : "terkunci"}. Balik untuk melihat syarat">
-        <span class="f"><span class="gx3-hex" style="--bc:${esc(b.color)}">${b.got ? esc(b.icon) : '<i class="lk"></i>'}</span><b>${esc(b.name)}</b><small>${b.got ? "Didapat " + new Date(b.at).toLocaleDateString("id-ID", { day: "numeric", month: "short" }) : b.max > 1 ? `${b.cur}/${b.max}` : "Terkunci"}</small>${!b.got && b.max > 1 ? `<span class="gx3-bar"><i style="--w:${b.cur / b.max}"></i></span>` : ""}</span>
-        <span class="bk" style="--bc:${esc(b.color)}"><small>Syarat</small><span>${esc(b.req)}</span><em>+${b.xp} XP</em></span></button></li>`).join("")}</ul>`, "#e2552b", "gx3-wide");
+        <span class="f"><span class="gx3-hex" style="--bc:${esc(b.color)};color:${inkOn(b.color)}">${b.got ? esc(b.icon) : '<i class="lk"></i>'}</span><b>${esc(b.name)}</b><small>${b.got ? "Didapat " + new Date(b.at).toLocaleDateString("id-ID", { day: "numeric", month: "short" }) : b.max > 1 ? `${b.cur}/${b.max}` : "Terkunci"}</small>${!b.got && b.max > 1 ? `<span class="gx3-bar"><i style="--w:${b.cur / b.max}"></i></span>` : ""}</span>
+        <span class="bk" style="--bc:${esc(b.color)}"><small>Syarat</small><span>${esc(b.req)}</span><em>+${b.xp} XP</em></span></button></li>`).join("")}</ul>`, "#c4431a", "gx3-wide");
   }
   /* animasi setelah panel tampil: angka hitung naik, lalu kelas .go memicu transisi CSS */
   function animate(root) {

@@ -2,7 +2,7 @@
 .uji .lab-tag{background:#0a1a6b;color:#fff}
 .uj-b{display:grid;gap:18px}
 .uj-i{background:#fff;border:2px solid #0a1a6b;border-radius:16px;box-shadow:4px 4px 0 #0a1a6b;padding:18px 20px;display:grid;gap:12px}
-.uj-k{font:700 .8rem/1 "DM Sans",system-ui,sans-serif;color:var(--acc-t,#d4461b)}
+.uj-k{font:700 .8rem/1 "DM Sans",system-ui,sans-serif;color:var(--acc-t,#b63c14)}
 .uj-q{margin:0;font:600 1.02rem/1.55 "DM Sans",system-ui,sans-serif;color:#0a1a6b}
 .uj-q2{margin:4px 0 0;font:700 .95rem/1.4 "DM Sans",system-ui,sans-serif;color:#0a1a6b}
 .uj-opts{display:grid;gap:8px}.uj-opts.two{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
@@ -12,7 +12,7 @@
 .uj-opt:disabled{cursor:default}
 .uj-opt.pick{border-color:#0a1a6b;background:#fff6cf}
 .uj-opt.ok{border-color:#0f8a5f;background:#e3f8ee}.uj-opt.ok b{background:#0f8a5f}
-.uj-opt.no{border-color:#d4461b;background:#fdebe5}.uj-opt.no b{background:#d4461b}
+.uj-opt.no{border-color:#b63c14;background:#fdebe5}.uj-opt.no b{background:#b63c14}
 .uj-opt.dim{opacity:.55}
 .uj-opt.key{box-shadow:0 0 0 3px rgba(15,138,95,.25)}
 .uj-fb{display:grid;gap:8px}.uj-fb:empty{display:none}

@@ -468,7 +468,7 @@ function cetak(){const d=load(),H=hitung(d),K=H.ki!=null?GLD.KATEGORI[H.ki]:null
  let n=0;try{n=done.size}catch(_){}const tot=GLD.COURSE.chapters.reduce((a,c)=>a+c.l.length,0),P=GLD.PASS_MCQ;
  const old=q("#cetak");if(old)old.remove();
  const tgl=new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"}),logo=(q("[data-logo] svg")||{}).outerHTML||"";
- const KC=["#1a9e5c","#2a56f5","#d99a00","#e2552b"][H.ki]||"#5a6390",pct=H.akhir==null?0:Math.max(0,Math.min(1,H.akhir/100)),C=2*Math.PI*54;
+ const KC=["#1a9e5c","#2a56f5","#d99a00","#c4431a"][H.ki]||"#5a6390",pct=H.akhir==null?0:Math.max(0,Math.min(1,H.akhir/100)),C=2*Math.PI*54;
  const sel=(t,v,w)=>`<div class="ck-k"><span>${t}</span><b>${v==null?"–":fmt(v)}</b><small>bobot ${w}%, kontribusi ${v==null?"–":fmt(v*w/100)}</small></div>`;
  const c=document.createElement("section");c.id="cetak";
  c.innerHTML=`<header class="ck-top"><div class="ck-logo">${logo}</div><div><small>GrowthLab, Self Development for Job Seeker</small><h1>Kartu Hasil Belajar</h1></div><div class="ck-date"><small>Tanggal</small><b>${tgl}</b></div></header>

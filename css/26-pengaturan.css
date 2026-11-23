@@ -10,7 +10,7 @@ html.gl-noanim *,html.gl-noanim *::before,html.gl-noanim *::after{animation-dura
 html.gl-rm *,html.gl-rm *::before,html.gl-rm *::after{animation-duration:.001ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.08s!important;transition-delay:0s!important;scroll-behavior:auto!important}
 html.gl-big{font-size:112.5%}
 html.gl-hc{--mut:#141a46;--line:rgba(14,26,58,.45)}
-html.gl-hc :focus-visible{outline:3px solid #d4461b!important;outline-offset:3px!important}
+html.gl-hc :focus-visible{outline:3px solid #b63c14!important;outline-offset:3px!important}
 html.gl-hc a:not(.btn){text-decoration-thickness:2px;text-underline-offset:3px}
 html.gl-hc .btn{border-width:2px}
 
@@ -28,17 +28,18 @@ html[data-theme=dark] [style*="--prev:#fbf6ea"]{--prev:#0e1230!important}
 html[data-theme=dark] img:not([src*=".svg"]),html[data-theme=dark] video{filter:brightness(.92)}
 
 /* ---------- 3. halaman pengaturan ---------- */
-.gst{--s-ink:#14185e;--s-or:#d4461b;--s-mu:#4b5180;--s-ln:rgba(20,24,94,.14);--s-bg:#fbf6ea;--s-sf:#fff;--s-sun:#ffc83d;
+.gst{--s-ink:#14185e;--s-or:#b63c14;--s-mu:#4b5180;--s-ln:rgba(20,24,94,.14);--s-bg:#fbf6ea;--s-sf:#fff;--s-sun:#ffc83d;
   background:var(--s-bg);color:var(--s-ink);padding:clamp(28px,5vw,64px) 0 clamp(60px,8vw,96px);min-height:100vh}
 html[data-theme=dark] .gst{--s-ink:#eef0ff;--s-or:#ff8a65;--s-mu:#b9bee8;--s-ln:rgba(233,235,255,.16);--s-bg:#0e1230;--s-sf:#181c42}
 html.gl-hc .gst{--s-mu:var(--s-ink);--s-ln:rgba(20,24,94,.45)}
 html.gl-hc[data-theme=dark] .gst{--s-ln:rgba(255,255,255,.5)}
-.gst-w{max-width:1100px}
+/* lebar penuh area konten (permintaan pengguna 2026-11-24): tanpa batas lebar, hanya jarak tepi */
+.gst-w{max-width:none;width:100%;padding-inline:clamp(16px,3vw,48px)}
 .gst-k{display:block;font:700 .72rem/1 "Space Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--s-or)}
-.gst-top{max-width:640px;margin-bottom:clamp(28px,4vw,48px)}
+.gst-top{max-width:none;margin-bottom:clamp(28px,4vw,48px)}
 .gst-top h1{margin:12px 0 12px;font:400 clamp(2.6rem,6vw,4.4rem)/.95 Anton,var(--disp,sans-serif);text-transform:uppercase;letter-spacing:.01em;color:var(--s-ink)}
-.gst-top p{margin:0;font-size:1.05rem;color:var(--s-mu)}
-.gst-g{display:grid;grid-template-columns:210px minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:start}
+.gst-top p{max-width:none;margin:0;font-size:1.05rem;color:var(--s-mu)}
+.gst-g{display:grid;grid-template-columns:220px minmax(0,1fr);gap:clamp(24px,4vw,56px);align-items:start}
 
 /* navigasi bagian */
 /* tidak sticky: body memakai overflow-x:hidden sehingga position:sticky tidak menempel di situs ini */
@@ -52,7 +53,7 @@ html[data-theme=dark] .gst-nav button:hover{background:rgba(255,255,255,.06)}
 .gst-nav button:focus-visible{outline:2px solid var(--s-or);outline-offset:2px}
 
 /* bagian */
-.gst-c{display:grid;max-width:760px}
+.gst-c{display:grid;max-width:none;min-width:0}
 .gst-s{padding:30px 0 34px;border-top:2px solid var(--s-ink)}
 .gst-s:first-child{padding-top:6px;border-top:0}
 .gst-sh{display:flex;gap:16px;align-items:baseline;margin-bottom:10px}
@@ -86,7 +87,7 @@ html[data-theme=dark] .gst-seg button:hover{background:rgba(255,255,255,.08)}
 .gst-aa{font:800 .85rem/1 "DM Sans",var(--sans)}.gst-aa.big{font-size:1.1rem}
 
 /* volume */
-.gst-vol{display:flex;align-items:center;gap:14px;max-width:460px}
+.gst-vol{display:flex;align-items:center;gap:14px;max-width:none}
 .gst-ib{display:grid;place-items:center;flex:none;width:44px;height:44px;border:2px solid var(--s-ink);border-radius:12px;background:var(--s-sf);color:var(--s-ink);cursor:pointer}
 .gst-ib svg{width:22px;height:22px}
 .gst-ib[aria-pressed=true]{background:var(--s-sun);color:#14185e}
@@ -103,7 +104,7 @@ html[data-theme=dark] .gst-seg button:hover{background:rgba(255,255,255,.08)}
 .gst-vol output{min-width:3.4em;font:700 .9rem/1 "Space Mono",monospace;color:var(--s-ink);text-align:right}
 
 /* profil */
-.gst-name{display:grid;gap:8px;max-width:520px;padding-top:8px}
+.gst-name{display:grid;gap:8px;max-width:none;padding-top:8px}
 .gst-lbl{font-weight:700;font-size:.95rem}
 .gst-in input{width:100%;padding:13px 14px;border:2px solid var(--s-ink);border-radius:12px;background:var(--s-sf);color:var(--s-ink);font:500 1rem/1.2 "DM Sans",var(--sans)}
 .gst-in input:focus{outline:none;box-shadow:0 0 0 4px rgba(255,200,61,.45)}
@@ -177,3 +178,15 @@ html[data-theme=dark] .gx3-lv{box-shadow:5px 5px 0 #000}
 html[data-theme=dark] .gx3-mod:hover{box-shadow:6px 6px 0 #000}
 html[data-theme=dark] .gx-v3 .gx-flip .bk{background:#262b5c}
 html[data-theme=dark] .gx3-stairs li:not(.on):not(.now) .gx3-step{color:rgba(233,235,255,.5);background:repeating-linear-gradient(-45deg,rgba(255,255,255,.05) 0 6px,transparent 6px 12px),#161a3d}
+/* label oranye (--acc-t) dicerahkan di tema gelap; teks di atas oranye panel jadi gelap */
+html[data-theme=dark]{--acc-t:#ff9a78}
+html[data-theme=dark] .gx3-stairs li.now .gx3-step{color:#14185e}
+/* bagian berlatar kuning (warna lewat atribut style): teks tetap biru tua di tema gelap */
+html[data-theme=dark] :is([style*="--b:#ffc83d"],[style*="--b:#ffd23f"]){--ink:#14185e;--fg:#14185e;--mut:#3d3862;--acc-t:#b23a12;color:#14185e}
+html[data-theme=dark] :is([style*="--b:#ffc83d"],[style*="--b:#ffd23f"]) :is(p,li,span,a:not(.btn),b,i,em,small,h1,h2,h3,h4,nav){color:#14185e}
+html[data-theme=dark] :is([style*="--b:#ffc83d"],[style*="--b:#ffd23f"]) .btn:not(.p){background:#fff;color:#14185e}
+html[data-theme=dark] .stp b{color:#b23a12}
+:is([style*="--b:#ffc83d"],[style*="--b:#ffd23f"]){--acc-t:#8f2d0c}
+.gst p{max-width:none}
+/* pilihan kuis berwarna kuning (C): teks tetap biru tua di tema gelap */
+html[data-theme=dark] .gq-o[style*="--q2"]:not(.ok):not(.no),html[data-theme=dark] .gq-o[style*="--q2"]:not(.ok):not(.no) b{color:#0e1a3a}

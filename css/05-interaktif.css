@@ -30,7 +30,7 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc-t,var(--acc));ma
 .toc .chip{background:#fff;color:var(--ink);font-size:.82rem;text-align:left}.toc .chip.t2{background:var(--ink);color:#fff;box-shadow:none}.toc .chip:hover{background:var(--sun);color:var(--ink)}
 .lab{margin:40px 0;border-radius:30px;background:linear-gradient(160deg,#eef2ff,#fff 70%);box-shadow:inset 0 0 0 2px rgba(43,85,255,.18);padding:clamp(20px,3.4vw,34px);color:var(--ink);scroll-margin-top:100px}
 .cek{background:linear-gradient(160deg,#fff4de,#fff 70%);box-shadow:inset 0 0 0 2px rgba(255,107,61,.25)}
-.lab-h{margin-bottom:16px}.lab-tag{display:inline-flex;align-items:center;gap:8px;background:var(--sun);color:var(--ink);border-radius:99px;padding:6px 14px;font-size:.74rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.lab-h{margin-bottom:16px}.lab-tag{display:inline-flex;align-items:center;gap:8px;background:var(--sun);color:#fff;border-radius:99px;padding:6px 14px;font-size:.74rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
 .lab-tag i{width:8px;height:8px;border-radius:50%;background:var(--acc);animation:pls 1.6s ease-in-out infinite}.cek .lab-tag{background:var(--acc);color:#fff}.cek .lab-tag i{background:#fff}
 .lab-h h3{font-size:clamp(1.6rem,3vw,2.3rem);margin:12px 0 6px;color:var(--ink)}.lab-d{font-size:.95rem;color:#3d4a86!important}
 .lab-b{display:grid;gap:12px}.lab-b>p{max-width:none}
@@ -225,7 +225,7 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc-t,var(--acc));ma
 #cetak .ck-two{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:5mm 14mm 0}
 #cetak .ck-k{padding:12px 16px;border-radius:14px;border:1.5px solid #e6e3f3;background:#fff}#cetak .ck-k span{font-weight:700;font-size:13px}
 #cetak .ck-k b{display:block;font:400 30px/1.1 Anton,Impact,sans-serif;margin:4px 0 2px}#cetak .ck-k small{letter-spacing:.06em}
-#cetak h2{font:700 9px/1 "Space Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#e2552b;margin:7mm 14mm 3mm}
+#cetak h2{font:700 9px/1 "Space Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#c4431a;margin:7mm 14mm 3mm}
 #cetak .ck-t{width:calc(100% - 28mm);margin:0 14mm;border-collapse:separate;border-spacing:0;border:1.5px solid #e6e3f3;border-radius:14px;overflow:hidden;background:#fff}
 #cetak .ck-t th{text-align:left;font:700 8.5px/1 "Space Mono",monospace;letter-spacing:.12em;text-transform:uppercase;color:#7a7fa8;background:#f7f6fc;padding:9px 12px}
 #cetak .ck-t td{padding:9px 12px;border-top:1.5px solid #eeecf7;font-size:12.5px;vertical-align:middle}#cetak .ck-t td b{font-size:13px;margin-left:8px}
@@ -241,7 +241,7 @@ article .lmeta{font-size:.85rem;font-weight:700;color:var(--acc-t,var(--acc));ma
 /* pelajaran terkunci (harus berurutan) */
 .les.lock{opacity:.5;cursor:not-allowed}.les.lock b{background:none;border-style:dashed}.les.lock b{display:inline-grid;place-items:center}.les.lock b:after{content:"";width:62%;height:62%;background:var(--ink);-webkit-mask:var(--lk) center/contain no-repeat;mask:var(--lk) center/contain no-repeat}.les.lock{position:relative}
 .side button.lock,#slist button.lock{opacity:.55}
-.pk-g.lock{color:rgba(10,26,107,.5);background:#efeff3;cursor:not-allowed}.pk-g.lock .pk-pv{color:var(--ink)}.pk-g.lock:after{content:"";display:inline-block;width:.85em;height:.85em;margin-left:7px;vertical-align:-.1em;background:currentColor;-webkit-mask:var(--lk) center/contain no-repeat;mask:var(--lk) center/contain no-repeat}
+.pk-g.lock{color:rgba(10,26,107,.72);background:#efeff3;cursor:not-allowed}.pk-g.lock .pk-pv{color:var(--ink)}.pk-g.lock:after{content:"";display:inline-block;width:.85em;height:.85em;margin-left:7px;vertical-align:-.1em;background:currentColor;-webkit-mask:var(--lk) center/contain no-repeat;mask:var(--lk) center/contain no-repeat}
 
 /* video promo loop di beranda (pengganti kartu Lanjutkan belajar) */
 .promo{margin-top:28px;border-radius:28px;overflow:hidden;background:var(--ink);box-shadow:0 34px 60px -34px rgba(10,26,107,.55);line-height:0}.promo video{display:block;width:100%;height:auto;aspect-ratio:16/9}
