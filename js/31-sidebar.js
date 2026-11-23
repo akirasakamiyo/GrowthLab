@@ -56,8 +56,12 @@
       <button type="button" class="sbn-tg" id="sbn-tg" aria-label="Ciutkan sidebar" aria-pressed="false" data-tip="Ciutkan sidebar">${I.panel}</button></div>
     <div class="sbn-nav">${UTAMA.map(item).join("")}<i class="sbn-sep" aria-hidden="true"></i>${GRUP.map(grup).join("")}</div>
     <button type="button" class="sbn-me" data-gx-open data-tip="Perjalanan karier" aria-label="Buka perjalanan karier: level, badge, dan sertifikat">
-      <span class="labi idle" aria-hidden="true"></span><b class="sbn-lvb" id="sbn-lvb" aria-hidden="true">Lv 1</b>
-      <span class="sbn-mt"><b>Perjalanan karier</b><small id="sbn-lv">Lv 1 · Pemula</small><i class="sbn-pb" aria-hidden="true"><i></i></i></span>
+      <span class="sbn-tali" aria-hidden="true"></span><span class="sbn-foil" aria-hidden="true"></span>
+      <span class="sbn-ph" aria-hidden="true"><span class="labi idle"></span></span><b class="sbn-lvb" id="sbn-lvb" aria-hidden="true">Lv 1</b>
+      <span class="sbn-mt"><small class="sbn-k" aria-hidden="true">Kandidat</small><b>Perjalanan karier</b><small id="sbn-lv">Lv 1 · Pemula</small></span>
+      <span class="sbn-big" id="sbn-big" aria-hidden="true">01</span>
+      <span class="sbn-xpw" aria-hidden="true"><i class="sbn-tk" id="sbn-tk">${"<i></i>".repeat(10)}</i><small id="sbn-xp">0 / 55 XP</small></span>
+      <span class="sbn-plus" id="sbn-plus" aria-hidden="true"></span>
     </button>`;
   const dim = document.createElement("div"); dim.className = "sbn-dim";
   const tip = document.createElement("div"); tip.className = "sbn-tip"; tip.setAttribute("aria-hidden", "true");
@@ -147,7 +151,31 @@
     const m = sprog && sprog.textContent.match(/(\d+)\s*\/\s*(\d+)/); if (m) nn.textContent = `${m[1]}/${m[2]}`;
     side.style.setProperty("--p", getComputedStyle(document.documentElement).getPropertyValue("--p") || 0);
   };
-  const level = () => { const m = chip && (chip.getAttribute("aria-label") || "").match(/Level\s*(\d+),\s*([^,]+)/); if (m) { lv.textContent = `Lv ${m[1]} · ${m[2].trim()}`; lvb.textContent = `Lv ${m[1]}` } };
+  /* kartu kandidat (2026-11-23): angka level besar, 10 ruas XP menuju level berikutnya, kilat "+XP" saat XP bertambah */
+  const me = side.querySelector(".sbn-me"), big = $("#sbn-big"), tk = $("#sbn-tk"), xpT = $("#sbn-xp"), plus = $("#sbn-plus");
+  let xp0 = null;
+  const level = () => {
+    const m = chip && (chip.getAttribute("aria-label") || "").match(/Level\s*(\d+),\s*([^,]+)/); if (m) { lv.textContent = `Lv ${m[1]} · ${m[2].trim()}`; lvb.textContent = `Lv ${m[1]}` }
+    const G = window.GLG; if (!G || !G.info) return;
+    const f = G.info(), n = Math.max(0, Math.min(10, f.p * 10)), nf = v => v.toLocaleString("id-ID");
+    big.textContent = String(f.level).padStart(2, "0");
+    [...tk.children].forEach((t, i) => { t.className = i < Math.floor(n) ? "on" : i === Math.floor(n) && n % 1 > 0 ? "now" : "" });
+    xpT.textContent = `${nf(f.xp - f.from)} / ${nf(f.to - f.from)} XP`;
+    if (xp0 !== null && f.xp > xp0 && !RM.matches) { plus.textContent = `+${nf(f.xp - xp0)} XP`; me.classList.remove("gain"); void me.offsetWidth; me.classList.add("gain") }
+    xp0 = f.xp;
+  };
+  /* miring mengikuti kursor + kilau foil; diayun sekali saat kursor masuk */
+  if (!RM.matches) {
+    me.addEventListener("pointermove", e => {
+      if (body.classList.contains("sbn-rail") || e.pointerType === "touch") return;
+      const r = me.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      me.style.setProperty("--ry", ((x - .5) * 14).toFixed(2) + "deg"); me.style.setProperty("--rx", ((.5 - y) * 12).toFixed(2) + "deg");
+      me.style.setProperty("--mx", (x * 100).toFixed(1) + "%"); me.style.setProperty("--my", (y * 100).toFixed(1) + "%");
+    });
+    me.addEventListener("pointerenter", () => { me.classList.remove("ayun"); void me.offsetWidth; me.classList.add("ayun") });
+    me.addEventListener("pointerleave", () => { ["--rx", "--ry"].forEach(k => me.style.setProperty(k, "0deg")) });
+  }
+  me.addEventListener("click", () => { const l = me.querySelector(".labi"); l.className = "labi happy"; setTimeout(() => { l.className = "labi idle" }, 1200) });
   prog(); level();
   sprog && new MutationObserver(prog).observe(sprog, { childList: true, characterData: true, subtree: true });
   chip && new MutationObserver(level).observe(chip, { attributes: true, attributeFilter: ["aria-label"] });
