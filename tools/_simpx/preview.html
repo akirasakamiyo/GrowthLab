@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Preview simulasi pixel</title>
+<style>
+:root{color-scheme:dark}
+body{margin:0;background:#0b1038;color:#fff3d6;font:14px/1.4 system-ui,sans-serif;padding:20px}
+h2{font:700 15px ui-monospace,monospace;margin:22px 0 10px;color:#ffc83d}
+canvas{image-rendering:pixelated;image-rendering:crisp-edges;display:block}
+.row{display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end}
+.cell{background:#16206a;border-radius:10px;padding:10px}
+.cell small{display:block;margin-top:6px;font:12px ui-monospace,monospace;opacity:.8}
+.stage{position:relative;display:inline-block;border-radius:12px;overflow:hidden}
+.stage canvas.ch{position:absolute;left:0;top:0}
+</style></head><body>
+<!-- Preview sementara (tidak di-deploy): sprite tokoh 64x64 dan latar adegan simulasi.
+     ?sheet=1 menampilkan semua frame berderet untuk diperiksa (dipakai screenshot). -->
+<div id="out"></div>
+<script src="../../js/30-ilustrasi-pixel.js"></script>
+<script>
+window.SIMPX = (() => {
+  const chars = {}, bgs = {};
+  return {
+    char: (k, o) => { chars[k] = o },
+    bg: (k, o) => { bgs[k] = o },
+    chars, bgs,
+    /* render satu frame ke canvas berukuran w x h (1:1) */
+    frame(o, an, f) { const g = GLPIX.grid(o.w, o.h); o.anims[an].draw(g, f); return g.png() },
+    bgCanvas(o) { const g = GLPIX.grid(o.w, o.h); o.draw(g); return g.png() }
+  };
+})();
+</script>
+<script>
+/* semua aset simulasi pixel; file yang belum ada diabaikan (404) */
+window.SIMPX_FILES = ["hero","ibu","teman","atasan","rekan","rekan2","kantor","kamar","kamar-malam","rumah","teras","meja","lobi","pantry","rapat"];
+SIMPX_FILES.forEach(f => document.write(`<script src="${f}.js?t=${Date.now()}"><\/script>`));
+</script>
+<script>
+(() => {
+  const Q = new URLSearchParams(location.search), SHEET = Q.has("sheet"), Z = +(Q.get("z") || 4);
+  const out = document.getElementById("out");
+  const scaled = (src, z) => { const c = document.createElement("canvas"); c.width = src.width * z; c.height = src.height * z; const x = c.getContext("2d"); x.imageSmoothingEnabled = false; x.drawImage(src, 0, 0, c.width, c.height); return c };
+  /* latar + tokoh berdiri di atasnya (skala sama) */
+  const BG = Q.get("bg"), CH = Q.get("ch");
+  for (const [bk, bo] of Object.entries(SIMPX.bgs)) { if (BG && bk !== BG) continue;
+    out.insertAdjacentHTML("beforeend", `<h2>latar: ${bk} (${bo.w}x${bo.h}, tampil ${Z}x)</h2>`);
+    const st = document.createElement("div"); st.className = "stage"; const bc = scaled(SIMPX.bgCanvas(bo), Z); st.appendChild(bc); out.appendChild(st);
+    for (const [ci, [ck, co]] of Object.entries(SIMPX.chars).filter(([k]) => k === "hero" || k === CH).slice(0, 2).entries()) {
+      const an = co.anims.idle ? "idle" : Object.keys(co.anims)[0], A = co.anims[an], fr = Array.from({ length: A.frames }, (_, f) => SIMPX.frame(co, an, f));
+      const c = document.createElement("canvas"); c.className = "ch"; c.width = co.w * Z; c.height = co.h * Z;
+      c.style.left = ((bo.standX ?? Math.round(bo.w * .3)) - co.w / 2 + ci * 85) * Z + "px"; if (ci) c.style.transform = "scaleX(-1)"; c.style.top = ((bo.floorY ?? bo.h - 8) - co.h) * Z + "px";
+      const x = c.getContext("2d"); x.imageSmoothingEnabled = false; let i = 0;
+      const tick = () => { x.clearRect(0, 0, c.width, c.height); x.drawImage(fr[i % fr.length], 0, 0, c.width, c.height); i++ };
+      tick(); if (!SHEET) setInterval(tick, 1000 / (A.fps || 8)); st.appendChild(c);
+    }
+  }
+  for (const [ck, co] of Object.entries(SIMPX.chars)) { if (CH && ck !== CH && ck !== "hero") continue;
+    out.insertAdjacentHTML("beforeend", `<h2>tokoh: ${ck} (${co.w}x${co.h}, tampil ${Z}x)</h2>`);
+    const row = document.createElement("div"); row.className = "row"; out.appendChild(row);
+    for (const [an, A] of Object.entries(co.anims)) {
+      const fr = Array.from({ length: A.frames }, (_, f) => SIMPX.frame(co, an, f));
+      if (SHEET) {
+        const cell = document.createElement("div"); cell.className = "cell"; const r = document.createElement("div"); r.className = "row"; r.style.gap = "4px";
+        fr.forEach(f => r.appendChild(scaled(f, Z))); cell.appendChild(r); cell.insertAdjacentHTML("beforeend", `<small>${an} · ${A.frames} frame · ${A.fps || 8} fps</small>`); row.appendChild(cell);
+      } else {
+        const cell = document.createElement("div"); cell.className = "cell"; const c = scaled(fr[0], Z); cell.appendChild(c); const x = c.getContext("2d"); x.imageSmoothingEnabled = false;
+        let i = 0; setInterval(() => { x.clearRect(0, 0, c.width, c.height); x.drawImage(fr[++i % fr.length], 0, 0, c.width, c.height) }, 1000 / (A.fps || 8));
+        cell.insertAdjacentHTML("beforeend", `<small>${an} · ${A.frames} frame</small>`); row.appendChild(cell);
+      }
+    }
+  }
+})();
+/* live preview: cek hero.js dan kantor.js tiap 1,5 detik; kalau isinya berubah (agen menyimpan), muat ulang halaman */
+(() => {
+  if (new URLSearchParams(location.search).has("sheet")) return;
+  const F = SIMPX_FILES.map(f => f + ".js"), last = {};
+  const get = f => fetch(f + "?t=" + Date.now(), { cache: "no-store" }).then(r => r.ok ? r.text() : "").catch(() => "");
+  Promise.all(F.map(get)).then(t => { F.forEach((f, i) => last[f] = t[i]);
+    setInterval(async () => { for (const f of F) { const t = await get(f); if (t !== last[f]) { location.reload(); return } } }, 1500) });
+  const tag = document.createElement("div");
+  tag.style.cssText = "position:fixed;right:12px;top:12px;background:#ffc83d;color:#11184a;font:700 12px ui-monospace,monospace;padding:6px 10px;border-radius:99px";
+  tag.textContent = "LIVE · " + new Date().toLocaleTimeString("id-ID"); document.body.appendChild(tag);
+})();
+</script>
+</body></html>

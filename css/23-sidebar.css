@@ -63,17 +63,58 @@ a.cur>.sbn-ic .f{fill:#fff;opacity:.55}
 .sbn-gl .sbn-ic{width:28px;height:28px;border-radius:9px}
 .sbn-gl .sbn-ic svg{width:19px;height:19px;overflow:visible}
 
-/* kartu profil: Labi + level + progres kursus */
-.sbn-me{margin-top:auto;display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:1px solid rgba(255,255,255,.1);border-radius:14px;
-  background:rgba(255,255,255,.05);color:var(--sb-tx);text-align:left;cursor:pointer;font:inherit;transition:background .15s,border-color .15s}
-.sbn-nav+.sbn-me{margin-top:auto}
-.sbn-me:hover{background:rgba(255,255,255,.1);border-color:rgba(255,200,61,.4)}
+/* kartu profil (2026-11-23): "kartu kandidat" bertali seperti ID card magang.
+   Kertas krem bertinta biru tua, pita kuning bergaris, foto Labi, cap tingkat karier, 10 ruas XP menuju level berikutnya.
+   Interaksi: miring mengikuti kursor (--rx/--ry), kilau foil mengikuti kursor (--mx/--my), berayun saat kursor masuk, kilat +XP. */
+.sbn-me{cursor:pointer;font:inherit;border:0;color:var(--sb-tx);text-align:left}
+body:not(.sbn-rail) .sbn-me{--rx:0deg;--ry:0deg;--mx:50%;--my:50%;--ink:#1b1740;
+  position:relative;isolation:isolate;display:grid;grid-template-columns:auto 1fr;align-items:center;gap:12px 12px;
+  width:100%;margin-top:auto;padding:32px 14px 13px;border-radius:14px;color:var(--ink);
+  background:radial-gradient(rgba(27,23,64,.07) 1px,transparent 1.3px) 0 0/7px 7px,#fff3d6;
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 12px 26px -12px rgba(0,0,0,.6);
+  transform:perspective(700px) rotateX(var(--rx)) rotateY(var(--ry));transform-origin:50% -20px;
+  transition:transform .35s var(--e,ease),box-shadow .2s}
+/* pita atas bergaris + lubang tali */
+body:not(.sbn-rail) .sbn-me::before{content:"";position:absolute;z-index:-1;inset:0 0 auto;height:22px;border-radius:14px 14px 0 0;
+  background:repeating-linear-gradient(-45deg,rgba(27,23,64,.1) 0 4px,transparent 4px 9px),#ffc83d}
+body:not(.sbn-rail) .sbn-me::after{content:"";position:absolute;top:7px;left:50%;width:28px;height:7px;translate:-50% 0;border-radius:4px;
+  background:var(--sb-bg2);box-shadow:inset 0 1px 2px rgba(0,0,0,.6)}
+.sbn-tali{position:absolute;z-index:1;left:50%;bottom:calc(100% - 12px);width:12px;height:24px;translate:-50% 0;border-radius:3px 3px 2px 2px;
+  background:linear-gradient(90deg,transparent 3px,rgba(255,255,255,.45) 3px 4px,transparent 4px 8px,rgba(255,255,255,.45) 8px 9px,transparent 9px),#ff5a3c;
+  box-shadow:0 2px 0 #c2381f}
+.sbn-k{position:absolute;top:6px;right:12px;font:700 .52rem/1 var(--mono,monospace);letter-spacing:.12em;text-transform:uppercase;color:var(--ink)}
+.sbn-ph{display:grid;place-items:center;width:52px;height:60px;border-radius:10px;rotate:-3deg;
+  background:radial-gradient(circle at 50% 30%,#2b3aa8,#17206a 70%);box-shadow:0 0 0 3px #fff,0 0 0 4px rgba(27,23,64,.18),0 6px 12px -6px rgba(27,23,64,.5)}
 .sbn-me .labi{--k:.85;flex:none}
-.sbn-mt{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}
-.sbn-mt b{font:700 .86rem/1.15 var(--sans);color:#fff;white-space:nowrap}
-.sbn-mt small{font:600 .74rem/1.2 var(--sans);color:var(--sb-mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sbn-pb{display:block;height:5px;border-radius:3px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:3px}
-.sbn-pb i{display:block;height:100%;width:calc(var(--p,0)*100%);background:var(--sb-sun);border-radius:3px;transition:width .4s}
+.sbn-mt{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0}
+.sbn-mt b{font:800 .92rem/1.1 var(--disp,var(--sans));color:inherit;letter-spacing:-.01em}
+#sbn-lv{display:inline-block;padding:3px 6px;border:1.5px dashed #d8432a;border-radius:6px;rotate:-3deg;color:#c2381f;
+  font:700 .6rem/1 var(--mono,monospace);letter-spacing:.06em;text-transform:uppercase;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.sbn-big{position:absolute;z-index:-1;right:10px;top:24px;font:400 2.9rem/1 Anton,var(--disp,sans-serif);color:rgba(27,23,64,.09);pointer-events:none}
+.sbn-xpw{grid-column:1/-1;display:flex;align-items:center;gap:9px}
+.sbn-tk{display:flex;gap:3px;flex:1}
+.sbn-tk i{flex:1;height:9px;border-radius:2px;background:rgba(27,23,64,.13);transform:skewX(-16deg);transition:background .3s}
+.sbn-tk i.on{background:var(--ink)}
+.sbn-tk i.now{background:#ffc83d;box-shadow:inset 0 0 0 1.5px var(--ink);animation:sbnNow 1.3s ease-in-out infinite}
+#sbn-xp{font:700 .6rem/1 var(--mono,monospace);color:rgba(27,23,64,.72);white-space:nowrap}
+.sbn-foil{position:absolute;z-index:2;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .3s;mix-blend-mode:soft-light;
+  background:radial-gradient(circle at var(--mx) var(--my),rgba(255,255,255,.9),transparent 42%),
+    linear-gradient(115deg,transparent 15%,#ff8a5c 35%,#6d4cff 52%,#2ec27e 68%,transparent 85%) var(--mx) var(--my)/220% 220%}
+.sbn-plus{position:absolute;z-index:3;right:12px;top:-8px;padding:3px 7px;border-radius:99px;background:#2ec27e;color:#fff;
+  font:700 .62rem/1 var(--mono,monospace);opacity:0;pointer-events:none}
+body:not(.sbn-rail) .sbn-me:hover{box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 20px 34px -14px rgba(0,0,0,.7)}
+body:not(.sbn-rail) .sbn-me:hover .sbn-foil{opacity:1}
+body:not(.sbn-rail) .sbn-me:focus-visible{outline:3px solid #ffc83d;outline-offset:3px}
+body:not(.sbn-rail) .sbn-me.ayun{animation:sbnAyun 1s cubic-bezier(.3,.7,.4,1)}
+body:not(.sbn-rail) .sbn-me.gain{animation:sbnGain .6s cubic-bezier(.34,1.56,.64,1)}
+.sbn-me.gain .sbn-plus{animation:sbnPlus 1.6s ease-out}
+@keyframes sbnAyun{0%{rotate:0deg}22%{rotate:3.2deg}48%{rotate:-2.2deg}72%{rotate:1deg}100%{rotate:0deg}}
+@keyframes sbnGain{0%{scale:1}40%{scale:1.05}100%{scale:1}}
+@keyframes sbnPlus{0%{opacity:0;translate:0 8px}15%{opacity:1;translate:0 0}75%{opacity:1;translate:0 -6px}100%{opacity:0;translate:0 -14px}}
+@keyframes sbnNow{50%{background:#fff3d6}}
+body.sbn-rail :is(.sbn-tali,.sbn-foil,.sbn-big,.sbn-xpw,.sbn-plus,.sbn-k){display:none}
+body.sbn-rail .sbn-ph{display:contents}
+@media (prefers-reduced-motion:reduce){.sbn-me,.sbn-me *{animation:none!important}body:not(.sbn-rail) .sbn-me{transform:none!important}}
 
 /* tooltip label dan menu melayang (mode rel) */
 .sbn-tip{position:fixed;z-index:47;transform:translateY(-50%) translateX(-4px);padding:7px 11px;border-radius:9px;background:#fff3d6;color:#1b1740;
