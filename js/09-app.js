@@ -109,11 +109,14 @@ $("#cont").onclick=()=>{if(done.size>=total){location.hash="#/latihan";return}co
 $$("[data-go]").forEach(b=>b.onclick=()=>location.hash="#/");
 
 /* ---------- router ---------- */
+/* judul tab per halaman; pelajaran diatur sendiri di renderLesson */
+const PT={"e-learning":"Katalog Pelajaran",komunitas:"Belajar Bareng",faq:"FAQ",kontak:"Kontak",terms:"Syarat dan Ketentuan",privacy:"Kebijakan Privasi",tentang:"Tentang",tujuan:"Tujuan Belajar",petunjuk:"Petunjuk Penggunaan",alur:"Alur Belajar",latihan:"Latihan",peta:"Peta Konsep",glosarium:"Glosarium",referensi:"Referensi"};
+function pageTitle(v,h){const s=h.split("/")[0];if(v==="home")return TITLE;if(v==="course"){const n=+h.split("/")[1];return(n>=1&&n<=C.chapters.length?"Bab "+n:"Kursus")+" · GrowthLab"}return(PT[s]||"Halaman tidak ditemukan")+" · GrowthLab"}
 function route(){
  const h=location.hash.replace("#/","");let v="home";
  v=vOfH(h);
  document.body.dataset.view=v;$$("[data-v]").forEach(e=>e.hidden=e.dataset.v!==v);
- if(v!=="lesson")document.title=TITLE;
+ if(v!=="lesson")document.title=pageTitle(v,h);
  if(v==="course"){const n=+(h.split("/")[1]);if(n>=1&&n<=C.chapters.length){open_=n-1;setActive(open_)}renderCourse()}if(v==="page")renderPage(h);
  if(v==="lesson"){let[a,b]=(h.split("/")[1]||"0-0").split("-").map(Number);a=a||0;b=b||0;
   if(C.chapters[a]&&C.chapters[a].l[b]&&locked(a,b)){const[ni,nj]=nextUp();toast(`Selesaikan dulu “${C.chapters[ni].l[nj].t}” sebelum lanjut.`);history.replaceState(null,"","#/lesson/"+ni+"-"+nj);a=ni;b=nj}
@@ -484,7 +487,7 @@ renderAuth();boot();
 
 /* ---------- v5: halaman-halaman ---------- */
 const PK=["e-learning","komunitas","faq","kontak","terms","privacy","tentang","tujuan","petunjuk","alur","latihan","peta","glosarium","referensi"];
-function vOfH(h){const s=h.split("/")[0];if(s==="lesson")return"lesson";if(s==="course")return"course";return PK.includes(s)?"page":"home"}
+function vOfH(h){const s=h.split("/")[0];if(s==="lesson")return"lesson";if(s==="course")return"course";return!s||s==="home"?"home":"page"/* alamat tak dikenal ikut "page", renderPage menampilkan halaman 404 */}
 const keyOf=()=>{const h=location.hash.replace("#/",""),v=vOfH(h);return v==="home"?"home":v==="lesson"?"lesson":h};let lastK=keyOf();
 const goC=n=>n?"#/course/"+n:"#/course";
 const NAVK={lesson:"course","e-learning":"course",tujuan:"petunjuk",alur:"petunjuk",peta:"petunjuk",glosarium:"petunjuk",referensi:"petunjuk",faq:"petunjuk",tentang:"petunjuk"};
@@ -562,7 +565,7 @@ function renderPage(h){const[s,x,y]=h.split("/"),n=+x||0;let H="";const nQ=GLX.n
   +sec(CR,LT[0],`<h2 class="rv" id="kontak">Kirim pesan</h2><div class="fm rv"><label>Nama<input id="f1" autocomplete="name"></label><label>Email<input id="f3" type="email" autocomplete="email"></label><label>Pesan<textarea id="f4" rows="4"></textarea></label><button class="btn p" id="fs">Kirim pesan</button><small>Prototipe: pesan tidak dikirim dan tidak disimpan.</small></div>`);
  else if(s==="komunitas"&&!x)H=hero(LT[1],[["Belajar bareng"]],"Belajar bareng","Belajar <em>bareng</em> teman","Enam ide kegiatan kelompok untuk kelas atau teman belajar. Setiap ide terhubung ke pelajaran di GrowthLab.",A_("#/course","Buka materi","p"),fr(CO[4],"komunitas"))
   +sec("#ffc83d",LT[1],`<div class="pol">${KOMD.map((_,i)=>polK(i)).join("")}</div>`);
- else if(s==="komunitas"){const i=Math.min(n,KOMD.length-1),k=KOMD[i];H=hero("#ffc83d",[["Belajar bareng","#/komunitas"],[k.t]],"Ide kegiatan "+p2(i+1),k.t,k.d,A_(`#/lesson/${k.les[0][0]}-${k.les[0][1]}`,"Pelajari materinya","p")+A_("#/komunitas","Semua ide kegiatan"),fr(CO[i],"k"+i))
+ else if(s==="komunitas"){const i=Math.min(n,KOMD.length-1),k=KOMD[i];document.title=k.t+" · GrowthLab";H=hero("#ffc83d",[["Belajar bareng","#/komunitas"],[k.t]],"Ide kegiatan "+p2(i+1),k.t,k.d,A_(`#/lesson/${k.les[0][0]}-${k.les[0][1]}`,"Pelajari materinya","p")+A_("#/komunitas","Semua ide kegiatan"),fr(CO[i],"k"+i))
   +sec(CR,"#ffc83d",`<h2 class="rv">Langkah kegiatan</h2>${stp(k.s.map((t,j)=>["Langkah "+(j+1),t]))}<h2 class="rv" style="margin-top:44px">Pelajaran terkait</h2><ul class="chk rv">${k.les.map(([a,b])=>`<li>${lesLink(a,b)}, ${esc(C.chapters[a].t)}</li>`).join("")}</ul><p class="rv lead2" style="margin-top:18px">Saran pelaksanaan: 3–5 orang, 30–45 menit.</p>`)}
  else if(s==="faq")H=hero(LT[0],[["FAQ"]],"Bantuan","Yang sering <em>ditanyakan</em>","Pertanyaanmu belum ada di sini? Tanya lewat tombol Bingung? Tanya, atau kirim pesan ke tim.",A_("#/kontak","Hubungi tim","p"),fr(CO[0],"faq"))+sec(CR,LT[0],faqL(FAQ.length))+cta(CR,"Ada yang belum kejawab?",A_("#/kontak","Kirim pesan"));
  else if(s==="tujuan")H=hero(LT[2],[["Tujuan belajar"]],"Panduan · Tujuan belajar","Tujuan <em>belajar</em>","Setelah menyelesaikan GrowthLab, kamu bisa menerapkan soft skill untuk menghadapi proses mencari kerja dan dunia kerja.",A_("#/petunjuk","Petunjuk penggunaan","p")+`<a class="btn" href="#/tujuan" data-sc="kesesuaian">Tabel kesesuaian</a>`+A_("#/course","Mulai belajar"),frV(CO[2],"tujuan","Video 30 detik: rumus tujuan belajar ABCD, contohnya, dan 15 tujuan yang diukur"))
@@ -600,6 +603,7 @@ function renderPage(h){const[s,x,y]=h.split("/"),n=+x||0;let H="";const nQ=GLX.n
    <div class="labi-card rv"><span class="labi happy" role="img" aria-label="Labi, maskot GrowthLab"></span><div><h3>Kenalan sama Labi</h3><p>Labi adalah maskot GrowthLab: labu Erlenmeyer yang menumbuhkan tunas, simbol belajar lewat mencoba lalu tumbuh. Labi menemanimu di tombol <b>Bingung? Tanya</b> dan ikut senang setiap kamu menyelesaikan pelajaran.</p></div></div>
    <h2 class="rv" style="margin-top:44px">Sumber materi</h2><p class="rv lead2">Materi disusun berdasarkan GBIM dan Jabaran Materi tim pengembang, dengan rujukan buku, jurnal, dan artikel soft skill yang daftarnya ada di halaman Referensi.</p>`)
   +cta(LT[1],"Penasaran sama isinya?",A_("#/course/1","Buka Bab 1"));
+ else if(!{terms:1,privacy:1}[s])H=hero(LT[0],[["Tidak ditemukan"]],"Error 404","Halaman <em>tidak ditemukan</em>","Alamat yang kamu buka tidak ada di GrowthLab. Mungkin salah ketik, atau halamannya sudah dipindah.",A_("#/","Kembali ke beranda","p")+A_("#/course","Buka materi"))
  else{const T={terms:"Syarat &amp; ketentuan",privacy:"Kebijakan privasi"}[s]||"Informasi";
   const B=s==="privacy"?[["Data yang disimpan","Progres pelajaran (kunci <code>mer-done</code>) dan hasil latihan (kunci <code>gl-latihan</code>) disimpan di localStorage browser yang kamu pakai."],["Tidak dikirim ke server","Dalam mode lokal, tidak ada data yang dikirim ke server mana pun. Formulir kontak juga tidak mengirim pesan."],["Menghapus data","Gunakan tombol “Hapus semua hasil latihan” di menu Latihan, atau hapus data situs melalui pengaturan browser."],["Tanpa layanan pihak ketiga","Semua pustaka, font, dan gambar sudah ada di dalam paket situs, sehingga situs tidak menghubungi layanan lain dan bisa dipakai tanpa internet."]]
    :[["Tujuan penggunaan","GrowthLab adalah prototipe media pembelajaran untuk keperluan pendidikan, bukan layanan komersial."],["Akses","Gratis untuk pembelajaran dan tidak memerlukan akun. Situs dapat dibuka langsung dari file maupun dari server sederhana."],["Konten","Materi disusun oleh Kelompok 8 berdasarkan GBIM dan merujuk buku, jurnal, dan artikel soft skill (daftar di halaman Referensi). Hak cipta sumber tetap milik penulisnya."],["Penilaian","Nilai dan kategori di menu Latihan adalah umpan balik belajar mandiri, bukan sertifikasi resmi dan bukan jaminan diterima kerja."]];
