@@ -1,0 +1,179 @@
+/* ===== Pengaturan & preferensi (2026-11-23) =====
+   1. Kelas preferensi di <html> (dipasang js/00-pref.js): gl-noanim, gl-rm, gl-big, gl-hc, data-theme.
+   2. Penyesuaian manual tema gelap di atas hasil otomatis css/27-tema-gelap.css.
+   3. Tampilan halaman #/pengaturan (gaya LMS: krem, judul Anton biru tua, nomor oranye, garis pembatas, bukan tumpukan kartu). */
+
+/* ---------- 1. preferensi ---------- */
+/* animasi antarmuka mati: animasi dekoratif langsung ke keadaan akhir; transisi umpan balik (hover, tombol) tetap */
+html.gl-noanim *,html.gl-noanim *::before,html.gl-noanim *::after{animation-duration:.001ms!important;animation-delay:0s!important;animation-iteration-count:1!important}
+/* kurangi gerakan: juga mempersingkat transisi; parallax dan gulir halus dimatikan lewat skrip (GLP mengikuti prefers-reduced-motion) */
+html.gl-rm *,html.gl-rm *::before,html.gl-rm *::after{animation-duration:.001ms!important;animation-delay:0s!important;animation-iteration-count:1!important;transition-duration:.08s!important;transition-delay:0s!important;scroll-behavior:auto!important}
+html.gl-big{font-size:112.5%}
+html.gl-hc{--mut:#141a46;--line:rgba(14,26,58,.45)}
+html.gl-hc :focus-visible{outline:3px solid #d4461b!important;outline-offset:3px!important}
+html.gl-hc a:not(.btn){text-decoration-thickness:2px;text-underline-offset:3px}
+html.gl-hc .btn{border-width:2px}
+
+/* ---------- 2. tema gelap: token dan bagian bergaya inline ---------- */
+html[data-theme=dark]{--bg:#0e1230;--bg2:#161a3d;--fg:#eef0ff;--mut:#b9bee8;--line:rgba(233,235,255,.16);--ink:#eef0ff;color-scheme:dark}
+html[data-theme=dark] body[data-view=lesson]{--bg:#10142f;--bg2:#181c40}
+html[data-theme=dark] body{background:var(--bg);color:var(--fg)}
+html.gl-hc[data-theme=dark]{--mut:#fff;--line:rgba(255,255,255,.5)}
+html.gl-hc[data-theme=dark] :focus-visible{outline-color:#ffc83d!important}
+/* bagian halaman memberi warna kertas lewat atribut style (--b/--prev): krem diganti biru malam */
+html[data-theme=dark] [style*="--b:#f3ead6"]{--b:#13173a!important}
+html[data-theme=dark] [style*="--b:#fbf6ea"]{--b:#0e1230!important}
+html[data-theme=dark] [style*="--prev:#f3ead6"]{--prev:#13173a!important}
+html[data-theme=dark] [style*="--prev:#fbf6ea"]{--prev:#0e1230!important}
+html[data-theme=dark] img:not([src*=".svg"]),html[data-theme=dark] video{filter:brightness(.92)}
+
+/* ---------- 3. halaman pengaturan ---------- */
+.gst{--s-ink:#14185e;--s-or:#d4461b;--s-mu:#4b5180;--s-ln:rgba(20,24,94,.14);--s-bg:#fbf6ea;--s-sf:#fff;--s-sun:#ffc83d;
+  background:var(--s-bg);color:var(--s-ink);padding:clamp(28px,5vw,64px) 0 clamp(60px,8vw,96px);min-height:100vh}
+html[data-theme=dark] .gst{--s-ink:#eef0ff;--s-or:#ff8a65;--s-mu:#b9bee8;--s-ln:rgba(233,235,255,.16);--s-bg:#0e1230;--s-sf:#181c42}
+html.gl-hc .gst{--s-mu:var(--s-ink);--s-ln:rgba(20,24,94,.45)}
+html.gl-hc[data-theme=dark] .gst{--s-ln:rgba(255,255,255,.5)}
+.gst-w{max-width:1100px}
+.gst-k{display:block;font:700 .72rem/1 "Space Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--s-or)}
+.gst-top{max-width:640px;margin-bottom:clamp(28px,4vw,48px)}
+.gst-top h1{margin:12px 0 12px;font:400 clamp(2.6rem,6vw,4.4rem)/.95 Anton,var(--disp,sans-serif);text-transform:uppercase;letter-spacing:.01em;color:var(--s-ink)}
+.gst-top p{margin:0;font-size:1.05rem;color:var(--s-mu)}
+.gst-g{display:grid;grid-template-columns:210px minmax(0,1fr);gap:clamp(24px,5vw,72px);align-items:start}
+
+/* navigasi bagian */
+/* tidak sticky: body memakai overflow-x:hidden sehingga position:sticky tidak menempel di situs ini */
+.gst-nav{display:grid;gap:2px}
+.gst-nav button{display:flex;align-items:center;gap:12px;padding:10px 12px;border:0;border-radius:10px;background:none;color:var(--s-mu);font:600 .95rem/1.2 "DM Sans",var(--sans);text-align:left;cursor:pointer;transition:background .15s,color .15s}
+.gst-nav button span{font:700 .72rem/1 "Space Mono",monospace;color:var(--s-or);opacity:.75}
+.gst-nav button:hover{background:rgba(20,24,94,.05);color:var(--s-ink)}
+html[data-theme=dark] .gst-nav button:hover{background:rgba(255,255,255,.06)}
+.gst-nav button[aria-current]{color:var(--s-ink);background:var(--s-sf);box-shadow:inset 3px 0 0 var(--s-sun)}
+.gst-nav button[aria-current] span{opacity:1}
+.gst-nav button:focus-visible{outline:2px solid var(--s-or);outline-offset:2px}
+
+/* bagian */
+.gst-c{display:grid;max-width:760px}
+.gst-s{padding:30px 0 34px;border-top:2px solid var(--s-ink)}
+.gst-s:first-child{padding-top:6px;border-top:0}
+.gst-sh{display:flex;gap:16px;align-items:baseline;margin-bottom:10px}
+.gst-n{font:400 1.9rem/1 Anton,var(--disp,sans-serif);color:var(--s-or);min-width:1.3em}
+.gst-sh h2{margin:0;text-transform:none;font:800 1.45rem/1.15 "DM Sans",var(--sans);letter-spacing:-.01em;color:var(--s-ink)}
+.gst-sh h2:focus{outline:none}
+.gst-sh p{margin:4px 0 0;color:var(--s-mu);font-size:.95rem}
+.gst-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px 28px;align-items:center;padding:18px 0;border-top:1px solid var(--s-ln)}
+.gst-sh+.gst-row{border-top:0}
+.gst-row-col{grid-template-columns:1fr}
+.gst-l b{display:block;font-size:1rem;color:var(--s-ink)}
+.gst-l p{margin:4px 0 0;font-size:.9rem;line-height:1.5;color:var(--s-mu)}
+.gst-l em{font-style:normal;font-weight:700;color:var(--s-ink)}
+
+/* sakelar */
+.gst-sw{position:relative;flex:none;width:52px;height:30px;padding:0;border:2px solid var(--s-ink);border-radius:99px;background:var(--s-sf);cursor:pointer;transition:background .2s}
+.gst-sw i{position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--s-ink);transition:transform .22s cubic-bezier(.34,1.4,.64,1),background .2s}
+.gst-sw[aria-checked=true]{background:var(--s-sun)}
+.gst-sw[aria-checked=true] i{transform:translateX(22px);background:#14185e}
+.gst-sw:hover{box-shadow:0 0 0 4px rgba(255,200,61,.3)}
+.gst-sw:focus-visible{outline:3px solid var(--s-or);outline-offset:3px}
+
+/* pilihan bersegmen */
+.gst-seg{display:inline-flex;flex-wrap:wrap;gap:6px;padding:4px;border:2px solid var(--s-ink);border-radius:14px;background:var(--s-sf);justify-self:start}
+.gst-seg button{display:inline-flex;align-items:center;gap:8px;min-height:42px;padding:8px 14px;border:0;border-radius:10px;background:none;color:var(--s-ink);font:600 .92rem/1 "DM Sans",var(--sans);cursor:pointer;transition:background .15s}
+.gst-seg button svg{width:18px;height:18px}
+.gst-seg button:hover{background:rgba(20,24,94,.06)}
+html[data-theme=dark] .gst-seg button:hover{background:rgba(255,255,255,.08)}
+.gst-seg button[aria-checked=true]{background:var(--s-sun);color:#14185e}
+.gst-seg button:focus-visible{outline:3px solid var(--s-or);outline-offset:2px}
+.gst-aa{font:800 .85rem/1 "DM Sans",var(--sans)}.gst-aa.big{font-size:1.1rem}
+
+/* volume */
+.gst-vol{display:flex;align-items:center;gap:14px;max-width:460px}
+.gst-ib{display:grid;place-items:center;flex:none;width:44px;height:44px;border:2px solid var(--s-ink);border-radius:12px;background:var(--s-sf);color:var(--s-ink);cursor:pointer}
+.gst-ib svg{width:22px;height:22px}
+.gst-ib[aria-pressed=true]{background:var(--s-sun);color:#14185e}
+.gst-ib:focus-visible{outline:3px solid var(--s-or);outline-offset:2px}
+.gst-vol input{flex:1;height:30px;margin:0;background:none;-webkit-appearance:none;appearance:none;cursor:pointer}
+.gst-vol input::-webkit-slider-runnable-track{height:8px;border-radius:99px;background:linear-gradient(90deg,var(--s-ink) var(--v),var(--s-ln) var(--v))}
+.gst-vol input::-moz-range-track{height:8px;border-radius:99px;background:var(--s-ln)}
+.gst-vol input::-moz-range-progress{height:8px;border-radius:99px;background:var(--s-ink)}
+.gst-vol input::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;margin-top:-8px;border-radius:50%;background:var(--s-sun);border:2px solid #14185e;transition:transform .15s}
+.gst-vol input::-moz-range-thumb{width:20px;height:20px;border-radius:50%;background:var(--s-sun);border:2px solid #14185e}
+.gst-vol input:hover::-webkit-slider-thumb{transform:scale(1.12)}
+.gst-vol input:focus-visible{outline:3px solid var(--s-or);outline-offset:4px;border-radius:8px}
+.gst-vol input.off{opacity:.45}
+.gst-vol output{min-width:3.4em;font:700 .9rem/1 "Space Mono",monospace;color:var(--s-ink);text-align:right}
+
+/* profil */
+.gst-name{display:grid;gap:8px;max-width:520px;padding-top:8px}
+.gst-lbl{font-weight:700;font-size:.95rem}
+.gst-in input{width:100%;padding:13px 14px;border:2px solid var(--s-ink);border-radius:12px;background:var(--s-sf);color:var(--s-ink);font:500 1rem/1.2 "DM Sans",var(--sans)}
+.gst-in input:focus{outline:none;box-shadow:0 0 0 4px rgba(255,200,61,.45)}
+.gst-in input[aria-invalid=true]{border-color:#d92d20;box-shadow:0 0 0 4px rgba(217,45,32,.15)}
+.gst-err{min-height:1.2em;margin:0;font-size:.85rem;font-weight:700;color:#d92d20}
+html[data-theme=dark] .gst-err{color:#ff8f86}
+.gst-prev{display:grid;gap:8px;padding:14px 16px;border:1.5px dashed var(--s-ln);border-radius:12px}
+.gst-greet{font-size:1.02rem;font-weight:600;color:var(--s-ink)}
+.gst-act{display:flex;flex-wrap:wrap;gap:10px;justify-content:flex-end;margin-top:6px}
+.gst .btn:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
+.gst-btn-d{color:#c0261b;border-color:#c0261b}
+.gst-btn-d:hover:not(:disabled){background:#c0261b;color:#fff}
+html[data-theme=dark] .gst-btn-d{color:#ff8f86;border-color:#ff8f86;background:transparent}
+html[data-theme=dark] .gst-btn-d:hover:not(:disabled){background:#c0261b;color:#fff;border-color:#c0261b}
+
+/* progres */
+.gst-dl{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0;margin:8px 0 0;border-top:1px solid var(--s-ln)}
+.gst-dl>div{padding:16px 16px 16px 0;border-bottom:1px solid var(--s-ln)}
+.gst-dl dt{font:700 .68rem/1.2 "Space Mono",monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--s-mu)}
+.gst-dl dd{margin:6px 0 0;display:grid;gap:2px}
+.gst-dl dd b{font:400 1.8rem/1 Anton,var(--disp,sans-serif);color:var(--s-ink)}
+.gst-dl dd small{font-size:.8rem;color:var(--s-mu)}
+.gst-dl2{grid-template-columns:1fr 1fr}.gst-dl2 dd b{font:700 1rem/1.3 "DM Sans",var(--sans)}
+.gst-store{display:flex;gap:10px;align-items:flex-start;margin:16px 0 6px;font-size:.9rem;color:var(--s-mu)}
+.gst-store i{flex:none;width:10px;height:10px;margin-top:6px;border-radius:50%;background:#2ec27e}
+.gst-store.warn i{background:#f5a524}
+.gst-danger{margin-top:10px}
+
+/* tentang */
+.gst-about{display:flex;gap:16px;align-items:center;padding:8px 0 14px}
+.gst-about .logo{flex:none;width:56px;height:56px;display:grid;place-items:center}
+.gst-about .logo svg{width:100%;height:100%}
+.gst-about b{font:400 1.6rem/1 Anton,var(--disp,sans-serif);text-transform:uppercase}
+.gst-about p{margin:4px 0 0;color:var(--s-mu);font-size:.95rem}
+.gst-more{margin:16px 0 0}.gst-more a{color:var(--s-ink);font-weight:700}
+
+/* modal konfirmasi */
+.gst-modal{position:fixed;inset:0;z-index:400;display:grid;place-items:center;padding:16px;background:rgba(10,14,40,.55);opacity:0;transition:opacity .2s}
+.gst-modal.on{opacity:1}
+.gst-mbox{width:min(100%,500px);max-height:calc(100dvh - 32px);overflow:auto;padding:26px 26px 22px;border:2px solid #14185e;border-radius:22px;background:#fff;color:#14185e;box-shadow:8px 8px 0 #14185e;transform:translateY(12px) scale(.98);transition:transform .25s cubic-bezier(.34,1.3,.64,1)}
+.gst-modal.on .gst-mbox{transform:none}
+html[data-theme=dark] .gst-mbox{background:#181c42;color:#eef0ff;border-color:#eef0ff;box-shadow:8px 8px 0 #000}
+.gst-mbox h2{margin:0 0 10px;font:800 1.4rem/1.2 "DM Sans",var(--sans);color:inherit}
+.gst-mbox p{margin:0 0 8px;font-size:.95rem;line-height:1.5}
+.gst-mbox ul{margin:0 0 12px;padding-left:20px;display:grid;gap:6px;font-size:.92rem}
+.gst-keep{padding:10px 12px;border-radius:10px;background:rgba(46,194,126,.12);font-weight:600}
+.gst-mbox .gst-act{margin-top:14px}
+
+/* layar kecil: navigasi jadi bar chip yang bisa digeser horizontal */
+@media(max-width:760px){
+  .gst{padding-top:96px}
+  .gst-g{grid-template-columns:1fr;gap:8px}
+  .gst-nav{display:flex;gap:6px;overflow-x:auto;margin:0 -16px;padding:10px 16px;background:var(--s-bg);border-bottom:1px solid var(--s-ln);scrollbar-width:none}
+  .gst-nav::-webkit-scrollbar{display:none}
+  .gst-nav button{flex:none;padding:9px 12px;border:1.5px solid var(--s-ln);border-radius:99px;font-size:.86rem;white-space:nowrap}
+  .gst-nav button[aria-current]{box-shadow:none;background:var(--s-sun);border-color:var(--s-sun);color:#14185e}
+  .gst-nav button span{display:none}
+  .gst-row{grid-template-columns:1fr auto;gap:10px 16px}
+  .gst-row.gst-row-col{grid-template-columns:1fr}
+  .gst-seg{display:grid;grid-template-columns:repeat(3,1fr);width:100%}
+  .gst-seg button{justify-content:center;flex-direction:column;gap:4px;padding:10px 6px;font-size:.82rem;text-align:center}
+  .gst-dl{grid-template-columns:1fr 1fr}.gst-dl2{grid-template-columns:1fr}
+  .gst-act .btn{flex:1;justify-content:center;padding:13px 12px;white-space:nowrap}
+}
+@media(prefers-reduced-motion:reduce){.gst-sw i,.gst-modal,.gst-mbox{transition:none}}
+
+/* ---------- 4. tema gelap untuk panel Perjalanan karier (memakai token, bukan warna langsung) ---------- */
+html[data-theme=dark] .gx-v3{--ink:#eef0ff;--cr:#0e1230;--cr2:#161a3d;--mu:#b9bee8;--or:#ff8a65}
+html[data-theme=dark] .gx3-lv,html[data-theme=dark] .gx3-stairs li.on .gx3-step,html[data-theme=dark] .gx-v3 .gx-flip .bk em{color:#14185e}
+html[data-theme=dark] .gx3-lv{box-shadow:5px 5px 0 #000}
+html[data-theme=dark] .gx3-mod:hover{box-shadow:6px 6px 0 #000}
+html[data-theme=dark] .gx-v3 .gx-flip .bk{background:#262b5c}
+html[data-theme=dark] .gx3-stairs li:not(.on):not(.now) .gx3-step{color:rgba(233,235,255,.5);background:repeating-linear-gradient(-45deg,rgba(255,255,255,.05) 0 6px,transparent 6px 12px),#161a3d}
