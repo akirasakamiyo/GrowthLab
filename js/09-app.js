@@ -537,7 +537,7 @@ const TIM=[["Rifa Haqi Putra Wibowo","1101624089"],["Thumpal Alvin","1101624069"
 const abcd=l=>{const t=l.abcd;return t?`<span class="ab ab-c" title="C, Condition (kondisi)">${t.c}</span>, <span class="ab ab-a" title="A, Audience (peserta)">${t.a}</span> mampu <span class="ab ab-b" title="B, Behavior (perilaku)">${t.b}</span>, <span class="ab ab-d" title="D, Degree (kriteria)">${t.d}</span>.`:l.tuj};
 const abcdKey=`<p class="ab-key"><span class="ab ab-a">A, Audience: siapa</span> <span class="ab ab-b">B, Behavior: bisa apa</span> <span class="ab ab-c">C, Condition: dalam kondisi apa</span> <span class="ab ab-d">D, Degree: seberapa baik</span></p>`;
 const matriks=()=>{const UJ=window.GLUJI_DATA||{},nT=[0,0,0,0,0,0];
- const baris=C.chapters.map((ch,i)=>`<tr><th scope="colgroup" colspan="4" style="width:auto;background:#eef1ff">Bab ${i+1}: ${esc(ch.t)}</th></tr>`+ch.l.map((l,j)=>{
+ const baris=C.chapters.map((ch,i)=>`<tr><th scope="colgroup" colspan="4" class="tb-bab" style="width:auto">Bab ${i+1}: ${esc(ch.t)}</th></tr>`+ch.l.map((l,j)=>{
   const q=GLD.QUIZ.filter(x=>x.b===i&&x.l===j).length,ck=GLD.CEK.filter(x=>x.b===i&&x.l===j).length,uj=(UJ[i+"-"+j]||[]).length,
    dn=GLD.DND.filter(d=>d.les&&d.les[0]===i&&d.les[1]===j),sm=GLD.SIM.filter(x=>(x.les||[]).some(([a,b])=>a===i&&b===j));
   nT[0]++;nT[1]+=q;nT[2]+=ck;nT[3]+=uj;nT[4]+=dn.length;nT[5]+=sm.length?1:0;

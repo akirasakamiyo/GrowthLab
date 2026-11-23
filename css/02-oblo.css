@@ -88,7 +88,7 @@ article{max-width:none;background:#fff;border-radius:40px;padding:64px 64px 56px
 article h1{font-size:clamp(3.4rem,8vw,7rem);line-height:.92;margin:14px 0 28px;color:var(--ink)}article h2{font-size:clamp(2rem,4vw,3.2rem);margin:56px 0 16px}
 article .intro{font-size:1.4rem;line-height:1.5;color:var(--ink);padding-left:22px;border-left:6px solid var(--sun)}article p{max-width:62ch;color:#2c3768}
 .call{background:#fff0c9;color:var(--ink)}.call .mono{color:var(--acc-t,var(--acc))}.ex{background:#eef2ff;border:0}.vis{border:0;background:repeating-linear-gradient(45deg,#eef2ff 0 14px,#e1e8ff 14px 15px);color:var(--ink)}
-.take{background:var(--blue);color:#fff;padding:40px;border-radius:32px}.take .mono{color:var(--sun);opacity:1}.take p{font-size:clamp(1.8rem,3.4vw,2.8rem)!important;line-height:1.1!important;text-transform:uppercase}
+.take{background:var(--blue);color:#fff;padding:40px;border-radius:32px}.take .mono{color:#fff3c2;opacity:1}.take p{font-size:clamp(1.8rem,3.4vw,2.8rem)!important;line-height:1.1!important;text-transform:uppercase}
 .next{border-top:1px solid rgba(10,26,107,.14)}
 @media(max-width:860px){article{padding:36px 24px;border-radius:30px}.side{padding:20px}.lay{padding-top:110px}}
 /* halaman dalam */
@@ -102,11 +102,11 @@ article .intro{font-size:1.4rem;line-height:1.5;color:var(--ink);padding-left:22
 .links a.pill:hover b,.links a.pill.cur b,.links a.pill:focus-visible b{background:rgba(10,26,107,.18)}
 /* ===== perbaikan kontras (audit 2026-11-06) ===== */
 /* oranye untuk TEKS sedikit lebih gelap agar terbaca di latar putih/pastel; oranye latar tetap --acc */
-:root{--acc-t:#d4461b}
+:root{--acc-t:#b63c14}
 /* kotak "Intinya" pelajaran: latar biru, teks harus putih */
 .take p,.take li,.take b{color:#fff!important}
 /* label/tombol oranye bertulisan putih: pakai oranye teks (lebih gelap) agar terbaca */
-.fab,.lab-tag{background:var(--acc-t)!important}
+.fab{background:var(--acc-t)!important}.lab-tag{background:#b63c14!important}
 .les>.mono,.les .mono{color:var(--acc-t)}
 /* judul hero dirapikan (2026-11-06): "ritme kamu." kuning solid tanpa garis luar, jarak baris lebih lega */
 .hero h1{line-height:.95;letter-spacing:.005em}

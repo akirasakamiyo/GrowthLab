@@ -37,6 +37,7 @@
     h.classList.toggle("gl-rm", P.motion);
     h.classList.toggle("gl-big", P.text === "besar");
     h.classList.toggle("gl-hc", P.contrast);
+    h.classList.toggle("gl-reduce", userRM());   // salinan aturan @media (prefers-reduced-motion) di css/28-kurangi-gerak.css
     const mt = document.querySelector('meta[name="theme-color"]'); if (mt) mt.content = dark ? "#0e1230" : "#ffc83d";
   };
   const emit = () => { try { dispatchEvent(new CustomEvent("gl-pref", { detail: Object.assign({}, P) })) } catch (e) {} };

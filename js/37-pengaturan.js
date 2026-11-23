@@ -64,11 +64,11 @@ window.GLSET = (() => {
           </form>`)}
         ${sec("tampilan", "Tampilan", 2, "Tema warna dan gerak antarmuka.",
           seg("theme", P.theme, "Tema", "Ikuti perangkat memakai tema terang atau gelap sesuai pengaturan laptop/HP-mu.", [["light", "Terang", IC.light], ["dark", "Gelap", IC.dark], ["system", "Ikuti perangkat", IC.system]])
-          + sw("anim", P.anim, "Animasi antarmuka", "Animasi dekoratif seperti maskot bergerak, latar beranimasi, dan transisi halaman. Kalau dimatikan, umpan balik penting (tombol, centang, notifikasi) tetap ada."))}
+          + sw("anim", P.anim, "Animasi antarmuka", "Animasi dekoratif seperti maskot bergerak, latar beranimasi, efek gulir, dan transisi halaman. Kalau dimatikan, situs tampil diam seperti mode kurangi gerakan di perangkat; umpan balik penting (tombol, centang, notifikasi) tetap ada. Halaman dimuat ulang sebentar supaya berlaku di semua bagian."))}
         ${sec("akses", "Aksesibilitas", 3, "Biar lebih nyaman dibaca dan dipakai.",
           seg("text", P.text, "Ukuran teks", "Memperbesar teks di seluruh situs sekitar 12%.", [["normal", "Normal", '<span class="gst-aa" aria-hidden="true">Aa</span>'], ["besar", "Besar", '<span class="gst-aa big" aria-hidden="true">Aa</span>']])
           + sw("contrast", P.contrast, "Kontras tinggi", "Teks abu-abu jadi lebih pekat, garis dan tepi tombol lebih tegas, fokus keyboard lebih tebal.")
-          + sw("motion", P.motion, "Kurangi gerakan", `Mematikan efek parallax dan gulir halus, serta mempersingkat transisi.${GLP.systemRM() ? " <em>Perangkatmu sudah meminta gerakan dikurangi, jadi ini sudah berlaku.</em>" : ""}`))}
+          + sw("motion", P.motion, "Kurangi gerakan", `Mematikan efek parallax dan gulir halus, menghentikan animasi berulang, dan mempersingkat transisi. Halaman dimuat ulang sebentar.${GLP.systemRM() ? " <em>Perangkatmu sudah meminta gerakan dikurangi, jadi ini sudah berlaku.</em>" : ""}`))}
         ${sec("media", "Audio & video", 4, "Berlaku untuk video di situs dan suara di Latihan.", `
           <div class="gst-row gst-row-col"><div class="gst-l"><b id="st-vol-l">Volume</b><p>Dipakai saat kamu menyalakan suara video, dan untuk efek suara serta musik Latihan.</p></div>
             <div class="gst-vol"><button type="button" class="gst-ib" id="st-mute" aria-pressed="${P.muted}" aria-label="${P.muted ? "Nyalakan suara" : "Bisukan suara"}">${P.muted ? IC.mute : IC.vol}</button>
@@ -151,6 +151,11 @@ window.GLSET = (() => {
     function setPref(k, v) {
       if (k === "sfx" || k === "music") { try { GLX.ui.SND.set(k, v) } catch (_) {} return say(v ? "Dinyalakan." : "Dimatikan.") }
       GLP.set({ [k]: v });
+      /* animasi dibaca sekali saat modul dimuat (Lenis, GSAP, parallax, transisi halaman): muat ulang supaya berlaku di semua bagian */
+      if (k === "anim" || k === "motion") {
+        try { sessionStorage.setItem("gl-flash", k === "anim" ? (v ? "Animasi antarmuka dinyalakan." : "Animasi antarmuka dimatikan.") : (v ? "Gerakan dikurangi." : "Gerakan kembali normal.")); sessionStorage.setItem("gl-flash-to", k === "anim" ? "st-tampilan" : "st-akses") } catch (_) {}
+        setTimeout(() => location.reload(), 150); return;
+      }
       const msg = { theme: { light: "Tema terang dipakai.", dark: "Tema gelap dipakai.", system: "Tema mengikuti perangkat." }[v], text: v === "besar" ? "Teks diperbesar." : "Ukuran teks normal." }[k];
       say(msg || (v ? "Dinyalakan." : "Dimatikan."));
     }
@@ -174,6 +179,8 @@ window.GLSET = (() => {
   }
 
   /* pesan setelah muat ulang (mis. sesudah reset) */
-  addEventListener("load", () => { let m = null; try { m = sessionStorage.getItem("gl-flash"); sessionStorage.removeItem("gl-flash") } catch (e) {} if (m) setTimeout(() => say(m), 900) });
+  addEventListener("load", () => { let m = null, to = null; try { m = sessionStorage.getItem("gl-flash"); to = sessionStorage.getItem("gl-flash-to"); sessionStorage.removeItem("gl-flash"); sessionStorage.removeItem("gl-flash-to") } catch (e) {}
+    if (to) setTimeout(() => { const t = document.getElementById(to); if (t) { const y = t.getBoundingClientRect().top + scrollY - 90; try { window.__lenis ? window.__lenis.scrollTo(y, { immediate: true }) : scrollTo(0, y) } catch (_) { scrollTo(0, y) } } }, 700);
+    if (m) setTimeout(() => say(m), 900) });
   return { html, bind, checkName };
 })();

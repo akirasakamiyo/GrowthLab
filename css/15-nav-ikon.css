@@ -77,7 +77,7 @@
 .ico svg .ba,svg.gi .ba{stroke:var(--ba,#ffc83d)}
 .ico svg circle.ba,.ico svg .ba circle{fill:none}
 /* ikon di latar terang: aksen oranye agar terlihat */
-.isg,.gd,.lab,.gl-i,#ltp[data-cur=dnd],.panel,.cek{--ba:#e2552b}
+.isg,.gd,.lab,.gl-i,#ltp[data-cur=dnd],.panel,.cek{--ba:#c4431a}
 .ico svg [class*="bm-"],svg.gi [class*="bm-"]{transform-box:fill-box;transform-origin:center}
 .bm-wig{animation:bmWig 1.8s ease-in-out infinite;transform-origin:left bottom!important}
 .bm-rib{animation:bmRib 1.4s ease-in-out infinite;transform-origin:top center!important}

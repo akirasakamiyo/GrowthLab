@@ -2,7 +2,7 @@
    Kertas krem, judul Anton biru tua, nomor oranye seperti daftar bab, kartu putih berbayang biru tua,
    aksen kuning. Ciri khas panel ini: tangga karier (Labi berdiri di anak tangga sekarang),
    tabung ukur untuk skor skill, lencana berbentuk stiker. */
-.gx-v3{--ink:#14185e;--or:#e2552b;--sun:#ffc83d;--cr:#fbf6ea;--cr2:#f3ead6;--mu:#4d5486;font-family:"DM Sans",var(--sans);color:var(--ink)}
+.gx-v3{--ink:#14185e;--or:#c4431a;--sun:#ffc83d;--cr:#fbf6ea;--cr2:#f3ead6;--mu:#4d5486;font-family:"DM Sans",var(--sans);color:var(--ink)}
 .gx-dlg:has(.gx-v3){background:rgba(10,16,48,.6)}
 .gx-dlg-in.gx-v3{width:min(96vw,1180px);max-height:calc(100dvh - 32px);height:auto;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
   display:block;padding:0;border-radius:28px;background:var(--cr);scrollbar-width:thin;box-shadow:0 40px 90px -30px rgba(0,0,0,.55)}
@@ -16,7 +16,7 @@
 /* ---------- header ---------- */
 .gx3-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:24px clamp(24px,4vw,56px);align-items:end;
   padding:clamp(26px,3.4vw,44px) clamp(20px,3.4vw,48px) 0;background:var(--cr2);border-radius:28px 28px 0 0}
-.gx3-k{display:block;font:700 .74rem/1 "Space Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:var(--or)}
+.gx3-k{display:block;font:700 .74rem/1 "Space Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#a8370f}
 .gx3-tt{display:flex;align-items:flex-end;gap:18px;margin:12px 0 14px}
 .gx3-lv{display:grid;justify-items:center;line-height:1;padding:10px 14px 8px;border-radius:16px;background:var(--sun);box-shadow:5px 5px 0 var(--ink);rotate:-4deg}
 .gx3-lv small{font:700 .62rem/1 "Space Mono",monospace;letter-spacing:.14em;text-transform:uppercase}
@@ -40,7 +40,7 @@
 .go .gx3-step{scale:1 1}
 .gx3-stairs li.on .gx3-step{background:var(--sun)}
 .gx3-stairs li.now .gx3-step{background:var(--or);color:#fff;box-shadow:inset 0 -4px 0 rgba(0,0,0,.12)}
-.gx3-stairs li:not(.on):not(.now) .gx3-step{background:repeating-linear-gradient(-45deg,rgba(20,24,94,.06) 0 6px,transparent 6px 12px),#fff;border-style:dashed;color:rgba(20,24,94,.4)}
+.gx3-stairs li:not(.on):not(.now) .gx3-step{background:repeating-linear-gradient(-45deg,rgba(20,24,94,.06) 0 6px,transparent 6px 12px),#fff;border-style:dashed;color:rgba(20,24,94,.62)}
 .gx3-stairs b{order:2;padding:10px 2px 2px;font-weight:800;font-size:.9rem;line-height:1.15;border-top:3px solid var(--ink)}
 .gx3-stairs small{order:3;font:700 .64rem/1.3 "Space Mono",monospace;color:var(--mu);padding-bottom:12px}
 .gx3-stairs li:not(.on):not(.now) b{color:var(--mu)}
