@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GrowthLab — Memuat</title>
+
+<!--
+  LOADING SCREEN GROWTHLAB (versi kaca / glassmorphism)
+  ------------------------------------------------------
+  Satu file ini sudah lengkap: HTML, CSS, dan JavaScript.
+  Cara coba: klik dua kali file ini, langsung terbuka di browser. Tidak perlu server.
+
+  Yang perlu kamu siapkan sendiri cuma satu: video latar dari Higgsfield.
+  Simpan videonya di  assets/video/loading-bg.mp4  (nama dan lokasi bisa diganti,
+  cari tulisan "GANTI VIDEO DI SINI" di bawah). Selama videonya belum ada,
+  layar tetap tampil rapi dengan latar gradasi navy sebagai pengganti.
+-->
+
+<style>
+  /* ---------- Palet: navy gelap + slate, aksen putih kebiruan. Tidak ada hijau. ---------- */
+  :root {
+    --navy-900: #070c1a;   /* latar paling luar */
+    --navy-800: #0c1428;
+    --navy-700: #13203d;
+    --slate-300: #b6c2dc;  /* teks sekunder */
+    --ice: #eaf1ff;        /* teks utama */
+    --accent: #8fb4ff;     /* biru lembut untuk garis progres */
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    background: var(--navy-900);
+    color: var(--ice);
+    font-family: Inter, "SF Pro Display", "Segoe UI", system-ui, -apple-system, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  /* selama loading, halaman di belakang tidak bisa digulir */
+  body.sedang-memuat { overflow: hidden; }
+
+  /* ---------- Lapisan loading: menutup seluruh layar, isinya dipusatkan ---------- */
+  #loading {
+    position: fixed; inset: 0; z-index: 1000;
+    display: grid; place-items: center;
+    padding: clamp(12px, 3vw, 40px);
+    background: radial-gradient(120% 90% at 50% 40%, var(--navy-800) 0%, var(--navy-900) 70%);
+  }
+
+  /* ---------- Panggung 16:9 ----------
+     Lebarnya mengikuti layar, tapi dibatasi juga oleh tinggi layar supaya
+     kotaknya selalu utuh 16:9 dan tidak pernah terpotong. */
+  .panggung {
+    position: relative;
+    width: min(100%, calc((100vh - 2 * clamp(12px, 3vw, 40px)) * 16 / 9), 1180px);
+    aspect-ratio: 16 / 9;
+    border-radius: clamp(12px, 1.6vw, 22px);
+    overflow: hidden;
+    display: grid; place-items: center;       /* kartu kaca otomatis tepat di tengah */
+    isolation: isolate;                       /* z-index di dalamnya tidak bocor keluar */
+    background: linear-gradient(135deg, #16264a 0%, #0d1730 55%, #0a1022 100%);  /* pengganti kalau video belum ada */
+    border: 1px solid rgba(234, 241, 255, .10);
+    box-shadow: 0 40px 90px -40px rgba(0, 0, 0, .8);
+  }
+
+  /* video latar: paling bawah */
+  .panggung video {
+    position: absolute; inset: 0; z-index: 0;
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0; transition: opacity .6s ease;  /* baru ditampilkan setelah benar-benar bisa diputar */
+  }
+  .panggung video.siap { opacity: 1; }
+
+  /* tirai tipis di atas video supaya teks tetap terbaca apa pun isi videonya */
+  .tirai {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(180deg, rgba(7, 12, 26, .45) 0%, rgba(7, 12, 26, .68) 100%);
+  }
+
+  /* ---------- Kartu kaca ---------- */
+  .kaca {
+    position: relative; z-index: 2;
+    width: min(58%, 560px); min-width: 250px;
+    padding: clamp(20px, 3.4vw, 44px) clamp(20px, 3.6vw, 48px) clamp(18px, 3vw, 38px);
+    border-radius: clamp(14px, 1.8vw, 24px);
+    text-align: center;
+    background: rgba(12, 20, 40, .55);          /* cukup gelap supaya teks tetap terbaca di atas video terang */
+    border: 1px solid rgba(234, 241, 255, .16);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, .10), 0 24px 60px -30px rgba(0, 0, 0, .7);
+    -webkit-backdrop-filter: blur(18px) saturate(1.2);   /* Safari */
+            backdrop-filter: blur(18px) saturate(1.2);
+    opacity: 0;                                /* dimunculkan oleh GSAP */
+  }
+
+  .merek {
+    margin: 0;
+    font-size: clamp(1.7rem, 4.4vw, 3.2rem);
+    font-weight: 600; letter-spacing: -.02em; line-height: 1.05;
+  }
+  .merek span { font-weight: 300; color: rgba(234, 241, 255, .8); }   /* "Lab" sedikit lebih ringan */
+
+  /* garis progres: tipis 2px, ujungnya membulat */
+  .progres {
+    position: relative;
+    height: 2px; margin-top: clamp(16px, 2.6vw, 30px);
+    border-radius: 2px; overflow: hidden;
+    background: rgba(234, 241, 255, .16);
+  }
+  .progres i {
+    position: absolute; inset: 0;
+    background: linear-gradient(90deg, var(--accent), #ffffff);
+    transform: scaleX(0); transform-origin: left center;   /* diisi dengan scaleX supaya ringan dan mulus */
+  }
+  /* baris kecil di bawah garis: keterangan di kiri, persen di kanan */
+  .bawah {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+    margin-top: clamp(8px, 1.1vw, 12px);
+    font-size: clamp(.72rem, 1vw, .82rem);
+    color: rgba(234, 241, 255, .82);
+  }
+  .keterangan { letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
+  .persen { font-variant-numeric: tabular-nums; letter-spacing: .1em; }   /* angka tidak goyang saat berganti */
+
+  /* Di HP posisi berdiri, kotak 16:9 jadi terlalu pendek. Khusus di sini panggungnya
+     dibuat lebih tinggi supaya kartu dan teksnya tetap enak dibaca. */
+  @media (max-aspect-ratio: 3/4) {
+    .panggung { aspect-ratio: 4 / 5; width: min(100%, 520px); }
+    .kaca { width: 84%; }
+  }
+
+  /* ---------- Konten utama LMS (contoh saja, ganti dengan halamanmu) ---------- */
+  main { min-height: 100%; display: grid; place-items: center; padding: 40px 20px; text-align: center; }
+  main h1 { font-weight: 600; letter-spacing: -.02em; margin: 0 0 8px; }
+  main p { color: var(--slate-300); margin: 0; }
+</style>
+</head>
+
+<body class="sedang-memuat">
+
+<!-- ================= LAYAR LOADING ================= -->
+<div id="loading" role="status" aria-live="polite" aria-label="GrowthLab sedang dimuat">
+  <div class="panggung">
+
+    <!-- GANTI VIDEO DI SINI: taruh hasil render Higgsfield di assets/video/loading-bg.mp4 -->
+    <video id="video-latar" autoplay loop muted playsinline preload="auto" aria-hidden="true">
+      <source src="assets/video/loading-bg.mp4" type="video/mp4">
+    </video>
+
+    <div class="tirai"></div>
+
+    <div class="kaca" id="kaca">
+      <p class="merek" id="merek">Growth<span>Lab</span></p>
+      <div class="progres" id="progres" role="progressbar" aria-label="Progres memuat" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="isi"></i></div>
+      <div class="bawah" id="bawah">
+        <span class="keterangan">Menyiapkan ruang belajar</span>
+        <span class="persen" id="persen" aria-hidden="true">0%</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ================= KONTEN UTAMA LMS (contoh) ================= -->
+<main id="konten" inert>
+  <div>
+    <h1>Selamat datang di GrowthLab</h1>
+    <p>Di sinilah halaman utama LMS-mu tampil setelah loading selesai.</p>
+  </div>
+</main>
+
+<!-- Penjaga: kalau internet lambat dan GSAP tidak kunjung termuat, setelah 4 detik layar loading
+     dibuka paksa supaya orang tidak terjebak. Ditaruh sebelum tag GSAP karena timer tetap jalan
+     walaupun browser sedang menunggu file dari CDN. -->
+<script>
+  window.__jagaLoading = setTimeout(function () {
+    if (window.gsap) return;
+    document.getElementById("loading").style.display = "none";
+    document.body.classList.remove("sedang-memuat");
+    document.getElementById("konten").removeAttribute("inert");
+    document.title = "GrowthLab";
+  }, 4000);
+</script>
+
+<!-- GSAP dari CDN. Kalau sedang offline, baris kedua mengambil salinan lokal di vendor/ (kalau ada). -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" integrity="sha384-g4NTh/Iv5PPU4xPyhEWqPcwtNXOvdaDI8LLnyYfyNZOjKJeYQyjzQ9X5275eBjpt" crossorigin="anonymous"></script>
+<script>window.gsap || document.write('<script src="vendor/gsap.min.js"><\/script>')</script>
+
+<script>
+(function () {
+  var loading = document.getElementById("loading");
+  var kaca    = document.getElementById("kaca");
+  var isi     = document.getElementById("isi");
+  var persen  = document.getElementById("persen");
+  var progres = document.getElementById("progres");
+  var video   = document.getElementById("video-latar");
+
+  /* Video baru diperlihatkan kalau memang bisa diputar. Kalau filenya belum ada
+     atau gagal dimuat, kita diamkan saja: latar gradasi navy yang tampil. */
+  video.addEventListener("canplay", function () { video.classList.add("siap"); });
+  video.play && video.play().catch(function () { /* autoplay ditolak browser: tidak masalah, latar gradasi tetap ada */ });
+
+  /* Dipanggil paling akhir: loading dibuang total supaya konten bisa diklik dan digulir lagi. */
+  function selesai() {
+    video.pause();
+    loading.style.display = "none";
+    loading.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("sedang-memuat");
+    document.getElementById("konten").removeAttribute("inert");   /* konten boleh diklik dan dibaca pembaca layar lagi */
+    document.title = "GrowthLab";
+    clearTimeout(window.__jagaLoading);
+  }
+
+  /* Jaring pengaman: kalau GSAP sama sekali tidak termuat (CDN mati dan tidak ada
+     salinan lokal), jangan sampai orang terjebak di layar loading. */
+  if (!window.gsap) { kaca.style.opacity = 1; setTimeout(selesai, 800); return; }
+  clearTimeout(window.__jagaLoading);   /* GSAP sudah ada, penjaga tidak diperlukan lagi */
+
+  /* Orang yang mematikan animasi di perangkatnya cukup diberi jeda singkat lalu langsung masuk. */
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    gsap.set(kaca, { opacity: 1 });
+    gsap.set(isi, { scaleX: 1 });
+    persen.textContent = "100%";
+    gsap.to(loading, { opacity: 0, duration: .3, delay: .6, onComplete: selesai });
+    return;
+  }
+
+  var hitung = { nilai: 0 };   /* angka 0–100 yang dianimasikan, lalu ditulis ke layar */
+  var kabut  = { blur: 18 };   /* kekuatan blur kaca dalam px, diturunkan ke 0 saat keluar */
+
+  /* Blur ditulis langsung ke elemennya, lengkap dengan versi -webkit- untuk Safari.
+     (Sengaja tidak lewat variabel CSS: di Safari, var() di dalam backdrop-filter tidak terbaca.) */
+  function pasangBlur() {
+    var nilai = "blur(" + kabut.blur.toFixed(2) + "px) saturate(1.2)";
+    kaca.style.webkitBackdropFilter = nilai;
+    kaca.style.backdropFilter = nilai;
+  }
+
+  var tl = gsap.timeline({ defaults: { ease: "power2.out" }, onComplete: selesai });
+
+  /* ---------- MASUK ---------- */
+  tl.to(kaca, { opacity: 1, duration: .7 }, .15)                                            /* kartu kaca muncul pelan */
+    .from("#merek", { y: 26, opacity: 0, duration: .9, ease: "power3.out" }, .3)            /* "GrowthLab" naik sambil memudar masuk */
+    .from("#progres", { opacity: 0, duration: .5 }, .65)
+    .from("#bawah", { y: 10, opacity: 0, duration: .6 }, .8)
+
+  /* ---------- PROGRES 0 → 100 dalam 2,6 detik ---------- */
+    .to(isi, { scaleX: 1, duration: 2.6, ease: "power2.inOut" }, 1)
+    .to(hitung, {
+      nilai: 100, duration: 2.6, ease: "power2.inOut",
+      onUpdate: function () {
+        var n = Math.round(hitung.nilai);
+        persen.textContent = n + "%";
+        progres.setAttribute("aria-valuenow", n);
+      }
+    }, 1)
+
+  /* ---------- KELUAR: unblur + fade + kesan menjauh ----------
+     Blur kaca diturunkan dari 18px ke 0px, bersamaan kartunya memudar dan mengecil
+     sedikit ke 0.95. Video ikut sedikit membesar
+     supaya terasa ada kedalaman, lalu seluruh lapisan loading memudar. */
+    .to(kabut, { blur: 0, duration: .9, ease: "power2.inOut", onUpdate: pasangBlur }, "+=.25")
+    .to(kaca, { opacity: 0, scale: .95, duration: .9, ease: "power2.inOut" }, "<")
+    .to(".panggung", { scale: 1.04, duration: 1.1, ease: "power2.inOut" }, "<")
+    .to(loading, { opacity: 0, duration: .7, ease: "power2.inOut" }, "<.35");
+})();
+</script>
+</body>
+</html>
