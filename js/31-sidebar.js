@@ -32,6 +32,7 @@
     faq: `<svg ${S}><path class="f" d="M5.4 5.4h14.4c.9 0 1.6.7 1.6 1.6v8.8c0 .9-.7 1.6-1.6 1.6h-7.6l-4.4 3.6v-3.6H5.4c-.9 0-1.6-.7-1.6-1.6V7c0-.9.7-1.6 1.6-1.6z"/><path d="M4.4 4.2h14.4c1 0 1.8.8 1.8 1.8v8.8c0 1-.8 1.8-1.8 1.8h-7.4l-4.6 3.8v-3.8H4.4c-1 0-1.8-.8-1.8-1.8V6c0-1 .8-1.8 1.8-1.8z"/><path d="M9.6 8.6c0-1.2.9-2 2.1-2s2.1.8 2.1 1.9c0 1.6-2.1 1.7-2.1 3.2"/><path d="M11.7 14.2h.01"/></svg>`,
     komunitas: `<svg ${S}><circle class="f" cx="9.4" cy="8.6" r="3.5"/><path class="f" d="M3.8 20.6c.4-3.6 2.8-5.8 5.8-5.8s5.4 2.2 5.8 5.8z"/><circle cx="8.6" cy="7.8" r="3.4"/><path d="M2.8 20.2c.5-3.7 2.8-5.9 5.8-5.9s5.3 2.2 5.8 5.9"/><path d="M15.4 4.8c1.9-.3 3.6 1 3.6 3s-1.4 3.2-3.2 3.2"/><path d="M17.2 14.6c2.3.6 3.6 2.6 4 5.6"/></svg>`,
     tentang: `<svg ${S}><path class="f" d="M12.8 20.6s-7.6-4.4-7.6-10.2a4.2 4.2 0 0 1 7.6-2.5 4.2 4.2 0 0 1 7.6 2.5c0 5.8-7.6 10.2-7.6 10.2z"/><path d="M12 19.8S4.4 15.4 4.4 9.6A4.2 4.2 0 0 1 12 7.1a4.2 4.2 0 0 1 7.6 2.5c0 5.8-7.6 10.2-7.6 10.2z"/><path d="M7.6 9.4c.2-1 .9-1.7 1.8-1.9"/></svg>`,
+    pengaturan: `<svg ${S}><circle class="f" cx="12.8" cy="12.8" r="4.6"/><path d="M12 3.2l1.5 2.4 2.8-.6.6 2.8 2.4 1.5-1.3 2.6 1.3 2.6-2.4 1.5-.6 2.8-2.8-.6L12 20.8l-1.5-2.4-2.8.6-.6-2.8-2.4-1.5 1.3-2.6-1.3-2.6 2.4-1.5.6-2.8 2.8.6z"/><circle cx="12" cy="12" r="3"/></svg>`,
     panel: `<svg ${S}><rect class="f" x="4.4" y="5.4" width="5.4" height="14.2" rx="2"/><rect x="3.2" y="4.2" width="17.6" height="15.6" rx="3.4"/><path d="M9.4 4.4v15.2"/></svg>`,
     chev: `<svg ${S}><path d="M9.2 6.2c2.1 1.9 4 3.8 5.8 5.8-1.8 2-3.7 3.9-5.8 5.8"/></svg>`
   };
@@ -40,7 +41,7 @@
   const GRUP = [
     ["panduan", "Panduan", "#ff5a3c", [["petunjuk", "Petunjuk", "", "#ff5a3c"], ["tujuan", "Tujuan belajar", "", "#14b8a6"], ["alur", "Alur belajar", "", "#7c5cff"], ["peta", "Peta konsep", "", "#2b55ff"], ["glosarium", "Glosarium", "", "#f5a524"], ["referensi", "Referensi", "", "#ff7a3d"], ["faq", "FAQ", "", "#e0459b"], ["tentang", "Identitas tim", "", "#14b8a6", "Identitas tim pengembang"]]],
     /* 2026-11-17: identitas pengembang dipindah ke grup Panduan (masukan dosen: panduan memuat identitas pengembang) */
-    ["lain", "Lainnya", "#7c5cff", [["komunitas", "Belajar bareng", "", "#14b8a6"]]]
+    ["lain", "Lainnya", "#7c5cff", [["komunitas", "Belajar bareng", "", "#14b8a6"], ["pengaturan", "Pengaturan", "", "#ff7a3d"]]]
   ];
   const ic = (k, c) => `<span class="sbn-ic" style="--c:${c}">${I[k]}</span>`;
   /* elemen ke-5 (opsional) = nama lengkap untuk tooltip dan pembaca layar bila label tampil dipendekkan */

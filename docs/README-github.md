@@ -74,6 +74,8 @@ Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas
 - **Profil kesiapan kerja:** skor 3 soft skill dalam tabung ukur dan sertifikat penyelesaian (PNG).
 - **Tanpa leaderboard:** tidak ada persaingan antarpengguna; yang dibandingkan hanya progresmu sendiri.
 
+**⚙️ Pengaturan.** Nama untuk sapaan Beranda dan sertifikat, tema terang/gelap/ikuti perangkat, animasi, ukuran teks, kontras tinggi, kurangi gerakan, volume, video otomatis, dan reset progres dengan konfirmasi.
+
 ![Panel perjalanan karier](docs/screenshots/06-gamifikasi-20261113.png)
 
 **💾 Data milik pengguna.** Progres tersimpan di browser dan bisa diunduh atau dipulihkan sebagai file cadangan. Catatan aktivitas belajar bisa diekspor (JSON/CSV) untuk keperluan penelitian. Tidak ada data yang dikirim ke pihak lain.

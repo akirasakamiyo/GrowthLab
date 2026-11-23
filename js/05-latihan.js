@@ -65,9 +65,11 @@ const IC={lock:I('<rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 1
 const SND=(()=>{
  const PK="gl-sfx",P={sfx:true,music:true,timer:45,pu:true};try{Object.assign(P,JSON.parse(localStorage.getItem(PK)||"{}"))}catch(e){}
  const keep=()=>{try{localStorage.setItem(PK,JSON.stringify(P))}catch(e){}};
- let C=null,FXG=null,MUG=null,NB=null,mu=null,want=null;
+ let C=null,FXG=null,MUG=null,NB=null,mu=null,want=null,MG=null;
+ /* 2026-11-23: volume utama dari Pengaturan (GLP.vol 0..1) */
+ const vol=()=>window.GLP?GLP.vol():1;addEventListener("gl-pref",()=>{if(MG)MG.gain.value=.85*vol()});
  function init(){if(C)return C;const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;
-  try{C=new AC();const M=C.createGain();M.gain.value=.85;M.connect(C.destination);FXG=C.createGain();FXG.connect(M);MUG=C.createGain();MUG.gain.value=.5;MUG.connect(M);
+  try{C=new AC();const M=MG=C.createGain();M.gain.value=.85*vol();M.connect(C.destination);FXG=C.createGain();FXG.connect(M);MUG=C.createGain();MUG.gain.value=.5;MUG.connect(M);
    NB=C.createBuffer(1,C.sampleRate,C.sampleRate);const d=NB.getChannelData(0);for(let i=0;i<d.length;i++)d[i]=Math.random()*2-1}catch(e){C=null}return C}
  function wake(){const c=init();if(c&&c.state!=="running")try{c.resume()}catch(e){}return c}
  function tone(f,d,o={}){if(!C)return;const t=C.currentTime+(o.at||0),g=C.createGain(),s=C.createOscillator();s.type=o.type||"sine";s.frequency.setValueAtTime(f,t);if(o.to)s.frequency.exponentialRampToValueAtTime(o.to,t+d);

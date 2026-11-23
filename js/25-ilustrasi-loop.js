@@ -75,9 +75,11 @@ window.GLLOOP = (() => {
   /* video loop bergaya video promo (render 6 detik, berulang mulus). Dipakai untuk kursus, kartu bab, latihan, petunjuk. */
   const vid = n => `<video class="vloop" src="assets/video/loop/${n}.mp4" poster="assets/video/loop/${n}.jpg" autoplay muted loop playsinline preload="metadata" disablepictureinpicture aria-hidden="true"></video>`;
   if (!window.__vloopIO && "IntersectionObserver" in window) {
-    const rm = matchMedia("(prefers-reduced-motion:reduce)").matches;
-    const io = window.__vloopIO = new IntersectionObserver(es => es.forEach(e => { const v = e.target; if (e.isIntersecting && !rm) { const p = v.play(); p && p.catch(() => {}) } else v.pause() }), { rootMargin: "80px" });
+    /* 2026-11-23: ikut Pengaturan (putar video otomatis, kurangi gerakan) lewat GLP.autoplay() */
+    const rmNow = () => window.GLP ? !GLP.autoplay() : matchMedia("(prefers-reduced-motion:reduce)").matches, rm = rmNow();
+    const io = window.__vloopIO = new IntersectionObserver(es => es.forEach(e => { const v = e.target; if (e.isIntersecting && !rmNow()) { const p = v.play(); p && p.catch(() => {}) } else v.pause() }), { rootMargin: "80px" });
     new MutationObserver(() => document.querySelectorAll("video.vloop:not([data-io])").forEach(v => { v.dataset.io = 1; if (rm) { v.removeAttribute("autoplay"); v.pause() } io.observe(v) })).observe(document.body, { childList: true, subtree: true });
+    addEventListener("gl-pref", () => document.querySelectorAll("video.vloop[data-io]").forEach(v => { io.unobserve(v); io.observe(v) }));
   }
   /* lukisan impasto kartu bab (2026-11-12): Bab 1 kintsugi, Bab 2 dua lentera, Bab 3 gunung es */
   const luk = (n, alt) => `<img class="luk" src="assets/lukisan/bab${n}.jpg" alt="${alt}" width="1000" height="500" decoding="async">`;
