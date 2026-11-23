@@ -71,7 +71,7 @@ Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas
 - **XP:** didapat dari penguasaan materi, bukan sekadar klik. Mengulang latihan hanya menambah XP kalau skornya naik.
 - **Level karier:** Pemula → Calon Kandidat → Siap Interview → Job Ready.
 - **Badge dan target:** 12 badge kompetensi, streak mingguan yang ramah (3 hari per minggu, ada jatah hari libur), dan quest mingguan.
-- **Profil kesiapan kerja:** radar 3 soft skill dan sertifikat penyelesaian (PNG).
+- **Profil kesiapan kerja:** skor 3 soft skill dalam tabung ukur dan sertifikat penyelesaian (PNG).
 - **Tanpa leaderboard:** tidak ada persaingan antarpengguna; yang dibandingkan hanya progresmu sendiri.
 
 ![Panel perjalanan karier](docs/screenshots/06-gamifikasi-20261113.png)
