@@ -44,3 +44,23 @@
 .lap-u .lap-dl>div{grid-template-columns:96px 1fr;padding:12px 18px}
 @media (max-width:980px){.lap-stat{grid-template-columns:1fr 1fr}.lap-hp{grid-template-columns:1fr;gap:14px;padding-bottom:0}.lap-ar{transform:rotate(135deg);margin:0 auto}.lap-loop{position:static;height:auto;border:3px dashed #0a1a6b;border-radius:14px;padding:12px;justify-content:center}.lap-loop>span{transform:none;background:none}.lap-uj{grid-template-columns:1fr}}
 @media (max-width:620px){.lap-dl>div{grid-template-columns:1fr;gap:4px;padding:14px 18px}.lap-tl li{grid-template-columns:1fr;gap:2px}.lap-stat b{font-size:1.9rem}}
+
+/* ==================================================================
+   Versi produk (2026-11-24, js/46-versi.js): kartu daftar versi di halaman Tentang
+   dan label kecil di salinan versi beku (versi/<slug>/).
+   ================================================================== */
+.gl-vlist{display:grid;gap:14px;margin-top:18px}
+.gl-v{display:flex;align-items:center;gap:20px;background:#fff;color:#0a1a6b;border:3px solid #0a1a6b;border-radius:20px;box-shadow:6px 6px 0 #0a1a6b;padding:18px 22px}
+.gl-v>div{flex:1;min-width:0}
+.gl-v b{font:800 1.15rem/1.2 'Bricolage Grotesque',sans-serif}
+.gl-v small{margin-left:10px;font:700 .85rem 'DM Sans',sans-serif;color:#55609e}
+.gl-v p{margin:4px 0 0;font:500 .97rem/1.5 'DM Sans',sans-serif;color:#26306b}
+.gl-v.on{background:#fff6d6;box-shadow:6px 6px 0 #0a1a6b,0 0 0 4px #ffd23f}
+.gl-v .btn{flex:none}
+.gl-v-now{flex:none;padding:8px 14px;border-radius:99px;background:#14b8a6;border:2px solid #0a1a6b;color:#fff;font:800 .8rem/1 'DM Sans',sans-serif;letter-spacing:.05em;text-transform:uppercase}
+.gl-vpill{position:fixed;z-index:60;top:14px;right:16px;display:flex;flex-direction:column;gap:2px;padding:9px 16px;border-radius:16px;background:#ffd23f;color:#0a1a6b;border:3px solid #0a1a6b;box-shadow:4px 4px 0 #0a1a6b;text-decoration:none;font:600 .78rem/1.2 'DM Sans',sans-serif;transition:transform .2s cubic-bezier(.16,1,.3,1)}
+.gl-vpill b{font:800 .95rem/1.1 'Bricolage Grotesque',sans-serif}
+.gl-vpill:hover{transform:translate(-2px,-2px)}
+@media (max-width:620px){.gl-v{flex-direction:column;align-items:flex-start}.gl-v small{display:block;margin:2px 0 0}.gl-vpill{top:auto;bottom:86px;right:12px;padding:7px 12px}}
+.gl-v .btn{flex:none;padding:12px 20px;border-radius:99px;background:#ffd23f;color:#0a1a6b;border:3px solid #0a1a6b;box-shadow:3px 3px 0 #0a1a6b;font:800 .85rem/1 'DM Sans',sans-serif;letter-spacing:.05em;text-transform:uppercase;text-decoration:none}
+.gl-v .btn:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 #0a1a6b}

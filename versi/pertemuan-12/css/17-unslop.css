@@ -1,0 +1,194 @@
+/* ===== unslop (2026-11-07): buang ciri "template AI" ===== */
+/* 1. latar halaman: satu warna kertas */
+body[data-view=course],body[data-view=lesson],body[data-view=page]{--bg:#fbf6ea}
+/* 2. penghitung bagian "01 / 03" dibuang */
+#cnt{display:none!important}
+/* 3. subjudul pakai Bricolage huruf biasa, bukan kapital rapat; judul besar (h1, judul bagian) tetap Anton */
+article h2,h3,.card h3,.step h3,.chap h3,.feat h3{font-family:"Bricolage Grotesque",system-ui,sans-serif;font-weight:800;text-transform:none;letter-spacing:-.02em;line-height:1.05}
+article h2{font-size:clamp(1.7rem,3vw,2.3rem)}.card h3{font-size:clamp(1.35rem,2.2vw,1.7rem)}.feat h3{font-size:clamp(2rem,3.4vw,2.8rem)!important}
+.chap h3{font-size:clamp(1.5rem,2.6vw,2.1rem)}
+/* 4. label kecil: huruf biasa, tanpa spasi huruf lebar */
+.lk2,.bab-n{display:block;font:700 .95rem/1.3 "DM Sans",system-ui,sans-serif;color:var(--acc-t,#b63c14);letter-spacing:0;text-transform:none}
+.bab-n{font-size:.88rem;margin-bottom:4px}
+.lmeta{font:500 .92rem/1.4 "DM Sans",system-ui,sans-serif!important;letter-spacing:0!important;text-transform:none!important;color:var(--mut)!important}
+.crumb,.crumb button{text-transform:none;letter-spacing:0}
+#cmeta{text-transform:none;letter-spacing:0;font:600 .95rem/1.4 "DM Sans",system-ui,sans-serif;color:var(--mut)}
+.lx-tabs button small{text-transform:none;letter-spacing:0}
+/* 5. kotak: sudut lebih kecil, garis tinta, bayangan keras (bukan bayangan lembut "empuk") */
+article,.side,.panel,#cart,.card,.feat,.frame,.lx-tabs button{border:2px solid var(--ink,#0a1a6b)!important;border-radius:16px!important;box-shadow:6px 6px 0 var(--ink,#0a1a6b)!important}
+.card:hover,.feat:hover{box-shadow:9px 9px 0 var(--ink,#0a1a6b)!important}
+/* 6. tiga kartu bab tidak lagi kembar: miring sedikit seperti kertas yang ditempel */
+#grid .card{rotate:-1.2deg;transition:rotate .35s var(--e),box-shadow .3s}
+#grid .card:nth-child(2){rotate:.9deg}#grid .card:nth-child(3){rotate:-.5deg}
+#grid .card:hover{rotate:0deg}
+/* 7. tombol tanya: kertas tempel, bukan pil oranye chatbot */
+.fab{background:#ffd23f!important;color:#0a1a6b!important;border:0!important;border-radius:4px 4px 16px 4px!important;rotate:-3deg;padding:13px 18px 12px!important;box-shadow:0 2px 0 rgba(0,0,0,.08),0 16px 26px -14px rgba(10,26,107,.6)!important;text-transform:none!important;letter-spacing:0!important;font:800 1rem/1 "Bricolage Grotesque",system-ui,sans-serif!important}
+.fab::before{content:"";position:absolute;top:-9px;left:50%;width:54px;height:16px;translate:-50% 0;rotate:4deg;background:rgba(255,250,235,.8);box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.fab:hover{rotate:0deg}.fab svg{stroke:#0a1a6b!important}
+/* 8. ilustrasi kapur */
+svg.chalk{width:100%;height:auto;display:block;overflow:visible}
+.feat .art svg.chalk{padding:6%}
+#cart{display:grid;place-items:center;padding:14px 0}#cart svg.chalk{width:auto;height:250px;max-width:100%}
+.crumb2{text-transform:none!important;letter-spacing:0!important;font:600 .92rem/1.3 "DM Sans",system-ui,sans-serif!important}
+.chalk .ck-path{animation:ckDash 6s linear infinite}
+.chalk .ck-a,.chalk .ck-b,.chalk .ck-c{animation:ckBob 5s ease-in-out infinite}
+.chalk .ck-b{animation-delay:-1.6s}.chalk .ck-c{animation-delay:-3.1s}
+.chalk .ck-d{transform-origin:292px 300px;animation:ckSway 4s ease-in-out infinite}
+.chalk .ck-e,.chalk .ck-f{animation:ckBlink 3.2s ease-in-out infinite}
+@keyframes ckDash{to{stroke-dashoffset:-170}}
+@keyframes ckBob{0%,100%{translate:0 0}50%{translate:0 -6px}}
+@keyframes ckSway{0%,100%{rotate:-3deg}50%{rotate:3deg}}
+@keyframes ckBlink{0%,100%{opacity:1}50%{opacity:.35}}
+@media(prefers-reduced-motion:reduce){.chalk *{animation:none!important}}
+#hgreet{color:var(--sun,#ffd23f);margin-bottom:14px}
+/* hero tanpa ilustrasi & doodle (2026-11-07) */
+@media(max-width:900px){.hero #hero-art{margin-top:28px}}
+/* tumpukan kartu bab di hero (laptop), bisa digeser */
+.hero #hero-art{align-self:center}
+.hs{position:relative;width:min(400px,100%);height:420px;margin:0 auto;touch-action:pan-y;user-select:none;-webkit-user-select:none;outline:0}
+.hs:focus-visible .p0{outline:3px solid #ffd23f;outline-offset:4px}
+.hs-c{position:absolute;left:0;right:0;top:56px;height:350px;border:2.5px solid #0a1a6b;border-radius:16px;box-shadow:8px 8px 0 #0a1a6b;overflow:hidden;background:#fffdf6;color:#0a1a6b;transition:transform .55s var(--e,cubic-bezier(.2,.72,.24,1));cursor:pointer}
+.hs-c.p0{z-index:3;transform:rotate(-1.5deg);cursor:grab}.hs-c.p0.drag{transition:none;cursor:grabbing}.hs-c.fly{transition:transform .23s ease-in}
+.hs-c.p1{z-index:2;transform:translate(58px,-56px) rotate(7deg)}
+.hs-c.p2{z-index:1;transform:translate(-52px,-40px) rotate(-6deg)}
+.hs:hover .hs-c.p1{transform:translate(110px,-70px) rotate(12deg)}
+.hs:hover .hs-c.p2{transform:translate(-100px,-52px) rotate(-11deg)}
+.hs:hover .hs-c.p0:not(.drag){transform:rotate(0)}
+.hs-peek{position:absolute;inset:0;z-index:2;background:var(--c1);color:var(--fg);padding:14px 18px;display:flex;flex-direction:column;gap:3px;transition:opacity .35s}
+.hs-c.p0 .hs-peek{opacity:0;pointer-events:none}
+.hs-c.p1 .hs-peek{align-items:flex-end;text-align:right}
+.hs-peek small{font:700 .78rem/1 "DM Sans",system-ui,sans-serif;opacity:.85}
+.hs-peek b{font:800 1.05rem/1.1 "Bricolage Grotesque",system-ui,sans-serif;max-width:70%}
+.hs-peek span{position:absolute;top:14px;right:18px;font:800 .82rem/1 "DM Sans",system-ui,sans-serif}.hs-c.p1 .hs-peek span{right:auto;left:18px}
+.hs-art{height:118px;background:var(--c1);border-bottom:2.5px solid #0a1a6b;overflow:hidden;pointer-events:none}
+.hs-body{padding:16px 20px 18px;display:grid;gap:9px;justify-items:start}
+.hs-body h3{margin:0;font-size:1.6rem!important}
+.hs-next{margin:0;font-size:.95rem;line-height:1.4;color:#3d4a86}.hs-next b{color:#0a1a6b}
+.hs-bar{display:block;width:100%;height:12px;border:2px solid #0a1a6b;border-radius:99px;overflow:hidden;background:#fff}
+.hs-bar i{display:block;height:100%;width:calc(var(--p)*100%);background:#ffd23f}
+.hs-go{display:inline-flex;align-items:center;gap:8px;margin-top:2px;padding:10px 16px;border:2px solid #0a1a6b;border-radius:10px;background:#ffd23f;color:#0a1a6b;font:800 .92rem/1 "DM Sans",system-ui,sans-serif;text-decoration:none;box-shadow:3px 3px 0 #0a1a6b;transition:transform .15s,box-shadow .15s}
+.hs-go:hover{transform:translate(-1px,-1px);box-shadow:5px 5px 0 #0a1a6b}
+.hs-go svg{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.hs-dots{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:22px}
+.hs-dots button{width:12px;height:12px;border-radius:99px;border:2px solid #fff;background:transparent;padding:0;cursor:pointer;transition:width .3s,background .3s}
+.hs-dots button[aria-selected=true]{width:30px;background:#ffd23f;border-color:#ffd23f}
+.hs-dots span{margin-left:8px;font:600 .82rem/1 "DM Sans",system-ui,sans-serif;color:rgba(255,255,255,.75)}
+@media(prefers-reduced-motion:reduce){.hs-c,.hs-peek{transition:none}}
+#hero-art .hs-go svg{width:16px!important;height:16px!important;overflow:visible}
+#hero-art .hs-art svg{width:100%!important;height:100%!important}
+.hs{height:420px}.hs-dots{margin-top:14px;position:relative;z-index:4}
+/* hero dirapikan (2026-11-07): judul lebih kecil, "lamar kerja." putih dengan coretan stabilo kuning, tanpa garis grid */
+.hero h1{font-size:clamp(3.4rem,min(9vw,12vh),7rem)!important;line-height:.92!important}
+.hero h1 em,.hero h1 em *{color:#fff!important}
+.hero h1 em{background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 12C40 6 80 15 120 9s60 2 77 1' fill='none' stroke='%23ffd23f' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E") 0 92%/0% .2em no-repeat;padding-bottom:.06em;transition:background-size .7s cubic-bezier(.2,.72,.24,1) 1.1s}
+.hero h1 .w:nth-child(5) em{transition-delay:1.5s}
+.hero.in h1 em,.hero .in h1 em,.hero h1.in em{background-size:100% .2em}
+.hero .lead{max-width:34rem;font-size:1.15rem}
+body[data-view=home]:before{opacity:0}
+@media(prefers-reduced-motion:reduce){.hero h1 em{transition:none;background-size:100% .2em}}
+.hero h1 .w{padding-bottom:.24em;margin-bottom:-.14em}
+.hero h1 em{background-position:0 96%}
+.hero.in h1 em,.hero .in h1 em,.hero h1.in em{background-size:100% .26em}
+/* judul halaman Ringkasan kursus dirapikan (2026-11-07): 2 baris, "Job Seeker" diberi coretan stabilo */
+.chead{align-items:center}
+.chead h1{font-size:clamp(2.8rem,min(6.2vw,10vh),5.4rem)!important;line-height:.95!important;margin:10px 0 18px!important}
+.chead h1 em{font-style:normal;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 12C40 6 80 15 120 9s60 2 77 1' fill='none' stroke='%23ffd23f' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E") 0 100%/100% .26em no-repeat;padding-bottom:.08em}
+.chead p{font-size:1.08rem!important;max-width:32rem}
+/* halaman dalam dirapikan (2026-11-07): judul lebih kecil, kata penekanan tinta + coretan stabilo, subjudul seksi lebih kecil, tanpa garis grid */
+.phr h1{font-size:clamp(2.6rem,min(5.6vw,10vh),4.8rem)!important;line-height:.95!important;max-width:16ch!important;margin:18px 0 18px!important}
+.phr h1 em{color:inherit!important;font-style:normal;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 20' preserveAspectRatio='none'%3E%3Cpath d='M3 12C40 6 80 15 120 9s60 2 77 1' fill='none' stroke='%23ffc21a' stroke-width='9' stroke-linecap='round'/%3E%3C/svg%3E") 0 100%/100% .24em no-repeat;padding-bottom:.06em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.phr .lead{font-size:1.08rem!important;max-width:36rem}
+.sc2 h2{font-size:clamp(1.9rem,3.6vw,3rem)!important;line-height:1!important;margin-bottom:22px!important}
+body:before{opacity:0!important}
+.phr h1{line-height:1.06!important;margin-bottom:24px!important}.phr h1 em{padding-bottom:.1em;background-size:100% .2em}
+/* pilihan mode kuis disusun ulang (2026-11-07): Gabungan di kiri sebagai pilihan utama, latihan per bab berupa daftar di kanan */
+.gq-modes2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.15fr);gap:18px;align-items:stretch}
+.gq-main,button.gq-row{font:inherit;text-align:left;cursor:pointer;border:2.5px solid #0a1a6b;border-radius:16px;box-shadow:6px 6px 0 #0a1a6b;transition:transform .15s,box-shadow .15s}
+.gq-main:hover,button.gq-row:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 #0a1a6b}
+.gq-main:active,button.gq-row:active{transform:translate(3px,3px);box-shadow:2px 2px 0 #0a1a6b}
+.gq-main{display:flex;flex-direction:column;align-items:flex-start;gap:10px;padding:26px;background:var(--qp,#c2410c);color:#fff}
+.gq-main b{font:800 clamp(2rem,3.4vw,2.8rem)/1 "Bricolage Grotesque",system-ui,sans-serif;letter-spacing:-.02em}
+.gq-main p{margin:0;font-size:1rem;line-height:1.5;max-width:30ch;opacity:.95}
+.gq-main small{font-weight:600;font-size:.88rem;opacity:.9}
+.gq-main .gq-play{margin-top:auto}
+.gq-main .gq-mtag{background:rgba(0,0,0,.4);color:#fff}
+.gq-side{display:grid;gap:12px;align-content:start}
+.gq-sidet{margin:0 0 2px;font:800 1.05rem/1.2 "Bricolage Grotesque",system-ui,sans-serif;color:#0a1a6b}
+.gq-sidet span{display:block;font:500 .85rem/1.3 "DM Sans",system-ui,sans-serif;color:#5a6390;margin-top:2px}
+button.gq-row{display:flex;align-items:center;gap:14px;padding:14px 16px 14px 20px;background:#fff;color:#0a1a6b;border-left-width:12px}
+button.gq-row.m1{border-left-color:#2a56f5}button.gq-row.m2{border-left-color:#0b7285}button.gq-row.m3{border-left-color:#ffc83d}
+.gq-rt{display:grid;gap:2px;flex:1;min-width:0}
+.gq-rt small{font:700 .78rem/1 "DM Sans",system-ui,sans-serif;color:#5a6390}
+.gq-rt b{font:800 1.15rem/1.15 "Bricolage Grotesque",system-ui,sans-serif}
+.gq-rt em{font-style:normal;font-size:.84rem;color:#5a6390}
+button.gq-row .gq-play{margin:0;flex:none;background:#ffd23f;color:#0a1a6b;border:2px solid #0a1a6b;box-shadow:2px 2px 0 #0a1a6b;padding:8px 14px}
+.gq-main .gq-play{border:2px solid #0a1a6b;box-shadow:3px 3px 0 #0a1a6b}
+@media(max-width:860px){.gq-modes2{grid-template-columns:1fr}}
+.gq-main p,.gq-main small{color:#fff!important}
+/* ===== drag & drop dirapikan + gamifikasi (2026-11-07) ===== */
+.gd-lv{margin:0 0 26px}
+.gd-lvh{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:12px}
+.gd-lvh>b{font:800 1.15rem/1 "Bricolage Grotesque",system-ui,sans-serif;color:#0a1a6b}
+.gd-tot{display:inline-flex;align-items:center;gap:6px;font:600 .9rem/1 "DM Sans",system-ui,sans-serif;color:#3d4a86}
+.gd-tot b{font:800 1.05rem/1 "Bricolage Grotesque",system-ui,sans-serif;color:#0a1a6b}
+.gd-tot .gi,.gd-stars .gi,.gd-goal .gi,.gd-rs-st .gi{width:18px;height:18px;fill:#ffc83d;stroke:#0a1a6b;stroke-width:1.6}
+.gd-lvbar{flex:1;min-width:120px;height:10px;border:2px solid #0a1a6b;border-radius:99px;overflow:hidden;background:#fff}
+.gd-lvbar i{display:block;height:100%;width:calc(var(--p)*100%);background:#ffc83d;transition:width .8s}
+.gd-lvg{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.gd-lv .gd-set{display:grid!important;grid-template-columns:auto 1fr;grid-template-rows:auto auto;gap:4px 12px;align-items:center;text-align:left;padding:12px 14px!important;border:2.5px solid #0a1a6b!important;border-radius:14px!important;background:#fff!important;color:#0a1a6b!important;box-shadow:4px 4px 0 #0a1a6b;font:inherit;cursor:pointer;transition:transform .15s,box-shadow .15s;min-width:0}
+.gd-lv .gd-set:hover{transform:translate(-2px,-2px);box-shadow:6px 6px 0 #0a1a6b}
+.gd-lv .gd-set[aria-pressed=true]{background:#0a1a6b!important;color:#fff!important}
+.gd-lvn{grid-row:1/3;display:grid;place-items:center;width:38px;height:38px;border-radius:10px;border:2px solid currentColor;font:800 1.15rem/1 "Bricolage Grotesque",system-ui,sans-serif}
+.gd-set[aria-pressed=true] .gd-lvn{background:#ffd23f;color:#0a1a6b;border-color:#ffd23f}
+.gd-lvt{font:700 .9rem/1.2 "DM Sans",system-ui,sans-serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gd-stars{display:flex;gap:2px}.gd-stars i{display:inline-grid;opacity:.28}.gd-stars i.on{opacity:1}
+.gd-stars .gi{width:15px;height:15px}
+.gd-set[aria-pressed=true] .gd-stars .gi{stroke:#fff}
+.gd-kick{display:block;font:700 .92rem/1.3 "DM Sans",system-ui,sans-serif;color:var(--acc-t,#b63c14)}
+.gd-head h3{font-family:"Bricolage Grotesque",system-ui,sans-serif!important;text-transform:none!important}
+.gd-hint{margin:14px 0 14px;font-size:.92rem;color:#5a6390}
+.gd-goal{list-style:none;margin:14px 0 10px;padding:0;display:flex;flex-wrap:wrap;gap:8px}
+.gd-goal li{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;border-radius:99px;border:2px dashed #b9c2e8;font:600 .84rem/1 "DM Sans",system-ui,sans-serif;color:#5a6390}
+.gd-goal li .gi{fill:#dfe4f5;stroke:#b9c2e8}
+.gd-goal li.on{border-style:solid;border-color:#0a1a6b;background:#fff6cf;color:#0a1a6b}
+.gd-goal li.on .gi{fill:#ffc83d;stroke:#0a1a6b}
+.gd-pool{background:#f2f5fc!important;border:2px dashed #b9c2e8;border-radius:16px!important}
+.gd-bin{border:2.5px solid #0a1a6b!important;border-radius:16px!important;box-shadow:4px 4px 0 #0a1a6b!important}
+.gd-bin.over,.gd .gd-bin.over{background:#fff6cf!important}
+.gd-tgt span{font:800 1.12rem/1.15 "Bricolage Grotesque",system-ui,sans-serif!important;text-transform:none!important}
+.gd-card{border:2px solid #0a1a6b!important;border-radius:12px!important;box-shadow:3px 3px 0 #0a1a6b!important;rotate:none!important}
+.gd-card.sel{background:#fff6cf!important;box-shadow:0 0 0 3px #ffc83d,3px 3px 0 #0a1a6b!important}
+.gd-card-res{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:18px;padding:18px 22px;border:2.5px solid #0a1a6b;border-radius:16px;background:#fff;box-shadow:6px 6px 0 #0a1a6b;animation:gdIn .45s cubic-bezier(.34,1.56,.64,1)}
+.gd-card-res.win{background:#fff6cf}
+.gd-rs-st{display:flex;gap:4px}
+.gd-rs-st i{display:inline-grid;opacity:.25;transform:scale(.8)}
+.gd-rs-st i .gi{width:42px;height:42px}
+.gd-rs-st i.pop{opacity:1;animation:gdStar .55s cubic-bezier(.34,1.56,.64,1) both}
+.gd-rs-tx{display:grid;gap:4px;flex:1;min-width:180px}
+.gd-rs-tx>b{font:800 1.5rem/1.05 "Bricolage Grotesque",system-ui,sans-serif;color:#0a1a6b}
+.gd-rs-tx span{font-size:.95rem;color:#3d4a86}.gd-rs-tx span b{font:800 1.1rem "Bricolage Grotesque",system-ui,sans-serif;color:#0a1a6b}
+.gd-card-res .btn svg{width:16px;height:16px}
+.gd-combo{position:fixed;z-index:400;pointer-events:none;padding:4px 10px;border:2px solid #0a1a6b;border-radius:99px;background:#ffd23f;color:#0a1a6b;font:800 .9rem/1 "Bricolage Grotesque",system-ui,sans-serif;box-shadow:2px 2px 0 #0a1a6b;white-space:nowrap}
+.gd-cf{position:fixed;z-index:400;width:9px;height:14px;border-radius:2px;pointer-events:none}
+@keyframes gdStar{0%{opacity:0;transform:scale(.2) rotate(-40deg)}100%{opacity:1;transform:scale(1) rotate(0)}}
+@keyframes gdIn{from{opacity:0;transform:translateY(10px) scale(.97)}}
+@media(max-width:760px){.gd-lvg{grid-template-columns:repeat(2,minmax(0,1fr))}.gd-rs-st i .gi{width:32px;height:32px}}
+@media(prefers-reduced-motion:reduce){.gd-card-res,.gd-rs-st i.pop{animation:none}.gd-rs-st i.on{opacity:1;transform:none}}
+.gd-lv .gd-set .gd-lvt{font:700 .92rem/1.2 "DM Sans",system-ui,sans-serif!important;text-transform:none!important}
+.gd-lv .gd-set .gd-lvn{font:800 1.15rem/1 "Bricolage Grotesque",system-ui,sans-serif!important}
+.gd-lv .gd-set .gd-stars{font:inherit!important}
+@media(max-width:760px){.gd-lv .gd-set .gd-lvt{white-space:normal!important;font-size:.82rem!important;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}.gd-lvn{width:32px;height:32px}}
+/* latihan: sisa hiasan & gaya template dibuang (2026-11-07) */
+.gq-bg i{display:none!important}
+.gs-m{font:600 .8rem/1.45 "DM Sans",system-ui,sans-serif!important;letter-spacing:0!important;text-transform:none!important}
+#ltp .gs-h{font:800 clamp(1.8rem,3.4vw,2.6rem)/1.05 "Bricolage Grotesque",system-ui,sans-serif!important;text-transform:none!important;letter-spacing:-.02em!important}
+#ltp .gs-h span{color:#ffd23f}
+.gs-ft{font:800 1.3rem/1.15 "Bricolage Grotesque",system-ui,sans-serif!important;text-transform:none!important;letter-spacing:-.01em!important}
+/* hero: gradasi gelap digambar langsung di latar (dulu lapisan ::after; di Safari tidak menutup tepi sehingga ada bingkai biru terang) */
+.hero.blk:after{display:none!important}
+.hero{background:linear-gradient(90deg,rgba(6,14,70,.7) 0,rgba(6,14,70,.3) 45%,rgba(6,14,70,0) 72%),#2340d8!important}
+@media(max-width:900px){.hero{background:linear-gradient(rgba(6,14,70,.62),rgba(6,14,70,.5)),#2340d8!important}}
+/* latar di balik sudut membulat bagian beranda disamakan dengan gradasi hero, supaya tidak ada garis biru terang di tepi */
+body[data-view=home]{background:linear-gradient(90deg,rgba(6,14,70,.7) 0,rgba(6,14,70,.3) 45%,rgba(6,14,70,0) 72%),#2340d8!important}
+@media(max-width:900px){body[data-view=home]{background:linear-gradient(rgba(6,14,70,.56),rgba(6,14,70,.56)),#2340d8!important}}
+#panduan{--prev:transparent!important}

@@ -1,0 +1,169 @@
+/* ===== panel Perjalanan karier v3 (2026-11-23), gaya LMS GrowthLab =====
+   Kertas krem, judul Anton biru tua, nomor oranye seperti daftar bab, kartu putih berbayang biru tua,
+   aksen kuning. Ciri khas panel ini: tangga karier (Labi berdiri di anak tangga sekarang),
+   tabung ukur untuk skor skill, lencana berbentuk stiker. */
+.gx-v3{--ink:#14185e;--or:#c4431a;--sun:#ffc83d;--cr:#fbf6ea;--cr2:#f3ead6;--mu:#4d5486;font-family:"DM Sans",var(--sans);color:var(--ink)}
+.gx-dlg:has(.gx-v3){background:rgba(10,16,48,.6)}
+.gx-dlg-in.gx-v3{width:min(96vw,1180px);max-height:calc(100dvh - 32px);height:auto;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;
+  display:block;padding:0;border-radius:28px;background:var(--cr);scrollbar-width:thin;box-shadow:0 40px 90px -30px rgba(0,0,0,.55)}
+.gx-v3 .gx-how{margin:0;color:var(--mu);font-size:.88rem;line-height:1.5}
+.gx3-xw{position:sticky;top:0;z-index:5;height:0}
+.gx-v3 .gx3-x{position:absolute;top:16px;right:16px;width:44px;height:44px;border-radius:50%;border:2px solid var(--ink);
+  background:#fff;color:var(--ink);font-size:1.4rem;line-height:1;cursor:pointer;transition:background .15s,transform .2s}
+.gx-v3 .gx3-x:hover{background:var(--sun);transform:rotate(90deg)}
+.gx-v3 .gx3-x:focus-visible{outline:3px solid var(--or);outline-offset:3px}
+
+/* ---------- header ---------- */
+.gx3-hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:24px clamp(24px,4vw,56px);align-items:end;
+  padding:clamp(26px,3.4vw,44px) clamp(20px,3.4vw,48px) 0;background:var(--cr2);border-radius:28px 28px 0 0}
+.gx3-k{display:block;font:700 .74rem/1 "Space Mono",monospace;letter-spacing:.16em;text-transform:uppercase;color:#a8370f}
+.gx3-tt{display:flex;align-items:flex-end;gap:18px;margin:12px 0 14px}
+.gx3-lv{display:grid;justify-items:center;line-height:1;padding:10px 14px 8px;border-radius:16px;background:var(--sun);box-shadow:5px 5px 0 var(--ink);rotate:-4deg}
+.gx3-lv small{font:700 .62rem/1 "Space Mono",monospace;letter-spacing:.14em;text-transform:uppercase}
+.gx3-lv b{font:400 clamp(2.6rem,4.6vw,3.6rem)/1 Anton,var(--disp,sans-serif)}
+.gx3-id h2{margin:0;font:400 clamp(2.6rem,5.6vw,4.6rem)/.92 Anton,var(--disp,sans-serif);text-transform:uppercase;color:var(--ink);letter-spacing:.01em}
+.gx3-xp{max-width:none;margin:0 0 12px;font-size:1rem;color:var(--mu)}
+.gx3-xp b{font:400 1.7rem/1 Anton,var(--disp,sans-serif);color:var(--or)}
+.gx3-xp em{font-style:normal;font-weight:700;color:var(--ink)}
+.gx3-bar{display:block;height:8px;border-radius:99px;background:rgba(20,24,94,.12);overflow:hidden}
+.gx3-bar.big{height:14px;box-shadow:inset 0 0 0 2px var(--ink);background:#fff}
+.gx3-bar i{display:block;height:100%;width:0;border-radius:inherit;background:var(--ac,var(--sun));transition:width 1.2s cubic-bezier(.2,.8,.2,1) .3s}
+.gx3-bar.big i{background:repeating-linear-gradient(-45deg,rgba(20,24,94,.14) 0 5px,transparent 5px 10px),var(--sun);box-shadow:inset -2px 0 0 var(--ink)}
+.go .gx3-bar i{width:calc(var(--w)*100%)}
+.gx3-segl{max-width:none;display:flex;justify-content:space-between;margin:8px 0 clamp(20px,3vw,34px);font:700 .7rem/1 "Space Mono",monospace;color:var(--mu)}
+
+/* tangga karier */
+.gx3-stairs{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,1fr);align-items:end;gap:6px;height:230px}
+.gx3-stairs li{position:relative;display:flex;flex-direction:column;justify-content:flex-end;height:100%;text-align:center}
+.gx3-step{display:grid;place-items:start center;padding-top:10px;height:calc(var(--h)*150px);border:2px solid var(--ink);border-bottom:0;border-radius:14px 14px 0 0;
+  font:400 1.6rem/1 Anton,var(--disp,sans-serif);color:var(--ink);background:#fff;transform-origin:50% 100%;scale:1 0;transition:scale .55s cubic-bezier(.34,1.4,.64,1) calc(var(--k)*.12s + .2s);order:1}
+.go .gx3-step{scale:1 1}
+.gx3-stairs li.on .gx3-step{background:var(--sun)}
+.gx3-stairs li.now .gx3-step{background:var(--or);color:#fff;box-shadow:inset 0 -4px 0 rgba(0,0,0,.12)}
+.gx3-stairs li:not(.on):not(.now) .gx3-step{background:repeating-linear-gradient(-45deg,rgba(20,24,94,.06) 0 6px,transparent 6px 12px),#fff;border-style:dashed;color:rgba(20,24,94,.62)}
+.gx3-stairs b{order:2;padding:10px 2px 2px;font-weight:800;font-size:.9rem;line-height:1.15;border-top:3px solid var(--ink)}
+.gx3-stairs small{order:3;font:700 .64rem/1.3 "Space Mono",monospace;color:var(--mu);padding-bottom:12px}
+.gx3-stairs li:not(.on):not(.now) b{color:var(--mu)}
+.gx3-me{order:0;align-self:center;margin-bottom:-4px;opacity:0;translate:0 -20px;transition:opacity .3s 1s,translate .5s cubic-bezier(.34,1.56,.64,1) 1s}
+.go .gx3-me{opacity:1;translate:0 0}
+.gx3-me .labi{--k:1;animation-duration:.9s}
+
+/* ---------- kartu bernomor ---------- */
+.gx3-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding:28px clamp(16px,3vw,40px) 8px;align-items:start}
+.gx3-col{display:grid;gap:20px;min-width:0}
+.gx3-wide{grid-column:1/-1}
+.gx3-mod{position:relative;display:grid;gap:14px;padding:22px 24px 24px;border-radius:24px;background:#fff;min-width:0;
+  box-shadow:0 1px 0 rgba(20,24,94,.06),0 24px 40px -34px rgba(20,24,94,.6);opacity:0;translate:0 14px;transition:opacity .45s,translate .55s cubic-bezier(.2,.8,.2,1),box-shadow .2s}
+.go .gx3-mod{opacity:1;translate:0 0}
+.go .gx3-col:nth-child(2) .gx3-mod{transition-delay:.08s}.go .gx3-wide{transition-delay:.16s}
+.gx3-mod:hover{box-shadow:6px 6px 0 var(--ink)}
+.gx3-mod h3{display:flex;align-items:center;gap:14px;margin:0;font:800 1.2rem/1.15 var(--sans);color:var(--ink);letter-spacing:-.01em}
+.gx3-n{font:400 2rem/1 Anton,var(--disp,sans-serif);color:var(--or);min-width:1.4em}
+.gx3-t{flex:1}
+.gx3-mod h3 em{font:700 .72rem/1 "Space Mono",monospace;font-style:normal;letter-spacing:.06em;color:var(--or)}
+
+/* misi */
+.gx3-quest{list-style:none;margin:0;padding:0;display:grid}
+.gx3-quest li{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:8px 14px;padding:14px 0;border-top:1px solid rgba(20,24,94,.1)}
+.gx3-quest li:first-child{border-top:0;padding-top:4px}
+.gx3-chk{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;border:2px solid rgba(20,24,94,.35);font-weight:800;color:#fff}
+.gx3-quest li.ok .gx3-chk{background:#2ec27e;border-color:#2ec27e}
+.gx3-quest b{font-size:1rem}
+.gx3-q{font:700 .74rem/1 "Space Mono",monospace;color:var(--or)}
+.gx3-quest li.ok .gx3-q{color:#1a8f57}
+.gx3-seg{display:flex;gap:4px}
+.gx3-seg.sm{grid-column:2/-1}
+.gx3-seg i{flex:1;height:8px;border-radius:99px;background:rgba(20,24,94,.12)}
+.gx3-seg i.on{background:var(--sun)}
+.gx3-quest li.ok .gx3-seg i.on{background:#2ec27e}
+
+/* streak */
+.gx3-days{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.gx3-days>span{display:grid;justify-items:center;gap:6px;opacity:0;scale:.7;transition:opacity .3s calc(var(--k)*.05s + .25s),scale .45s cubic-bezier(.34,1.56,.64,1) calc(var(--k)*.05s + .25s)}
+.go .gx3-days>span{opacity:1;scale:1}
+.gx3-cell{display:grid;place-items:center;width:100%;aspect-ratio:1;max-width:52px;border-radius:50%;border:2px dashed rgba(20,24,94,.25);background:#fff}
+.gx3-days .on .gx3-cell{border:2px solid var(--ink);background:#fff1e0;box-shadow:3px 3px 0 var(--ink)}
+.gx3-cell svg{width:60%;height:60%}
+.gx3-cell .fl{fill:#ff7a2e}.gx3-cell .fi{fill:#ffd23f}
+.gx3-days .on svg{animation:gxFlick 1.2s ease-in-out infinite alternate;transform-origin:50% 90%}
+.gx3-days .td .gx3-cell{border-style:solid;border-color:var(--or)}
+.gx3-days small{font:700 .66rem/1 "Space Mono",monospace;color:var(--mu);white-space:nowrap}
+.gx3-days .td small{color:var(--or)}
+@keyframes gxFlick{0%{transform:scale(1) rotate(-3deg)}100%{transform:scale(1.08,1.14) rotate(3deg)}}
+.gx3-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.gx3-stats>div{display:grid;gap:4px;padding:12px 14px;border-radius:16px;background:var(--cr)}
+.gx3-stats b{display:flex;align-items:center;gap:6px;font:400 2rem/1 Anton,var(--disp,sans-serif);color:var(--ink)}
+.gx3-stats small{font-size:.78rem;color:var(--mu);line-height:1.3}
+.gx3-stats svg{width:20px;height:20px;fill:none;stroke:#2a7fd6;stroke-width:2;stroke-linecap:round}
+
+/* XP terakhir */
+.gx3-log{list-style:none;margin:0;padding:0;display:grid}
+.gx3-log li{display:grid;grid-template-columns:4.6em 1fr;gap:12px;align-items:baseline;padding:10px 0;border-top:1px dashed rgba(20,24,94,.18);opacity:0;translate:-6px 0;transition:opacity .35s calc(var(--k)*.06s + .3s),translate .35s calc(var(--k)*.06s + .3s)}
+.gx3-log li:first-child{border-top:0}
+.go .gx3-log li{opacity:1;translate:0 0}
+.gx3-log b{font:700 .8rem/1.2 "Space Mono",monospace;color:var(--or)}
+.gx3-log small{color:var(--mu)}
+
+/* tabung ukur skill */
+.gx3-tubes{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:14px;text-align:center}
+.gx3-tubes li{display:grid;justify-items:center;gap:6px}
+.gx3-tube{position:relative;width:46px;height:150px;border:3px solid var(--ink);border-top:0;border-radius:0 0 24px 24px;background:#fff;overflow:hidden;
+  background-image:linear-gradient(rgba(20,24,94,.25) 2px,transparent 2px);background-size:100% 25%;background-position:0 -1px}
+.gx3-tube::before{content:"";position:absolute;top:0;left:-6px;right:-6px;height:3px;background:var(--ink)}
+.gx3-tube i{position:absolute;left:0;right:0;bottom:0;height:0;background:var(--tc);transition:height 1.3s cubic-bezier(.2,.8,.2,1) calc(var(--k)*.15s + .4s)}
+.gx3-tube i::before{content:"";position:absolute;left:0;right:0;top:-5px;height:10px;border-radius:50%;background:color-mix(in srgb,var(--tc) 70%,#fff)}
+.go .gx3-tube i{height:max(6px,calc(var(--w)*100%))}
+.gx3-tubes strong{font:400 1.8rem/1 Anton,var(--disp,sans-serif);color:var(--ink)}.gx3-tubes strong small{font:700 .7rem "Space Mono",monospace;color:var(--mu);margin-left:2px}
+.gx3-tubes b{font-size:.92rem;line-height:1.2}
+.gx3-tubes li>small{font-size:.74rem;color:var(--mu);line-height:1.35}
+
+/* saran belajar ulang */
+.gx-v3 .gx-rem{margin:0;padding-left:18px;display:grid;gap:6px}
+.gx-v3 .gx-rem a{color:var(--ink);font-weight:700}.gx-v3 .gx-rem small{color:var(--mu)}
+
+/* lencana: stiker bulat, dibalik untuk melihat syarat */
+.gx3-badges{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(132px,1fr));gap:12px}
+.gx3-badges li{perspective:700px;opacity:0;scale:.8;transition:opacity .3s calc(var(--k)*.04s + .3s),scale .45s cubic-bezier(.34,1.56,.64,1) calc(var(--k)*.04s + .3s)}
+.go .gx3-badges li{opacity:1;scale:1}
+.gx-v3 .gx-flip{position:relative;display:block;width:100%;min-height:162px;padding:0;border:0;background:none;font:inherit;color:inherit;cursor:pointer;transform-style:preserve-3d;transition:transform .6s cubic-bezier(.3,1.3,.5,1)}
+.gx-v3 .gx-flip.flip{transform:rotateY(180deg)}
+.gx-v3 .gx-flip:focus-visible{outline:3px solid var(--or);outline-offset:3px;border-radius:18px}
+.gx-v3 .gx-flip .f,.gx-v3 .gx-flip .bk{position:absolute;inset:0;display:grid;justify-items:center;align-content:center;gap:6px;padding:12px 8px;border-radius:18px;text-align:center;backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.gx-v3 .gx-flip .f{background:var(--cr)}
+.gx-v3 .gx-flip .f b{font-size:.86rem;line-height:1.2}
+.gx-v3 .gx-flip .f small{font:700 .66rem/1 "Space Mono",monospace;color:var(--mu)}
+.gx-v3 .gx-flip .f .gx3-bar{width:70%}
+.gx3-hex{position:relative;overflow:hidden;display:grid;place-items:center;width:60px;height:60px;border-radius:50%;background:var(--bc);color:#fff;font:800 1.35rem/1 var(--sans);
+  box-shadow:0 0 0 4px #fff,0 0 0 6px var(--ink),3px 5px 0 6px rgba(20,24,94,.2);rotate:calc((var(--k,0) - 4)*1deg);transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.gx3-badges li:nth-child(odd) .gx3-hex{rotate:-6deg}.gx3-badges li:nth-child(even) .gx3-hex{rotate:5deg}
+.gx-flip.got .gx3-hex::after{content:"";position:absolute;inset:-40%;background:linear-gradient(115deg,transparent 40%,rgba(255,255,255,.7) 50%,transparent 60%);transform:translateX(-80%);animation:gxShine 3.6s ease-in-out infinite}
+@keyframes gxShine{0%,60%{transform:translateX(-80%)}100%{transform:translateX(80%)}}
+.gx-v3 .gx-flip:hover .gx3-hex{transform:scale(1.1)}
+.gx-flip:not(.got) .gx3-hex{background:#fff;color:rgba(20,24,94,.4);box-shadow:0 0 0 2px rgba(20,24,94,.3);border:2px dashed rgba(20,24,94,.3)}
+.gx-v3 .gx-flip .bk{transform:rotateY(180deg);color:#fff;background:var(--ink)}
+.gx-v3 .gx-flip .bk small{font:700 .64rem/1 "Space Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--sun)}
+.gx-v3 .gx-flip .bk span{font-size:.8rem;line-height:1.35;font-weight:600}
+.gx-v3 .gx-flip .bk em{font-style:normal;font-weight:800;background:var(--sun);color:var(--ink);border-radius:99px;padding:3px 10px;font-size:.76rem}
+
+/* sertifikat, cadangan, catatan */
+.gx3-extra{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px;padding:20px clamp(16px,3vw,40px) 32px}
+.gx3-extra>section{display:grid;gap:12px;align-content:start;padding:20px 22px;border-radius:24px;border:2px dashed rgba(20,24,94,.22)}
+.gx3-extra .mono{font:700 .74rem/1.2 "Space Mono",monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--or)}
+.gx3-extra p{margin:0;font-size:.92rem;line-height:1.5;color:var(--mu)}
+.gx3-extra .gx-row{display:flex;flex-wrap:wrap;gap:8px}
+.gx3-extra .gx-lbl{display:grid;gap:6px;font-size:.88rem}
+.gx3-extra input:not([type=file]){padding:10px 12px;border-radius:12px;border:2px solid var(--ink);background:#fff;color:var(--ink);font:inherit}
+.gx3-extra .gx-msg:empty{display:none}
+
+/* ---------- layar kecil ---------- */
+@media(max-width:900px){.gx3-hero{grid-template-columns:1fr;align-items:start}.gx3-grid{grid-template-columns:1fr}.gx3-wide{grid-column:auto}}
+@media(max-width:640px){
+  .gx-dlg-in.gx-v3{width:100%;max-height:100dvh;height:100dvh;border-radius:0}
+  .gx3-hero{border-radius:0;padding-top:24px}
+  .gx3-stairs{height:172px;gap:4px}.gx3-step{height:calc(var(--h)*120px);font-size:1.3rem}
+  .gx3-stairs b{font-size:.74rem}.gx3-stairs small{display:none}
+  .gx3-me .labi{--k:.75}
+  .gx3-tubes{gap:8px}.gx3-tube{width:38px;height:120px}.gx3-tubes li>small{display:none}
+  .gx3-mod{padding:18px 16px 20px}
+}
+@media(prefers-reduced-motion:reduce){.gx-v3 *,.gx-v3 *::before,.gx-v3 *::after{animation:none!important;transition:none!important}}

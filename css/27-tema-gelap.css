@@ -1330,3 +1330,15 @@
 @media (max-width:980px){
 :where(html[data-theme=dark]) .lap-loop{border:3px dashed rgba(233,235,255,.6)}
 }
+:where(html[data-theme=dark]) .gl-v{background:#1a1f47;color:#eef0ff;border:3px solid rgba(233,235,255,.6);box-shadow:6px 6px 0 rgba(0,0,0,.55)}
+:where(html.gl-hc[data-theme=dark]) .gl-v{color:#fff}
+:where(html[data-theme=dark]) .gl-v small{color:#b9bee8}
+:where(html.gl-hc[data-theme=light]) .gl-v small{color:#11163f}
+:where(html.gl-hc[data-theme=dark]) .gl-v small{color:#fff}
+:where(html[data-theme=dark]) .gl-v p{color:#eef0ff}
+:where(html.gl-hc[data-theme=dark]) .gl-v p{color:#fff}
+:where(html[data-theme=dark]) .gl-v.on{background:#1a1f47;color:#eef0ff;box-shadow:6px 6px 0 rgba(0,0,0,.55),0 0 0 4px #ffd23f}
+:where(html[data-theme=dark]) .gl-v-now{border:2px solid rgba(233,235,255,.6)}
+:where(html[data-theme=dark]) .gl-vpill{color:#14185e;--ink:#14185e;--fg:#14185e;--mut:#3d3862;--acc-t:#b23a12;border:3px solid rgba(233,235,255,.6);box-shadow:4px 4px 0 rgba(0,0,0,.55)}
+:where(html[data-theme=dark]) .gl-v .btn{color:#14185e;--ink:#14185e;--fg:#14185e;--mut:#3d3862;--acc-t:#b23a12;border:3px solid rgba(233,235,255,.6);box-shadow:3px 3px 0 rgba(0,0,0,.55)}
+:where(html[data-theme=dark]) .gl-v .btn:hover{box-shadow:4px 4px 0 rgba(0,0,0,.55)}

@@ -1,0 +1,17 @@
+{
+  "name": "GrowthLab: Self Development for Job Seeker",
+  "short_name": "GrowthLab",
+  "description": "Media belajar soft skill untuk pencari kerja: 15 pelajaran, kuis, drag & drop, dan simulasi wawancara.",
+  "lang": "id",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#ffc83d",
+  "theme_color": "#ffc83d",
+  "icons": [
+    { "src": "assets/ikon/ikon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "assets/ikon/ikon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "assets/ikon/ikon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}

@@ -1,0 +1,145 @@
+/* ===== Gamifikasi: chip XP, kartu level, notifikasi, panel detail. html.gx-off menyembunyikan semuanya. ===== */
+.gx-off .gx,.gx-off .gx-live{display:none!important}
+.gx-offnote{display:none;margin-top:14px;font-size:.88rem;color:#5a6390}.gx-off .gx-offnote{display:block}
+.gx-offnote button{border:0;background:none;padding:0;font:inherit;font-weight:700;color:#2a56f5;text-decoration:underline;cursor:pointer}
+.gx svg,.gx-toast svg{width:1em;height:1em;fill:#ffc83d;stroke:#1b1740;stroke-width:1.6;stroke-linejoin:round;flex:none}
+
+/* chip di navbar */
+.gx-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:99px;border:1.5px solid rgba(255,255,255,.35);background:rgba(255,255,255,.1);color:inherit;font:inherit;font-size:.9rem;cursor:pointer;white-space:nowrap}
+.gx-chip b{font-weight:800}.gx-chip span{opacity:.85;font-size:.82rem}
+.gx-chip:hover,.gx-chip:focus-visible{background:#ffc83d;color:#1b1740;border-color:#ffc83d}
+.gx-chip.bump{animation:gxBump .6s cubic-bezier(.3,1.6,.5,1)}
+@keyframes gxBump{40%{transform:scale(1.15)}}
+
+/* kartu level di halaman Materi */
+.gx-card{margin-top:18px;padding-top:16px;border-top:1px dashed var(--line,rgba(14,26,58,.15));display:grid;gap:8px}
+.gx-card-h{display:flex;align-items:center;gap:12px}.gx-card-h>svg{width:34px;height:34px}
+.gx-card-h>div{flex:1}.gx-card-h b{display:block;font-size:1.25rem}
+.gx-card small{color:#5a6390}
+.gx-bar{display:block;height:10px;border-radius:99px;background:#eef2ff;overflow:hidden;border:1px solid rgba(14,26,58,.12)}
+.gx-bar i{display:block;height:100%;width:calc(var(--w)*100%);background:linear-gradient(90deg,#ffb11f,#ffc83d);border-radius:inherit;transition:width .8s cubic-bezier(.2,.8,.2,1)}
+
+/* notifikasi +XP */
+.gx-live{position:fixed;left:50%;bottom:86px;transform:translateX(-50%);z-index:300;display:grid;gap:8px;justify-items:center;pointer-events:none;width:min(92vw,380px)}
+.gx-toast{display:flex;align-items:center;gap:10px;padding:10px 18px;border-radius:99px;background:#1b1740;color:#fff;box-shadow:0 14px 30px -14px rgba(0,0,0,.5);font-size:.92rem;opacity:0;transform:translateY(14px) scale(.96);transition:opacity .3s,transform .4s cubic-bezier(.3,1.4,.5,1)}
+.gx-toast.in{opacity:1;transform:none}
+.gx-toast b{color:#ffc83d;font-weight:800;white-space:nowrap}.gx-toast span{opacity:.9;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:240px}
+.gx-toast.lvl{background:#ffc83d;color:#1b1740;border-radius:20px;padding:14px 20px;flex-wrap:wrap;justify-content:center;text-align:center;font-size:1rem}
+.gx-toast.lvl b{color:#1b1740;font-size:1.1rem}.gx-toast.lvl span{white-space:normal;max-width:none;width:100%}
+.gx-toast.lvl svg{width:26px;height:26px;fill:#fff}
+.gx-toast.lvl.in{animation:gxLvl .7s cubic-bezier(.3,1.5,.5,1)}
+@keyframes gxLvl{0%{transform:scale(.7)}60%{transform:scale(1.06)}}
+
+/* panel detail */
+.gx-dlg{position:fixed;inset:0;z-index:310;background:rgba(10,16,48,.55);display:grid;place-items:center;padding:16px}
+.gx-dlg-in{position:relative;background:#fff;color:#0e1a3a;border-radius:26px;width:min(100%,480px);max-height:calc(100dvh - 32px);overflow:auto;padding:26px 24px;display:grid;gap:14px;box-shadow:0 40px 80px -30px rgba(0,0,0,.5)}
+.gx-dlg h2{font-size:1.6rem;margin:0}.gx-dlg .mono{color:#c4431a}
+.gx-x{position:absolute;top:14px;right:14px;width:38px;height:38px;border-radius:50%;border:1.5px solid rgba(14,26,58,.2);background:#fff;font-size:1.4rem;line-height:1;cursor:pointer}
+.gx-sum{display:flex;gap:12px;align-items:center}.gx-sum svg{width:40px;height:40px}.gx-sum b{display:block;font-size:1.15rem}.gx-sum span{color:#5a6390;font-size:.92rem}
+.gx-ladder{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.gx-ladder li{display:grid;grid-template-columns:26px 1fr;gap:2px 10px;align-items:center;padding:8px 12px;border-radius:14px;background:#f4f6ff}
+.gx-ladder li>span{grid-row:span 2;width:24px;height:24px;border-radius:50%;border:2px solid #b9c2e8;display:grid;place-items:center;font-size:.8rem}
+.gx-ladder li.on{background:#fff6d6}.gx-ladder li.on>span{background:#1fa463;border-color:#1fa463;color:#fff}
+.gx-ladder small{color:#5a6390}
+.gx-rec{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:4px;font-size:.92rem}.gx-rec b{color:#b06a00;min-width:3.2em;display:inline-block}
+.gx-how{font-size:.85rem;color:#5a6390;margin:8px 0 0}
+.gx-set{display:flex;gap:14px;align-items:center;justify-content:space-between;padding:14px;border-radius:16px;border:1.5px solid rgba(14,26,58,.12)}
+.gx-set small{display:block;color:#5a6390;font-size:.85rem;margin-top:2px}
+.gx-sw{display:inline-flex;align-items:center;gap:8px;border:0;background:none;cursor:pointer;font:inherit;font-weight:700;color:#0e1a3a;flex:none}
+.gx-sw i{width:46px;height:26px;border-radius:99px;background:#c5cbe0;position:relative;transition:background .2s}
+.gx-sw i::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.3);transition:transform .2s}
+.gx-sw[aria-checked=true] i{background:#1fa463}.gx-sw[aria-checked=true] i::after{transform:translateX(20px)}
+.gx-sw:focus-visible,.gx-chip:focus-visible,.gx-x:focus-visible{outline:3px solid #2a56f5;outline-offset:2px}
+
+@media(max-width:900px){.gx-chip{margin:6px 0}}
+@media(prefers-reduced-motion:reduce){.gx-chip.bump,.gx-toast.lvl.in{animation:none}.gx-toast,.gx-bar i,.gx-sw i,.gx-sw i::after{transition:none}}
+
+/* ----- Fase 2: streak & badge ----- */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.gx-week{display:inline-flex;gap:4px}
+.gx-week i{width:22px;height:22px;border-radius:50%;display:grid;place-items:center;font:700 .66rem/1 var(--sans,sans-serif);font-style:normal;background:#eef2ff;color:#4d5486;border:1.5px solid transparent}
+.gx-week i.on{background:#ffc83d;color:#1b1740}
+.gx-week i.td{border-color:#1b1740}
+.gx-card-s{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:.86rem;color:#2c3768}
+.gx-sec{display:grid;gap:8px}.gx-sec p{margin:0;font-size:.92rem}
+.gx-streak{display:flex;gap:14px;align-items:center;flex-wrap:wrap}.gx-streak b{display:block}.gx-streak span{color:#5a6390;font-size:.88rem}
+.gx-badges{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:8px}
+.gx-badges li{position:relative;display:flex;gap:10px;align-items:flex-start;padding:10px;border-radius:14px;background:#f4f6ff;border:1.5px solid transparent}
+.gx-badges li.got{background:#fff8dc;border-color:#ffd15c}
+.gx-badges b{display:block;font-size:.92rem}.gx-badges small{display:block;color:#5a6390;font-size:.78rem;line-height:1.35}
+.gx-medal{width:36px;height:36px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--bc);color:#fff;font-weight:800;font-size:1rem;box-shadow:inset 0 0 0 3px rgba(255,255,255,.45),0 2px 0 rgba(0,0,0,.15)}
+.gx-medal.lock{background:#d5dbef;color:#5a6390;font-size:.85rem;box-shadow:none}
+.gx-bp{display:block;height:6px;border-radius:99px;background:#dfe4f5;margin-top:6px;overflow:hidden}.gx-bp i{display:block;height:100%;width:calc(var(--w)*100%);background:#ffb11f}
+.gx-toast.bdg{background:#fff;color:#1b1740;border:2px solid #ffc83d;border-radius:18px;align-items:center;text-align:left}
+.gx-toast.bdg>div{display:grid;gap:2px;min-width:0}.gx-toast.bdg b{color:#1b1740;white-space:normal}.gx-toast.bdg span{white-space:normal;max-width:none;font-size:.84rem;color:#5a6390}
+.gx-toast .gx-medal{width:28px;height:28px;font-size:.85rem}
+/* lencana bab di daftar Materi ikut tersembunyi bila gamifikasi nonaktif */
+.gx-off .chrew{display:none!important}
+.gx-off .chbadge .medal{display:none!important}.gx-off .chbadge{background:none!important;padding:0!important;color:inherit!important}
+@media(max-width:420px){.gx-badges{grid-template-columns:1fr}}
+
+/* ----- Fase 3: quest, skill map, remedial, petunjuk ----- */
+.gx-quest{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.gx-quest li{display:grid;grid-template-columns:24px 1fr auto;gap:10px;align-items:center;padding:8px 12px;border-radius:14px;background:#f4f6ff}
+.gx-quest li>span{width:22px;height:22px;border-radius:50%;border:2px solid #b9c2e8;display:grid;place-items:center;font-size:.75rem}
+.gx-quest li.ok{background:#e9f8ef}.gx-quest li.ok>span{background:#1fa463;border-color:#1fa463;color:#fff}
+.gx-quest b{font-size:.92rem}.gx-quest small{color:#5a6390;font-weight:700}
+.gx-skill{display:grid;grid-template-columns:minmax(150px,200px) 1fr;gap:12px;align-items:center}
+.gx-skill ul{list-style:none;margin:0;padding:0;display:grid;gap:8px}.gx-skill b{font-size:.9rem}.gx-skill small{display:block;color:#5a6390;font-size:.76rem}
+.gx .gx-radar{width:100%;height:auto;overflow:visible;fill:none;stroke:none}
+.gx-radar .gr{fill:none;stroke:#dfe4f5;stroke-width:1}.gx-radar .ga{stroke:#dfe4f5}
+.gx-radar .gv{fill:rgba(255,200,61,.55);stroke:#e0a400;stroke-width:2;stroke-linejoin:round}
+.gx-radar text{font:700 11px var(--sans,sans-serif);fill:#1b1740}
+.gx-rem{margin:6px 0 0;padding-left:18px;display:grid;gap:4px}.gx-rem a{color:#2a56f5;font-weight:700}.gx-rem small{color:#5a6390}
+.gx-sheet{position:fixed;right:16px;bottom:86px;z-index:305;width:min(calc(100vw - 32px),380px);background:#fff;color:#0e1a3a;border:2px solid #ffc83d;border-radius:20px;padding:16px 18px 14px;box-shadow:0 20px 40px -20px rgba(0,0,0,.45);display:grid;gap:6px;font-size:.92rem}
+.gx-sheet .mono{color:#c4431a}.gx-sheet p{margin:0}.gx-sheet .gx-x{top:8px;right:8px;width:32px;height:32px}
+.gx-hint{margin-top:14px;display:grid;gap:8px;justify-items:start}
+.gx-hb{border:2px dashed #ffc83d;background:rgba(255,200,61,.12);color:inherit;border-radius:99px;padding:7px 14px;font:inherit;font-size:.86rem;font-weight:700;cursor:pointer}
+.gx-hb:disabled{opacity:.5;cursor:not-allowed}.gx-hb:focus-visible{outline:3px solid #2a56f5;outline-offset:2px}
+.gx-hint-t{margin:0;padding:10px 14px;border-radius:14px;background:rgba(255,200,61,.18);font-size:.9rem;text-align:left}
+.gx-hint small{opacity:.8}
+.gx-row{display:flex;gap:10px;flex-wrap:wrap}
+@media(max-width:480px){.gx-skill{grid-template-columns:1fr}.gx-radar{max-width:220px;justify-self:center}.gx-sheet{right:16px;left:16px;width:auto}}
+
+/* ----- Fase 4: cadangan & sertifikat (tetap tampil saat gamifikasi nonaktif) ----- */
+.gx-keep{display:grid;gap:8px;padding-top:4px}.gx-keep p{margin:0;font-size:.92rem}.gx-keep .mono{color:#c4431a}
+.gx-lbl{display:grid;gap:4px;font-weight:700;font-size:.88rem}
+.gx-lbl input{font:inherit;font-weight:400;padding:10px 12px;border-radius:12px;border:1.5px solid rgba(14,26,58,.2)}
+.gx-lbl input:focus-visible{outline:3px solid #2a56f5;outline-offset:1px}
+.gx-file{position:relative;cursor:pointer}.gx-file input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%}
+.gx-file:focus-within{outline:3px solid #2a56f5;outline-offset:2px}
+.gx-msg{min-height:1.2em;font-size:.86rem;color:#1fa463;font-weight:700}
+.gx-dlg .btn:not(.p){border:2px solid #1b1740;border-radius:99px;background:#fff;color:#1b1740}.gx-dlg .btn:not(.p):hover{background:#fff6d6}
+
+/* ----- panel detail 16:9 hampir layar penuh (revisi 2026-10-24) ----- */
+.gx-dlg-in.gx-wide{width:min(96vw,calc((100dvh - 32px)*16/9));aspect-ratio:16/9;max-height:calc(100dvh - 32px);height:auto;overflow:hidden;padding:clamp(18px,2vw,30px) clamp(18px,2.2vw,34px);display:flex;flex-direction:column;gap:clamp(10px,1.2vw,16px)}
+.gx-wide h2{font-size:clamp(1.5rem,2.4vw,2.3rem);padding-right:48px;flex:none}
+.gx-cols{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1.1fr 1.2fr;gap:clamp(14px,1.6vw,26px)}
+.gx-col{min-height:0;overflow:auto;display:flex;flex-direction:column;gap:14px;padding-right:6px;overscroll-behavior:contain}
+.gx-col>.gx-set{margin-top:auto}
+.gx-off .gx-col.gx{display:none!important}
+.gx-off .gx-cols{grid-template-columns:1fr 1.2fr}
+.gx-wide .gx-badges{grid-template-columns:repeat(auto-fill,minmax(170px,1fr))}
+/* tablet (dan layar laptop yang sempit/tegak): panel hampir layar penuh, 2 kolom, isi digulir */
+@media(max-width:1099px),(max-aspect-ratio:5/4){
+  .gx-dlg{padding:12px}
+  .gx-dlg-in.gx-wide{width:100%;height:calc(100dvh - 24px);max-height:none;aspect-ratio:auto;overflow:auto;display:block}
+  .gx-wide h2{margin-bottom:16px}
+  .gx-cols{grid-template-columns:1fr 1fr}
+  .gx-col{overflow:visible;padding-right:0}
+  .gx-col:last-child{grid-column:1/-1}
+  .gx-off .gx-cols{grid-template-columns:1fr 1fr}
+  .gx-off .gx-col:last-child{grid-column:auto}
+}
+/* HP: layar penuh, 1 kolom */
+@media(max-width:640px){
+  .gx-dlg{padding:0}
+  .gx-dlg-in.gx-wide{height:100dvh;border-radius:0;padding:18px 16px 28px}
+  .gx-cols,.gx-off .gx-cols{display:flex;flex-direction:column}
+}
+
+/* panel Perjalanan karier dipindah ke css/24-karier.css (v3, 2026-11-23) */
+/* tombol garis di panel: saat hover/fokus latar navy menyapu masuk (gaya .btn situs), jadi teks harus putih */
+.gx-dlg .btn:not(.p):hover,.gx-dlg .btn:not(.p):focus-visible,.gx-dlg .gx-file:focus-within{color:#fff}
+/* chip level saat hover berlatar kuning: bintang jadi putih bergaris navy */
+.gx-chip:is(:hover,.hv,:focus-visible) svg{fill:#fff;stroke:#1b1740}

@@ -1,0 +1,53 @@
+/* ===== v8: panggung simulasi (adegan SVG, tokoh, pose, ekspresi). Animasi hanya transform & opacity. ===== */
+.gv-stage{background:#cfcfcf;aspect-ratio:64/30;width:min(100%,820px);margin:0 auto}
+.gvs{display:block;width:100%;height:100%}
+.gv-pc{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:3}
+.gvs .acf{fill:var(--ac)}.gvs .acs{stroke:var(--ac)}
+.gvs .ln{fill:none;stroke:#151515;stroke-width:2.8;stroke-linecap:round;stroke-linejoin:round}
+.gvs .tbq{font:700 18px var(--mono);fill:#151515}
+.gvs .bbr,.gvs .bbt{fill:#fff;stroke:#151515;stroke-width:3;stroke-linejoin:round}
+.gvs .bbx{font:700 14.5px var(--mono);fill:#151515}
+.gvs .bb{transform-box:fill-box;transform-origin:50% 100%;transition:opacity .25s}.gvs .bb.in{animation:bbIn .35s cubic-bezier(.3,1.5,.5,1)}
+@keyframes bbIn{from{opacity:0;transform:translateY(8px) scale(.9)}}
+.gvs .at{opacity:0;pointer-events:none;transition:opacity .9s}
+[data-mood=bad] .gvs .at-d{opacity:.34}[data-mood=mid] .gvs .at-d{opacity:.12}[data-mood=good] .gvs .at-l{opacity:.2}
+.gvs .glow{transition:opacity .9s}[data-mood=bad] .gvs .glow{opacity:.3}
+/* tokoh */
+.ch,.ch *{transform-box:fill-box}
+.ch .ch-sh{fill:rgba(0,0,0,.2)}.ch .o{stroke:#151515;stroke-width:3.5;stroke-linejoin:round}
+.ch-b,.tr,.hd{transform-origin:50% 100%}.ar{transform-origin:50% 6%}.lg{transform-origin:50% 0}.tb,.xm{transform-origin:50% 100%}
+.ch .ey-c,.ch .ey-w,.ch .bw-u,.ch .bw-s,.ch .bw-a,.ch .mo-s,.ch .mo-f,.ch .mo-o,.ch .mo-t,.ch .sw,.ch .tb,.ch .xm,.ch .bl{opacity:0}
+.ch .ey-o,.ch .ey-c,.ch .ey-w,.ch .ln>path,.ch .mo-o,.ch .sw,.ch .tb,.ch .xm,.ch .bl{transition:opacity .2s,transform .3s}
+.ex-smile .mo-n{opacity:0}.ex-smile .mo-s{opacity:1}
+.ex-happy .ey-o,.ex-happy .bw-n,.ex-happy .mo-n{opacity:0}.ex-happy .ey-c,.ex-happy .bw-u,.ex-happy .mo-s,.ex-happy .bl{opacity:1}
+.ex-sad .bw-n,.ex-sad .mo-n{opacity:0}.ex-sad .bw-s,.ex-sad .mo-f{opacity:1}
+.ex-angry .bw-n,.ex-angry .mo-n{opacity:0}.ex-angry .bw-a,.ex-angry .mo-t,.ex-angry .sw{opacity:1}
+.ex-surprised .ey-o,.ex-surprised .bw-n,.ex-surprised .mo-n{opacity:0}.ex-surprised .ey-w,.ex-surprised .bw-u,.ex-surprised .mo-o,.ex-surprised .xm{opacity:1}
+.ex-thinking .bw-n{opacity:0}.ex-thinking .bw-u,.ex-thinking .tb{opacity:1}.ex-thinking .ey-o{transform:translate(2px,-2px)}
+.ex-tight .bw-n,.ex-tight .mo-n{opacity:0}.ex-tight .bw-s,.ex-tight .mo-t{opacity:1}
+/* pose: aturan statis = posisi akhir; animasi bergerak dari posisi netral ke sana */
+@keyframes chFrom{from{transform:none}}
+.pose-idle .tr{animation:chBreath 3.4s ease-in-out infinite}.pose-idle .hd{animation:chBob 3.4s ease-in-out infinite}
+@keyframes chBreath{50%{transform:scaleY(1.025)}}@keyframes chBob{50%{transform:translateY(-1.5px)}}
+.ch.pose-walkin{animation:chIn 1.5s ease-out both}@keyframes chIn{from{transform:translateX(-90px)}}
+.ch.pose-walk{animation:chWalk 1.6s ease-in-out both}@keyframes chWalk{50%{transform:translateX(34px)}}
+.pose-walkin .ch-b,.pose-walk .ch-b{animation:chStep .38s ease-in-out infinite}@keyframes chStep{50%{transform:translateY(-4px)}}
+.pose-walkin .lg-l,.pose-walk .lg-l,.pose-walkin .ar-r,.pose-walk .ar-r{animation:chSwing .38s ease-in-out infinite alternate}
+.pose-walkin .lg-r,.pose-walk .lg-r,.pose-walkin .ar-l,.pose-walk .ar-l{animation:chSwing .38s ease-in-out infinite alternate-reverse}
+@keyframes chSwing{from{transform:rotate(-15deg)}to{transform:rotate(15deg)}}
+.pose-nod .hd{animation:chNod .5s ease-in-out 3}@keyframes chNod{50%{transform:translateY(5px) scaleY(.94)}}
+.pose-shake .hd{animation:chShake .45s ease-in-out 3}@keyframes chShake{25%{transform:rotate(-9deg)}75%{transform:rotate(9deg)}}
+.pose-surprised .ch-b{animation:chJump .5s cubic-bezier(.3,1.5,.5,1)}@keyframes chJump{40%{transform:translateY(-16px)}}
+.pose-surprised .ar-l{transform:rotate(40deg)}.pose-surprised .ar-r{transform:rotate(-40deg)}.pose-surprised .xm{animation:chPop .4s cubic-bezier(.3,1.6,.5,1)}
+@keyframes chPop{from{transform:scale(0)}}
+.pose-sad .hd{transform:translateY(5px) rotate(7deg)}.pose-sad .ch-b{transform:translateY(4px)}.pose-sad .ar-l{transform:rotate(-4deg)}.pose-sad .ar-r{transform:rotate(4deg)}
+.pose-happy .ar-l{transform:rotate(150deg)}.pose-happy .ar-r{transform:rotate(-150deg)}.pose-happy .ch-b{animation:chJump .55s ease-out 2}
+.pose-angry-tense .ch-b{animation:chJit .12s linear infinite}@keyframes chJit{50%{transform:translateX(1.8px)}}
+.pose-angry-tense .ar-l{transform:rotate(-10deg)}.pose-angry-tense .ar-r{transform:rotate(10deg)}
+.pose-thinking .ar-r{transform:rotate(-165deg)}.pose-thinking .hd{transform:rotate(-5deg)}.pose-thinking .tb{animation:chTb 1.8s ease-in-out infinite}@keyframes chTb{50%{transform:translateY(-4px)}}
+.pose-surprised .ar,.pose-sad .hd,.pose-sad .ch-b,.pose-sad .ar,.pose-happy .ar,.pose-angry-tense .ar,.pose-thinking .ar-r,.pose-thinking .hd{animation:chFrom .5s cubic-bezier(.3,1.3,.5,1)}
+.ch.still,.ch.still *{animation:none!important}
+.gv-ehero .gvs{position:absolute;inset:0;z-index:1}
+.gs-fi .gvs{height:100%}
+@media(max-width:560px){.gv-stage{aspect-ratio:16/11;width:100%}}
+@media(prefers-reduced-motion:reduce){.ch,.ch *{animation:none!important;transition:none!important}.gvs .bb.in{animation:none}.gvs .at,.gvs .glow{transition:opacity .3s}}

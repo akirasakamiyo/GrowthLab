@@ -1,0 +1,104 @@
+/* DIBUAT OTOMATIS oleh tools/buat-tema-gelap.js dari blok @media (prefers-reduced-motion: reduce). Jangan diedit tangan. */
+/* css/01-base.css */
+:where(html.gl-reduce) *{transition-duration:.01ms!important;scroll-behavior:auto!important}
+:where(html.gl-reduce) .rv{opacity:1;transform:none}
+:where(html.gl-reduce) .w>i{transform:none}
+:where(html.gl-reduce) [data-v]{animation:none!important}
+:where(html.gl-reduce) .dot,:where(html.gl-reduce) .art:before,:where(html.gl-reduce) .art:after,:where(html.gl-reduce) .brand i:after{animation:none!important}
+:where(html.gl-reduce) .pop,:where(html.gl-reduce) .fl,:where(html.gl-reduce) .walker svg{animation:none!important}
+:where(html.gl-reduce) [data-par]{transform:none!important}
+:where(html.gl-reduce) .mq{animation:none!important}
+:where(html.gl-reduce) .sc,:where(html.gl-reduce) .pp{transition-duration:.01ms!important}
+:where(html.gl-reduce) .wave,:where(html.gl-reduce) .ava,:where(html.gl-reduce) .cf{animation:none!important}
+:where(html.gl-reduce) .curtain{display:none}
+:where(html.gl-reduce) .fab,:where(html.gl-reduce) #pg .card{animation:none!important}
+:where(html.gl-reduce) .logo .sp,:where(html.gl-reduce) .logo .bb{animation:none}
+/* css/02-oblo.css */
+:where(html.gl-reduce) .sw>b,:where(html.gl-reduce) .wm b{transform:none!important}
+:where(html.gl-reduce) .st{opacity:1;transform:none}
+:where(html.gl-reduce) .band,:where(html.gl-reduce) #cue i{animation:none}
+/* css/03-motion.css */
+:where(html.gl-reduce) #zpre{display:none}
+:where(html.gl-reduce) .zcue .zrg i{animation:none}
+/* css/04-materi.css */
+:where(html.gl-reduce) .opt,:where(html.gl-reduce) .sbtn,:where(html.gl-reduce) .ditem,:where(html.gl-reduce) .lx-mode,:where(html.gl-reduce) .lx-tabs [role=tab]{transition:none}
+:where(html.gl-reduce) .opt:hover,:where(html.gl-reduce) .sbtn:hover,:where(html.gl-reduce) .ditem:hover,:where(html.gl-reduce) .lx-mode:hover,:where(html.gl-reduce) .lx-tabs [role=tab]:hover{transform:none}
+:where(html.gl-reduce) .dd .dd-l{stroke-dashoffset:0;fill-opacity:1!important}
+:where(html.gl-reduce) .dd .dd-blob{transform:none}
+:where(html.gl-reduce) .dd *,:where(html.gl-reduce) .team .tmc{animation:none!important;transition:none!important}
+/* css/05-interaktif.css */
+:where(html.gl-reduce) .pk-y:hover,:where(html.gl-reduce) .pk-g:hover{transform:none}
+:where(html.gl-reduce) .pk-pv{transition:none}
+:where(html.gl-reduce) .lp-arc,:where(html.gl-reduce) .lab-tag i{animation:none}
+:where(html.gl-reduce) .br-o{transition:none}
+:where(html.gl-reduce) .tri-flow.flip .tri-c,:where(html.gl-reduce) .why-l li,:where(html.gl-reduce) .why-root,:where(html.gl-reduce) .emo-o,:where(html.gl-reduce) .scm-c.flip{animation:none}
+/* css/06-latihan-game.css */
+:where(html.gl-reduce) .gq-bg i,:where(html.gl-reduce) .gq-lcard .gq-start,:where(html.gl-reduce) .gq-pub:not(:disabled),:where(html.gl-reduce) .gd-card.sel,:where(html.gl-reduce) .gd-check.ready,:where(html.gl-reduce) .gd.dragging .gd-bin::after,:where(html.gl-reduce) .gd.picking .gd-bin::after,:where(html.gl-reduce) #ltp[data-cur=sim]::before,:where(html.gl-reduce) .gs-ill svg,:where(html.gl-reduce) .gs-dots li.c,:where(html.gl-reduce) .gs-tw.on:not(.done)::after,:where(html.gl-reduce) .gs-frame figcaption span:last-child,:where(html.gl-reduce) .gs-file:hover .gs-go .gi{animation:none!important}
+:where(html.gl-reduce) .gq-mode,:where(html.gl-reduce) .gq-stats div,:where(html.gl-reduce) .gq-badges span,:where(html.gl-reduce) .gq-mk,:where(html.gl-reduce) .gs-file,:where(html.gl-reduce) .gs-cs.on .gs-c,:where(html.gl-reduce) .gs-trail li,:where(html.gl-reduce) .gq-resume{animation:none!important}
+:where(html.gl-reduce) .gq-ring .v,:where(html.gl-reduce) .gs-needle,:where(html.gl-reduce) .gs-sb i,:where(html.gl-reduce) .nl-bar,:where(html.gl-reduce) .gd-card,:where(html.gl-reduce) .gs-c,:where(html.gl-reduce) .gs-file,:where(html.gl-reduce) .gs-file::before,:where(html.gl-reduce) .gs-c::before{transition:none!important}
+:where(html.gl-reduce) .gs-end .gs-tree path.on{stroke-dashoffset:0;animation:none!important}
+:where(html.gl-reduce) .gs-stamp{opacity:1}
+/* css/07-simulasi.css */
+:where(html.gl-reduce) #ltp[data-cur=sim]::before,:where(html.gl-reduce) .gs-dots li.c,:where(html.gl-reduce) .gs-tw.on:not(.done)::after,:where(html.gl-reduce) .gs-file,:where(html.gl-reduce) .gv-cs.on .gv-c{animation:none!important}
+:where(html.gl-reduce) .gs-file,:where(html.gl-reduce) .gv-c,:where(html.gl-reduce) .gv-mb i,:where(html.gl-reduce) .gs-fi svg{transition:none!important}
+:where(html.gl-reduce) .gv-ebig,:where(html.gl-reduce) .gv-trail li,:where(html.gl-reduce) .gs-stamp{transition:opacity .2s!important;transform:none!important}
+/* css/08-simulasi-panggung.css */
+:where(html.gl-reduce) .ch,:where(html.gl-reduce) .ch *{animation:none!important;transition:none!important}
+:where(html.gl-reduce) .gvs .bb.in{animation:none}
+:where(html.gl-reduce) .gvs .at,:where(html.gl-reduce) .gvs .glow{transition:opacity .3s}
+/* css/09-ilustrasi.css */
+:where(html.gl-reduce) svg.ill .a{animation:none!important}
+/* css/11-lencana-bab.css */
+:where(html.gl-reduce) .chbadge .medal,:where(html.gl-reduce) .chrew .medal{animation:none!important}
+/* css/13-gamifikasi.css */
+:where(html.gl-reduce) .gx-chip.bump,:where(html.gl-reduce) .gx-toast.lvl.in{animation:none}
+:where(html.gl-reduce) .gx-toast,:where(html.gl-reduce) .gx-bar i,:where(html.gl-reduce) .gx-sw i,:where(html.gl-reduce) .gx-sw i::after{transition:none}
+/* css/14-transisi.css */
+:where(html.gl-reduce) .curtain{display:none!important}
+/* css/15-nav-ikon.css */
+:where(html.gl-reduce) .nav-t,:where(html.gl-reduce) .links a.ni,:where(html.gl-reduce) .ni-ic svg,:where(html.gl-reduce) .gx-chip,:where(html.gl-reduce) .gx-chip span{transition:none!important}
+:where(html.gl-reduce) .hero-dd *{animation:none!important}
+:where(html.gl-reduce) .hd-dr .dd-line{stroke-dashoffset:0}
+:where(html.gl-reduce) .nb-rib,:where(html.gl-reduce) .nb-chk,:where(html.gl-reduce) .nb-pen,:where(html.gl-reduce) .nb-route,:where(html.gl-reduce) .nb-pin,:where(html.gl-reduce) .nb-lf1,:where(html.gl-reduce) .nb-lf2,:where(html.gl-reduce) .nb-bud{animation:none}
+:where(html.gl-reduce) .nb-chk{stroke-dashoffset:0}
+:where(html.gl-reduce) .nb-bud{transform:none}
+:where(html.gl-reduce) .ico svg [class*="bm-"],:where(html.gl-reduce) svg.gi [class*="bm-"]{animation:none!important}
+:where(html.gl-reduce) .bm-draw{stroke-dashoffset:0}
+:where(html.gl-reduce) .ndd-m{transition:none}
+/* css/16-pemandu.css */
+:where(html.gl-reduce) .gph,:where(html.gl-reduce) .gph-tx,:where(html.gl-reduce) .gph-glow,:where(html.gl-reduce) .gph-tgt,:where(html.gl-reduce) .gph-arr{animation:none!important}
+:where(html.gl-reduce) .gph-arrow{animation:none}
+/* css/17-unslop.css */
+:where(html.gl-reduce) .chalk *{animation:none!important}
+:where(html.gl-reduce) .hs-c,:where(html.gl-reduce) .hs-peek{transition:none}
+:where(html.gl-reduce) .hero h1 em{transition:none;background-size:100% .2em}
+:where(html.gl-reduce) .gd-card-res,:where(html.gl-reduce) .gd-rs-st i.pop{animation:none}
+:where(html.gl-reduce) .gd-rs-st i.on{opacity:1;transform:none}
+/* css/18-ilustrasi-loop.css */
+:where(html.gl-reduce) .lp *{animation:none!important}
+:where(html.gl-reduce) .lp-chk,:where(html.gl-reduce) .lp-ln,:where(html.gl-reduce) .lp-trail,:where(html.gl-reduce) .lp-ring{stroke-dashoffset:0}
+:where(html.gl-reduce) .lp-p1,:where(html.gl-reduce) .lp-p2{clip-path:none}
+:where(html.gl-reduce) .lp-sprout{transform:none}
+:where(html.gl-reduce) .lp-pawn{offset-distance:100%}
+:where(html.gl-reduce) .lp-tw{opacity:0}
+:where(html.gl-reduce) .lp-q,:where(html.gl-reduce) .lp-ex{transform:none}
+:where(html.gl-reduce) .lp-rays{opacity:1}
+:where(html.gl-reduce) .lp-float{opacity:0}
+/* css/22-labi.css */
+:where(html.gl-reduce) .labi,:where(html.gl-reduce) .hero-labi:hover .labi{animation:none!important}
+:where(html.gl-reduce) .labi-cheer{transition:opacity .2s}
+/* css/23-sidebar.css */
+:where(html.gl-reduce) .sbn-me,:where(html.gl-reduce) .sbn-me *{animation:none!important}
+:where(html.gl-reduce) body:not(.sbn-rail) .sbn-me{transform:none!important}
+:where(html.gl-reduce) .sbn,:where(html.gl-reduce) .sbn-dim,:where(html.gl-reduce) .sbn-pb i,:where(html.gl-reduce) .sbn-ic,:where(html.gl-reduce) .sbn-cv,:where(html.gl-reduce) body.sbx{transition:none!important}
+/* css/24-karier.css */
+:where(html.gl-reduce) .gx-v3 *,:where(html.gl-reduce) .gx-v3 *::before,:where(html.gl-reduce) .gx-v3 *::after{animation:none!important;transition:none!important}
+/* css/24-latar-hero.css */
+:where(html.gl-reduce) .hbg i{animation:none!important}
+:where(html.gl-reduce) .hbg-px{opacity:.6}
+:where(html.gl-reduce) .hbg-cl{transform:translateX(20vw)}
+/* css/29-beranda.css */
+:where(html.gl-reduce) .dsh-lead,:where(html.gl-reduce) .dsh-act,:where(html.gl-reduce) .dsh-board>.wrap,:where(html.gl-reduce) .dsh-board .dt,:where(html.gl-reduce) .dsh-board .dt .dmini{animation:none!important}
+:where(html.gl-reduce) .tm2-f{transition:none}
+:where(html.gl-reduce) .team2 .dd .dd-l{stroke-dashoffset:0;fill-opacity:1!important}
+:where(html.gl-reduce) .team2 .dd .dd-blob{transform:none}

@@ -1,0 +1,46 @@
+/* Nilai akhir bergaya kaya (2026-11-21, js/05-latihan.js nilaiHTML .nl2): cincin skor di panel navy dengan Labi,
+   kartu komponen berwarna, batang skor per aspek, persamaan berbentuk kartu, dan meteran kategori. */
+#nilai .nl2 .nl-head{display:grid!important;grid-template-columns:auto minmax(0,1fr)!important;grid-template-rows:auto!important;gap:clamp(20px,3vw,44px);align-items:center;padding:clamp(22px,3vw,34px);margin-bottom:22px;
+  border-radius:28px;background:radial-gradient(60% 90% at 85% 10%,rgba(124,92,255,.55),transparent 70%),radial-gradient(50% 80% at 10% 100%,rgba(255,107,61,.35),transparent 70%),#0a1a6b;color:#fff;
+  box-shadow:8px 8px 0 #ffd23f}
+#nilai .nl-gauge{position:relative;width:clamp(170px,22vw,230px);aspect-ratio:1;border-radius:50%;display:grid;place-content:center;justify-items:center;text-align:center;
+  background:conic-gradient(#ffd23f calc(var(--p)*1turn),rgba(255,255,255,.14) 0)}
+#nilai .nl-gauge::before{content:"";position:absolute;inset:14px;border-radius:50%;background:radial-gradient(circle at 50% 30%,#2340d8,#11207f 70%)}
+#nilai .nl-gauge>*{position:relative}
+#nilai .nl-gauge .mono{color:#ffd23f!important;font-size:.7rem!important;margin:0!important}
+#nilai .nl-gauge .lx-big{color:#fff!important;font-size:clamp(3.2rem,6vw,4.6rem)!important;line-height:1!important;margin:4px 0!important}
+#nilai .nl-gauge small{font:700 .72rem/1 var(--mono,monospace);letter-spacing:.14em;text-transform:uppercase;color:#c9d0ff}
+#nilai .nl-kat{position:relative;padding-right:110px;min-height:110px;display:flex;flex-direction:column;align-items:flex-start;gap:12px}
+#nilai .nl-kat p{color:#e3e6ff;margin:0;font-size:1.05rem}
+#nilai .nl-kat .badge{font-size:1rem;padding:10px 18px}
+#nilai .nl-labi{--k:2;position:absolute;right:0;top:50%;transform:translateY(-50%)}
+/* kartu komponen */
+#nilai .nl2 .nl-c{position:relative;overflow:hidden;border:3px solid #0a1a6b;box-shadow:6px 6px 0 #0a1a6b}
+#nilai .nl2 .nl-pg{background:#fff1ea}#nilai .nl2 .nl-sm{background:#e5f8f5}
+/* batang bawah kartu (animasi bawaan .nilai.go di css/06) diberi warna kartunya */
+#nilai .nl2 .nl-bar{height:8px}#nilai .nl2 .nl-pg .nl-bar{background:#ff6b3d}#nilai .nl2 .nl-sm .nl-bar{background:#14b8a6}
+/* batang skor per aspek */
+#nilai .nl-ab{display:block;height:8px;max-width:340px;margin-top:8px;border-radius:9px;background:rgba(10,26,107,.1);position:relative;overflow:hidden}
+#nilai .nl-ab::after{content:"";position:absolute;inset:0;width:calc(var(--w)*100%);background:linear-gradient(90deg,#14b8a6,#2b55ff);border-radius:9px}
+/* persamaan */
+#nilai .nl-eq{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin:24px 0 8px}
+#nilai .nl-eq span{display:flex;flex-direction:column;align-items:center;gap:4px;min-width:118px;padding:14px 18px;border-radius:18px;border:3px solid #0a1a6b;box-shadow:5px 5px 0 #0a1a6b}
+#nilai .nl-eq b{font:400 2rem/1 'Anton',var(--serif);color:#0a1a6b}
+#nilai .nl-eq small{font:700 .72rem/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:#33407f}
+#nilai .nl-eq .e-pg{background:#ff9a74}#nilai .nl-eq .e-sm{background:#5fd6c4}#nilai .nl-eq .e-ak{background:#ffd23f}
+#nilai .nl-eq i{font:400 2rem/1 'Anton',var(--serif);font-style:normal;color:#0a1a6b}
+#nilai .nl2 .nl-f{font-size:.88rem;background:none!important;padding:0!important;color:#33407f}
+/* meteran kategori */
+#nilai .nl-meter{position:relative;margin:30px 0 10px;padding-top:34px}
+#nilai .nl-mtrk{display:flex;height:16px;border-radius:99px;overflow:hidden;border:3px solid #0a1a6b}
+#nilai .nl-mtrk span{opacity:.45}#nilai .nl-mtrk span.on{opacity:1}
+#nilai .nl-mtrk .m3{background:#ff6b3d}#nilai .nl-mtrk .m2{background:#ffd23f}#nilai .nl-mtrk .m1{background:#5fd6c4}#nilai .nl-mtrk .m0{background:#14b8a6}
+#nilai .nl-mk{position:absolute;top:0;transform:translateX(-50%);padding:5px 10px;border-radius:10px;background:#0a1a6b;color:#fff;font:800 .85rem/1 var(--sans);white-space:nowrap}
+#nilai .nl-mk::after{content:"";position:absolute;left:50%;bottom:-6px;margin-left:-6px;border:6px solid transparent;border-bottom:0;border-top-color:#0a1a6b}
+@media (max-width:700px){
+  #nilai .nl2 .nl-head{grid-template-columns:1fr!important;justify-items:center;text-align:center}
+  #nilai .nl-kat{padding-right:0;align-items:center;padding-top:0}
+  #nilai .nl-labi{position:static;transform:none;--k:1.6}
+  #nilai .nl-eq span{min-width:0;flex:1 1 90px}
+}
+@media print{#nilai .nl-labi{display:none}}
