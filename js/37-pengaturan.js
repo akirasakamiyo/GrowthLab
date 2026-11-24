@@ -89,10 +89,6 @@ window.GLSET = (() => {
           <p class="gst-store ${S.store ? "ok" : "warn"}"><i aria-hidden="true"></i>${S.store ? "Tersimpan otomatis di browser ini. Data hilang kalau data situs browser dihapus, jadi unduh cadangan di panel Perjalanan karier sebelum ganti perangkat." : "Browser memblokir penyimpanan (mis. mode privat). Progres hanya bertahan selama tab ini terbuka."}</p>
           <div class="gst-row" id="st-lap"><div class="gst-l"><b>Laporan untuk dosen</b><p>Unduh file berisi namamu, pelajaran yang selesai, dan hasil kuis (termasuk jawaban per soal) dari catatan belajar di browser ini. Kirim file itu ke dosen atau fasilitatormu; file tidak dikirim otomatis ke mana pun.</p><p class="gst-err" id="st-lap-e" role="alert"></p></div>
             <button type="button" class="btn" id="st-lap-b">Unduh laporan</button></div>
-          ${window.GLSYNC && GLSYNC.url ? (() => { const Y = GLSYNC.state(); return `<div class="gst-row gst-row-col" id="st-sync-w"><div class="gst-l"><b id="st-sync-l">Kirim progres ke dosen secara otomatis</b><p id="st-sync-d">Kalau dinyalakan, namamu, pelajaran yang selesai, dan hasil kuis (termasuk jawaban per soal dan riwayat sebelumnya) dikirim ke Google Sheet milik pengelola GrowthLab, supaya dosen bisa memantau tanpa menunggu file laporan. Tanpa login. Bisa dimatikan kapan saja; data yang sudah terkirim tetap tersimpan di Sheet.</p></div>
-            <div class="gst-sync"><label class="gst-in"><span>Kode kelas</span><input id="st-kls" type="text" maxlength="30" autocomplete="off" spellcheck="false" value="${esc(Y.kelas)}" placeholder="dari dosenmu, mis. TP8-2026"></label>
-              <button type="button" class="gst-sw" role="switch" aria-checked="${Y.on}" aria-labelledby="st-sync-l" aria-describedby="st-sync-d st-sync-s" data-p="sync"><i aria-hidden="true"></i></button></div>
-            <p class="gst-sync-s" id="st-sync-s" role="status"></p></div>` })() : ""}
           <div class="gst-row gst-danger"><div class="gst-l"><b>Reset progres belajar</b><p>Menghapus progres pelajaran, hasil latihan, XP, level, lencana, dan streak. Nama dan pengaturan tidak ikut terhapus.</p></div>
             <button type="button" class="btn gst-btn-d" id="st-reset">Reset progres</button></div>`)}
         ${sec("tentang", "Tentang GrowthLab", 6, "", `
@@ -157,7 +153,6 @@ window.GLSET = (() => {
       const all = $$('[role="radio"]', r.parentNode), i = all.indexOf(r), n = all[(i + (/Right|Down/.test(e.key) ? 1 : all.length - 1)) % all.length]; pick(n); n.focus() });
     function pick(r) { $$('[role="radio"]', r.parentNode).forEach(b => { const on = b === r; b.setAttribute("aria-checked", on); b.tabIndex = on ? 0 : -1 }); setPref(r.dataset.p, r.dataset.val) }
     function setPref(k, v) {
-      if (k === "sync") return syncSet(v);
       if (k === "sfx" || k === "music") { try { GLX.ui.SND.set(k, v) } catch (_) {} return say(v ? "Dinyalakan." : "Dimatikan.") }
       GLP.set({ [k]: v });
       /* animasi dibaca sekali saat modul dimuat (Lenis, GSAP, parallax, transisi halaman): muat ulang supaya berlaku di semua bagian */
@@ -198,20 +193,6 @@ window.GLSET = (() => {
     pwaB.onclick = async () => { if (await GLPWA.install()) say("GrowthLab sedang dipasang sebagai aplikasi."); pwaPaint() };
     pwaPaint();
 
-    /* kirim progres live (opt-in): perlu nama dan kode kelas */
-    const syW = $("#st-sync-w", root);
-    function syncSet(on) {
-      const kls = $("#st-kls", root), sw = $('[data-p="sync"]', root), msg = $("#st-sync-s", root);
-      if (on && !nameNow()) { sw.setAttribute("aria-checked", "false"); msg.textContent = "Isi dan simpan namamu dulu di bagian Profil."; msg.className = "gst-sync-s bad"; return }
-      if (on && kls.value.trim().length < 2) { sw.setAttribute("aria-checked", "false"); msg.textContent = "Isi kode kelas dari dosenmu dulu."; msg.className = "gst-sync-s bad"; kls.setAttribute("aria-invalid", "true"); kls.focus(); return }
-      kls.removeAttribute("aria-invalid"); GLSYNC.set(on, kls.value); say(on ? "Pengiriman otomatis ke dosen dinyalakan." : "Pengiriman otomatis dimatikan.");
-    }
-    if (syW) {
-      const kls = $("#st-kls", root);
-      kls.addEventListener("change", () => { const Y = GLSYNC.state(); if (Y.on && kls.value.trim().length >= 2) GLSYNC.set(true, kls.value) });
-      syncPaint();
-    }
-
     /* reset dengan modal konfirmasi */
     const modal = $("#st-modal", root), box = $(".gst-mbox", modal); let back = null;
     const openM = () => { back = document.activeElement; modal.hidden = false; requestAnimationFrame(() => modal.classList.add("on")); $("#st-m-x", modal).focus(); try { window.__lenis && window.__lenis.stop() } catch (_) {} };
@@ -222,15 +203,6 @@ window.GLSET = (() => {
     modal.addEventListener("keydown", e => { if (e.key === "Escape") { e.preventDefault(); closeM() }
       if (e.key === "Tab") { const f = $$("button:not([disabled])", box), a = f[0], z = f[f.length - 1]; if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus() } else if (!e.shiftKey && document.activeElement === z) { e.preventDefault(); a.focus() } } });
   }
-
-  /* status pengiriman live di halaman Pengaturan */
-  function syncPaint() {
-    const m = document.getElementById("st-sync-s"); if (!m || !window.GLSYNC) return;
-    const Y = GLSYNC.state(), tm = t => new Date(t).toLocaleString("id-ID", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
-    m.className = "gst-sync-s" + (Y.on && Y.err ? " bad" : Y.on ? " ok" : "");
-    m.textContent = !Y.on ? "Mati. Tidak ada data yang dikirim." : Y.err ? Y.err : Y.last ? `Menyala untuk kelas ${Y.kelas}. Terakhir terkirim ${tm(Y.last)}.` : `Menyala untuk kelas ${Y.kelas}. Mengirim…`;
-  }
-  document.addEventListener("gl-sync", syncPaint);
 
   /* pesan setelah muat ulang (mis. sesudah reset) */
   addEventListener("load", () => { let m = null, to = null; try { m = sessionStorage.getItem("gl-flash"); to = sessionStorage.getItem("gl-flash-to"); sessionStorage.removeItem("gl-flash"); sessionStorage.removeItem("gl-flash-to") } catch (e) {}
