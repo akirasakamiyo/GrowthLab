@@ -5,7 +5,7 @@ const { webkit } = require("playwright");
 const path = require("path"), OUT = path.join(__dirname, "..", "docs", "screenshots");
 /* akhiran tanggal di nama file supaya browser tidak memakai gambar lama dari cache;
    ganti setiap kali screenshot diambil ulang, lalu sesuaikan juga docs/README-github.md */
-const V = "20261113";
+const V = "20261124";
 const BASE = process.env.BASE || "http://localhost:8000/index.html";
 const sl = ms => new Promise(r => setTimeout(r, ms));
 /* contoh progres supaya tampilan terlihat "hidup" */
@@ -18,14 +18,19 @@ const SEED = {
   const b = await webkit.launch();
   const shot = async (name, hash, opt = {}, act) => {
     const ctx = await b.newContext({ viewport: opt.vp || { width: 1440, height: 900 }, deviceScaleFactor: opt.dpr || 1, isMobile: !!opt.mobile, reducedMotion: "reduce" });
-    await ctx.addInitScript(s => { if (!sessionStorage.getItem("__s")) { for (const k in s) localStorage.setItem(k, JSON.stringify(s[k])); sessionStorage.setItem("__s", "1") } window.GL_NO_GATE = 1 }, SEED);
+    await ctx.addInitScript(s => { if (!sessionStorage.getItem("__s")) { for (const k in s) localStorage.setItem(k, JSON.stringify(s[k])); sessionStorage.setItem("__s", "1") } window.GL_NO_GATE = 1 }, opt.seed || SEED);
     const p = await ctx.newPage();
     await p.goto(BASE + "?shot=1#" + hash); await sl(3500);
     if (act) await act(p);
     await p.screenshot({ path: path.join(OUT, name + "-" + V + ".png") });
     console.log("ok", name); await ctx.close();
   };
-  await shot("01-beranda", "/");
+  /* beranda versi dashboard: progres sebagian supaya papan Perjalananmu terlihat berjalan */
+  const MID = { ...SEED, "mer-done": ["0-0", "0-1", "0-2", "0-3", "0-4", "1-0", "1-2"], "gl-ui": { nama: "Sari" } };
+  /* js/02-migrasi-progres.js memetakan ulang kunci Bab 2 lama: "1-2" di sini menjadi pelajaran 7 ("1-1") */
+  /* mode kurangi gerakan menahan video otomatis: tampilkan satu bingkai video promo supaya tidak hitam */
+  const frame = async p => { await p.evaluate(async () => { const v = document.getElementById("promo"); if (!v) return; v.pause(); v.currentTime = 9; await new Promise(r => { v.addEventListener("seeked", r, { once: true }); setTimeout(r, 3000) }) }); await sl(600) };
+  await shot("01-beranda", "/", { seed: MID }, frame);
   await shot("02-materi", "/course");
   await shot("03-pelajaran", "/lesson/1-2", {}, async p => { await p.evaluate(() => scrollTo(0, 0)); await sl(800) });
   await shot("04-kuis", "/latihan/kuis/b1", {}, async p => {
@@ -38,7 +43,8 @@ const SEED = {
     await p.evaluate(() => { const g = document.querySelector(".gv"); g && g.scrollIntoView({ block: "start" }); scrollBy(0, -90) }); await sl(800);
   });
   await shot("06-gamifikasi", "/course", {}, async p => { await p.evaluate(() => GLG.open()); await sl(1200) });
-  await shot("07-hp", "/", { vp: { width: 390, height: 844 }, dpr: 2, mobile: true });
+  await shot("07-hp", "/", { vp: { width: 390, height: 844 }, dpr: 2, mobile: true, seed: MID }, frame);
   await shot("08-alur", "/alur", {}, async p => { await p.evaluate(() => scrollTo(0, 0)); await sl(800) });
+  await shot("09-tentang", "/tentang", {}, async p => { await p.evaluate(() => { const e = document.getElementById("identitas"); scrollTo(0, e.getBoundingClientRect().top + scrollY - 40) }); await sl(1500) });
   await b.close();
 })();

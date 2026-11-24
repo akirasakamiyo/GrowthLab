@@ -1,62 +1,68 @@
 # GrowthLab: Self Development for Job Seeker
 
-Media pembelajaran interaktif berbasis website untuk melatih soft skill siswa SMK kelas XII dan *fresh graduate* yang sedang mencari kerja.
-Dibuat oleh Kelompok 8, Teknologi Pendidikan FIP UNJ, untuk mata kuliah Pengembangan Multimedia Pendidikan.
+Multimedia pembelajaran interaktif berbasis website untuk mengembangkan *soft skill* peserta didik SMK kelas XII dan lulusan baru dalam menghadapi proses mencari kerja. Produk ini dikembangkan oleh Kelompok 8, Program Studi Teknologi Pendidikan, Fakultas Ilmu Pendidikan, Universitas Negeri Jakarta, untuk mata kuliah Pengembangan Multimedia Pendidikan.
 
-**Buka:** https://akirasakamiyo.github.io/GrowthLab/
+**Alamat produk:** https://akirasakamiyo.github.io/GrowthLab/
 
-## Isi
+Repositori ini (cabang `kode`) berisi kode sumber. Uraian lengkap produk beserta tangkapan layar terdapat pada [docs/README-github.md](docs/README-github.md), yang juga ditampilkan di halaman utama repositori.
 
-- **15 pelajaran dalam 3 bab:** Self-Management, Emotional Intelligence, dan Thinking Skill. Setiap pelajaran berisi materi, contoh kasus, aktivitas, dan cek pemahaman.
-- **Latihan:** kuis pilihan ganda, drag & drop, dan simulasi kasus dunia kerja yang bercabang.
-- **Nilai akhir:** 30% kuis + 70% simulasi, lengkap dengan kategori kesiapan kerja dan sertifikat.
-- **Panduan:** petunjuk, tujuan belajar, peta konsep, glosarium, referensi, dan identitas pengembang.
-- Gratis, tanpa akun. Progres tersimpan di browser. Bisa dipasang sebagai aplikasi (PWA) dan dipakai tanpa internet setelah dibuka sekali.
+## Identitas
 
-## Cara membuka
+| Komponen | Keterangan |
+|---|---|
+| Jenis media | Multimedia interaktif berbasis website |
+| Sasaran | Peserta didik SMK kelas XII dan lulusan baru |
+| Materi | 3 bab, 15 pelajaran: Self-Management, Emotional Intelligence, Thinking Skill |
+| Evaluasi | 60 soal uji pemahaman, 48 soal kuis pilihan ganda, 8 set *drag and drop*, 3 simulasi kasus bercabang |
+| Model pengembangan | Hannafin dan Peck |
+| Dosen pengampu | Kunto Imbar Nursetyo, S.Pd., M.Pd. |
+| Tim pengembang | Rifa Haqi Putra Wibowo (1101624089) dan Thumpal Alvin (1101624069) |
 
-- **Online:** buka tautan di atas.
-- **Sebagai aplikasi:** di Chrome atau Edge, buka *Pengaturan → Tentang GrowthLab → Pasang*. Di iPhone atau iPad, buka di Safari lalu *Bagikan → Tambah ke Layar Utama*.
-- **Dari folder ini:** jalankan `node tests/serve.js`, lalu buka http://localhost:8000.
+## Menjalankan Produk
 
-## Struktur folder
+- **Daring:** buka alamat produk di atas.
+- **Sebagai aplikasi:** pada Chrome atau Edge, buka *Pengaturan → Tentang GrowthLab → Pasang*. Pada iPhone atau iPad, buka melalui Safari, lalu pilih *Bagikan → Tambah ke Layar Utama*.
+- **Dari repositori:** jalankan `node tests/serve.js`, lalu buka http://localhost:8000.
+
+## Struktur Repositori
 
 ```
 index.html            kerangka halaman
 css/                  tampilan, dimuat berurutan sesuai nomor
 js/                   skrip, dimuat berurutan sesuai nomor
-  03-data.js            semua isi: materi, kuis, drag & drop, simulasi, glosarium (edit teks di sini)
-  26-uji-data.js        soal uji pemahaman per pelajaran
-  gamifikasi/           XP, level, lencana, streak, sertifikat
-vendor/               pustaka dan font lokal (tanpa CDN)
-assets/               gambar, video, ikon aplikasi, maskot Labi
+  03-data.js            seluruh isi: materi, kuis, drag and drop, simulasi, glosarium
+  26-uji-data.js        soal uji pemahaman setiap pelajaran
+  44-beranda.js         dashboard peserta di beranda
+  gamifikasi/           XP, level, lencana, target mingguan, sertifikat
+vendor/               pustaka dan fon lokal (tanpa CDN)
+assets/               gambar, video, ikon aplikasi, maskot Labi, foto tim (assets/tim/<NIM>.jpg)
 manifest.webmanifest  identitas aplikasi (PWA)
-sw.js                 service worker: menyimpan file supaya jalan tanpa internet
-docs/                 storyboard dan bahan README halaman GitHub
-tools/                skrip deploy dan alat bantu
-tests/                tes otomatis (lihat tests/README.md)
-arsip/                versi lama, tidak dipakai
+sw.js                 service worker untuk penggunaan tanpa internet
+docs/                 storyboard, README halaman GitHub, tangkapan layar
+tools/                skrip penerbitan dan alat bantu
+tests/                pengujian otomatis (lihat tests/README.md)
+arsip/                versi lama, tidak digunakan
 ```
 
-## Dokumen
+## Dokumen Pendukung
 
-| File | Isi |
+| Dokumen | Isi |
 |---|---|
-| [CATATAN.md](CATATAN.md) | Catatan pengembangan lengkap: keputusan, revisi dari dosen, hasil uji |
-| [docs/STORYBOARD.md](docs/STORYBOARD.md) | Storyboard dan skenario pembelajaran (juga tersedia PDF) |
-| [GAMIFICATION.md](GAMIFICATION.md) | Aturan XP, level, lencana, dan streak |
-| [tests/README.md](tests/README.md) | Daftar tes dan cara menjalankannya |
+| [CATATAN.md](CATATAN.md) | Catatan pengembangan: keputusan desain, revisi berdasarkan masukan dosen, dan hasil pengujian |
+| [docs/STORYBOARD.md](docs/STORYBOARD.md) | Storyboard dan skenario pembelajaran (tersedia juga dalam format PDF) |
+| [GAMIFICATION.md](GAMIFICATION.md) | Aturan XP, level, lencana, dan target mingguan |
+| [tests/README.md](tests/README.md) | Daftar pengujian dan cara menjalankannya |
 
 ## Pengembangan
 
 ```bash
-npm install                          # sekali: Playwright untuk tes dan screenshot
+npm install                          # sekali saja: Playwright untuk pengujian dan tangkapan layar
 node tests/serve.js                  # server lokal di port 8000
-node tests/t-smoke.js chrome 1280    # contoh tes; daftar lengkap di tests/README.md
-./tools/build-pages.sh --push        # deploy ke GitHub Pages
+node tests/t-smoke.js chrome 1280    # contoh pengujian; daftar lengkap di tests/README.md
+node tools/screenshots.js            # memperbarui tangkapan layar di docs/screenshots
+./tools/build-pages.sh --push        # menerbitkan ke GitHub Pages
 ```
 
-**Branch:** kode ada di branch `kode`. Branch `main` berisi situs yang tayang (diisi oleh `build-pages.sh`), jadi jangan merge kode ke `main`.
-**Tag:** versi yang dikumpulkan ditandai dengan tag, misalnya `pertemuan-12`.
+**Cabang dan tag.** Kode sumber berada pada cabang `kode`. Cabang `main` berisi situs yang ditayangkan dan diisi oleh `tools/build-pages.sh`, sehingga kode tidak digabungkan ke `main`. Versi yang dikumpulkan ditandai dengan *tag*, misalnya `pertemuan-12`.
 
-Progres, skor, dan XP disimpan di localStorage browser, jadi bisa diubah lewat devtools. Ini diterima untuk prototipe.
+**Keterbatasan.** Progres, skor, dan XP disimpan di peramban (*localStorage*), sehingga dapat diubah melalui *developer tools*. Hal ini dapat diterima untuk prototipe tugas mata kuliah.
