@@ -1,0 +1,46 @@
+/* ==================================================================
+   Halaman Laporan pengembangan #/laporan (2026-11-24). Isi di js/45-laporan.js.
+   ================================================================== */
+.lap-stat{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-bottom:56px}
+.lap-stat>div{background:#fff;border:3px solid #0a1a6b;border-radius:18px;box-shadow:5px 5px 0 #0a1a6b;padding:18px 20px}
+.lap-stat b{display:block;font:400 2.3rem/1 'Anton',sans-serif;color:#0a1a6b}
+.lap-stat span{display:block;margin-top:6px;font:600 .9rem/1.35 'DM Sans',sans-serif;color:#55609e}
+.lap-hp{position:relative;display:grid;grid-template-columns:1fr 34px 1fr 34px 1fr;align-items:stretch;margin-top:22px;padding-bottom:64px}
+.lap-ph{background:#fff;border:3px solid #0a1a6b;border-radius:20px;box-shadow:6px 6px 0 #0a1a6b;padding:20px 22px}
+.lap-ph .no{display:grid;place-items:center;width:44px;height:44px;border-radius:50%;background:var(--c);border:3px solid #0a1a6b;font:400 1.4rem/1 'Anton',sans-serif;color:#0a1a6b;margin-bottom:12px}
+.lap-ph b{display:block;font:800 1.15rem/1.2 'Bricolage Grotesque',sans-serif;color:#0a1a6b}
+.lap-ph p{margin:6px 0 0;font:500 .95rem/1.5 'DM Sans',sans-serif;color:#3d477f}
+.lap-ar{align-self:center;justify-self:center;width:22px;height:22px;border-top:4px solid #0a1a6b;border-right:4px solid #0a1a6b;transform:rotate(45deg)}
+.lap-loop{position:absolute;left:8%;right:8%;bottom:0;height:46px;border:3px dashed #0a1a6b;border-top:0;border-radius:0 0 24px 24px;display:flex;align-items:flex-end;justify-content:center;gap:8px;padding-bottom:0;transform:translateY(0);font:700 .9rem 'DM Sans',sans-serif;color:#0a1a6b}
+.lap-loop{background:none}
+.lap-loop svg{width:20px;height:20px;fill:none;stroke:#0a1a6b;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.lap-loop{line-height:1}
+.lap-loop>span{display:inline-flex;align-items:center;gap:8px;padding:0 14px;background:var(--b,#f3ead6);transform:translateY(14px)}
+.lap-dl{margin:16px 0 0;background:#fff;border:3px solid #0a1a6b;border-radius:20px;box-shadow:6px 6px 0 #0a1a6b;overflow:hidden}
+.lap-dl>div{display:grid;grid-template-columns:minmax(150px,220px) 1fr;gap:20px;padding:16px 24px;border-top:2px solid #eef1ff}
+.lap-dl>div:first-child{border-top:0}
+.lap-dl dt{font:800 1rem/1.4 'Bricolage Grotesque',sans-serif;color:#0a1a6b}
+.lap-dl dd{margin:0;font:500 1rem/1.55 'DM Sans',sans-serif;color:#26306b}
+.lap-tl{list-style:none;margin:24px 0 0;padding:0 0 0 22px;border-left:4px solid #0a1a6b}
+.lap-tl li{position:relative;display:grid;grid-template-columns:118px 1fr;gap:18px;padding:0 0 22px 18px}
+.lap-tl li::before{content:"";position:absolute;left:-33px;top:4px;width:18px;height:18px;border-radius:50%;background:#ffd23f;border:3px solid #0a1a6b}
+.lap-tl li:last-child::before{background:#14b8a6}
+.lap-tl time{font:800 .95rem/1.4 'Bricolage Grotesque',sans-serif;color:#0a1a6b;font-variant-numeric:tabular-nums}
+.lap-tl b{display:block;font:800 1.05rem/1.3 'Bricolage Grotesque',sans-serif;color:#0a1a6b}
+.lap-tl p{margin:4px 0 0;font:500 .98rem/1.55 'DM Sans',sans-serif;color:#26306b;max-width:70ch}
+.lap-tw{margin-top:20px;overflow-x:auto;border:3px solid #0a1a6b;border-radius:20px;box-shadow:6px 6px 0 #0a1a6b;background:#fff}
+.lap-tb{width:100%;min-width:720px;border-collapse:collapse;color:#0a1a6b}
+.lap-tb th,.lap-tb td{padding:14px 18px;text-align:left;vertical-align:top;border-top:2px solid #eef1ff;font:500 .97rem/1.5 'DM Sans',sans-serif}
+.lap-tb thead th{border-top:0;background:#0a1a6b;color:#fff;font:800 .82rem/1.2 'DM Sans',sans-serif;letter-spacing:.06em;text-transform:uppercase}
+.lap-tb tbody th{font:800 .95rem/1.4 'Bricolage Grotesque',sans-serif;width:20%}
+.lap-tb td:nth-child(2){width:34%}
+.lap-tb td .ok{display:inline-grid;place-items:center;width:22px;height:22px;margin:0 8px -5px 0;border-radius:50%;background:#14b8a6;border:2px solid #0a1a6b}
+.lap-tb td .ok svg{width:13px;height:13px;fill:none;stroke:#fff;stroke-width:3.4;stroke-linecap:round;stroke-linejoin:round}
+.lap-uj{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px;margin-top:20px}
+.lap-u h3{margin:12px 0 0;font:800 1.2rem/1.25 'Bricolage Grotesque',sans-serif;color:#0a1a6b}
+.lap-u .lap-st{display:inline-flex;align-items:center;gap:7px;padding:6px 12px;border-radius:99px;background:#fff6d6;border:2px dashed #b38a00;color:#6b5200;font:800 .78rem/1 'DM Sans',sans-serif;letter-spacing:.05em;text-transform:uppercase}
+.lap-u.done .lap-st{background:#d9f7f2;border:2px solid #0e8a7c;color:#0b5f56}
+.lap-u .lap-st svg{width:15px;height:15px;fill:none;stroke:currentColor;stroke-width:2.6;stroke-linecap:round;stroke-linejoin:round}
+.lap-u .lap-dl>div{grid-template-columns:96px 1fr;padding:12px 18px}
+@media (max-width:980px){.lap-stat{grid-template-columns:1fr 1fr}.lap-hp{grid-template-columns:1fr;gap:14px;padding-bottom:0}.lap-ar{transform:rotate(135deg);margin:0 auto}.lap-loop{position:static;height:auto;border:3px dashed #0a1a6b;border-radius:14px;padding:12px;justify-content:center}.lap-loop>span{transform:none;background:none}.lap-uj{grid-template-columns:1fr}}
+@media (max-width:620px){.lap-dl>div{grid-template-columns:1fr;gap:4px;padding:14px 18px}.lap-tl li{grid-template-columns:1fr;gap:2px}.lap-stat b{font-size:1.9rem}}

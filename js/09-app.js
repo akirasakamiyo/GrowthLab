@@ -110,7 +110,7 @@ $$("[data-go]").forEach(b=>b.onclick=()=>location.hash="#/");
 
 /* ---------- router ---------- */
 /* judul tab per halaman; pelajaran diatur sendiri di renderLesson */
-const PT={"e-learning":"Katalog Pelajaran",komunitas:"Belajar Bareng",faq:"FAQ",kontak:"Kontak",terms:"Syarat dan Ketentuan",privacy:"Kebijakan Privasi",tentang:"Tentang",tujuan:"Tujuan Belajar",petunjuk:"Petunjuk Penggunaan",alur:"Alur Belajar",latihan:"Latihan",peta:"Peta Konsep",glosarium:"Glosarium",referensi:"Referensi",pengaturan:"Pengaturan"};
+const PT={"e-learning":"Katalog Pelajaran",komunitas:"Belajar Bareng",faq:"FAQ",kontak:"Kontak",terms:"Syarat dan Ketentuan",privacy:"Kebijakan Privasi",tentang:"Tentang",laporan:"Laporan Pengembangan",tujuan:"Tujuan Belajar",petunjuk:"Petunjuk Penggunaan",alur:"Alur Belajar",latihan:"Latihan",peta:"Peta Konsep",glosarium:"Glosarium",referensi:"Referensi",pengaturan:"Pengaturan"};
 function pageTitle(v,h){const s=h.split("/")[0];if(v==="home")return TITLE;if(v==="course"){const n=+h.split("/")[1];return(n>=1&&n<=C.chapters.length?"Bab "+n:"Kursus")+" · GrowthLab"}return(PT[s]||"Halaman tidak ditemukan")+" · GrowthLab"}
 function route(){
  const h=location.hash.replace("#/","");let v="home";
@@ -490,7 +490,7 @@ function refresh(){const h=location.hash.replace("#/",""),v=document.body.datase
 renderAuth();boot();
 
 /* ---------- v5: halaman-halaman ---------- */
-const PK=["e-learning","komunitas","faq","kontak","terms","privacy","tentang","tujuan","petunjuk","alur","latihan","peta","glosarium","referensi","pengaturan"];
+const PK=["e-learning","komunitas","faq","kontak","terms","privacy","tentang","tujuan","petunjuk","alur","latihan","peta","glosarium","referensi","pengaturan","laporan"];
 function vOfH(h){const s=h.split("/")[0];if(s==="lesson")return"lesson";if(s==="course")return"course";return!s||s==="home"?"home":"page"/* alamat tak dikenal ikut "page", renderPage menampilkan halaman 404 */}
 const keyOf=()=>{const h=location.hash.replace("#/",""),v=vOfH(h);return v==="home"?"home":v==="lesson"?"lesson":h};let lastK=keyOf();
 const goC=n=>n?"#/course/"+n:"#/course";
@@ -601,7 +601,8 @@ function renderPage(h){const[s,x,y]=h.split("/"),n=+x||0;let H="";const nQ=GLX.n
  else if(s==="latihan")H=hero(LT[2],[["Latihan"]],"","Latihan dulu, wawancara <em>kemudian</em>","Ada tiga jenis latihan: kuis pilihan ganda, drag &amp; drop, dan simulasi kasus kerja. Nilai akhirmu diambil 30% dari kuis dan 70% dari simulasi.",`<a class="btn p" href="#/latihan" data-sc="nilai-sec">Lihat nilai akhir</a>`+A_("#/alur","Cara menghitung nilai"),frV(CO[2],"latihan","Video 30 detik: kuis, drag and drop, simulasi, dan nilai akhir di GrowthLab"))
   +sec(CR,LT[2],GLX.tabsHTML())
   +`<section class="blk sc2" id="nilai-sec" style="--b:#0a1a6b;--prev:${CR};--fg:#fff"><div class="wrap"><h2 class="rv">Nilai akhir</h2><div id="nilai"></div></div></section>`;
- else if(s==="tentang")H=hero(LT[0],[["Tentang"]],"Tentang","Tentang <em>GrowthLab</em>","GrowthLab adalah prototipe media belajar berbasis website yang kami buat untuk tugas mata kuliah Pengembangan Multimedia Pendidikan.",`<a class="btn p" href="#/tentang" data-sc="identitas">Identitas pengembang</a>`+A_("#/tujuan","Tujuan belajar")+A_("#/course","Buka materi"),frV(CO[0],"tentang","Video 24 detik: isi media GrowthLab dan kenalan dengan Labi"))
+ else if(s==="laporan"&&window.GLLAP)H=GLLAP.html({hero,sec,cta,A_,fr,LT,CR,CO});/* 2026-11-24: laporan pengembangan (js/45-laporan.js) */
+ else if(s==="tentang")H=hero(LT[0],[["Tentang"]],"Tentang","Tentang <em>GrowthLab</em>","GrowthLab adalah prototipe media belajar berbasis website yang kami buat untuk tugas mata kuliah Pengembangan Multimedia Pendidikan.",`<a class="btn p" href="#/tentang" data-sc="identitas">Identitas pengembang</a><a class="btn" href="#/laporan">Laporan pengembangan</a>`+A_("#/tujuan","Tujuan belajar")+A_("#/course","Buka materi"),frV(CO[0],"tentang","Video 24 detik: isi media GrowthLab dan kenalan dengan Labi"))
   +sec(CR,LT[0],`<h2 class="rv">Garis besar isi media</h2><table class="gb rv"><tbody>${[["Nama media",GLD.GBIM.media],["Judul proyek",GLD.GBIM.judul],["Media",GLD.GBIM.jenis],["Sasaran",GLD.GBIM.sasaran],["Topik",GLD.GBIM.topik],["Isi",`${C.chapters.length} bab, ${total} pelajaran, ${nQ} soal kuis, ${nD} set drag &amp; drop, ${nS} skenario simulasi`]].map(([a,b])=>`<tr><th scope="row">${a}</th><td>${b}</td></tr>`).join("")}</tbody></table>
    <h2 class="rv" id="identitas" style="margin-top:44px">Identitas pengembang</h2>
    <div class="idg rv">${[["Produk",IDI.box,[["Nama produk",GLD.GBIM.media],["Jenis media",GLD.GBIM.jenis],["Sasaran",GLD.GBIM.sasaran],["Topik",GLD.GBIM.topik]]],
