@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<link rel="stylesheet" href="fonts/fonts.css">
+<style>
+*{box-sizing:border-box;margin:0}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#050822}
+#st{position:relative;width:1920px;height:1080px;overflow:hidden;background:#050822;color:#fff;font-family:'Bricolage Grotesque',sans-serif}
+#cv{position:absolute;inset:0}
+.ab{position:absolute;will-change:transform,opacity,filter}
+.cx{left:50%;top:50%}
+.w{display:inline-block;margin:0 .14em;will-change:transform,opacity,filter}
+.big,.hd,.sub,.lab{z-index:30}
+.big{font:400 132px/1 'Anton',sans-serif;text-transform:uppercase;letter-spacing:.01em;text-align:center;white-space:nowrap}
+.y{color:#ffd23f}
+.hd{font:800 50px/1.1 'Bricolage Grotesque',sans-serif;text-align:center;white-space:nowrap;letter-spacing:-.01em}
+.sub{font:500 30px/1.35 'DM Sans',sans-serif;text-align:center;color:#c9d2ff;white-space:nowrap}
+.win{position:absolute;left:50%;top:50%;border-radius:22px;overflow:hidden;background:#0a1a6b;box-shadow:0 60px 120px -30px rgba(0,0,0,.75),0 0 0 2px rgba(255,255,255,.12);transform-origin:50% 50%}
+.win img{display:block;width:100%;height:100%;object-fit:cover}
+.lab{font:700 28px/1 'DM Sans',sans-serif;color:#fff;background:rgba(255,255,255,.1);border:2px solid rgba(255,255,255,.25);border-radius:99px;padding:14px 26px;white-space:nowrap}
+.ico{width:150px;height:150px;border-radius:40px;display:grid;place-items:center}
+.ico svg{width:84px;height:84px;fill:none;stroke:#fff;stroke-width:2.2;stroke-linecap:round;stroke-linejoin:round}
+.ilab{font:700 28px/1 'DM Sans',sans-serif;color:#dfe4ff;text-align:center;margin-top:22px}
+.labi{image-rendering:pixelated;background:url(labi.png) no-repeat 0 0}
+.chip{font:700 26px/1 'DM Sans',sans-serif;color:#0a1a6b;background:#ffd23f;border-radius:99px;padding:16px 30px;white-space:nowrap}
+.ln{font:800 92px/1.08 'Bricolage Grotesque',sans-serif;letter-spacing:-.02em;white-space:nowrap}
+</style></head><body>
+<div id="st">
+  <canvas id="cv" width="1920" height="1080"></canvas>
+  <div id="L"></div>
+</div>
+<script>
+/* GrowthLab promo 60 dtk, 1920x1080. render(t) deterministik untuk perekaman per frame. Loop: frame t=60 sama dengan t=0. */
+const D = 60, W = 1920, H = 1080, TAU = Math.PI * 2;
+const L = document.getElementById("L"), cv = document.getElementById("cv"), g = cv.getContext("2d");
+const cl = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const seg = (t, a, b) => cl((t - a) / (b - a));
+const eo = x => 1 - Math.pow(1 - x, 4), ei = x => x * x * x, eio = x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2;
+const lerp = (a, b, k) => a + (b - a) * k;
+const el = (html, cls = "ab") => { const d = document.createElement("div"); d.className = cls; d.innerHTML = html; L.appendChild(d); return d };
+const css = (e, o, tf, f = "") => { e.style.opacity = o; e.style.transform = tf; e.style.filter = f; e.style.visibility = o < .002 ? "hidden" : "visible" };
+/* masuk-keluar standar: muncul [a,a+da], hilang [b,b+db] */
+const io = (t, a, da, b, db) => seg(t, a, a + da) * (1 - seg(t, b, b + db));
+
+/* ---------- partikel dan cahaya (periodik 60 dtk supaya loop mulus) ---------- */
+let s = 7; const rnd = () => (s = (s * 16807) % 2147483647) / 2147483647;
+const P = Array.from({ length: 110 }, () => ({ x: rnd() * W, y: rnd() * H, r: .8 + rnd() * 2.4, ax: 30 + rnd() * 90, ay: 20 + rnd() * 70, k: 1 + Math.floor(rnd() * 3), ph: rnd() * TAU, tw: 2 + Math.floor(rnd() * 5), c: rnd() < .18 ? "255,210,63" : rnd() < .3 ? "124,233,217" : "205,215,255" }));
+function bg(t, boost) {
+  const u = t / D;
+  g.clearRect(0, 0, W, H);
+  g.fillStyle = "#050822"; g.fillRect(0, 0, W, H);
+  const R = 560 + 60 * Math.sin(TAU * u * 2) + boost * 380;
+  const gr = g.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, R);
+  gr.addColorStop(0, `rgba(70,96,255,${.42 + .08 * Math.sin(TAU * u * 3) + boost * .3})`);
+  gr.addColorStop(.45, `rgba(43,64,210,${.16 + boost * .12})`);
+  gr.addColorStop(1, "rgba(5,8,34,0)");
+  g.fillStyle = gr; g.fillRect(0, 0, W, H);
+  const cr = g.createRadialGradient(W / 2, H / 2, 0, W / 2, H / 2, 46 + boost * 60);
+  cr.addColorStop(0, `rgba(255,255,255,${.5 + boost * .5})`); cr.addColorStop(1, "rgba(255,255,255,0)");
+  g.fillStyle = cr; g.fillRect(0, 0, W, H);
+  for (const p of P) {
+    const x = p.x + p.ax * Math.sin(TAU * u * p.k + p.ph), y = p.y + p.ay * Math.cos(TAU * u * p.k + p.ph * 1.3);
+    const a = (.25 + .45 * (.5 + .5 * Math.sin(TAU * u * p.tw + p.ph))) * (1 + boost);
+    g.fillStyle = `rgba(${p.c},${cl(a)})`; g.beginPath(); g.arc(x, y, p.r, 0, TAU); g.fill();
+  }
+}
+
+/* ---------- aset ---------- */
+const FLASK = s => `<svg width="${s}" height="${s}" viewBox="0 0 64 64"><g stroke="#1b1740" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"><path d="M32 27V17" fill="none" stroke-width="3.5"/><path d="M32 21C24 22 19 17 19 11c7 0 12 4 13 10z" fill="#14b8a6"/><path d="M32 18c8 1 13-4 13-10-7 0-12 4-13 10z" fill="#6d4cff"/><path d="M26 27h12v8l9 15a5 5 0 0 1-4.3 7.5H21.3A5 5 0 0 1 17 50l9-15z" fill="#fff"/><path d="M20.4 45h23.2l3.3 5.5a5 5 0 0 1-4.3 7.5H21.3A5 5 0 0 1 17 50.5z" fill="#ff5a3c" stroke="none"/><path d="M26 27h12v8l9 15a5 5 0 0 1-4.3 7.5H21.3A5 5 0 0 1 17 50l9-15z" fill="none"/></g></svg>`;
+const LOGO = s => `<div style="width:${s}px;height:${s}px;border-radius:${s * .28}px;background:#ffc83d;display:grid;place-items:center;box-shadow:0 0 ${s * .5}px rgba(255,200,61,.35)">${FLASK(s * .72)}</div>`;
+const IC = {
+  learn: '<path d="M4 6h7a3 3 0 0 1 3 3v12a3 3 0 0 0-3-3H4zM28 6h-7a3 3 0 0 0-3 3v12a3 3 0 0 1 3-3h7z" transform="translate(-4 0) scale(1)"/>',
+  feel: '<path d="M12 21s-8-4.6-8-10.4A4.4 4.4 0 0 1 12 8a4.4 4.4 0 0 1 8 2.6C20 16.4 12 21 12 21z"/>',
+  think: '<path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2V16h5v-.1c0-.8.4-1.5 1-2A6 6 0 0 0 12 3z"/>',
+  work: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5h6v2M3 13h18"/>',
+  ask: '<path d="M4 5h16v11H9l-5 4z"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .8-1 1.4M12 15.5v.01"/>'
+};
+const ICS = [["learn", "Learn", "#2b55ff"], ["feel", "Feel", "#ff6b3d"], ["think", "Think", "#6d4cff"], ["work", "Work", "#14b8a6"], ["ask", "Ask", "#ffb020"]];
+
+/* ---------- elemen ---------- */
+const words = (txt, cls, extra = "") => el(txt.split(" ").map(w => `<span class="w ${/LAMAR|KERJA/.test(w) ? "y" : ""}">${w}</span>`).join(" "), "ab cx " + cls + extra);
+const s1a = words("KENALI DIRI,", "big"), s1b = words("BARU LAMAR KERJA.", "big");
+const logo1 = el(LOGO(190), "ab cx"), word1 = el("GrowthLab", "ab cx");
+word1.style.cssText += "font:800 96px/1 'Bricolage Grotesque';letter-spacing:-.02em;white-space:nowrap";
+const hd2 = el("Everything you need to get hired.", "ab cx hd");
+const icons = ICS.map(([k, lab, c]) => el(`<div class="ico" style="background:${c};box-shadow:0 0 70px ${c}88"><svg viewBox="0 0 24 24">${IC[k]}</svg></div><div class="ilab">${lab}</div>`, "ab cx"));
+const blob = el("", "ab cx"); blob.style.cssText += "width:520px;height:520px;border-radius:50%;background:conic-gradient(from 0deg,#2b55ff,#ff6b3d,#6d4cff,#14b8a6,#ffb020,#2b55ff)";
+const rays = el(`<svg width="1400" height="1400" viewBox="-700 -700 1400 1400">${Array.from({ length: 72 }, (_, i) => { const a = i / 72 * TAU; return `<line x1="${Math.cos(a) * 170}" y1="${Math.sin(a) * 170}" x2="${Math.cos(a) * 680}" y2="${Math.sin(a) * 680}" stroke="rgba(255,255,255,${i % 2 ? .18 : .32})" stroke-width="2"/>` }).join("")}</svg>`, "ab cx");
+const flash = el("", "ab"); flash.style.cssText += "inset:0;background:radial-gradient(circle at 50% 50%,#fff 0,rgba(255,255,255,.85) 18%,rgba(140,160,255,.25) 45%,rgba(5,8,34,0) 70%)";
+const logo2 = el(LOGO(150), "ab cx"), word2 = el("GrowthLab", "ab cx");
+word2.style.cssText += "font:800 78px/1 'Bricolage Grotesque';letter-spacing:-.02em;white-space:nowrap";
+const hd2b = el("YOUR JOURNEY TO <span class='y'>PERSONAL GROWTH.</span>", "ab cx big"); hd2b.style.fontSize = "84px";
+const sub2 = el("15 pelajaran soft skill untuk mempersiapkan diri menghadapi dunia kerja.", "ab cx sub");
+
+const win = (src, w, h) => { const d = el(`<img src="cap/${src}.jpg" alt="">`, "win"); d.style.width = w + "px"; d.style.height = h + "px"; d.style.marginLeft = -w / 2 + "px"; d.style.marginTop = -h / 2 + "px"; return d };
+const hd3 = el("Explore the platform.", "ab cx hd"), hd3b = el("Your whole course. One place.", "ab cx hd");
+const wHome = win("home", 1360, 850), wCourse = win("course", 1360, 850);
+const hd4 = el(["LEARN.", "PRACTICE.", "GROW."].map(w => `<span class="w">${w}</span>`).join(" "), "ab cx big"); hd4.style.fontSize = "96px";
+const wLes = win("lesson", 1180, 738), wQz = win("kuis", 1180, 738), wSim = win("sim", 1180, 738);
+const lab4 = ["Interactive lessons", "Practice quizzes", "Workplace simulations"].map(t => el(t, "ab cx lab"));
+const labi = el("", "ab cx labi"); labi.style.cssText += "width:336px;height:336px;background-size:2016px 336px";
+const ring = el("", "ab cx"); ring.style.cssText += "width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(255,210,63,.45) 0,rgba(255,210,63,.12) 45%,rgba(255,210,63,0) 70%)";
+const hd5 = el("MEET <span class='y'>LABI.</span>", "ab cx big"); hd5.style.fontSize = "120px";
+const sub5 = el("Your learning companion.", "ab cx sub"); sub5.style.cssText += "font:700 40px/1 'Bricolage Grotesque';color:#fff";
+const wChat = win("chat", 1180, 738);
+const hd6 = el("EVERY STEP <span class='y'>COUNTS.</span>", "ab cx big"); hd6.style.fontSize = "96px";
+const wBoard = win("home", 1500, 938), wPanel = win("panel", 1180, 738);
+const sweep = el("", "ab"); sweep.style.cssText += "left:0;top:0;width:320px;height:1080px;background:linear-gradient(90deg,rgba(255,255,255,0),rgba(255,255,255,.16),rgba(255,255,255,0))";
+const scrim = el("", "ab"); scrim.style.cssText += "left:0;top:0;width:1920px;height:360px;z-index:25;background:linear-gradient(180deg,#050822 0,#050822 40%,rgba(5,8,34,.85) 62%,rgba(5,8,34,0) 100%)";
+const l7 = ["Free.", "No account.", "Works offline."].map(t => el(t, "ab ln"));
+const minis = [["home", -620, -250, -9], ["course", 640, -230, 8], ["kuis", -600, 270, 7], ["panel", 630, 280, -7]].map(([s, x, y, r]) => { const d = win(s, 520, 325); d._p = [x, y, r]; return d });
+const logo7 = el(LOGO(140), "ab cx"), word7 = el("GROWTHLAB", "ab cx big"); word7.style.fontSize = "150px";
+const tag7 = el("Kenali diri, baru lamar kerja.", "ab cx sub"); tag7.style.cssText += "font:700 44px/1 'Bricolage Grotesque';color:#fff";
+const url7 = el("akirasakamiyo.github.io/GrowthLab", "ab cx chip");
+
+const T = (x, y, extra = "") => `translate(-50%,-50%) translate(${x}px,${y}px) ${extra}`;
+const W3 = (x, y, z, rx, ry, rz, sc) => `perspective(2400px) translate3d(${x}px,${y}px,${z}px) rotateX(${rx}deg) rotateY(${ry}deg) rotateZ(${rz}deg) scale(${sc})`;
+function wordsIn(box, t, starts, out, dy = 40) {
+  [...box.children].forEach((w, i) => { const k = eo(seg(t, starts[i], starts[i] + .55)), o = 1 - eo(seg(t, out, out + .5));
+    css(w, k * o, `translateY(${(1 - k) * dy - (1 - o) * 10}px) scale(${1 + (1 - o) * .06})`, `blur(${(1 - k) * 14 + (1 - o) * 16}px)`) });
+}
+
+function render(t) {
+  t = ((t % D) + D) % D;
+  /* cahaya tengah: menguat saat kilatan logo (S2) */
+  const fl = Math.exp(-Math.pow((t - 11.7) / .35, 2));
+  bg(t, fl * .9 + .12 * io(t, 11.6, .4, 14.4, .8));
+
+  /* S1 0-7: judul kinetik lalu logo */
+  const s1 = io(t, 0, .01, 4.1, .01);
+  s1a.style.visibility = s1b.style.visibility = s1 > 0 ? "visible" : "hidden";
+  s1a.style.transform = T(0, -80); s1b.style.transform = T(0, 70);
+  wordsIn(s1a, t, [.8, 1.2], 4.0); wordsIn(s1b, t, [1.8, 2.2, 2.6], 4.0);
+  const lk = eo(seg(t, 4.4, 5.4)), lo = 1 - seg(t, 6.4, 7.0);
+  css(logo1, lk * lo, T(-lerp(0, 230, eio(seg(t, 5.3, 6.1))), 0, `scale(${lerp(.55, 1, lk) * (1 + (1 - lo) * .1)})`), `blur(${(1 - lk) * 18 + (1 - lo) * 14}px)`);
+  const wk = eo(seg(t, 5.5, 6.2));
+  css(word1, wk * lo, T(120 + (1 - wk) * 60, 0), `blur(${(1 - wk) * 12 + (1 - lo) * 14}px)`);
+
+  /* S2 7-15: ikon, orbit, lebur, kilatan, logo + judul */
+  const h2 = io(t, 7.3, .6, 9.4, .5);
+  css(hd2, h2, T(0, -360 + (1 - h2) * 20), `blur(${(1 - h2) * 10}px)`);
+  const orb = eio(seg(t, 9.5, 11.5));
+  icons.forEach((d, i) => {
+    const k = eo(seg(t, 7.5 + i * .3, 8.0 + i * .3));
+    const x0 = (i - 2) * 260, a = i / 5 * TAU + orb * TAU * 1.25, r = lerp(380, 0, orb);
+    const x = lerp(x0, Math.cos(a) * r, eio(seg(t, 9.5, 10.2))), y = lerp(0, Math.sin(a) * r * .55, eio(seg(t, 9.5, 10.2)));
+    css(d, k * (1 - seg(t, 11.1, 11.5)), T(x, y + (1 - k) * 40, `scale(${lerp(.4, 1, k) * lerp(1, .55, orb)})`), `blur(${(1 - k) * 10 + orb * 18}px)`);
+  });
+  const bk = seg(t, 10.2, 11.4);
+  css(blob, bk * (1 - seg(t, 11.5, 11.9)), T(0, 0, `rotate(${t * 140}deg) scale(${lerp(.2, 1.2, eo(bk))})`), `blur(${60 + bk * 30}px)`);
+  css(flash, fl, "none");
+  const rk = io(t, 11.6, .5, 14.3, .7);
+  css(rays, rk * .9, T(0, 0, `rotate(${(t - 11.6) * 6}deg) scale(${lerp(.7, 1.05, eo(seg(t, 11.6, 13)))})`), `blur(${(1 - rk) * 6}px)`);
+  const lg = io(t, 11.75, .5, 14.4, .6), sh = eio(seg(t, 12.6, 13.3));
+  css(logo2, lg, T(-235 * sh, -140 * sh, `scale(${lerp(1.5, 1, eo(seg(t, 11.75, 12.6)))})`), `blur(${(1 - lg) * 16}px)`);
+  css(word2, lg * sh, T(90 + (1 - sh) * 40, -140), `blur(${(1 - sh) * 10}px)`);
+  const h2b = io(t, 13.0, .6, 14.4, .6);
+  css(hd2b, h2b, T(0, 30 + (1 - h2b) * 30), `blur(${(1 - h2b) * 12}px)`);
+  const s2b = io(t, 13.4, .6, 14.4, .6);
+  css(sub2, s2b, T(0, 130 + (1 - s2b) * 20), `blur(${(1 - s2b) * 8}px)`);
+
+  /* S3 15-24: beranda asli melayang, zoom ke menu, lalu ringkasan kursus */
+  const h3 = io(t, 15.2, .6, 20.0, .5), h3b = io(t, 20.6, .6, 23.5, .5);
+  css(hd3, h3, T(0, -440 + (1 - h3) * 20), `blur(${(1 - h3) * 10}px)`);
+  css(hd3b, h3b, T(0, -440 + (1 - h3b) * 20), `blur(${(1 - h3b) * 10}px)`);
+  const hk = eo(seg(t, 15.3, 16.6)), hz = eio(seg(t, 16.6, 20.2)), ho = seg(t, 20.2, 21.0);
+  css(wHome, hk * (1 - ho), W3(lerp(0, 330, hz) - ho * 500, lerp(420, 60, hk) + lerp(0, 120, hz), 0, lerp(24, 7, hk) - hz * 5, lerp(-14, -4, hk) + ho * -18, 0, lerp(.82, .96, hk) * lerp(1, 1.5, hz)), `blur(${(1 - hk) * 8 + ho * 8}px)`);
+  const ck = eo(seg(t, 20.4, 21.6)), cz = eio(seg(t, 21.6, 24)), co = seg(t, 23.4, 24.0);
+  css(wCourse, ck * (1 - co), W3(lerp(700, 0, ck) - co * 300, 70 - cz * 30, 0, 6, lerp(-26, -6, ck) + cz * 6, 0, lerp(.85, .96, ck) * lerp(1, 1.06, cz)), `blur(${(1 - ck) * 8 + co * 10}px)`);
+
+  /* S4 24-34: LEARN. PRACTICE. GROW. + korsel materi, kuis, simulasi */
+  const h4 = io(t, 24.2, .5, 33.4, .6);
+  css(hd4, h4, T(0, -455), `blur(${(1 - h4) * 10}px)`);
+  const cur = t < 28.6 ? 0 : t < 31.2 ? 1 : 2, ph = [26, 28.6, 31.2];
+  [...hd4.children].forEach((w, i) => { const on = t >= ph[i] - .4 ? (i === cur ? 1 : .45) : .18; w.style.opacity = on; w.style.color = i === cur && t > 25.4 ? "#ffd23f" : "#fff" });
+  const wins = [wLes, wQz, wSim], ent = eo(seg(t, 24.6, 25.8)), ex = seg(t, 33.3, 34);
+  const pos = t < 26 ? 0 : lerp(0, 1, eio(seg(t, 28.2, 28.9))) + eio(seg(t, 30.8, 31.5));
+  wins.forEach((d, i) => {
+    const rel = i - pos, ar = Math.abs(rel);
+    const x = rel * 760, z = -ar * 420, ry = -rel * 28, sc = 1 - ar * .05;
+    d.style.zIndex = 20 - Math.round(ar * 4);
+    css(d, ent * (1 - ex) * cl(1.25 - ar * .55), W3(x + (1 - ent) * 400, 60 + (1 - ent) * 120, z, 4, ry, 0, sc * (1 - ex * .1)), `blur(${ar * 3 + (1 - ent) * 8 + ex * 10}px)`);
+  });
+  lab4.forEach((d, i) => { const k = io(t, ph[i] + .2, .4, (ph[i + 1] || 33.3) - .3, .3); css(d, k * ent, T(0, 480 + (1 - k) * 14)) });
+
+  /* S5 34-43: Labi + chat asli */
+  const l5 = io(t, 34.2, 1.0, 42.4, .6), mv = eio(seg(t, 38.0, 39.2));
+  const fr = t > 38.4 && t < 40.4 ? (Math.floor(t * 4) % 2 ? 4 : 3) : [0, 1, 0, 2][Math.floor(t * 2.2) % 4];
+  labi.style.backgroundPosition = `${-336 * fr}px 0`;
+  css(labi, l5, T(lerp(0, -560, mv), lerp(40, 80, mv) + (1 - eo(seg(t, 34.2, 35.2))) * 260, `scale(${lerp(1, .78, mv)})`), `blur(${(1 - seg(t, 34.2, 35.0)) * 14}px) drop-shadow(0 18px 0 rgba(0,0,0,.35))`);
+  css(ring, l5 * .9, T(lerp(0, -560, mv), lerp(40, 80, mv), `scale(${1 + .05 * Math.sin(t * 3)})`));
+  const h5 = io(t, 35.0, .6, 37.6, .5), s5 = io(t, 35.6, .6, 37.6, .5);
+  css(hd5, h5, T(0, -370 + (1 - h5) * 30), `blur(${(1 - h5) * 12}px)`);
+  css(sub5, s5, T(0, 330), `blur(${(1 - s5) * 8}px)`);
+  const ch = io(t, 38.4, 1.1, 42.4, .6);
+  css(wChat, ch, W3(lerp(900, 230, eo(seg(t, 38.4, 39.5))), 20 - eio(seg(t, 39.5, 42.4)) * 40, 0, 4, lerp(-30, -10, eo(seg(t, 38.4, 39.5))), 0, .9 + eio(seg(t, 39.5, 42.4)) * .06), `blur(${(1 - ch) * 8}px)`);
+
+  /* S6 43-52: dashboard Perjalananmu + panel karier */
+  const h6 = io(t, 43.3, .6, 51.3, .6);
+  css(hd6, h6, T(0, -455), `blur(${(1 - h6) * 10}px)`);
+  const bkk = eo(seg(t, 43.5, 44.8)), bz = eio(seg(t, 44.8, 47.6)), bo = seg(t, 47.4, 48.2);
+  css(wBoard, bkk * (1 - bo), W3(lerp(0, 40, bz) - bo * 600, lerp(420, 0, bkk) - lerp(0, 330, bz), 0, lerp(20, 4, bkk), -4 + bo * -16, 0, lerp(.8, .9, bkk) * lerp(1, 1.55, bz)), `blur(${(1 - bkk) * 8 + bo * 8}px)`);
+  const sw = seg(t, 45.4, 47.2);
+  css(sweep, Math.sin(Math.PI * sw) * .9, `translateX(${lerp(-320, 1920, sw)}px) skewX(-12deg)`);
+  const pk = eo(seg(t, 47.8, 49.0)), pz = eio(seg(t, 49.0, 51.6)), po = seg(t, 51.3, 52.0);
+  css(wPanel, pk * (1 - po), W3(lerp(800, 0, pk), 70 - pz * 20, 0, 6, lerp(-28, -5, pk) + pz * 5, 0, lerp(.85, .98, pk) * lerp(1, 1.07, pz)), `blur(${(1 - pk) * 8 + po * 10}px)`);
+
+  /* lapisan gelap di belakang judul supaya tetap terbaca di atas screenshot */
+  css(scrim, io(t, 15.2, .6, 33.6, .5) + io(t, 43.3, .6, 51.6, .5), "none");
+
+  /* S7 52-57: Free. No account. Works offline. lalu logo + kolase */
+  l7.forEach((d, i) => { const k = eo(seg(t, 52.2 + i * .45, 52.7 + i * .45)), o = 1 - seg(t, 54.6, 55.0);
+    const lit = t > 52.2 + i * .45 && (i === 2 || t < 52.65 + (i + 1) * .45) ? 1 : .38;
+    d.style.color = `rgba(255,255,255,${lit})`;
+    css(d, k * o, `translate(380px,${330 + i * 108 + (1 - k) * 24}px)`, `blur(${(1 - k) * 10 + (1 - o) * 10}px)`) });
+  const f7 = io(t, 54.8, .8, 57.0, 1.4);
+  minis.forEach((d, i) => { const [x, y, r] = d._p, k = eo(seg(t, 54.8 + i * .12, 55.8 + i * .12));
+    css(d, f7 * .55 * k, W3(x * lerp(.7, 1, k), y * lerp(.7, 1, k) + Math.sin(t * .8 + i) * 8, -200, 0, 0, r, .9), `blur(${2 + (1 - k) * 8}px)`) });
+  const g7 = io(t, 55.0, .7, 57.0, 1.4);
+  css(logo7, g7, T(0, -200, `scale(${lerp(.8, 1, eo(seg(t, 55, 55.7)))})`), `blur(${(1 - g7) * 12}px)`);
+  css(word7, g7, T(0, -20 + (1 - eo(seg(t, 55.1, 55.8))) * 30), `blur(${(1 - g7) * 12}px)`);
+  const t7 = io(t, 55.5, .6, 57.0, 1.4);
+  css(tag7, t7, T(0, 110), `blur(${(1 - t7) * 8}px)`);
+  css(url7, t7, T(0, 210), `blur(${(1 - t7) * 8}px)`);
+}
+window.render = render;
+window.ready = Promise.all([document.fonts.ready, ...[...document.images].map(i => i.decode().catch(() => {}))]).then(() => document.fonts.load("400 100px Anton")).then(() => true);
+render(0);
+</script>
+</body></html>
