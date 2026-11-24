@@ -190,3 +190,14 @@ html[data-theme=dark] .stp b{color:#b23a12}
 .gst p{max-width:none}
 /* pilihan kuis berwarna kuning (C): teks tetap biru tua di tema gelap */
 html[data-theme=dark] .gq-o[style*="--q2"]:not(.ok):not(.no),html[data-theme=dark] .gq-o[style*="--q2"]:not(.ok):not(.no) b{color:#0e1a3a}
+
+/* kirim progres live (2026-11-24) */
+.gst-sync{display:flex;flex-wrap:wrap;gap:12px 18px;align-items:end}
+.gst-sync .gst-in{display:grid;gap:6px;flex:0 1 280px}
+.gst-sync .gst-in span{font-size:.85rem;font-weight:700;color:var(--s-mu)}
+.gst-sync .gst-sw{margin-bottom:8px}
+.gst-sync-s{margin:0;font-size:.88rem;font-weight:600;color:var(--s-mu)}
+.gst-sync-s.ok{color:#0a6b45}.gst-sync-s.bad{color:#c0261b}
+html[data-theme=dark] .gst-sync-s.ok{color:#5fd6a0}
+html[data-theme=dark] .gst-sync-s.bad{color:#ff8f86}
+.gst-l .gst-err:empty{min-height:0}

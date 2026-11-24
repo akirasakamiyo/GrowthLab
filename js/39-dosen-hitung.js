@@ -44,9 +44,11 @@
     const lessons = {};   // kunci pelajaran "i-j" -> waktu selesai pertama
     const attempts = [];  // percobaan kuis
     const acts = [];      // semua waktu aktivitas
+    const snap = new Set();
     ev.forEach(e => {
       const d = e.data || {};
       if (e.type !== "view" && e.type !== "session_start") acts.push(e.t);
+      if (e.type === "snapshot" && Array.isArray(d.done)) d.done.forEach(k => { if (str(k) && !(k in lessons)) snap.add(k) });   // data live: daftar pelajaran selesai
       if (e.type === "lesson_done" && str(d.k)) { if (!(d.k in lessons) || e.t < lessons[d.k]) lessons[d.k] = e.t }
       if (e.type === "quiz" && str(d.m) && isNum(d.score) && d.score >= 0 && d.score <= 100 && isNum(d.n) && d.n > 0) {
         const ans = Array.isArray(d.ans) ? d.ans.filter(a => Array.isArray(a) && a.length >= 3 && a.every(Number.isInteger)).slice(0, 200) : null;
@@ -56,6 +58,7 @@
     (Array.isArray(o.sessions) ? o.sessions : []).forEach(s => { if (s && isNum(s.end)) acts.push(s.end) });
     const done = new Set(Object.keys(lessons));
     if (Array.isArray(P.done)) P.done.forEach(k => str(k) && done.add(k));
+    snap.forEach(k => done.add(k));
     attempts.sort((a, b) => a.t - b.t);
     return { ok: true, rep: { pid, nama, exported, done: [...done], lessons, attempts, last: acts.length ? Math.max(...acts) : null, qv: str(o.qv) ? o.qv : null, version: o.version } };
   }
