@@ -10,7 +10,7 @@ mkdir -p "$OUT/assets"
 # tiap file css/js/vendor diberi ?v=<commit> supaya browser tidak memakai versi lama dari cache (GitHub Pages: max-age 600)
 V="$(git -C "$SRC" rev-parse --short HEAD 2>/dev/null || date +%s)"
 sed -E "s#(src|href)=\"((css|js|vendor)/[^\"?]+\.(js|css))\"#\1=\"\2?v=$V\"#g" "$SRC/index.html" > "$OUT/index.html"
-for d in css js vendor assets/sim assets/sb assets/video assets/lukisan assets/maskot assets/ikon; do rsync -a --delete --exclude src --exclude .DS_Store "$SRC/$d/" "$OUT/$d/"; done
+for d in css js vendor assets/sim assets/sb assets/video assets/lukisan assets/maskot assets/ikon assets/tim; do rsync -a --delete --exclude src --exclude .DS_Store "$SRC/$d/" "$OUT/$d/"; done
 # README & screenshot untuk halaman repo GitHub
 if [ -f "$SRC/docs/README-github.md" ]; then cp "$SRC/docs/README-github.md" "$OUT/README.md"; fi
 if [ -d "$SRC/docs/screenshots" ]; then mkdir -p "$OUT/docs"; rsync -a --delete "$SRC/docs/screenshots/" "$OUT/docs/screenshots/"; fi

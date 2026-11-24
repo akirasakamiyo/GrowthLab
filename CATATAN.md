@@ -375,3 +375,8 @@ Atas permintaan Rifa, beranda berubah jadi dashboard begitu peserta menyelesaika
 - **Kanan:** video promo tetap ada, dibingkai sedikit miring dengan Labi di pojoknya.
 - **Papan "Perjalananmu":** 15 petak pelajaran per bab (selesai, berikutnya dengan Labi di atasnya, atau terkunci), kunci Kuis tiap bab (tautan langsung kalau sudah terbuka), level dan XP serta streak mingguan, lalu tahap akhir Simulasi dan Nilai akhir.
 - Kode: `js/44-beranda.js` (hanya membaca data yang sudah ada: `done`, `nextUp`, `locked`, `GLK.latLock`, `GLG`), gaya `css/29-beranda.css` (dimuat sebelum tema gelap supaya `css/27-tema-gelap.css` bisa menimpanya). Semua class papan memakai awalan `d`/`dsh-` karena `.row`, `.meta`, dan `.lk` sudah dipakai gaya lama.
+
+## 18. Halaman Tentang: identitas pengembang dan foto tim (2026-11-24)
+
+- Tabel Identitas pengembang diganti tiga kartu: **Produk**, **Akademik**, dan **Kelompok 8** (anggota beserta NIM, kontak).
+- Kartu tim memakai bingkai foto (rasio 4:5). Foto diletakkan di `assets/tim/<NIM>.jpg`, misalnya `assets/tim/1101624089.jpg`. Selama foto belum ada, doodle lama tampil di dalam bingkai. Begitu file foto ada, foto langsung tampil tanpa perlu mengubah kode.
