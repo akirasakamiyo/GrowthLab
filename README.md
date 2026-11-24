@@ -33,6 +33,7 @@ js/                   skrip, dimuat berurutan sesuai nomor
   03-data.js            seluruh isi: materi, kuis, drag and drop, simulasi, glosarium
   26-uji-data.js        soal uji pemahaman setiap pelajaran
   44-beranda.js         dashboard peserta di beranda
+  45-laporan.js         halaman Laporan pengembangan (#/laporan)
   gamifikasi/           XP, level, lencana, target mingguan, sertifikat
 vendor/               pustaka dan fon lokal (tanpa CDN)
 assets/               gambar, video, ikon aplikasi, maskot Labi, foto tim (assets/tim/<NIM>.jpg)

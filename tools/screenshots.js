@@ -46,5 +46,6 @@ const SEED = {
   await shot("07-hp", "/", { vp: { width: 390, height: 844 }, dpr: 2, mobile: true, seed: MID }, frame);
   await shot("08-alur", "/alur", {}, async p => { await p.evaluate(() => scrollTo(0, 0)); await sl(800) });
   await shot("09-tentang", "/tentang", {}, async p => { await p.evaluate(() => { const e = document.getElementById("identitas"); scrollTo(0, e.getBoundingClientRect().top + scrollY - 40) }); await sl(1500) });
+  await shot("11-laporan", "/laporan", {}, async p => { await p.evaluate(() => { const e = document.getElementById("lap-tahap"); scrollTo(0, e.getBoundingClientRect().top + scrollY - 40) }); await sl(1500) });
   await b.close();
 })();

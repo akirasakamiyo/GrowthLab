@@ -94,13 +94,19 @@ Nilai pilihan ganda diambil dari skor terbaik kuis gabungan dengan batas lulus 7
 
 ### 7. Panduan
 
-Bagian panduan memuat petunjuk penggunaan, tujuan belajar, alur belajar, peta konsep, glosarium (87 istilah), referensi, pertanyaan yang sering diajukan, ide kegiatan belajar bersama, serta identitas pengembang. Beberapa halaman panduan dilengkapi video penjelasan berdurasi 24 sampai 30 detik.
+Bagian panduan memuat petunjuk penggunaan, tujuan belajar, alur belajar, peta konsep, glosarium (87 istilah), referensi, pertanyaan yang sering diajukan, ide kegiatan belajar bersama, identitas pengembang, serta laporan pengembangan. Beberapa halaman panduan dilengkapi video penjelasan berdurasi 24 sampai 30 detik.
 
 ![Alur belajar](docs/screenshots/08-alur-20261124.png)
 
 ![Identitas pengembang](docs/screenshots/09-tentang-20261124.png)
 
-### 8. Asisten, pengaturan, dan aksesibilitas
+### 8. Laporan pengembangan
+
+Halaman **Laporan pengembangan** di dalam produk merangkum proses pengembangan GrowthLab mengikuti model Hannafin dan Peck: analisis kebutuhan, desain, serta pengembangan dan implementasi, dengan evaluasi dan revisi di setiap tahap. Halaman ini memuat linimasa pengembangan, tabel masukan dosen beserta tindak lanjutnya, dan status uji ahli media serta uji coba pengguna.
+
+![Laporan pengembangan](docs/screenshots/11-laporan-20261124.png)
+
+### 9. Asisten, pengaturan, dan aksesibilitas
 
 - **Asisten "Bingung? Tanya"** menjawab pertanyaan berdasarkan materi dan FAQ GrowthLab tanpa layanan kecerdasan buatan dari pihak luar.
 - **Maskot Labi** (labu Erlenmeyer bertunas) menemani peserta di beranda, layar pemuatan, asisten, dan saat pelajaran selesai.
