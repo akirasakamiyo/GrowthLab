@@ -366,3 +366,12 @@ Kata dosen, paket offline (`GrowthLab_offline.zip`) dan paket SCORM 1.2 (`Growth
 ## 16. Dashboard dosen dan data live dihapus (2026-11-24)
 
 Atas permintaan Rifa, dashboard dosen (`#/dosen`), data live ke dosen, dan tombol *Unduh laporan* di Pengaturan dihapus seluruhnya. Log belajar (`gl-log`) kembali ke versi sebelum dashboard.
+
+## 17. Beranda versi dashboard (2026-11-24)
+
+Atas permintaan Rifa, beranda berubah jadi dashboard begitu peserta menyelesaikan minimal 1 pelajaran. Pengunjung baru tetap melihat beranda lama ("Kenali diri, baru lamar kerja.").
+
+- **Kiri:** sapaan dengan nama dari Pengaturan, judul "Lanjut ke [pelajaran berikutnya].", posisi pelajaran (misalnya 4 dari 15) dan berapa pelajaran lagi sampai kuis bab terbuka, tombol *Lanjutkan pelajaran* dan *Lihat katalog*. Kalau semua materi selesai, judulnya "Semua materi sudah tuntas." dan tombol utama membuka Latihan.
+- **Kanan:** video promo tetap ada, dibingkai sedikit miring dengan Labi di pojoknya.
+- **Papan "Perjalananmu":** 15 petak pelajaran per bab (selesai, berikutnya dengan Labi di atasnya, atau terkunci), kunci Kuis tiap bab (tautan langsung kalau sudah terbuka), level dan XP serta streak mingguan, lalu tahap akhir Simulasi dan Nilai akhir.
+- Kode: `js/44-beranda.js` (hanya membaca data yang sudah ada: `done`, `nextUp`, `locked`, `GLK.latLock`, `GLG`), gaya `css/29-beranda.css` (dimuat sebelum tema gelap supaya `css/27-tema-gelap.css` bisa menimpanya). Semua class papan memakai awalan `d`/`dsh-` karena `.row`, `.meta`, dan `.lk` sudah dipakai gaya lama.

@@ -31,7 +31,7 @@ function phase(){$$(".brand i,.dot,.art").forEach((e,i)=>{e.style.setProperty("-
 /* ---------- render ---------- */
 let cat="All",cur=[0,0];
 /* 2026-11-12: bagian "Materi" (chip, kartu kursus, kartu bab) dihapus dari beranda; fungsi ini kini hanya memasang tumpukan kartu bab di hero */
-function renderDiscover(){phase()}
+function renderDiscover(){phase();window.GLDASH&&GLDASH.render()/* 2026-11-24: beranda versi dashboard (js/44-beranda.js) */}
 function renderPath(){if(!$("#pathlist"))return;
  const all=done.size>=total,ci=all?C.chapters.length:nextUp()[0];
  $("#pathlist").style.setProperty("--p",Math.min(1,ci/C.chapters.length));
@@ -476,7 +476,7 @@ function renderAuth(mode){const g=A.sync,first=(A.name||"").split(" ")[0]||"Pela
  const b=$("#lg");b.textContent="";if(g){const s=document.createElement("span");s.className="ava";s.textContent=first[0].toUpperCase();s.style.background=A.color;b.append(s,first)}else b.textContent="Masuk";
  greet()}
 /* sapaan Beranda: nama akun (mode server) atau nama dari Pengaturan (gl-ui.nama, mode lokal) */
-function greet(){let nm=A.sync?(A.name||""):"";if(!nm)try{nm=(JSON.parse(localStorage.getItem("gl-ui")||"{}").nama||"").trim()}catch(e){}
+function greet(){if(document.body.classList.contains("dash"))return;/* dashboard beranda punya sapaannya sendiri */let nm=A.sync?(A.name||""):"";if(!nm)try{nm=(JSON.parse(localStorage.getItem("gl-ui")||"{}").nama||"").trim()}catch(e){}
  const first=nm.split(" ")[0],h1=$(".hero h1");if(!h1)return;let e=$("#hgreet");
  if(first){if(!e){e=document.createElement("span");e.id="hgreet";e.className="lk2";h1.before(e)}e.textContent=`Halo, ${first}. Lanjut dari yang kemarin, yuk.`}else if(e)e.remove()}
 let lastF=null;function openAuth(m){lastF=document.activeElement;renderAuth(m);const modal=$("#auth");modal.hidden=false;requestAnimationFrame(()=>modal.classList.add("show"));setTimeout(()=>{const f=$("#an")||$("#ae")||$("#acont");f&&f.focus()},120)}
