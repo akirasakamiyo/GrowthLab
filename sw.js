@@ -2,7 +2,7 @@
    tools/build-pages.sh mengganti __V__ dengan commit dan membuat precache.json (daftar file yang diunduh saat pemasangan).
    - Halaman: ambil dari jaringan dulu, kalau gagal pakai salinan tersimpan.
    - File lain dari situs ini: salinan tersimpan dulu (nama css/js memuat ?v=<commit>, jadi selalu versi yang cocok).
-   - Video (.mp4) dan permintaan ke server lain (data live dosen) tidak disimpan; video butuh internet.
+   - Video (.mp4) dan permintaan ke server lain tidak disimpan; video butuh internet.
    Saat dijalankan dari folder sumber (__V__ belum diganti), semua permintaan lewat jaringan dulu supaya perubahan langsung terlihat. */
 const V = "__V__", DEV = V === "__" + "V__", C = "gl-" + V;
 

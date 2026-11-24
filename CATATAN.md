@@ -354,7 +354,7 @@ Kata dosen, paket offline (`GrowthLab_offline.zip`) dan paket SCORM 1.2 (`Growth
 
 **PWA:**
 - `manifest.webmanifest` + `assets/ikon/` (192, 512 maskable, apple-touch-icon 180). Ikon digambar dari favicon labu.
-- `sw.js`: saat dipasang, mengunduh semua file di `precache.json` (sekitar 130 file, 6 MB: css, js, font, gambar, poster video). Halaman diambil dari jaringan dulu, file lain dari salinan tersimpan dulu. Video `.mp4` (63 MB) tidak disimpan, jadi video butuh internet. Data live dosen (Apps Script) tidak lewat cache.
+- `sw.js`: saat dipasang, mengunduh semua file di `precache.json` (sekitar 130 file, 6 MB: css, js, font, gambar, poster video). Halaman diambil dari jaringan dulu, file lain dari salinan tersimpan dulu. Video `.mp4` (63 MB) tidak disimpan, jadi video butuh internet.
 - `tools/build-pages.sh` mengganti `__V__` di `sw.js` dengan commit, supaya setiap deploy browser memasang versi baru dan cache lama dihapus, lalu menjalankan `tools/precache.js`. Dari folder sumber (`__V__` belum diganti) service worker selalu ambil dari jaringan dulu.
 - `js/43-pwa.js`: mendaftarkan service worker dan menyimpan tawaran pasang dari browser. Di **Pengaturan → Tentang GrowthLab** ada baris *Pasang sebagai aplikasi*. Di Chrome/Edge/Android ada tombol Pasang. Di Safari ditampilkan langkah manual (iPhone/iPad: Bagikan → Tambah ke Layar Utama; Mac: File → Tambahkan ke Dock).
 
@@ -362,3 +362,7 @@ Kata dosen, paket offline (`GrowthLab_offline.zip`) dan paket SCORM 1.2 (`Growth
 
 
 **Branch kode (2026-11-24):** `feat/simulasi-branching` diganti nama menjadi `kode` (lokal dan GitHub). Branch `main` di GitHub adalah situs live (GitHub Pages dari `main`, diisi oleh `tools/build-pages.sh --push` dari `~/Desktop/growthlab-web`). Kode jangan pernah di-merge atau di-push ke `main`, karena situs akan tertimpa kode mentah. Langkah merge ke `main` di bagian 9 sudah tidak berlaku.
+
+## 16. Data live ke dosen dibatalkan (2026-11-24)
+
+Atas permintaan Rifa, fitur data live (peserta mengirim progres otomatis ke Google Apps Script + Sheet, dashboard dosen mengambil data tiap menit) dibatalkan dengan me-revert commit a59a432. Yang dihapus: `js/42-sinkron.js`, sakelar *Kirim progres ke dosen* di Pengaturan, bagian live di dashboard dosen, `tools/apps-script/`, serta tes `t-sinkron`, `t-live-ui`, dan `tests/gas-mock.js`. Dashboard dosen tetap ada dengan alur impor file laporan. Kalau nanti mau dipakai lagi, kodenya ada di riwayat git (commit a59a432).

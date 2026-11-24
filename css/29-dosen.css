@@ -43,7 +43,6 @@ html.gl-hc[data-theme=dark] .dsn{--d-ln:rgba(255,255,255,.5)}
 .dsn-lnk{padding:0;border:0;background:none;color:inherit;font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:3px;cursor:pointer}
 .dsn-msgs{display:grid;gap:6px;margin:0 0 16px;padding:12px 16px 12px 34px;border:1px solid var(--d-ln);border-radius:12px;background:var(--d-sf);font-size:.92rem}
 .dsn-msgs .bad{color:var(--d-low)}
-.dsn-msgs .ok{color:var(--d-ok);font-weight:600}
 
 /* kosong */
 .dsn-empty{max-width:760px;padding:24px 26px;border:2px solid var(--d-ink);border-radius:16px;background:var(--d-sf)}

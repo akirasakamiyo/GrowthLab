@@ -8,17 +8,7 @@ Dashboard ini dipakai dosen atau fasilitator untuk memantau progres dan hasil be
 4. Skor per bab
 5. Soal yang paling sering salah
 
-## Data live (tanpa login, opt-in)
-
-Kalau penerima Apps Script sudah dipasang ([tools/apps-script/PASANG.md](../tools/apps-script/PASANG.md)) dan `URL_WEB_APP` di [js/42-sinkron.js](../js/42-sinkron.js) sudah diisi, alurnya begini:
-
-- **Peserta** mengisi kode kelas di *Pengaturan → Progres belajar* lalu menyalakan **Kirim progres ke dosen secara otomatis**. Sakelar ini mati sampai peserta sendiri yang menyalakannya.
-- Setiap pelajaran yang selesai dan setiap kuis dikirim otomatis. Riwayat sebelumnya ikut terkirim saat sakelar pertama kali dinyalakan. Saat offline, kiriman diantre dan dikirim begitu online lagi.
-- **Dashboard** mengambil data live saat dibuka, lalu memperbaruinya otomatis tiap menit. Ada juga tombol *Ambil data live terbaru*. Kode fasilitator dicek **di server**.
-- Data live digabung dengan laporan yang diimpor lewat file. Kalau perangkatnya sama, yang dipakai data terbaru.
-- Kalau `URL_WEB_APP` dikosongkan, fitur live hilang dan situs kembali sepenuhnya offline.
-
-## Alur data lewat file
+## Alur data
 
 GrowthLab berjalan offline dan tidak punya server. Karena itu datanya tidak dikirim otomatis. Datanya berpindah lewat file:
 
@@ -78,7 +68,7 @@ Kalau ingin mencoba tanpa data asli, tekan **Coba dengan data contoh**. Tombol i
 - **Kode fasilitator hanya pembatas tampilan, bukan pengamanan.** Situs ini statis di GitHub Pages, jadi siapa pun yang membaca kode situs bisa melewati gerbang itu. Data peserta tetap aman karena **tidak pernah ada di situs**. Data hanya ada di file yang dikirim peserta dan di browser dosen. Peserta yang melewati gerbang hanya akan melihat dashboard kosong.
 - Yang disimpan di repo hanya hash SHA-256 dari kode. Kode yang pendek atau mudah ditebak tetap bisa ditebak, jadi pakai kode acak minimal 12 karakter.
 - Laporan bisa diubah oleh peserta sebelum dikirim, karena isinya JSON biasa. Untuk penilaian resmi, cocokkan dengan nilai yang terekam di LMS (SCORM) bila situs dipasang di LMS kampus.
-- Untuk data live, kode fasilitator **dicek di server** Apps Script, jadi data di Sheet tidak bisa dibaca tanpa kode. Karena peserta tidak login, siapa pun yang tahu kode kelas bisa mengirim data atas nama orang lain. Pembatas yang ada: kode kelas, batas laju, dan validasi data. Kalau perlu identitas yang terverifikasi, harus ada login (Google atau email).
+- Pengumpulan tidak otomatis atau live. Kalau nanti dibutuhkan, alternatifnya adalah backend dengan login Google dan aturan akses di database (mis. Supabase dengan Row Level Security). Konsekuensinya: situs tidak lagi sepenuhnya offline dan perlu project serta OAuth sendiri.
 - Log menyimpan maksimal 3.000 event dan 40 percobaan kuis per browser. Data dari perangkat lain atau dari browser yang datanya dihapus tidak ikut terbawa.
 
 ## Pengujian
@@ -88,6 +78,4 @@ node tests/t-dosen.js                        # logika: contoh kecil yang dihitun
 node tests/serve.js &                         # server lokal port 8000
 node tests/t-dosen-ui.js chrome 1280          # ujung ke ujung: kuis -> laporan -> impor -> dashboard
 node tests/t-dosen-ui.js webkit 390           # Safari, lebar ponsel
-node tests/t-sinkron.js                       # penerima Apps Script (Code.gs) lewat tiruan, tanpa deploy
-node tests/t-live-ui.js chrome 1280           # live: peserta opt-in -> server tiruan -> dashboard
 ```
