@@ -1,121 +1,139 @@
 <div align="center">
 
-# 🌱 GrowthLab
+# GrowthLab
 
 ### Self Development for Job Seeker
 
-Media pembelajaran interaktif berbasis website untuk mengembangkan **soft skill** siswa SMK kelas XII dan *fresh graduate* sebelum dan selama mencari kerja.
+Multimedia pembelajaran interaktif berbasis website untuk mengembangkan *soft skill* peserta didik SMK kelas XII dan lulusan baru (*fresh graduate*) dalam menghadapi proses mencari kerja.
 
-**[▶ Buka GrowthLab](https://akirasakamiyo.github.io/GrowthLab/)**
+**[Buka GrowthLab](https://akirasakamiyo.github.io/GrowthLab/)**
 
-Kelompok 8 · Pengembangan Multimedia Pendidikan · Teknologi Pendidikan FIP Universitas Negeri Jakarta
+Kelompok 8 · Pengembangan Multimedia Pendidikan · Program Studi Teknologi Pendidikan · Fakultas Ilmu Pendidikan · Universitas Negeri Jakarta
 
-![Beranda GrowthLab](docs/screenshots/01-beranda-20261113.png)
+![Beranda GrowthLab](docs/screenshots/01-beranda-20261124.png)
 
 </div>
 
-## Tentang GrowthLab
+## Identitas Produk
 
-Lulusan SMK punya tingkat pengangguran terbuka tertinggi dibanding jenjang pendidikan lain (BPS, Februari 2025: 8 persen). Selain keterampilan teknis, dunia kerja menuntut kemampuan mengelola diri, mengelola emosi, dan berpikir jernih. GrowthLab dirancang untuk melatih ketiganya lewat materi singkat, latihan interaktif, dan simulasi kasus dunia kerja yang bercabang.
+| Komponen | Keterangan |
+|---|---|
+| Nama produk | GrowthLab: Self Development for Job Seeker |
+| Judul pengembangan | Pengembangan Multimedia Interaktif Berbasis Website untuk Meningkatkan Soft Skill Fresh Graduate saat Mencari Kerja |
+| Jenis media | Multimedia interaktif berbasis website |
+| Sasaran | Peserta didik SMK kelas XII dan lulusan baru |
+| Topik | Pengembangan diri (*soft skill*) |
+| Mata kuliah | Pengembangan Multimedia Pendidikan |
+| Dosen pengampu | Kunto Imbar Nursetyo, S.Pd., M.Pd. |
+| Program studi | Teknologi Pendidikan, Fakultas Ilmu Pendidikan, Universitas Negeri Jakarta |
+| Tim pengembang | Kelompok 8: Rifa Haqi Putra Wibowo (1101624089) dan Thumpal Alvin (1101624069) |
+| Model pengembangan | Hannafin dan Peck |
+| Alamat produk | https://akirasakamiyo.github.io/GrowthLab/ |
 
-Semua berjalan langsung di browser: **gratis, tanpa akun, tanpa server**, dan bisa dibuka **offline**.
+## Latar Belakang
 
-## Isi pembelajaran
+Lulusan SMK memiliki tingkat pengangguran terbuka tertinggi dibandingkan jenjang pendidikan lain (BPS, Februari 2025: 8 persen). Selain keterampilan teknis, dunia kerja menuntut kemampuan mengelola diri, mengelola emosi, dan berpikir jernih dalam mengambil keputusan. GrowthLab dikembangkan untuk melatih ketiga kemampuan tersebut melalui materi yang ringkas, latihan interaktif, dan simulasi kasus dunia kerja.
+
+## Tujuan Pembelajaran
+
+Setelah menyelesaikan GrowthLab, peserta didik diharapkan mampu menerapkan *soft skill* pengelolaan diri, kecerdasan emosional, dan keterampilan berpikir dalam menghadapi proses mencari kerja dan dunia kerja. Tujuan umum tersebut dijabarkan menjadi 15 tujuan pembelajaran khusus berformat ABCD (*Audience, Behavior, Condition, Degree*), satu untuk setiap pelajaran. Seluruh tujuan, beserta materi dan alat evaluasi yang mengukurnya, dapat dilihat pada halaman **Tujuan belajar** di dalam produk.
+
+## Ruang Lingkup Materi
 
 | Bab | Topik | Pelajaran |
 |---|---|---|
-| 1 | **Self-Management** | Recognise Your Strengths · Thoughts, Feelings, & What You Do · Change Your Thinking · Problem Solving · Keeping Well |
-| 2 | **Emotional Intelligence** | Emotional and Social Awareness · Facing Stress and Burnout · Criticism, Weakness and Failure · Happiness in Life · Communicate with Empathy |
-| 3 | **Thinking Skill** | System Thinking · Critical Thinking · Strategic Thinking · Reflective Thinking · Creative Thinking |
+| 1 | Self-Management | Recognise Your Strengths; Thoughts, Feelings, & What You Do; Change Your Thinking; Problem Solving; Keeping Well |
+| 2 | Emotional Intelligence | Emotional and Social Awareness; Facing Stress and Burnout; Criticism, Weakness and Failure; Happiness in Life; Communicate with Empathy |
+| 3 | Thinking Skill | System Thinking; Critical Thinking; Strategic Thinking; Reflective Thinking; Creative Thinking |
 
-Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas "Coba sendiri", dan **uji pemahaman** (4 soal per pelajaran, total 60 soal): studi kasus dengan penjelasan di tiap pilihan, soal dua tingkat (jawaban + alasan), dan soal "jelaskan dengan kata-katamu".
+Judul pelajaran mengikuti Jabaran Materi. Rujukan setiap pelajaran (buku, jurnal, dan artikel) tercantum pada halaman **Referensi**.
 
-![Halaman materi](docs/screenshots/02-materi-20261113.png)
+![Ringkasan kursus](docs/screenshots/02-materi-20261124.png)
 
-## Fitur utama
+## Komponen Produk
 
-**📚 Materi interaktif.** 15 pelajaran dalam 3 bab, lengkap dengan peta konsep (dengan pratinjau saat kursor diarahkan), glosarium 87 istilah, dan halaman Referensi berisi 15 artikel rujukan. Pelajaran dibuka berurutan: pelajaran berikutnya terbuka setelah pelajaran sebelumnya ditandai selesai.
+### 1. Beranda dan dashboard peserta
 
-**🧪 Kenalan sama Labi.** Maskot pixel GrowthLab: labu Erlenmeyer yang menumbuhkan tunas. Labi menyapa di beranda, menemani loading screen, jadi avatar asisten **Bingung? Tanya**, dan melompat senang setiap kali kamu menyelesaikan pelajaran.
+Pengunjung baru disambut dengan beranda pengenalan dan video promo. Setelah peserta menyelesaikan minimal satu pelajaran, beranda berubah menjadi dashboard yang menampilkan pelajaran berikutnya, progres 15 pelajaran per bab, status kuis setiap bab, perolehan XP, serta tahap simulasi dan nilai akhir. Seluruh informasi tersebut termuat dalam satu layar.
 
-<p align="center"><img src="docs/screenshots/10-loading-20261113.png" alt="Loading screen dengan Labi" width="420"></p>
+### 2. Materi pembelajaran
 
-**🎬 Video 30 detik di beberapa halaman.** Video promo di beranda, video pengenalan materi di Ringkasan kursus, video Latihan bergaya *motion graphics* 60 fps, dan video tutorial 1 menit di Petunjuk. Semuanya berputar otomatis tanpa suara; suaranya bisa dinyalakan lewat tombol di pojok video.
+Setiap pelajaran terdiri atas uraian materi, konsep penting, diagram, contoh kasus, aktivitas mandiri "Coba sendiri", ringkasan, dan **uji pemahaman** (4 soal per pelajaran, total 60 soal) yang berupa studi kasus, soal dua tingkat (jawaban dan alasan), serta soal uraian singkat. Sesuai masukan dosen, materi ditampilkan terlebih dahulu sebelum aktivitas dan kuis. Pelajaran dibuka secara berurutan.
 
-**🎨 Ilustrasi doodle pixel bergerak.** Setiap halaman panduan dan halaman ide kegiatan punya ilustrasi pixel sendiri (17 adegan) yang bergerak halus 60 fps. Ilustrasinya digambar langsung di browser, jadi tidak menambah file gambar, dan animasinya hanya berjalan saat terlihat di layar.
+![Halaman pelajaran](docs/screenshots/03-pelajaran-20261124.png)
 
-![Ilustrasi doodle pixel](docs/screenshots/09-ilustrasi-20261113.png)
+### 3. Latihan
 
-**💬 Asisten Bingung? Tanya.** Jawaban diambil dari materi dan FAQ GrowthLab, berjalan offline tanpa layanan AI dari luar.
+- **Kuis pilihan ganda** sebanyak 48 soal, dikerjakan per bab atau gabungan, dengan poin, bonus jawaban beruntun, dan petunjuk bertahap.
+- **Drag and drop** sebanyak 8 set, dapat dikerjakan dengan tetikus, layar sentuh, atau papan ketik.
+- Latihan setiap bab baru terbuka setelah seluruh pelajaran pada bab tersebut selesai.
 
-![Halaman pelajaran](docs/screenshots/03-pelajaran-20261113.png)
+![Kuis pilihan ganda](docs/screenshots/04-kuis-20261124.png)
 
-**🎮 Latihan bergaya game.**
-- Kuis pilihan ganda ala Quizizz (48 soal, per bab atau gabungan), dengan poin, bonus beruntun, dan petunjuk bertahap di kuis per bab.
-- 8 set drag & drop yang bisa dimainkan dengan mouse, sentuhan, atau keyboard.
-- Latihan terbuka bertahap: kuis, drag & drop, dan simulasi sebuah bab baru bisa dikerjakan setelah semua pelajaran di bab itu selesai.
+### 4. Simulasi kasus dunia kerja
 
-![Kuis](docs/screenshots/04-kuis-20261113.png)
+Tiga simulasi bercabang menempatkan peserta pada situasi nyata: ditolak setelah wawancara, menerima kritik keras dari atasan saat magang, dan menghadapi tenggat proyek tim. Setiap pilihan membawa peserta ke situasi yang berbeda, dengan empat kemungkinan akhir cerita per kasus. Alur cerita menyesuaikan kinerja peserta. Setiap kasus dilengkapi dasar kasus nyata yang dapat ditelusuri (data BPS, Permenaker Nomor 6 Tahun 2020 tentang pemagangan, ketentuan lembur, dan riset PMI tentang *scope creep*).
 
-**🧭 Simulasi kasus dunia kerja yang bercabang dan adaptif.**
-- Ada 3 kasus: ditolak setelah wawancara, kritik keras dari atasan saat magang, dan tenggat proyek tim.
-- Setiap pilihan membawa ke situasi berbeda, dengan 4 kemungkinan akhir cerita per kasus.
-- Cerita menyesuaikan caramu bermain: kalau kamu kesulitan, ada tokoh yang membantu; kalau kamu sedang bagus, tantangannya naik.
-- Setiap kasus disusun dari situasi nyata, dengan dasar kasus yang bisa dicek: data BPS, Permenaker 6/2020 tentang pemagangan, aturan lembur, dan riset PMI tentang *scope creep*.
+![Simulasi kasus](docs/screenshots/05-simulasi-20261124.png)
 
-![Simulasi](docs/screenshots/05-simulasi-20261113.png)
+### 5. Penilaian
 
-**📊 Nilai akhir yang transparan.** Nilai Akhir = Pilihan Ganda × 30% + Simulasi × 70%. Nilai terbuka setelah semua latihan selesai, lalu bisa dicetak sebagai kartu hasil.
+Nilai Akhir = (Nilai Pilihan Ganda × 30%) + (Nilai Simulasi × 70%).
 
-**🏆 Gamifikasi yang sehat (selalu aktif).**
-- **XP:** didapat dari penguasaan materi, bukan sekadar klik. Mengulang latihan hanya menambah XP kalau skornya naik.
-- **Level karier:** Pemula → Calon Kandidat → Siap Interview → Job Ready.
-- **Badge dan target:** 12 badge kompetensi, streak mingguan yang ramah (3 hari per minggu, ada jatah hari libur), dan quest mingguan.
-- **Profil kesiapan kerja:** skor 3 soft skill dalam tabung ukur dan sertifikat penyelesaian (PNG).
-- **Tanpa leaderboard:** tidak ada persaingan antarpengguna; yang dibandingkan hanya progresmu sendiri.
+Nilai pilihan ganda diambil dari skor terbaik kuis gabungan dengan batas lulus 70. Nilai simulasi merupakan gabungan berbobot tiga aspek (35%, 35%, 30%). Hasil akhir dikelompokkan ke dalam kategori kesiapan kerja dan ditampilkan setelah seluruh latihan selesai. Peserta dapat mencetak kartu hasil dan mengunduh sertifikat penyelesaian. Nilai ini merupakan umpan balik belajar mandiri, bukan sertifikasi resmi.
 
-**⚙️ Pengaturan.** Nama untuk sapaan Beranda dan sertifikat, tema terang/gelap/ikuti perangkat, animasi, ukuran teks, kontras tinggi, kurangi gerakan, volume, video otomatis, dan reset progres dengan konfirmasi.
+### 6. Gamifikasi
 
-![Panel perjalanan karier](docs/screenshots/06-gamifikasi-20261113.png)
+- XP diberikan berdasarkan penguasaan materi. Mengulang latihan hanya menambah XP apabila skor meningkat.
+- Level karier: Pemula, Calon Kandidat, Siap Interview, dan Job Ready.
+- 12 lencana kompetensi, target belajar mingguan, dan misi mingguan.
+- Profil kesiapan kerja untuk tiga kelompok *soft skill*.
+- Tidak terdapat papan peringkat, sehingga peserta hanya membandingkan progres dirinya sendiri.
 
-**💾 Data milik pengguna.** Progres tersimpan di browser dan bisa diunduh atau dipulihkan sebagai file cadangan. Catatan aktivitas belajar bisa diekspor (JSON/CSV) untuk keperluan penelitian. Tidak ada data yang dikirim ke pihak lain.
+![Panel perjalanan karier](docs/screenshots/06-gamifikasi-20261124.png)
 
-**🗺️ Panduan lengkap.** Petunjuk penggunaan, Tujuan belajar, Alur belajar, Peta konsep, Glosarium, Referensi, FAQ, serta enam ide kegiatan **Belajar bareng** untuk kelas atau kelompok belajar.
+### 7. Panduan
 
-![Alur belajar](docs/screenshots/08-alur-20261113.png)
+Bagian panduan memuat petunjuk penggunaan, tujuan belajar, alur belajar, peta konsep, glosarium (87 istilah), referensi, pertanyaan yang sering diajukan, ide kegiatan belajar bersama, serta identitas pengembang. Beberapa halaman panduan dilengkapi video penjelasan berdurasi 24 sampai 30 detik.
 
-**📱 Nyaman di semua perangkat.** Tampilan menyesuaikan HP, tablet, dan laptop/PC. Animasi otomatis dimatikan untuk pengguna yang memilih "kurangi gerakan" di perangkatnya.
+![Alur belajar](docs/screenshots/08-alur-20261124.png)
 
-<p align="center"><img src="docs/screenshots/07-hp-20261113.png" alt="Tampilan di HP" width="300"></p>
+![Identitas pengembang](docs/screenshots/09-tentang-20261124.png)
 
-## Cara memakai
+### 8. Asisten, pengaturan, dan aksesibilitas
 
-1. Buka **[akirasakamiyo.github.io/GrowthLab](https://akirasakamiyo.github.io/GrowthLab/)**.
-2. Pilih bab di menu **Materi**, baca pelajaran, lalu tekan **Tandai selesai**.
-3. Kerjakan **Latihan**: kuis, drag & drop, dan simulasi.
-4. Lihat **Nilai akhir** dan unduh sertifikatmu.
+- **Asisten "Bingung? Tanya"** menjawab pertanyaan berdasarkan materi dan FAQ GrowthLab tanpa layanan kecerdasan buatan dari pihak luar.
+- **Maskot Labi** (labu Erlenmeyer bertunas) menemani peserta di beranda, layar pemuatan, asisten, dan saat pelajaran selesai.
+- **Pengaturan** mencakup nama peserta, tema terang atau gelap, ukuran teks, kontras tinggi, pengurangan gerakan, volume, dan pengaturan ulang progres.
+- Tampilan menyesuaikan ukuran layar ponsel, tablet, dan komputer.
 
-**Pasang sebagai aplikasi (PWA):** di Chrome atau Edge, buka **Pengaturan → Tentang GrowthLab → Pasang**, atau ikon pasang di bilah alamat. Di iPhone/iPad, buka di Safari lalu **Bagikan → Tambah ke Layar Utama**. Setelah dibuka sekali, materi dan latihan tetap jalan tanpa internet. Video tetap butuh internet.
+<p align="center"><img src="docs/screenshots/10-loading-20261113.png" alt="Layar pemuatan dengan maskot Labi" width="420"> &nbsp; <img src="docs/screenshots/07-hp-20261124.png" alt="Tampilan pada ponsel" width="260"></p>
 
+## Petunjuk Penggunaan
 
-## Teknologi
+1. Buka **[akirasakamiyo.github.io/GrowthLab](https://akirasakamiyo.github.io/GrowthLab/)** melalui peramban (Chrome, Edge, atau Safari).
+2. Pilih bab pada menu **Materi**, pelajari isi pelajaran, kerjakan uji pemahaman, lalu tekan **Tandai selesai**.
+3. Setelah seluruh pelajaran pada satu bab selesai, kerjakan **Latihan** bab tersebut: kuis, *drag and drop*, dan simulasi.
+4. Setelah seluruh latihan selesai, buka **Nilai akhir** untuk melihat hasil dan mengunduh sertifikat.
 
-HTML, CSS, dan JavaScript murni (tanpa *build step*), dengan pustaka lokal GSAP (beserta ScrollTrigger dan MotionPathPlugin) dan Lenis. Semua aset ada di repo ini, jadi situs berjalan tanpa CDN maupun server.
+**Penggunaan tanpa internet.** GrowthLab dapat dipasang sebagai aplikasi (*Progressive Web App*). Pada Chrome atau Edge, buka **Pengaturan → Tentang GrowthLab → Pasang**. Pada iPhone atau iPad, buka melalui Safari, lalu pilih **Bagikan → Tambah ke Layar Utama**. Setelah dibuka sekali dengan koneksi internet, materi dan latihan dapat digunakan tanpa internet. Video tetap memerlukan koneksi internet.
 
-```
-index.html     kerangka halaman
-css/           gaya (01–22), dimuat berurutan
-js/            skrip (01–30) + js/gamifikasi/ (XP, badge, streak, quest, cadangan, log)
-vendor/        pustaka & font lokal
-assets/        gambar simulasi, storyboard, lukisan bab, sprite Labi & video
-```
+## Spesifikasi Teknis
 
-Isi materi, kuis, drag & drop, dan simulasi ada di `js/03-data.js`; soal uji pemahaman di `js/26-uji-data.js`; ilustrasi doodle pixel di `js/30-ilustrasi-pixel.js`.
+| Aspek | Keterangan |
+|---|---|
+| Teknologi | HTML, CSS, dan JavaScript tanpa proses *build*; pustaka GSAP dan Lenis disimpan di dalam repositori |
+| Server | Tidak memerlukan server maupun akun; situs statis di GitHub Pages |
+| Penyimpanan data | Progres dan nilai disimpan di peramban peserta (*localStorage*) dan dapat diunduh sebagai file cadangan |
+| Mode luring | *Progressive Web App* dengan *service worker* |
+| Pengujian | Pengujian otomatis dengan Playwright pada Chrome dan Safari (WebKit), di ukuran layar komputer dan ponsel |
 
-> **Catatan:** ini prototipe tugas kuliah. Karena semua data tersimpan di browser, skor dan XP bisa diubah lewat devtools. Logika gamifikasi sengaja dipisah di `js/gamifikasi/` agar mudah dipindah ke server di kemudian hari.
+**Repositori.** Kode sumber berada pada cabang [`kode`](https://github.com/akirasakamiyo/GrowthLab/tree/kode). Cabang `main` berisi versi situs yang ditayangkan. Versi yang dikumpulkan ditandai dengan *tag*, misalnya [`pertemuan-12`](https://github.com/akirasakamiyo/GrowthLab/tree/pertemuan-12).
+
+> **Catatan.** GrowthLab merupakan prototipe untuk keperluan tugas mata kuliah. Karena seluruh data tersimpan di peramban, progres tidak berpindah antarperangkat kecuali melalui fitur unduh dan pulihkan cadangan.
 
 ---
 
 <div align="center">
-Dibuat oleh <b>Kelompok 8</b> · Teknologi Pendidikan FIP Universitas Negeri Jakarta
+Dikembangkan oleh <b>Kelompok 8</b> · Program Studi Teknologi Pendidikan · Fakultas Ilmu Pendidikan · Universitas Negeri Jakarta
 </div>

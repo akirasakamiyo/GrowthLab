@@ -99,3 +99,6 @@
 :where(html.gl-reduce) .hbg-cl{transform:translateX(20vw)}
 /* css/29-beranda.css */
 :where(html.gl-reduce) .dsh-lead,:where(html.gl-reduce) .dsh-act,:where(html.gl-reduce) .dsh-board>.wrap,:where(html.gl-reduce) .dsh-board .dt,:where(html.gl-reduce) .dsh-board .dt .dmini{animation:none!important}
+:where(html.gl-reduce) .tm2-f{transition:none}
+:where(html.gl-reduce) .team2 .dd .dd-l{stroke-dashoffset:0;fill-opacity:1!important}
+:where(html.gl-reduce) .team2 .dd .dd-blob{transform:none}
