@@ -97,3 +97,5 @@
 :where(html.gl-reduce) .hbg i{animation:none!important}
 :where(html.gl-reduce) .hbg-px{opacity:.6}
 :where(html.gl-reduce) .hbg-cl{transform:translateX(20vw)}
+/* css/29-beranda.css */
+:where(html.gl-reduce) .dsh-lead,:where(html.gl-reduce) .dsh-act,:where(html.gl-reduce) .dsh-board>.wrap,:where(html.gl-reduce) .dsh-board .dt,:where(html.gl-reduce) .dsh-board .dt .dmini{animation:none!important}

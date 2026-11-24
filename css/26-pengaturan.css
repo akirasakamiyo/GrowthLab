@@ -190,3 +190,6 @@ html[data-theme=dark] .stp b{color:#b23a12}
 .gst p{max-width:none}
 /* pilihan kuis berwarna kuning (C): teks tetap biru tua di tema gelap */
 html[data-theme=dark] .gq-o[style*="--q2"]:not(.ok):not(.no),html[data-theme=dark] .gq-o[style*="--q2"]:not(.ok):not(.no) b{color:#0e1a3a}
+/* beranda dashboard (css/29-beranda.css): ikon tahap akhir terbaca di tema gelap */
+html[data-theme=dark] .dsh-board .dstop i svg{stroke:#e9ebff}
+html[data-theme=dark] .dsh-board .dstop.ok i svg{stroke:#fff}
