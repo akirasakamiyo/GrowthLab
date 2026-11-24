@@ -6,7 +6,7 @@
 
 Media pembelajaran interaktif berbasis website untuk mengembangkan **soft skill** siswa SMK kelas XII dan *fresh graduate* sebelum dan selama mencari kerja.
 
-**[▶ Buka GrowthLab](https://akirasakamiyo.github.io/GrowthLab/)** · **[⬇ Unduh versi offline](https://akirasakamiyo.github.io/GrowthLab/offline/GrowthLab_offline.zip)** · **[⬇ Paket SCORM untuk LMS](https://akirasakamiyo.github.io/GrowthLab/offline/GrowthLab_SCORM12.zip)**
+**[▶ Buka GrowthLab](https://akirasakamiyo.github.io/GrowthLab/)**
 
 Kelompok 8 · Pengembangan Multimedia Pendidikan · Teknologi Pendidikan FIP Universitas Negeri Jakarta
 
@@ -97,8 +97,8 @@ Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas
 3. Kerjakan **Latihan**: kuis, drag & drop, dan simulasi.
 4. Lihat **Nilai akhir** dan unduh sertifikatmu.
 
-**Tanpa internet:** unduh [GrowthLab_offline.zip](https://akirasakamiyo.github.io/GrowthLab/offline/GrowthLab_offline.zip), ekstrak, lalu buka `index.html`.
-**Untuk LMS (Moodle, dll.):** unggah [GrowthLab_SCORM12.zip](https://akirasakamiyo.github.io/GrowthLab/offline/GrowthLab_SCORM12.zip) sebagai paket SCORM 1.2. Nilai akhir otomatis dilaporkan ke LMS.
+**Pasang sebagai aplikasi (PWA):** di Chrome atau Edge, buka **Pengaturan → Tentang GrowthLab → Pasang**, atau ikon pasang di bilah alamat. Di iPhone/iPad, buka di Safari lalu **Bagikan → Tambah ke Layar Utama**. Setelah dibuka sekali, materi dan latihan tetap jalan tanpa internet. Video tetap butuh internet.
+
 
 ## Teknologi
 
@@ -110,7 +110,6 @@ css/           gaya (01–22), dimuat berurutan
 js/            skrip (01–30) + js/gamifikasi/ (XP, badge, streak, quest, cadangan, log)
 vendor/        pustaka & font lokal
 assets/        gambar simulasi, storyboard, lukisan bab, sprite Labi & video
-offline/       paket ZIP dan SCORM siap unduh
 ```
 
 Isi materi, kuis, drag & drop, dan simulasi ada di `js/03-data.js`; soal uji pemahaman di `js/26-uji-data.js`; ilustrasi doodle pixel di `js/30-ilustrasi-pixel.js`.

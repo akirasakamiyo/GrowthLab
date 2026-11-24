@@ -75,8 +75,8 @@ const SC={
 /* adegan → letak tokoh */
 /* 2026-11-17: foto latar JPG di assets/sim dihapus; latar kini pixel art (js/35-sim-pixel-aset.js). Jalur di bawah hanya cadangan lama.
    latar ilustrasi (dibuat dengan gpt-image via Figma, disimpan di assets/sim). Jika file belum ada/gagal dimuat, latar SVG di bawahnya tetap terlihat. */
-/* paket offline (tools/build-offline.js) menanam gambar sebagai data URI di window.GL_SIMIMG; tanpa itu dipakai file di assets/sim */
-const SIMSRC=sc=>(window.GL_SIMIMG&&window.GL_SIMIMG[sc])||`assets/sim/${sc}.jpg`;
+/* gambar latar simulasi dari assets/sim */
+const SIMSRC=sc=>`assets/sim/${sc}.jpg`;
 const IMG=new Set(["kamar","kamar-malam","rumah","teras","meja","lobi","kantor","pantry","rapat"]);
 function sceneSVG(sc,who,o={}){const HO=o.heroOpt||{};const S=SC[sc]||SC.kamar,two=!!who,hx=o.hx||(two?250:320),still=!!o.still;
  const npc=who==="tim"?[["rekan",430,.86],["rekan2",520,.8]]:who?[[who,420,1]]:[];
