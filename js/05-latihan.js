@@ -193,7 +193,7 @@ function lobbyHTML(){const m=QZ.m,mi=MODES().find(x=>x[0]===m),b=load().kuis.bes
   <button type="button" class="gq-start" data-qz="go">${IC.play}<span>Mulai</span></button><small class="gq-hint">Tekan Enter untuk mulai</small>
  </div></div>`}
 function begin(){const m=QZ.m,lim=QZ.lim,pu=QZ.pu,pool=m==="all"?GLD.QUIZ:GLD.QUIZ.filter(x=>"b"+x.b===m);SND.wake();
- QZ={m,lim,pu,i:0,ans:[],times:[],parts:[],pts:0,stk:0,maxS:0,inv:{},act:{},t0:Date.now(),phase:"count",list:mix(pool).map(x=>({x,o:mix(x.o.map((t,k)=>({t,ok:k===x.a})))}))};
+ QZ={m,lim,pu,i:0,ans:[],times:[],parts:[],pts:0,stk:0,maxS:0,inv:{},act:{},t0:Date.now(),phase:"count",list:mix(pool).map(x=>({x,o:mix(x.o.map((t,k)=>({t,ok:k===x.a,k})))}))};
  countdown()}
 async function countdown(){QZ.phase="count";const tok=QZ.tok={};const box=q("#gqin");box.innerHTML=`${hudHTML()}<div class="gq-count" data-qz="skip"><b id="gqc" aria-live="assertive">3</b><small>Bersiap…</small></div>`;
  for(const t of ["3","2","1","Mulai!"]){if(QZ.tok!==tok||!ovOn())return;const b=q("#gqc");if(!b)return;b.textContent=t;b.className=t.length>1?"go":"";
@@ -272,10 +272,12 @@ function usePU(k){if(!QZ||QZ.phase!=="q"||!(QZ.inv[k]>0))return;QZ.inv[k]--;SND.
  if(k==="ff"){const it=QZ.list[QZ.i];QZ.hide=new Set(mix(it.o.map((o,j)=>o.ok?-1:j).filter(j=>j>=0)).slice(0,2));qa(".gq-o").forEach((b,j)=>{if(QZ.hide.has(j)){b.disabled=true;b.dataset.gone=""}})}
  else{QZ.act[k]=true;if(k==="frz"){const t=q(".gq-tbar");t&&t.classList.add("frz");const p=q("#gqt");p&&p.classList.add("frz")}}
  const pu=q("#gqpu");if(pu)pu.outerHTML=puHTML();popMsg(`${IC[PU[k][3]]} ${PU[k][1]} dipakai`,"pw")}
+/* 2026-11-24: jawaban per soal untuk log Fase 5 (dashboard dosen): [indeks soal di GLD.QUIZ, opsi asli yang dipilih (-1 = waktu habis), 1 benar / 0 salah] */
+const qAns=()=>QZ.list.map((it,i)=>{const p=QZ.ans[i]>=0?it.o[QZ.ans[i]]:null;return[GLD.QUIZ.indexOf(it.x),p?p.k:-1,p&&p.ok?1:0]});
 function qFinish(){qTimerStop();SND.music(null);const{n,ben,sc}=qScore(),d=load(),b=d.kuis.best[QZ.m];
  QZ.t1=Date.now();const rec={score:r1(sc),benar:ben,n,t:Date.now(),dur:QZ.t1-QZ.t0,poin:QZ.pts,streak:QZ.maxS};
  d.kuis.ptsBest=d.kuis.ptsBest||{};QZ.prevPts=d.kuis.ptsBest[QZ.m]||0;if(QZ.pts>QZ.prevPts)d.kuis.ptsBest[QZ.m]=QZ.pts;
- if(!b||rec.score>=b.score)d.kuis.best[QZ.m]=rec;d.kuis.hist.push(Object.assign({m:QZ.m},rec));cap(d.kuis.hist);save(d);window.GLG&&GLG.emit("quiz",{m:QZ.m,score:rec.score,benar:ben,n,wrong:QZ.list.map((it,i)=>QZ.ans[i]>=0&&it.o[QZ.ans[i]].ok?null:[it.x.b,it.x.l]).filter(Boolean)});QZ.done=true;QZ.phase="res";
+ if(!b||rec.score>=b.score)d.kuis.best[QZ.m]=rec;d.kuis.hist.push(Object.assign({m:QZ.m},rec));cap(d.kuis.hist);save(d);window.GLG&&GLG.emit("quiz",{m:QZ.m,score:rec.score,benar:ben,n,ans:qAns(),wrong:QZ.list.map((it,i)=>QZ.ans[i]>=0&&it.o[QZ.ans[i]].ok?null:[it.x.b,it.x.l]).filter(Boolean)});QZ.done=true;QZ.phase="res";
  paintRes(true);if(QZ.m==="all")nilai(true);drawQuiz()}
 function resHTML(){const{n,ben,sc}=qScore(),P=GLD.PASS_MCQ,ok=sc>=P,to=QZ.ans.filter(a=>a<0).length,avg=QZ.times.reduce((a,b)=>a+(b||0),0)/n;
  const bd=[[ben===n,"Sempurna","Semua jawaban benar"],[QZ.maxS>=5,"Beruntun "+QZ.maxS,"Lima jawaban benar berturut-turut atau lebih"],[avg<10000&&ok,"Kilat","Rata-rata kurang dari 10 detik per soal"],[ok,"Lulus","Nilai mencapai batas lulus "+P],[QZ.prevPts>0&&QZ.pts>QZ.prevPts,"Rekor poin baru","Melewati rekor poinmu sebelumnya"]].filter(x=>x[0]);

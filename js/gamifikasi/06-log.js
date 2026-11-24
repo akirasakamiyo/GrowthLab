@@ -38,7 +38,7 @@
   /* ---------- sumber event ---------- */
   session(Date.now()); save();
   G.on("lesson", d => G.log("lesson_done", { k: d.k }));
-  G.on("quiz", d => G.log("quiz", { m: d.m, score: d.score, benar: d.benar, n: d.n }));
+  G.on("quiz", d => G.log("quiz", Object.assign({ m: d.m, score: d.score, benar: d.benar, n: d.n }, Array.isArray(d.ans) ? { ans: d.ans } : {})));   // ans: jawaban per soal (sejak 2026-11-24)
   G.on("dnd", d => G.log("dnd", { id: d.id, benar: d.benar, n: d.n }));
   G.on("sim", d => G.log("sim", { id: d.id, score: d.score }));
   let lastView = "";
@@ -62,7 +62,14 @@
       quiz, events: ev.length
     };
   };
-  G.logExport = () => ({ format: "growthlab-log", version: 1, exported: new Date().toISOString(), summary: G.logSummary(), sessions: st().sessions, events: st().events });
+  /* versi 2 (2026-11-24, untuk dashboard dosen #/dosen): + nama peserta, daftar pelajaran selesai, sidik soal kuis (qv) */
+  G.logExport = () => {
+    let nama = ""; try { nama = String((JSON.parse(localStorage.getItem("gl-ui") || "{}") || {}).nama || "").trim() } catch (e) {}
+    return { format: "growthlab-log", version: 2, exported: new Date().toISOString(), summary: G.logSummary(),
+      peserta: { nama, done: G.storage.get("mer-done") || [] }, qv: window.GLDH && typeof GLD !== "undefined" ? GLDH.quizVersion(GLD.QUIZ) : null,
+      sessions: st().sessions, events: st().events };
+  };
+  G.logDownload = () => dl(`growthlab-laporan-${new Date().toISOString().slice(0, 10)}.json`, JSON.stringify(G.logExport()), "application/json");
   const csvCell = v => { const s = typeof v === "object" ? JSON.stringify(v) : String(v ?? ""); return /[",\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s };
   G.logCSV = () => ["waktu_iso,sesi,jenis,data", ...st().events.map(e => [new Date(e.t).toISOString(), e.sid, e.type, e.data].map(csvCell).join(","))].join("\n");
   G.logClear = () => { L = fresh(); save() };
