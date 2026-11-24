@@ -32,13 +32,16 @@ window.GLDOSEN = (() => {
   const badge = s => `<span class="dsn-st dsn-${ST[s][1]}">${SI[ST[s][1]]}${ST[s][0]}</span>`;
   const pos = p => p.far ? `Bab ${p.far[0] + 1} · Pelajaran ${p.far[1] + 1}` : "–";
 
-  let V = { demo: false, errs: [], q: "", f: "semua", sort: ["status", 1], A: null };
+  const fresh = () => ({ demo: false, errs: [], q: "", f: "semua", sort: ["status", 1], A: null, live: null, liveAt: 0, liveErr: "", loading: false });
+  let V = fresh();
+  const KODE = "gl-dosen-kode";   // kode asli disimpan selama sesi tab saja, untuk meminta data live (dicek di server)
+  const LIVE = () => !!(window.GLSYNC && GLSYNC.url);
 
   function ctx() {
     return { chapters: GLD.COURSE.chapters.map(c => ({ t: c.t, n: c.l.length })), quiz: GLD.QUIZ, pass: GLD.PASS_MCQ, now: Date.now(), qv: GLDH.quizVersion(GLD.QUIZ) };
   }
   function data() {
-    const reps = V.demo ? GLDOSEN_CONTOH.make(GLD, Date.now()).map(r => GLDH.parse(r).rep) : loadReps();
+    const reps = V.demo ? GLDOSEN_CONTOH.make(GLD, Date.now()).map(r => GLDH.parse(r).rep) : [...(V.live || []), ...loadReps()];
     return reps.length ? GLDH.analyze(GLDH.merge(reps), ctx()) : null;
   }
   const unlocked = () => { const h = ss.get(OK); return !!h && AKSES.some(a => a.hash === h) };
@@ -65,24 +68,51 @@ window.GLDOSEN = (() => {
         if (!v) { e.textContent = "Masukkan kode fasilitator."; inp.setAttribute("aria-invalid", "true"); inp.focus(); return }
         const h = GLDH.sha256(v);
         if (!AKSES.some(a => a.hash === h)) { e.textContent = "Kode tidak dikenali. Dashboard ini hanya untuk dosen dan fasilitator."; inp.setAttribute("aria-invalid", "true"); inp.select(); return }
-        ss.set(OK, h); R.innerHTML = ""; draw(R, true) };
+        ss.set(OK, h); ss.set(KODE, v); R.innerHTML = ""; draw(R, true); startLive(R) };
       setTimeout(() => inp.focus({ preventScroll: true }), 50);
       return;
     }
-    draw(R);
+    draw(R); startLive(R);
   }
+  /* data live: ambil bila belum ada atau sudah lebih dari 30 detik, lalu perbarui tiap menit */
+  function startLive(R) { if (!LIVE() || V.demo) return; if (!V.loading && Date.now() - V.liveAt > 30000) fetchLive(R); autoLive(R) }
 
   /* ---------- isi dashboard ---------- */
+  /* ---------- data live (Apps Script); kode fasilitator dicek di server ---------- */
+  let tick = 0;
+  async function fetchLive(R, quiet) {
+    if (!LIVE() || V.demo || V.loading) return;
+    const kode = ss.get(KODE);
+    if (!kode) { V.liveErr = "Kunci lalu buka lagi dashboard dengan kode fasilitator untuk mengambil data live."; return draw(R) }
+    V.loading = true; if (!quiet) draw(R);
+    try {
+      const r = await (await fetch(GLSYNC.url, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify({ op: "data", kode }), redirect: "follow" })).json();
+      if (!r || !r.ok) V.liveErr = r && r.err === "kode" ? "Server menolak kode fasilitator. Samakan DOSEN_HASH di Apps Script dengan kode ini." : r && r.err === "tunggu" ? "Terlalu banyak kode salah. Coba lagi 10 menit lagi." : "Server menolak permintaan.";
+      else { V.live = (r.reports || []).map(x => GLDH.parse(x)).filter(x => x.ok).map(x => x.rep); V.liveAt = r.at || Date.now(); V.liveErr = "" }
+    } catch (e) { V.liveErr = navigator.onLine ? "Server tidak bisa dihubungi. Coba lagi sebentar lagi." : "Tidak ada internet. Data live belum bisa diambil." }
+    V.loading = false;
+    /* jangan mengganggu yang sedang mengetik atau membaca detail: tunda gambar ulang */
+    const busy = document.activeElement && document.activeElement.id === "dsn-q" || ($("#dsn-dlg") || {}).open;
+    if (quiet && busy) { const m = $("#dsn-msg", R); if (m) m.innerHTML = msgs(V.A); return }
+    draw(R);
+  }
+  function autoLive(R) {
+    clearInterval(tick);
+    if (!LIVE()) return;
+    tick = setInterval(() => { if (!document.body.contains(R) || !unlocked()) return clearInterval(tick); if (document.visibilityState === "visible") fetchLive(R, true) }, 60000);
+  }
+
   function draw(R, focus) {
     let A = null, fail = null;
     try { A = data() } catch (e) { fail = e; console.error(e) }
     V.A = A;
     const n = A ? A.peserta.length : 0;
     R.innerHTML = `<header class="dsn-top"><span class="dsn-k">Dashboard dosen</span><h1>Kondisi kelas</h1>
-        <p>${A ? `${n} peserta dari ${V.demo ? "data contoh" : "laporan yang kamu impor"}. Batas lulus kuis ${A.pass}.` : "Impor laporan peserta untuk melihat progres dan hasil belajar kelas."}</p></header>
+        <p>${A ? `${n} peserta dari ${V.demo ? "data contoh" : LIVE() ? "data live dan laporan yang diimpor" : "laporan yang kamu impor"}. Batas lulus kuis ${A.pass}.` : LIVE() ? "Data live dari peserta yang menyalakan pengiriman otomatis, ditambah laporan yang kamu impor." : "Impor laporan peserta untuk melihat progres dan hasil belajar kelas."}</p></header>
       ${V.demo ? `<div class="dsn-demo" role="note"><b>Data contoh.</b> Ini peserta rekaan untuk demo, bukan data asli. Laporan asli tidak tercampur. <button type="button" class="dsn-lnk" data-dsn="demo-off">Kembali ke data asli</button></div>` : ""}
       <div class="dsn-bar">
-        <label class="btn p dsn-file"><input type="file" id="dsn-in" accept=".json,application/json" multiple>Impor laporan (.json)</label>
+        ${LIVE() && !V.demo ? `<button type="button" class="btn p" data-dsn="live"${V.loading ? " disabled" : ""}>${V.loading ? "Mengambil data…" : "Ambil data live terbaru"}</button>` : ""}
+        <label class="btn ${LIVE() ? "" : "p "}dsn-file"><input type="file" id="dsn-in" accept=".json,application/json" multiple>Impor laporan (.json)</label>
         ${!V.demo && window.GLDOSEN_DEMO && window.GLDOSEN_CONTOH ? `<button type="button" class="btn" data-dsn="demo">Coba dengan data contoh</button>` : ""}
         ${!V.demo && loadReps().length ? `<button type="button" class="btn" data-dsn="clear">Hapus semua laporan</button>` : ""}
         <button type="button" class="btn dsn-lock" data-dsn="lock">Kunci dashboard</button>
@@ -95,12 +125,14 @@ window.GLDOSEN = (() => {
   }
 
   function msgs(A) {
-    const m = [...V.errs.map(e => `<li class="bad"><b>${esc(e.f)}</b>: ${esc(e.m)}</li>`), ...(A ? A.warn.map(w => `<li>${esc(w)}</li>`) : [])];
+    const live = LIVE() && !V.demo ? (V.loading && !V.liveAt ? `<li>Mengambil data live dari server…</li>` : V.liveErr ? `<li class="bad"><b>Data live</b>: ${esc(V.liveErr)}</li>` : V.liveAt ? `<li class="ok">Data live diperbarui ${esc(new Date(V.liveAt).toLocaleTimeString("id-ID", { hour: "2-digit", minute: "2-digit" }))} (${V.live.length} peserta). Diperbarui otomatis tiap menit.</li>` : "") : "";
+    const m = [...(live ? [live] : []), ...V.errs.map(e => `<li class="bad"><b>${esc(e.f)}</b>: ${esc(e.m)}</li>`), ...(A ? A.warn.map(w => `<li>${esc(w)}</li>`) : [])];
     return m.length ? `<ul class="dsn-msgs">${m.join("")}</ul>` : "";
   }
 
   function empty() {
     return `<section class="dsn-empty"><h2>Belum ada laporan peserta</h2>
+      ${LIVE() ? `<p><b>Data live:</b> peserta membuka <i>Pengaturan</i> → <i>Progres belajar</i>, mengisi kode kelas, lalu menyalakan <b>Kirim progres ke dosen secara otomatis</b>. Data muncul di sini tanpa impor. Cara lain, lewat file:</p>` : ""}
       <ol><li><b>Peserta</b> membuka <i>Pengaturan</i> → <i>Progres belajar</i> → <b>Unduh laporan</b>. Mereka perlu mengisi nama dulu.</li>
       <li>Peserta mengirim file <code>growthlab-laporan-….json</code> ke kamu, misalnya lewat folder Google Drive kelas atau grup WhatsApp.</li>
       <li>Kamu menekan <b>Impor laporan</b> di atas dan memilih semua file sekaligus, atau menyeret file-filenya ke halaman ini.</li></ol>
@@ -225,8 +257,9 @@ window.GLDOSEN = (() => {
       const k = g.dataset.dsn;
       if (k === "close") return closeD();
       if (k === "demo") { V.demo = true; V.errs = []; draw(R); say("Menampilkan data contoh.") }
-      if (k === "demo-off") { V.demo = false; draw(R) }
-      if (k === "lock") { ss.set(OK, null); V = { demo: false, errs: [], q: "", f: "semua", sort: ["status", 1], A: null }; R.innerHTML = gate(); bind(R.parentNode); say("Dashboard dikunci.") }
+      if (k === "demo-off") { V.demo = false; draw(R); startLive(R) }
+      if (k === "live") return fetchLive(R);
+      if (k === "lock") { ss.set(OK, null); ss.set(KODE, null); V = fresh(); R.innerHTML = gate(); bind(R.parentNode); say("Dashboard dikunci.") }
       if (k === "clear" && confirm(`Hapus semua ${loadReps().length} laporan peserta dari browser ini? File aslinya tidak ikut terhapus, jadi bisa diimpor lagi.`)) { saveReps([]); V.errs = []; draw(R); say("Semua laporan dihapus dari browser ini.") }
     };
     const q = $("#dsn-q", R); if (q) q.oninput = () => { V.q = q.value; $("#dsn-tw", R).innerHTML = tbody(V.A) };
