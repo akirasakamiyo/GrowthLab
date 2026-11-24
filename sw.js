@@ -1,10 +1,10 @@
 /* 2026-11-24: service worker PWA. GrowthLab bisa dipasang sebagai aplikasi dan dibuka tanpa internet.
-   tools/build-pages.sh mengganti e64c20d dengan commit dan membuat precache.json (daftar file yang diunduh saat pemasangan).
+   tools/build-pages.sh mengganti c99398e dengan commit dan membuat precache.json (daftar file yang diunduh saat pemasangan).
    - Halaman: ambil dari jaringan dulu, kalau gagal pakai salinan tersimpan.
    - File lain dari situs ini: salinan tersimpan dulu (nama css/js memuat ?v=<commit>, jadi selalu versi yang cocok).
    - Video (.mp4) dan permintaan ke server lain tidak disimpan; video butuh internet.
-   Saat dijalankan dari folder sumber (e64c20d belum diganti), semua permintaan lewat jaringan dulu supaya perubahan langsung terlihat. */
-const V = "e64c20d", DEV = V === "__" + "V__", C = "gl-" + V;
+   Saat dijalankan dari folder sumber (c99398e belum diganti), semua permintaan lewat jaringan dulu supaya perubahan langsung terlihat. */
+const V = "c99398e", DEV = V === "__" + "V__", C = "gl-" + V;
 
 self.addEventListener("install", e => e.waitUntil((async () => {
   const c = await caches.open(C);

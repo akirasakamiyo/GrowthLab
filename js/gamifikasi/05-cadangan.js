@@ -122,7 +122,7 @@
     let h = 0; for (const c of nm + tgl) h = (h * 31 + c.charCodeAt(0)) >>> 0;
     const no = `GL-${new Date().toISOString().slice(2, 10).replace(/-/g, "")}-${(h % 65536).toString(16).toUpperCase().padStart(4, "0")}`;
     x.fillStyle = "#6b6f86"; font("", 400, 24, SANS); x.fillText(`Diterbitkan ${tgl}   ·   No. ${no}   ·   Teknologi Pendidikan FIP Universitas Negeri Jakarta`, W / 2, H - O - B - 74);
-    x.fillStyle = "#9a9db0"; font("italic", 400, 22, SERIF); x.fillText("Sertifikat ini merupakan umpan balik belajar mandiri, bukan sertifikat resmi.", W / 2, H - O - B - 42);
+    x.fillStyle = "#9a9db0"; font("italic", 400, 22, SERIF); x.fillText("Sertifikat ini adalah umpan balik belajar mandiri, bukan sertifikat resmi.", W / 2, H - O - B - 42);
     return cv;
   };
   G.certFile = name => {
