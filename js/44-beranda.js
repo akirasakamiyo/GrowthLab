@@ -32,7 +32,7 @@ window.GLDASH = (() => {
     left.innerHTML = `<p class="dsh-hi">${nm ? `Halo, <b>${esc(nm)}.</b>` : "Selamat datang lagi."}</p>
       <h1 class="dsh-h1"><span>${all ? "Semua materi" : "Lanjut ke"}</span><span class="y">${all ? "sudah tuntas." : esc(L.t) + "."}</span></h1>
       <p class="dsh-lead">${lead}</p>
-      <div class="dsh-act"><a class="dsh-btn p" href="${all ? "#/latihan" : "#/lesson/" + i + "-" + j}">${all ? "Buka latihan" : "Lanjutkan pelajaran"}${ICON.arrow}</a><a class="dsh-btn g" href="#/e-learning">Lihat katalog</a></div>`;
+      <div class="dsh-act"><a class="dsh-btn p" href="${all ? "#/latihan" : "#/lesson/" + i + "-" + j}">${all ? "Buka latihan" : "Lanjutkan pelajaran"}${ICON.arrow}</a></div>`;
   }
 
   function board() {

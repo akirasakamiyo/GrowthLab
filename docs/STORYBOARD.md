@@ -138,7 +138,7 @@ maskot Labi bergaya pixel.
 | Visual | Judul besar "Kenali diri, baru lamar kerja", latar biru beranimasi (bintang dan awan pixel), video promo di kanan, Labi |
 | Teks | "Buat kamu yang baru lulus SMK atau kuliah: 15 pelajaran soft skill singkat, latihan soal, dan simulasi kasus kerja beneran." |
 | Audio | Video promo dengan musik; awalnya tanpa suara, dinyalakan lewat tombol suara |
-| Interaksi | Mulai belajar (ke Ringkasan kursus), Lihat katalog, tombol suara, tombol layar penuh |
+| Interaksi | Mulai belajar (ke Ringkasan kursus), tombol suara, tombol layar penuh |
 
 ### 02. Ringkasan kursus
 ![Ringkasan kursus](storyboard/02-ringkasan-kursus.jpg)
