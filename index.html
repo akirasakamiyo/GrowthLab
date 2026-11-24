@@ -5,6 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 64 64%22%3E%3Crect x=%222%22 y=%222%22 width=%2260%22 height=%2260%22 rx=%2218%22 fill=%22%23ffc83d%22 stroke=%22%231b1740%22 stroke-width=%224%22/%3E%3Cg stroke=%22%231b1740%22 stroke-width=%223%22 stroke-linejoin=%22round%22 stroke-linecap=%22round%22%3E%3Cpath class=%22sp%22 d=%22M32 27V17%22 fill=%22none%22 stroke-width=%223.5%22/%3E%3Cpath class=%22sp%22 d=%22M32 21C24 22 19 17 19 11c7 0 12 4 13 10z%22 fill=%22%2314b8a6%22/%3E%3Cpath class=%22sp%22 d=%22M32 18c8 1 13-4 13-10-7 0-12 4-13 10z%22 fill=%22%236d4cff%22/%3E%3Cpath d=%22M26 27h12v8l9 15a5 5 0 0 1-4.3 7.5H21.3A5 5 0 0 1 17 50l9-15z%22 fill=%22%23fff%22/%3E%3Cpath d=%22M20.4 45h23.2l3.3 5.5a5 5 0 0 1-4.3 7.5H21.3A5 5 0 0 1 17 50.5z%22 fill=%22%23ff5a3c%22 stroke=%22none%22/%3E%3Ccircle class=%22bb%22 cx=%2229%22 cy=%2251%22 r=%221.8%22 fill=%22%23fff%22 stroke=%22none%22/%3E%3Ccircle class=%22bb b2%22 cx=%2236%22 cy=%2248%22 r=%221.4%22 fill=%22%23fff%22 stroke=%22none%22/%3E%3Cpath d=%22M26 27h12v8l9 15a5 5 0 0 1-4.3 7.5H21.3A5 5 0 0 1 17 50l9-15z%22 fill=%22none%22/%3E%3C/g%3E%3C/svg%3E">
 <meta name="theme-color" content="#ffc83d">
+<!-- 2026-11-24: PWA (bisa dipasang sebagai aplikasi, jalan tanpa internet setelah dibuka sekali); lihat sw.js dan js/43-pwa.js -->
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="assets/ikon/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="GrowthLab">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
 <!-- 2026-11-23: preferensi (tema, ukuran teks, kontras, gerakan) dipasang sebelum CSS supaya tidak berkedip -->
 <script src="js/00-pref.js"></script>
 <title>GrowthLab — Self Development for Job Seeker</title>
@@ -162,6 +169,7 @@
 <script src="js/40-dosen-contoh.js"></script>
 <script src="js/41-dosen.js"></script>
 <script src="js/42-sinkron.js"></script>
+<script src="js/43-pwa.js"></script>
 <script src="js/09-app.js"></script>
 <script src="js/12-hero-observer.js"></script>
 <script src="js/13-chat.js"></script>
@@ -175,7 +183,6 @@
 <script src="js/17-motion.js"></script>
 <script src="js/18-dekorasi-klik.js"></script>
 <script src="js/19-hover.js" id="gl-hover"></script>
-<script src="js/20-scorm.js" id="gl-scorm"></script>
 <script src="js/21-transisi.js"></script>
 <script src="js/32-transisi-pixel.js"></script>
 <!-- gamifikasi (bisa dimatikan pengguna; lihat GAMIFICATION.md) -->

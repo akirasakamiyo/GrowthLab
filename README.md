@@ -30,13 +30,16 @@ js/                   skrip, dimuat berurutan sesuai nomor
   08-ui.js              widget beranda, peta, glosarium
   09-app.js             router halaman, progres, lencana bab
   10–19                 efek visual (hero 3D, chat, motion, hover)
-  20-scorm.js           laporan nilai ke LMS (SCORM 1.2)
   21-transisi.js        pemilih transisi halaman acak (tidak mengulang jenis yang sama berturut-turut)
+  43-pwa.js             mendaftarkan service worker + tombol Pasang di Pengaturan (PWA)
   gamifikasi/           XP, level, notifikasi — terpisah dari konten, lihat GAMIFICATION.md
 vendor/               pustaka & font lokal (GSAP, Lenis, Matter, three.js) — tidak perlu internet
 assets/sim/           gambar latar simulasi
 assets/sb/            screenshot untuk storyboard
-tools/                build-offline.js (paket ZIP & SCORM), build-pages.sh (salin ke repo GitHub Pages)
+assets/ikon/          ikon aplikasi (PWA)
+manifest.webmanifest  identitas aplikasi untuk dipasang (nama, ikon, warna)
+sw.js                 service worker: simpan file supaya jalan tanpa internet
+tools/                build-pages.sh (salin ke repo GitHub Pages), precache.js (daftar file untuk sw.js)
 tests/                tes otomatis (lihat tests/README.md)
 arsip/                versi lama (v4, cadangan v6) — tidak dipakai
 ```
@@ -53,10 +56,9 @@ npm run serve               # server lokal di http://localhost:8000
 npm run screenshots         # (di terminal lain) buat ulang docs/screenshots untuk README GitHub
 ```
 
-## Membuat paket offline & update GitHub
+## Update GitHub
 
 ```bash
-node tools/build-offline.js          # dist/GrowthLab_offline.zip dan dist/GrowthLab_SCORM12.zip
 ./tools/build-pages.sh --push        # salin ke ~/Desktop/growthlab-web lalu push ke GitHub
 ```
 

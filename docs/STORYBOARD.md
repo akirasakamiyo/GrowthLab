@@ -1,7 +1,7 @@
 # Storyboard dan Skenario Pembelajaran GrowthLab
 
 **Produk:** GrowthLab, *Self Development for Job Seeker*
-**Jenis media:** multimedia interaktif berbasis website (bisa dibuka daring, paket offline, dan SCORM 1.2)
+**Jenis media:** multimedia interaktif berbasis website (dibuka di browser, bisa dipasang sebagai aplikasi dan dipakai offline)
 **Sasaran:** peserta didik SMK kelas XII dan *fresh graduate*
 **Pengembang:** Kelompok 8, Teknologi Pendidikan FIP UNJ (Rifa Haqi Putra Wibowo, Thumpal Alvin)
 **Dosen pengampu:** Kunto Imbar Nursetyo, S.Pd., M.Pd.

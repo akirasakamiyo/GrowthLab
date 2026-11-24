@@ -12,6 +12,7 @@ Butuh Node.js. Untuk tes browser, pasang Playwright sekali: `npm i playwright@1.
 | `node tests/t-kunci.js chrome 1280 800` | Kunci latihan: kuis, drag & drop, dan simulasi terkunci sampai semua pelajaran bab terkait selesai (pengguna baru, 4 dari 5 pelajaran, Bab 1 tuntas, Bab 1+2, semua selesai; tautan langsung; misi mingguan) |
 | `node tests/t-smoke.js chrome 1280` | Semua halaman tanpa error console |
 | `node tests/t-touch.js` | Gestur sentuh drag-and-drop |
+| `node tests/t-pwa.js chrome` | PWA: membangun situs ke folder sementara, cek manifest + ikon, service worker menyimpan file, lalu server dimatikan dan situs tetap jalan (juga `webkit`) |
 
 Tes lain (t-latihan, t-qa, t-sim, t-touch, t-smoke) mengisi semua pelajaran sebagai selesai lebih dulu supaya latihan terbuka; hanya t-kunci yang menguji keadaan terkunci.
 

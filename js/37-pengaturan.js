@@ -98,9 +98,11 @@ window.GLSET = (() => {
         ${sec("tentang", "Tentang GrowthLab", 6, "", `
           <div class="gst-about"><span class="logo" aria-hidden="true">${($(".nav .logo") || {}).innerHTML || ""}</span><div><b>GrowthLab</b><p>Self Development for Job Seeker. Media belajar soft skill untuk pencari kerja: 15 pelajaran, kuis, drag &amp; drop, dan simulasi wawancara.</p></div></div>
           <dl class="gst-dl gst-dl2">
-            ${row("Platform", "Situs web statis", "Berjalan di browser, bisa dipakai offline; tersedia paket offline dan SCORM 1.2")}
+            ${row("Platform", "Situs web statis (PWA)", "Berjalan di browser, bisa dipasang sebagai aplikasi dan dipakai tanpa internet")}
             ${row("Pengembang", "Kelompok 8", "Teknologi Pendidikan, FIP, Universitas Negeri Jakarta")}
           </dl>
+          <div class="gst-row" id="st-pwa"><div class="gst-l"><b>Pasang sebagai aplikasi</b><p id="st-pwa-d"></p></div>
+            <button type="button" class="btn" id="st-pwa-b" hidden>Pasang</button></div>
           <p class="gst-more"><a href="#/tentang">Lihat identitas pengembang lengkap</a> · <a href="#/dosen">Dashboard dosen &amp; fasilitator</a></p>`)}
         </div>
       </div></div></div>
@@ -179,6 +181,22 @@ window.GLSET = (() => {
       if (!nameNow()) { e.textContent = "Isi dan simpan namamu dulu di bagian Profil, supaya dosen tahu laporan ini milikmu."; inp.focus(); return }
       if (!window.GLG || !GLG.logDownload) { e.textContent = "Catatan belajar belum siap. Muat ulang halaman, lalu coba lagi."; return }
       e.textContent = ""; GLG.logDownload(); say("Laporan diunduh. Kirim filenya ke dosenmu.") };
+
+    /* pasang sebagai aplikasi (PWA, js/43-pwa.js): tombol hanya muncul kalau browser menawarkan pemasangan */
+    const pwaB = $("#st-pwa-b", root), pwaD = $("#st-pwa-d", root);
+    function pwaPaint() {
+      const W = window.GLPWA, off = " Setelah dibuka sekali, materi dan latihan tetap jalan tanpa internet (video tetap butuh internet).";
+      pwaB.hidden = !(W && W.prompt);
+      pwaD.textContent = !W ? "Browser ini belum mendukung pemasangan aplikasi."
+        : W.standalone ? "Sudah terpasang. Buka GrowthLab dari layar utama atau daftar aplikasi." + off
+        : W.prompt ? "Buka GrowthLab seperti aplikasi, langsung dari layar utama atau daftar aplikasi." + off
+        : W.ios ? "Di iPhone atau iPad: buka di Safari, ketuk tombol Bagikan, lalu pilih Tambah ke Layar Utama." + off
+        : W.safari ? "Di Safari Mac: pilih menu File, lalu Tambahkan ke Dock." + off
+        : "Buka menu browser, lalu pilih Pasang aplikasi atau Tambahkan ke layar utama." + off;
+    }
+    if (window.GLPWA) GLPWA.onchange = () => { if (root.isConnected) pwaPaint() };
+    pwaB.onclick = async () => { if (await GLPWA.install()) say("GrowthLab sedang dipasang sebagai aplikasi."); pwaPaint() };
+    pwaPaint();
 
     /* kirim progres live (opt-in): perlu nama dan kode kelas */
     const syW = $("#st-sync-w", root);

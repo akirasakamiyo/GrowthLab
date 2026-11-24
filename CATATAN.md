@@ -345,3 +345,18 @@ urutan dan isi persis sama (diverifikasi: digabung ulang = identik dengan file l
   plus pasangan pilihan dengan `req:{pita:[...]}` sehingga jumlah pilihan tetap 3–4. `GLS.eng.adaptive()` → label di layar situasi.
   Validator: 3 × 1024 jalur, 0 error.
 - README repo GitHub: `docs/README-github.md` + `docs/screenshots/` (dibuat ulang dengan `node tools/screenshots.js`), disalin oleh `build-pages.sh`.
+
+## 15. Paket offline dan SCORM dihapus, diganti PWA (2026-11-24)
+
+Kata dosen, paket offline (`GrowthLab_offline.zip`) dan paket SCORM 1.2 (`GrowthLab_SCORM12.zip`) tidak dipakai. Keduanya dihapus, dan GrowthLab sekarang menjadi **PWA** (Progressive Web App).
+
+**Yang dihapus:** `tools/build-offline.js`, `js/20-scorm.js` (laporan nilai ke LMS), folder `dist/`, folder `offline/` di situs live, tautan unduh di README GitHub, dan jawaban chat tentang SCORM. Bagian 10 dan 13 di atas tetap dibiarkan sebagai riwayat.
+
+**PWA:**
+- `manifest.webmanifest` + `assets/ikon/` (192, 512 maskable, apple-touch-icon 180). Ikon digambar dari favicon labu.
+- `sw.js`: saat dipasang, mengunduh semua file di `precache.json` (sekitar 130 file, 6 MB: css, js, font, gambar, poster video). Halaman diambil dari jaringan dulu, file lain dari salinan tersimpan dulu. Video `.mp4` (63 MB) tidak disimpan, jadi video butuh internet. Data live dosen (Apps Script) tidak lewat cache.
+- `tools/build-pages.sh` mengganti `__V__` di `sw.js` dengan commit, supaya setiap deploy browser memasang versi baru dan cache lama dihapus, lalu menjalankan `tools/precache.js`. Dari folder sumber (`__V__` belum diganti) service worker selalu ambil dari jaringan dulu.
+- `js/43-pwa.js`: mendaftarkan service worker dan menyimpan tawaran pasang dari browser. Di **Pengaturan → Tentang GrowthLab** ada baris *Pasang sebagai aplikasi*. Di Chrome/Edge/Android ada tombol Pasang. Di Safari ditampilkan langkah manual (iPhone/iPad: Bagikan → Tambah ke Layar Utama; Mac: File → Tambahkan ke Dock).
+
+**Uji:** `node tests/t-pwa.js chrome` dan `webkit`. Tes membangun situs ke folder sementara, memeriksa manifest dan ikon, menunggu precache selesai, lalu mematikan server dan memuat ulang. Beranda, katalog, pelajaran, glosarium, latihan, dan gambar tetap tampil tanpa error.
+

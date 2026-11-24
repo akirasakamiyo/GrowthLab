@@ -1,5 +1,6 @@
 const http=require("http"),fs=require("fs"),path=require("path");
-const ROOT=require("path").join(__dirname,".."),T={".html":"text/html; charset=utf-8",".js":"text/javascript",".css":"text/css",".json":"application/json",".png":"image/png",".jpg":"image/jpeg",".webp":"image/webp",".svg":"image/svg+xml",".mp4":"video/mp4"};
+/* folder lain (mis. hasil build-pages.sh untuk t-pwa): node tests/serve.js <folder> */
+const ROOT=process.argv[2]?path.resolve(process.argv[2]):path.join(__dirname,".."),T={".html":"text/html; charset=utf-8",".webmanifest":"application/manifest+json",".js":"text/javascript",".css":"text/css",".json":"application/json",".png":"image/png",".jpg":"image/jpeg",".webp":"image/webp",".svg":"image/svg+xml",".mp4":"video/mp4"};
 http.createServer((q,r)=>{let p=decodeURIComponent(q.url.split("?")[0]);if(p==="/")p="/index.html";const f=path.join(ROOT,path.normalize(p));if(!f.startsWith(ROOT)){r.writeHead(403);return r.end()}
 fs.readFile(f,(e,d)=>{if(e){r.writeHead(404);return r.end("404")}const ty=T[path.extname(f)]||"application/octet-stream",m=/bytes=(\d*)-(\d*)/.exec(q.headers.range||"");
  /* Range untuk video (Safari wajib) */
