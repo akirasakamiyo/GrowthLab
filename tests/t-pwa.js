@@ -9,6 +9,8 @@ let bad = 0; const ok = (c, m) => { console.log((c ? "  ok  " : "  GAGAL ") + m)
 (async () => {
   const OUT = fs.mkdtempSync(path.join(os.tmpdir(), "gl-pwa-"));
   execFileSync(path.join(__dirname, "..", "tools", "build-pages.sh"), [OUT], { stdio: "pipe" });
+  /* versi beku di versi/pertemuan-12/ (tools/bekukan-versi.sh) untuk menguji dua service worker berdampingan */
+  execFileSync(path.join(__dirname, "..", "tools", "bekukan-versi.sh"), ["pertemuan-12", OUT], { stdio: "pipe" });
   const L = JSON.parse(fs.readFileSync(path.join(OUT, "precache.json"), "utf8"));
   const sw = fs.readFileSync(path.join(OUT, "sw.js"), "utf8");
   ok(!/const V = "__V__"/.test(sw), "sw.js hasil build memakai versi commit");
@@ -31,11 +33,28 @@ let bad = 0; const ok = (c, m) => { console.log((c ? "  ok  " : "  GAGAL ") + m)
     ok(man.ik.every(Boolean) && man.ap, "ikon manifest dan apple-touch-icon bisa diunduh");
     /* service worker aktif dan precache selesai */
     await p.waitForFunction(() => navigator.serviceWorker && navigator.serviceWorker.ready.then(() => true), null, { timeout: 20000 });
-    await p.waitForFunction(async n => { const k = (await caches.keys()).find(k => k.startsWith("gl-")); return k && (await (await caches.open(k)).keys()).length >= n }, L.length, { timeout: 60000, polling: 500 });
+    /* tunggu precache selesai (polling sungguhan; fungsi async di waitForFunction selalu dianggap benar) */
+    const isi = () => p.evaluate(async () => { const k = (await caches.keys()).find(k => k.startsWith("gl:/:")); return k ? (await (await caches.open(k)).keys()).length : 0 });
+    for (let i = 0; i < 120 && (await isi()) < L.length; i++) await sl(500);
+    ok((await isi()) >= L.length, "precache selesai: semua file tersimpan");
     const ck = await p.evaluate(async () => { const k = await caches.keys(); return k });
-    ok(ck.length === 1 && /^gl-[0-9a-f]{7,}$/.test(ck[0]), "satu cache bernama gl-<commit>: " + ck.join(","));
+    ok(ck.length === 1 && /^gl:\/:[0-9a-f]{7,}$/.test(ck[0]), "satu cache bernama gl:/:<commit>: " + ck.join(","));
     await p.reload({ waitUntil: "load" });
     ok(await p.evaluate(() => !!navigator.serviceWorker.controller), "halaman dikendalikan service worker");
+    /* versi beku: halaman sendiri, label versi, service worker dan cache sendiri, cache utama tetap utuh */
+    const pv = await ctx.newPage();
+    await pv.goto(BASE + "versi/pertemuan-12/#/", { waitUntil: "load" });
+    for (let i = 0; i < 120 && !(await pv.evaluate(async () => (await caches.keys()).some(x => x.startsWith("gl:/versi/pertemuan-12/:")))); i++) await sl(500);
+    await pv.reload({ waitUntil: "load" }); await sl(800);
+    const vb = await pv.evaluate(async () => { const r = await navigator.serviceWorker.getRegistration(); const k = await caches.keys();
+      const pill = document.querySelector(".gl-vpill"); return { scope: r && new URL(r.scope).pathname, k, pill: pill && pill.textContent, href: pill && pill.getAttribute("href") } });
+    ok(vb.scope === "/versi/pertemuan-12/", "versi beku punya service worker sendiri: " + vb.scope);
+    ok(/Pertemuan 12/.test(vb.pill || "") && vb.href === "/", "label versi beku tampil dan menuju versi terbaru");
+    ok(vb.k.length === 2 && vb.k.includes(ck[0]), "cache versi utama tidak terhapus: " + vb.k.join(","));
+    await pv.close();
+    await p.evaluate(() => location.hash = "#/tentang"); await sl(1500);
+    const vt = await p.evaluate(() => [...document.querySelectorAll(".gl-v .btn")].map(a => a.getAttribute("href")));
+    ok(vt.includes("/versi/pertemuan-12/"), "kartu Versi produk di Tentang menautkan versi beku");
     /* tombol/arahan pasang di Pengaturan */
     await p.evaluate(() => location.hash = "#/pengaturan"); await sl(1200);
     const pw = await p.evaluate(() => { const d = document.getElementById("st-pwa-d"); return d && d.textContent });

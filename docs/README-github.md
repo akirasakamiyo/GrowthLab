@@ -134,6 +134,13 @@ Halaman **Laporan pengembangan** di dalam produk merangkum proses pengembangan G
 | Mode luring | *Progressive Web App* dengan *service worker* |
 | Pengujian | Pengujian otomatis dengan Playwright pada Chrome dan Safari (WebKit), di ukuran layar komputer dan ponsel |
 
+**Versi produk.** Setiap tahap pengumpulan disimpan sebagai versi tersendiri agar perkembangan produk dapat dibandingkan:
+
+| Versi | Alamat |
+|---|---|
+| Versi terbaru (menuju produk final, 9 Desember 2026) | https://akirasakamiyo.github.io/GrowthLab/ |
+| Pertemuan 12 (24 November 2026) | https://akirasakamiyo.github.io/GrowthLab/versi/pertemuan-12/ |
+
 **Repositori.** Kode sumber berada pada cabang [`kode`](https://github.com/akirasakamiyo/GrowthLab/tree/kode). Cabang `main` berisi versi situs yang ditayangkan. Versi yang dikumpulkan ditandai dengan *tag*, misalnya [`pertemuan-12`](https://github.com/akirasakamiyo/GrowthLab/tree/pertemuan-12).
 
 > **Catatan.** GrowthLab merupakan prototipe untuk keperluan tugas mata kuliah. Karena seluruh data tersimpan di peramban, progres tidak berpindah antarperangkat kecuali melalui fitur unduh dan pulihkan cadangan.

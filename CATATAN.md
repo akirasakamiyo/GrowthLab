@@ -387,3 +387,17 @@ Atas permintaan Rifa dan dosen, laporan pengembangan ditampilkan di dalam produk
 
 - Isi ada di `js/45-laporan.js` (gaya di `css/30-laporan.css`). Setelah uji ahli media dan uji pengguna dilaksanakan, ubah `st` menjadi `"selesai"` dan isi `hasil` pada daftar `UJI` di file itu.
 - Laporan lengkap versi dokumen (Google Docs) dibuat terpisah nanti.
+
+## 20. Versi produk untuk dibandingkan (2026-11-24)
+
+Dosen ingin membandingkan produk antartahap pengumpulan (kolom SPS: Pertemuan 12, After Konsultasi Ahli Media, Final Produk Multimedia). Karena itu setiap tahap dibekukan sebagai salinan tersendiri:
+
+- **Versi terbaru:** https://akirasakamiyo.github.io/GrowthLab/ (terus dikembangkan sampai final, 9 Desember 2026).
+- **Pertemuan 12:** https://akirasakamiyo.github.io/GrowthLab/versi/pertemuan-12/ (dibekukan 24 November 2026, tag git `pertemuan-12`).
+
+Cara membekukan versi baru: tambahkan baris di `DAFTAR` pada `js/46-versi.js`, commit, jalankan `./tools/bekukan-versi.sh <slug>`, lalu `./tools/build-pages.sh --push`, dan beri tag git dengan nama yang sama. Folder versi yang sudah ada tidak ditimpa.
+
+- Kartu **Versi produk** di halaman Tentang menautkan semua versi. Salinan beku menampilkan label kecil "Versi …" yang menuju versi terbaru.
+- Setiap versi punya service worker dan cache sendiri (nama cache `gl:<scope>:<commit>`), dan service worker utama tidak melayani alamat di bawah `versi/`, jadi versi tidak saling menimpa.
+- Progres belajar (localStorage) dipakai bersama oleh semua versi karena alamatnya satu domain.
+- Foto tim baru dipasang di versi final.

@@ -34,6 +34,7 @@ js/                   skrip, dimuat berurutan sesuai nomor
   26-uji-data.js        soal uji pemahaman setiap pelajaran
   44-beranda.js         dashboard peserta di beranda
   45-laporan.js         halaman Laporan pengembangan (#/laporan)
+  46-versi.js           daftar versi produk yang dibekukan (versi/<slug>/)
   gamifikasi/           XP, level, lencana, target mingguan, sertifikat
 vendor/               pustaka dan fon lokal (tanpa CDN)
 assets/               gambar, video, ikon aplikasi, maskot Labi, foto tim (assets/tim/<NIM>.jpg)
@@ -63,6 +64,8 @@ node tests/t-smoke.js chrome 1280    # contoh pengujian; daftar lengkap di tests
 node tools/screenshots.js            # memperbarui tangkapan layar di docs/screenshots
 ./tools/build-pages.sh --push        # menerbitkan ke GitHub Pages
 ```
+
+**Versi beku.** Versi untuk setiap tahap pengumpulan dibekukan dengan `./tools/bekukan-versi.sh <slug>` ke `versi/<slug>/` di situs (lihat CATATAN.md bagian 20).
 
 **Cabang dan tag.** Kode sumber berada pada cabang `kode`. Cabang `main` berisi situs yang ditayangkan dan diisi oleh `tools/build-pages.sh`, sehingga kode tidak digabungkan ke `main`. Versi yang dikumpulkan ditandai dengan *tag*, misalnya `pertemuan-12`.
 
