@@ -1287,3 +1287,46 @@
 :where(html.gl-hc[data-theme=light]) .tm2 .tm-nim{color:#11163f}
 :where(html.gl-hc[data-theme=dark]) .tm2 .tm-nim{color:#fff}
 :where(html[data-theme=dark]) .tm2 .tm-role{color:#14185e;--ink:#14185e;--fg:#14185e;--mut:#3d3862;--acc-t:#b23a12;border:2px solid rgba(233,235,255,.6)}
+/* css/30-laporan.css */
+:where(html[data-theme=dark]) .lap-stat>div{background:#1a1f47;color:#eef0ff;border:3px solid rgba(233,235,255,.6);box-shadow:5px 5px 0 rgba(0,0,0,.55)}
+:where(html[data-theme=dark]) .lap-stat b{color:#eef0ff}
+:where(html.gl-hc[data-theme=dark]) .lap-stat b{color:#fff}
+:where(html[data-theme=dark]) .lap-stat span{color:#b9bee8}
+:where(html.gl-hc[data-theme=light]) .lap-stat span{color:#11163f}
+:where(html.gl-hc[data-theme=dark]) .lap-stat span{color:#fff}
+:where(html[data-theme=dark]) .lap-ph{background:#1a1f47;color:#eef0ff;border:3px solid rgba(233,235,255,.6);box-shadow:6px 6px 0 rgba(0,0,0,.55)}
+:where(html[data-theme=dark]) .lap-ph .no{border:3px solid rgba(233,235,255,.6);color:#eef0ff}
+:where(html.gl-hc[data-theme=dark]) .lap-ph .no{color:#fff}
+:where(html[data-theme=dark]) .lap-ph b{color:#eef0ff}
+:where(html.gl-hc[data-theme=dark]) .lap-ph b{color:#fff}
+:where(html[data-theme=dark]) .lap-ph p{color:#8b91b2}
+:where(html[data-theme=dark]) .lap-ar{border-top:4px solid rgba(233,235,255,.6);border-right:4px solid rgba(233,235,255,.6)}
+:where(html[data-theme=dark]) .lap-loop{border:3px dashed rgba(233,235,255,.6);color:#eef0ff}
+:where(html.gl-hc[data-theme=dark]) .lap-loop{color:#fff}
+:where(html[data-theme=dark]) .lap-loop>span{background:#141838;color:#eef0ff}
+:where(html[data-theme=dark]) .lap-dl{background:#1a1f47;color:#eef0ff;border:3px solid rgba(233,235,255,.6);box-shadow:6px 6px 0 rgba(0,0,0,.55)}
+:where(html[data-theme=dark]) .lap-dl>div{border-top:2px solid rgba(255,255,255,.16)}
+:where(html[data-theme=dark]) .lap-dl dt{color:#eef0ff}
+:where(html.gl-hc[data-theme=dark]) .lap-dl dt{color:#fff}
+:where(html[data-theme=dark]) .lap-dl dd{color:#eef0ff}
+:where(html.gl-hc[data-theme=dark]) .lap-dl dd{color:#fff}
+:where(html[data-theme=dark]) .lap-tl{border-left:4px solid rgba(233,235,255,.6)}
+:where(html[data-theme=dark]) .lap-tl li::before{color:#14185e;--ink:#14185e;--fg:#14185e;--mut:#3d3862;--acc-t:#b23a12;border:3px solid rgba(233,235,255,.6)}
+:where(html[data-theme=dark]) .lap-tl time{color:#eef0ff}
+:where(html.gl-hc[data-theme=dark]) .lap-tl time{color:#fff}
+:where(html[data-theme=dark]) .lap-tl b{color:#eef0ff}
+:where(html.gl-hc[data-theme=dark]) .lap-tl b{color:#fff}
+:where(html[data-theme=dark]) .lap-tl p{color:#eef0ff}
+:where(html.gl-hc[data-theme=dark]) .lap-tl p{color:#fff}
+:where(html[data-theme=dark]) .lap-tw{border:3px solid rgba(233,235,255,.6);box-shadow:6px 6px 0 rgba(0,0,0,.55);background:#1a1f47;color:#eef0ff}
+:where(html[data-theme=dark]) .lap-tb{color:#eef0ff}
+:where(html.gl-hc[data-theme=dark]) .lap-tb{color:#fff}
+:where(html[data-theme=dark]) .lap-tb th,:where(html[data-theme=dark]) .lap-tb td{border-top:2px solid rgba(255,255,255,.16)}
+:where(html[data-theme=dark]) .lap-tb td .ok{border:2px solid rgba(233,235,255,.6)}
+:where(html[data-theme=dark]) .lap-u h3{color:#eef0ff}
+:where(html.gl-hc[data-theme=dark]) .lap-u h3{color:#fff}
+:where(html[data-theme=dark]) .lap-u .lap-st{background:#1a1f47;color:#9f8f59}
+:where(html[data-theme=dark]) .lap-u.done .lap-st{background:#141838;color:#609791}
+@media (max-width:980px){
+:where(html[data-theme=dark]) .lap-loop{border:3px dashed rgba(233,235,255,.6)}
+}

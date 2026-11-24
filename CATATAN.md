@@ -380,3 +380,10 @@ Atas permintaan Rifa, beranda berubah jadi dashboard begitu peserta menyelesaika
 
 - Tabel Identitas pengembang diganti tiga kartu: **Produk**, **Akademik**, dan **Kelompok 8** (anggota beserta NIM, kontak).
 - Kartu tim memakai bingkai foto (rasio 4:5). Foto diletakkan di `assets/tim/<NIM>.jpg`, misalnya `assets/tim/1101624089.jpg`. Selama foto belum ada, doodle lama tampil di dalam bingkai. Begitu file foto ada, foto langsung tampil tanpa perlu mengubah kode.
+
+## 19. Halaman Laporan pengembangan (2026-11-24)
+
+Atas permintaan Rifa dan dosen, laporan pengembangan ditampilkan di dalam produk pada `#/laporan` (menu Panduan → Laporan, juga tautan di halaman Tentang). Isinya mengikuti model Hannafin dan Peck: ringkasan angka produk, bagan tiga tahap dengan evaluasi dan revisi di setiap tahap, uraian Tahap 1 (analisis kebutuhan) dan Tahap 2 (desain), linimasa Tahap 3 (pengembangan dan implementasi), tabel masukan dosen beserta tindak lanjutnya, dan status uji coba produk.
+
+- Isi ada di `js/45-laporan.js` (gaya di `css/30-laporan.css`). Setelah uji ahli media dan uji pengguna dilaksanakan, ubah `st` menjadi `"selesai"` dan isi `hasil` pada daftar `UJI` di file itu.
+- Laporan lengkap versi dokumen (Google Docs) dibuat terpisah nanti.
