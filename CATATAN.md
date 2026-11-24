@@ -360,3 +360,5 @@ Kata dosen, paket offline (`GrowthLab_offline.zip`) dan paket SCORM 1.2 (`Growth
 
 **Uji:** `node tests/t-pwa.js chrome` dan `webkit`. Tes membangun situs ke folder sementara, memeriksa manifest dan ikon, menunggu precache selesai, lalu mematikan server dan memuat ulang. Beranda, katalog, pelajaran, glosarium, latihan, dan gambar tetap tampil tanpa error.
 
+
+**Branch kode (2026-11-24):** `feat/simulasi-branching` diganti nama menjadi `kode` (lokal dan GitHub). Branch `main` di GitHub adalah situs live (GitHub Pages dari `main`, diisi oleh `tools/build-pages.sh --push` dari `~/Desktop/growthlab-web`). Kode jangan pernah di-merge atau di-push ke `main`, karena situs akan tertimpa kode mentah. Langkah merge ke `main` di bagian 9 sudah tidak berlaku.
