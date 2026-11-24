@@ -363,6 +363,6 @@ Kata dosen, paket offline (`GrowthLab_offline.zip`) dan paket SCORM 1.2 (`Growth
 
 **Branch kode (2026-11-24):** `feat/simulasi-branching` diganti nama menjadi `kode` (lokal dan GitHub). Branch `main` di GitHub adalah situs live (GitHub Pages dari `main`, diisi oleh `tools/build-pages.sh --push` dari `~/Desktop/growthlab-web`). Kode jangan pernah di-merge atau di-push ke `main`, karena situs akan tertimpa kode mentah. Langkah merge ke `main` di bagian 9 sudah tidak berlaku.
 
-## 16. Data live ke dosen dibatalkan (2026-11-24)
+## 16. Dashboard dosen dan data live dihapus (2026-11-24)
 
-Atas permintaan Rifa, fitur data live (peserta mengirim progres otomatis ke Google Apps Script + Sheet, dashboard dosen mengambil data tiap menit) dibatalkan dengan me-revert commit a59a432. Yang dihapus: `js/42-sinkron.js`, sakelar *Kirim progres ke dosen* di Pengaturan, bagian live di dashboard dosen, `tools/apps-script/`, serta tes `t-sinkron`, `t-live-ui`, dan `tests/gas-mock.js`. Dashboard dosen tetap ada dengan alur impor file laporan. Kalau nanti mau dipakai lagi, kodenya ada di riwayat git (commit a59a432).
+Atas permintaan Rifa, dashboard dosen (`#/dosen`), data live ke dosen, dan tombol *Unduh laporan* di Pengaturan dihapus seluruhnya. Log belajar (`gl-log`) kembali ke versi sebelum dashboard.

@@ -76,8 +76,6 @@ Setiap pelajaran berisi uraian, konsep penting, diagram, contoh kasus, aktivitas
 
 **⚙️ Pengaturan.** Nama untuk sapaan Beranda dan sertifikat, tema terang/gelap/ikuti perangkat, animasi, ukuran teks, kontras tinggi, kurangi gerakan, volume, video otomatis, dan reset progres dengan konfirmasi.
 
-**📊 Dashboard dosen.** Di `#/dosen` (dengan kode fasilitator), dosen mengimpor laporan yang diunduh peserta dari Pengaturan. Isinya ringkasan kelas, peserta yang perlu dibantu beserta alasannya, progres per peserta, skor per bab, dan analisis soal (% salah dan distraktor), plus ekspor CSV. Panduan: [docs/DASHBOARD-DOSEN.md](DASHBOARD-DOSEN.md).
-
 ![Panel perjalanan karier](docs/screenshots/06-gamifikasi-20261113.png)
 
 **💾 Data milik pengguna.** Progres tersimpan di browser dan bisa diunduh atau dipulihkan sebagai file cadangan. Catatan aktivitas belajar bisa diekspor (JSON/CSV) untuk keperluan penelitian. Tidak ada data yang dikirim ke pihak lain.

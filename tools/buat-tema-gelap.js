@@ -6,7 +6,6 @@
 const fs = require("fs"), path = require("path");
 const ROOT = path.join(__dirname, ".."), OUT = "css/27-tema-gelap.css", SKIP = new Set([OUT, "css/26-pengaturan.css", "css/28-kurangi-gerak.css"]);
 const SIDEBAR = /\.sbn|#sbn/;   // sidebar sudah gelap di kedua tema: aturannya tidak dipetakan
-const OWN_DARK = /\.dsn(-|\b)/;   // dashboard dosen (css/29-dosen.css) sudah punya token gelap sendiri
 const files = [...fs.readFileSync(path.join(ROOT, "index.html"), "utf8").matchAll(/<link rel="stylesheet" href="(css\/[^"]+)"/g)].map(m => m[1]).filter(f => !SKIP.has(f));
 
 /* ---------- warna ---------- */
@@ -120,7 +119,7 @@ function emitTo(items, sink) {
   for (const it of items) {
     if (it.kids) { const inner = []; emitTo(it.kids, inner); if (inner.length) sink.push(`${it.at}{${inner.join("")}}`); continue }
     if (/@|from|to|\d%/.test(it.sel) && !/[.#\[:a-z]/i.test(it.sel)) continue;
-    if (SIDEBAR.test(it.sel) || OWN_DARK.test(it.sel)) continue;
+    if (SIDEBAR.test(it.sel)) continue;
     const { dark, hcL, hcD } = mapRule(it.sel, it.body);
     const S = (scope, d) => { const s = pref(it.sel, scope); if (s && d.length) sink.push(`${s}{${d.join(";")}}`) };
     /* :where() = specificity nol: urutan cascade sama dengan tema terang, jadi aturan yang lebih spesifik tetap menang */

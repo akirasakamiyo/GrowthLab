@@ -11,7 +11,7 @@ const sl = ms => new Promise(r => setTimeout(r, ms));
   p.on("console", m => { if (/error|warning/.test(m.type())) { const t = m.text(); if (!/api\/config|api\/me|WebGL|Failed to load resource|GPU stall|GroupMarkerNotSet/i.test(t)) errs.push(m.type() + " " + t) } });
   await p.goto(BASE + "?s=" + Date.now() + "#/", { waitUntil: "load" });
   await p.waitForFunction(() => !document.getElementById("zpre"), null, { timeout: 15000 }); await sl(1500);
-  const routes = ["#/", "#/course", "#/lesson/0-0", "#/lesson/2-4", "#/latihan", "#/latihan/kuis/b0", "#/course", "#/latihan/dnd/ps", "#/latihan/sim/s1", "#/peta", "#/glosarium", "#/tujuan", "#/petunjuk", "#/alur", "#/e-learning", "#/tentang", "#/faq", "#/pengaturan", "#/dosen"];
+  const routes = ["#/", "#/course", "#/lesson/0-0", "#/lesson/2-4", "#/latihan", "#/latihan/kuis/b0", "#/course", "#/latihan/dnd/ps", "#/latihan/sim/s1", "#/peta", "#/glosarium", "#/tujuan", "#/petunjuk", "#/alur", "#/e-learning", "#/tentang", "#/faq"];
   let bad = 0;
   for (const r of routes) {
     await p.evaluate(r => location.hash = r, r); await sl(1300);

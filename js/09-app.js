@@ -110,7 +110,7 @@ $$("[data-go]").forEach(b=>b.onclick=()=>location.hash="#/");
 
 /* ---------- router ---------- */
 /* judul tab per halaman; pelajaran diatur sendiri di renderLesson */
-const PT={"e-learning":"Katalog Pelajaran",komunitas:"Belajar Bareng",faq:"FAQ",kontak:"Kontak",terms:"Syarat dan Ketentuan",privacy:"Kebijakan Privasi",tentang:"Tentang",tujuan:"Tujuan Belajar",petunjuk:"Petunjuk Penggunaan",alur:"Alur Belajar",latihan:"Latihan",peta:"Peta Konsep",glosarium:"Glosarium",referensi:"Referensi",pengaturan:"Pengaturan",dosen:"Dashboard Dosen"};
+const PT={"e-learning":"Katalog Pelajaran",komunitas:"Belajar Bareng",faq:"FAQ",kontak:"Kontak",terms:"Syarat dan Ketentuan",privacy:"Kebijakan Privasi",tentang:"Tentang",tujuan:"Tujuan Belajar",petunjuk:"Petunjuk Penggunaan",alur:"Alur Belajar",latihan:"Latihan",peta:"Peta Konsep",glosarium:"Glosarium",referensi:"Referensi",pengaturan:"Pengaturan"};
 function pageTitle(v,h){const s=h.split("/")[0];if(v==="home")return TITLE;if(v==="course"){const n=+h.split("/")[1];return(n>=1&&n<=C.chapters.length?"Bab "+n:"Kursus")+" · GrowthLab"}return(PT[s]||"Halaman tidak ditemukan")+" · GrowthLab"}
 function route(){
  const h=location.hash.replace("#/","");let v="home";
@@ -490,7 +490,7 @@ function refresh(){const h=location.hash.replace("#/",""),v=document.body.datase
 renderAuth();boot();
 
 /* ---------- v5: halaman-halaman ---------- */
-const PK=["e-learning","komunitas","faq","kontak","terms","privacy","tentang","tujuan","petunjuk","alur","latihan","peta","glosarium","referensi","pengaturan","dosen"];
+const PK=["e-learning","komunitas","faq","kontak","terms","privacy","tentang","tujuan","petunjuk","alur","latihan","peta","glosarium","referensi","pengaturan"];
 function vOfH(h){const s=h.split("/")[0];if(s==="lesson")return"lesson";if(s==="course")return"course";return!s||s==="home"?"home":"page"/* alamat tak dikenal ikut "page", renderPage menampilkan halaman 404 */}
 const keyOf=()=>{const h=location.hash.replace("#/",""),v=vOfH(h);return v==="home"?"home":v==="lesson"?"lesson":h};let lastK=keyOf();
 const goC=n=>n?"#/course/"+n:"#/course";
@@ -609,16 +609,14 @@ function renderPage(h){const[s,x,y]=h.split("/"),n=+x||0;let H="";const nQ=GLX.n
    <h2 class="rv" style="margin-top:44px">Sumber materi</h2><p class="rv lead2">Materi disusun berdasarkan GBIM dan Jabaran Materi tim pengembang, dengan rujukan buku, jurnal, dan artikel soft skill yang daftarnya ada di halaman Referensi.</p>`)
   +cta(LT[1],"Penasaran sama isinya?",A_("#/course/1","Buka Bab 1"));
  else if(s==="pengaturan")H=GLSET.html()
- else if(s==="dosen")H=GLDOSEN.html()
  else if(!{terms:1,privacy:1}[s])H=hero(LT[0],[["Tidak ditemukan"]],"Error 404","Halaman <em>tidak ditemukan</em>","Alamat yang kamu buka tidak ada di GrowthLab. Mungkin salah ketik, atau halamannya sudah dipindah.",A_("#/","Kembali ke beranda","p")+A_("#/course","Buka materi"))
  else{const T={terms:"Syarat &amp; ketentuan",privacy:"Kebijakan privasi"}[s]||"Informasi";
-  const B=s==="privacy"?[["Data yang disimpan","Progres pelajaran (kunci <code>mer-done</code>) dan hasil latihan (kunci <code>gl-latihan</code>) disimpan di localStorage browser yang kamu pakai. Pilihan di halaman Pengaturan (tema, ukuran teks, suara) disimpan terpisah di kunci <code>gl-pref</code>."],["Tidak dikirim ke server","Dalam mode lokal, tidak ada data yang dikirim ke server mana pun. Formulir kontak juga tidak mengirim pesan."],["Laporan untuk dosen","Tombol “Unduh laporan” di Pengaturan membuat file berisi namamu, pelajaran yang selesai, dan hasil kuis termasuk jawaban per soal. File itu hanya berpindah kalau kamu sendiri mengirimkannya ke dosen. Dosen membukanya di Dashboard dosen, dan laporan disimpan di browser dosen saja (kunci <code>gl-dosen</code>)."],["Menghapus data","Gunakan tombol “Hapus semua hasil latihan” di menu Latihan, atau hapus data situs melalui pengaturan browser."],["Tanpa layanan pihak ketiga","Semua pustaka, font, dan gambar sudah ada di dalam paket situs, sehingga situs tidak menghubungi layanan lain dan bisa dipakai tanpa internet."]]
+  const B=s==="privacy"?[["Data yang disimpan","Progres pelajaran (kunci <code>mer-done</code>) dan hasil latihan (kunci <code>gl-latihan</code>) disimpan di localStorage browser yang kamu pakai. Pilihan di halaman Pengaturan (tema, ukuran teks, suara) disimpan terpisah di kunci <code>gl-pref</code>."],["Tidak dikirim ke server","Dalam mode lokal, tidak ada data yang dikirim ke server mana pun. Formulir kontak juga tidak mengirim pesan."],["Menghapus data","Gunakan tombol “Hapus semua hasil latihan” di menu Latihan, atau hapus data situs melalui pengaturan browser."],["Tanpa layanan pihak ketiga","Semua pustaka, font, dan gambar sudah ada di dalam paket situs, sehingga situs tidak menghubungi layanan lain dan bisa dipakai tanpa internet."]]
    :[["Tujuan penggunaan","GrowthLab adalah prototipe media pembelajaran untuk keperluan pendidikan, bukan layanan komersial."],["Akses","Gratis untuk pembelajaran dan tidak memerlukan akun. Situs dapat dibuka langsung dari file maupun dari server sederhana."],["Konten","Materi disusun oleh Kelompok 8 berdasarkan GBIM dan merujuk buku, jurnal, dan artikel soft skill (daftar di halaman Referensi). Hak cipta sumber tetap milik penulisnya."],["Penilaian","Nilai dan kategori di menu Latihan adalah umpan balik belajar mandiri, bukan sertifikasi resmi dan bukan jaminan diterima kerja."]];
   H=hero(LT[0],[[T]],"Informasi",T,s==="privacy"?"Bagaimana GrowthLab menyimpan dan memperlakukan datamu.":"Ketentuan penggunaan prototipe GrowthLab.",A_("#/","Kembali ke beranda","p"),(s==="privacy"?frV(CO[0],"privasi","Video 24 detik: data yang disimpan di browser dan pilihan kirim progres ke dosen"):fr(CO[0],"shield")))+sec(CR,LT[0],lg2(B))}
  $("#pg").innerHTML=H;
  if(s==="e-learning")bindEL();
  if(s==="pengaturan")GLSET.bind($("#pg"));
- if(s==="dosen")GLDOSEN.bind($("#pg"));
  if(s==="latihan")GLX.mount(x,y);
  if(s==="glosarium")GLU.bindGlos();if(s==="referensi")GLU.bindRef();
  if(s==="kontak")$("#fs").onclick=()=>{const ok=$("#f1").value.trim()&&/.+@.+\..+/.test($("#f3").value);if(!ok){toast("Isi nama dan email yang valid dulu.");return}boom(innerWidth/2,innerHeight/2,40);toast("Terima kasih! (Prototipe: pesan tidak dikirim.)");["f1","f3","f4"].forEach(k=>$("#"+k).value="")}}
