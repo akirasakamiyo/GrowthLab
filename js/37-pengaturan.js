@@ -87,6 +87,8 @@ window.GLSET = (() => {
             ${S.badgesN ? row("Lencana", `${S.badges}/${S.badgesN}`) : ""}
           </dl>
           <p class="gst-store ${S.store ? "ok" : "warn"}"><i aria-hidden="true"></i>${S.store ? "Tersimpan otomatis di browser ini. Data hilang kalau data situs browser dihapus, jadi unduh cadangan di panel Perjalanan karier sebelum ganti perangkat." : "Browser memblokir penyimpanan (mis. mode privat). Progres hanya bertahan selama tab ini terbuka."}</p>
+          <div class="gst-row" id="st-lap"><div class="gst-l"><b>Laporan untuk dosen</b><p>Unduh file berisi namamu, pelajaran yang selesai, dan hasil kuis (termasuk jawaban per soal) dari catatan belajar di browser ini. Kirim file itu ke dosen atau fasilitatormu; file tidak dikirim otomatis ke mana pun.</p><p class="gst-err" id="st-lap-e" role="alert"></p></div>
+            <button type="button" class="btn" id="st-lap-b">Unduh laporan</button></div>
           <div class="gst-row gst-danger"><div class="gst-l"><b>Reset progres belajar</b><p>Menghapus progres pelajaran, hasil latihan, XP, level, lencana, dan streak. Nama dan pengaturan tidak ikut terhapus.</p></div>
             <button type="button" class="btn gst-btn-d" id="st-reset">Reset progres</button></div>`)}
         ${sec("tentang", "Tentang GrowthLab", 6, "", `
@@ -95,7 +97,7 @@ window.GLSET = (() => {
             ${row("Platform", "Situs web statis", "Berjalan di browser, bisa dipakai offline; tersedia paket offline dan SCORM 1.2")}
             ${row("Pengembang", "Kelompok 8", "Teknologi Pendidikan, FIP, Universitas Negeri Jakarta")}
           </dl>
-          <p class="gst-more"><a href="#/tentang">Lihat identitas pengembang lengkap</a></p>`)}
+          <p class="gst-more"><a href="#/tentang">Lihat identitas pengembang lengkap</a> · <a href="#/dosen">Dashboard dosen &amp; fasilitator</a></p>`)}
         </div>
       </div></div></div>
     <div class="gst-modal" id="st-modal" hidden><div class="gst-mbox" role="alertdialog" aria-modal="true" aria-labelledby="st-m-t" aria-describedby="st-m-d">
@@ -166,6 +168,12 @@ window.GLSET = (() => {
       out.textContent = P.muted ? "Bisu" : P.volume + "%"; mu.setAttribute("aria-pressed", P.muted); mu.setAttribute("aria-label", P.muted ? "Nyalakan suara" : "Bisukan suara"); mu.innerHTML = P.muted ? IC.mute : IC.vol };
     vol.addEventListener("input", () => { GLP.set({ volume: +vol.value, muted: +vol.value === 0 ? GLP.get().muted : false }); paint() });
     mu.onclick = () => { GLP.set({ muted: !GLP.get().muted }); paint(); say(GLP.get().muted ? "Suara dibisukan." : "Suara dinyalakan.") };
+
+    /* laporan untuk dosen: perlu nama supaya dosen tahu laporan ini milik siapa */
+    $("#st-lap-b", root).onclick = () => { const e = $("#st-lap-e", root);
+      if (!nameNow()) { e.textContent = "Isi dan simpan namamu dulu di bagian Profil, supaya dosen tahu laporan ini milikmu."; inp.focus(); return }
+      if (!window.GLG || !GLG.logDownload) { e.textContent = "Catatan belajar belum siap. Muat ulang halaman, lalu coba lagi."; return }
+      e.textContent = ""; GLG.logDownload(); say("Laporan diunduh. Kirim filenya ke dosenmu.") };
 
     /* reset dengan modal konfirmasi */
     const modal = $("#st-modal", root), box = $(".gst-mbox", modal); let back = null;
