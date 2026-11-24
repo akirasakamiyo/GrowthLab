@@ -1,67 +1,62 @@
 # GrowthLab: Self Development for Job Seeker
 
-Media pembelajaran interaktif berbasis website — Kelompok 8, Teknologi Pendidikan FIP UNJ.
-Live: https://akirasakamiyo.github.io/GrowthLab/
+Media pembelajaran interaktif berbasis website untuk melatih soft skill siswa SMK kelas XII dan *fresh graduate* yang sedang mencari kerja.
+Dibuat oleh Kelompok 8, Teknologi Pendidikan FIP UNJ, untuk mata kuliah Pengembangan Multimedia Pendidikan.
+
+**Buka:** https://akirasakamiyo.github.io/GrowthLab/
+
+## Isi
+
+- **15 pelajaran dalam 3 bab:** Self-Management, Emotional Intelligence, dan Thinking Skill. Setiap pelajaran berisi materi, contoh kasus, aktivitas, dan cek pemahaman.
+- **Latihan:** kuis pilihan ganda, drag & drop, dan simulasi kasus dunia kerja yang bercabang.
+- **Nilai akhir:** 30% kuis + 70% simulasi, lengkap dengan kategori kesiapan kerja dan sertifikat.
+- **Panduan:** petunjuk, tujuan belajar, peta konsep, glosarium, referensi, dan identitas pengembang.
+- Gratis, tanpa akun. Progres tersimpan di browser. Bisa dipasang sebagai aplikasi (PWA) dan dipakai tanpa internet setelah dibuka sekali.
+
+## Cara membuka
+
+- **Online:** buka tautan di atas.
+- **Sebagai aplikasi:** di Chrome atau Edge, buka *Pengaturan → Tentang GrowthLab → Pasang*. Di iPhone atau iPad, buka di Safari lalu *Bagikan → Tambah ke Layar Utama*.
+- **Dari folder ini:** jalankan `node tests/serve.js`, lalu buka http://localhost:8000.
 
 ## Struktur folder
 
 ```
-index.html            kerangka halaman (markup saja)
-css/                  gaya, dimuat berurutan sesuai nomor
-  01-base.css           warna, tipografi, komponen dasar
-  02-oblo.css           gaya visual utama (kartu, tombol, navbar)
-  03-motion.css         animasi scroll (GSAP/Lenis)
-  04-materi.css         halaman materi & latihan
-  05-interaktif.css     aktivitas "Coba sendiri", beranda, peta konsep, glosarium
-  06-latihan-game.css   kuis ala Quizizz & drag and drop
-  07-simulasi.css       simulasi cerita bercabang
-  08-simulasi-panggung.css  adegan & tokoh simulasi
-  09-ilustrasi.css      animasi ilustrasi materi
-  10-layout-lebar.css   revisi dosen: konten penuh layar 16:9
-  11-lencana-bab.css    lencana saat bab tuntas 5/5
-  12-nilai-terkunci.css nilai akhir terkunci sampai semua latihan selesai
-  13-gamifikasi.css     XP, level, notifikasi (selalu aktif)
-  14-transisi.css       10 jenis transisi antarhalaman (dipilih acak)
+index.html            kerangka halaman
+css/                  tampilan, dimuat berurutan sesuai nomor
 js/                   skrip, dimuat berurutan sesuai nomor
-  03-data.js            SEMUA ISI: materi Bab 1–3, kuis, drag & drop, simulasi, glosarium (edit teks di sini)
-  04-sim-core.js        logika & rumus nilai simulasi
-  05-latihan.js         kuis, drag & drop, nilai akhir
-  06/07-sim-*.js        tampilan & panggung simulasi
-  08-ui.js              widget beranda, peta, glosarium
-  09-app.js             router halaman, progres, lencana bab
-  10–19                 efek visual (hero 3D, chat, motion, hover)
-  21-transisi.js        pemilih transisi halaman acak (tidak mengulang jenis yang sama berturut-turut)
-  43-pwa.js             mendaftarkan service worker + tombol Pasang di Pengaturan (PWA)
-  gamifikasi/           XP, level, notifikasi — terpisah dari konten, lihat GAMIFICATION.md
-vendor/               pustaka & font lokal (GSAP, Lenis, Matter, three.js) — tidak perlu internet
-assets/sim/           gambar latar simulasi
-assets/sb/            screenshot untuk storyboard
-assets/ikon/          ikon aplikasi (PWA)
-manifest.webmanifest  identitas aplikasi untuk dipasang (nama, ikon, warna)
-sw.js                 service worker: simpan file supaya jalan tanpa internet
-tools/                build-pages.sh (salin ke repo GitHub Pages), precache.js (daftar file untuk sw.js)
+  03-data.js            semua isi: materi, kuis, drag & drop, simulasi, glosarium (edit teks di sini)
+  26-uji-data.js        soal uji pemahaman per pelajaran
+  gamifikasi/           XP, level, lencana, streak, sertifikat
+vendor/               pustaka dan font lokal (tanpa CDN)
+assets/               gambar, video, ikon aplikasi, maskot Labi
+manifest.webmanifest  identitas aplikasi (PWA)
+sw.js                 service worker: menyimpan file supaya jalan tanpa internet
+docs/                 storyboard dan bahan README halaman GitHub
+tools/                skrip deploy dan alat bantu
 tests/                tes otomatis (lihat tests/README.md)
-arsip/                versi lama (v4, cadangan v6) — tidak dipakai
+arsip/                versi lama, tidak dipakai
 ```
 
-## Menjalankan
+## Dokumen
 
-Buka `index.html` langsung di browser, atau jalankan server lokal: `node tests/serve.js` lalu buka http://localhost:8000.
+| File | Isi |
+|---|---|
+| [CATATAN.md](CATATAN.md) | Catatan pengembangan lengkap: keputusan, revisi dari dosen, hasil uji |
+| [docs/STORYBOARD.md](docs/STORYBOARD.md) | Storyboard dan skenario pembelajaran (juga tersedia PDF) |
+| [GAMIFICATION.md](GAMIFICATION.md) | Aturan XP, level, lencana, dan streak |
+| [tests/README.md](tests/README.md) | Daftar tes dan cara menjalankannya |
 
-## Alat bantu (sekali pasang)
+## Pengembangan
 
 ```bash
-npm install                 # memasang Playwright untuk tes & screenshot (situsnya sendiri tidak butuh npm)
-npm run serve               # server lokal di http://localhost:8000
-npm run screenshots         # (di terminal lain) buat ulang docs/screenshots untuk README GitHub
+npm install                          # sekali: Playwright untuk tes dan screenshot
+node tests/serve.js                  # server lokal di port 8000
+node tests/t-smoke.js chrome 1280    # contoh tes; daftar lengkap di tests/README.md
+./tools/build-pages.sh --push        # deploy ke GitHub Pages
 ```
 
-## Update GitHub
+**Branch:** kode ada di branch `kode`. Branch `main` berisi situs yang tayang (diisi oleh `build-pages.sh`), jadi jangan merge kode ke `main`.
+**Tag:** versi yang dikumpulkan ditandai dengan tag, misalnya `pertemuan-12`.
 
-```bash
-./tools/build-pages.sh --push        # salin ke ~/Desktop/growthlab-web lalu push ke GitHub
-```
-
-## Catatan keamanan
-
-Semua progres, skor, dan XP disimpan di browser (localStorage), jadi bisa diubah lewat devtools. Ini diterima untuk prototipe; logika XP terisolasi di `js/gamifikasi/` agar mudah dipindah ke server. Detail di `GAMIFICATION.md`.
+Progres, skor, dan XP disimpan di localStorage browser, jadi bisa diubah lewat devtools. Ini diterima untuk prototipe.
