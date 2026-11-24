@@ -7,7 +7,7 @@
 window.GLUJI_DATA = {
   "0-0": [
     { t: "kasus", bag: 1, s: "Nadia jago mengedit video. Hasilnya selalu dipuji, tapi setiap kali selesai mengedit ia merasa sangat lelah dan malas mengulanginya. Menurut S.I.G.N, apa kesimpulan paling tepat?", o: [
-      ["Editing video jelas kekuatan utamanya karena hasilnya bagus.", false, "Hasil bagus baru memenuhi tanda Success. Kekuatan sejati juga harus mengisi energi, bukan menguras."],
+      ["Editing video jelas kekuatan utamanya karena hasilnya bagus.", false, "Hasil bagus baru memenuhi tanda Success. Kekuatan yang sebenarnya juga bikin tenagamu terisi, bukan terkuras."],
       ["Ini kemungkinan keterampilan yang ia kuasai, tapi belum tentu kekuatan, karena tanda Needs (energi terisi) tidak muncul.", true, "Tepat. Kalau sebuah aktivitas selalu menguras energi, ia lebih mirip keterampilan yang dipelajari daripada kekuatan."],
       ["Nadia harus berhenti mengedit video karena itu kelemahannya.", false, "Bukan kelemahan, hasilnya justru bagus. Hanya saja, aktivitas ini belum memenuhi semua tanda kekuatan."],
       ["Tanda Instinct sudah cukup membuktikan editing adalah kekuatannya.", false, "Di cerita ini tidak ada petunjuk Instinct (bersemangat sebelum mulai). Yang terlihat justru ia malas mengulanginya."]] },
@@ -68,7 +68,7 @@ window.GLUJI_DATA = {
       ["Seharusnya cukup satu orang yang memberi ide.", false, "Justru mengajak orang lain membuat pilihan solusinya lebih banyak dan beragam."],
       ["Mereka seharusnya langsung membuat action plan.", false, "Action plan dibuat setelah solusi terbaik dipilih, bukan di tahap mencari ide."]] },
     { t: "dua", bag: 2, s: "Kamu punya tiga ide solusi. Ide A dampaknya besar tapi butuh dana yang tidak kamu punya. Ide B dampaknya sedang dan bisa dijalankan minggu ini. Mana yang lebih masuk akal dipilih sekarang?", o: [["Ide A", false], ["Ide B", true]], r: [
-      ["Karena keputusan harus menimbang kelayakan (feasibility), dampak, waktu, dan sumber daya, bukan dampaknya saja.", true, "Benar. Matriks penilaian memastikan solusi yang dipilih benar-benar bisa dijalankan."],
+      ["Karena keputusan harus menimbang kelayakan (feasibility), dampak, waktu, dan sumber daya, bukan dampaknya saja.", true, "Benar. Menimbang semua hal itu memastikan solusi yang dipilih benar-benar bisa dijalankan."],
       ["Karena ide pertama yang muncul biasanya paling bagus.", false, "Alasan ini keliru. Urutan muncul tidak menentukan kualitas ide."],
       ["Karena dampak besar selalu berarti berisiko dan sebaiknya dihindari.", false, "Dampak besar tidak buruk. Masalahnya, sumber dayanya belum ada."]] },
     { t: "jelas", bag: 0, s: "Pakai teknik 5 Whys: “Aku sering terlambat masuk kerja.” Tuliskan minimal tiga “kenapa?” sampai kamu menemukan akar masalahnya.", m: "Kenapa terlambat? Aku bangun kesiangan. Kenapa kesiangan? Aku tidur larut. Kenapa tidur larut? Aku main ponsel sampai tengah malam. Kenapa main ponsel? Aku tidak punya batas waktu layar. Akar masalahnya: tidak ada kebiasaan berhenti memakai ponsel sebelum tidur, jadi solusinya memasang batas waktu, bukan sekadar menambah alarm.", p: ["Bertanya “kenapa” berulang, minimal tiga kali", "Menemukan penyebab dasar, bukan berhenti di gejala", "Solusi yang diusulkan menyasar akar masalah"] }
@@ -83,7 +83,7 @@ window.GLUJI_DATA = {
       ["Belanja barang mahal setiap kali stres.", false, "Ini cara kabur sebentar dari masalah, bukan merawat diri."],
       ["Tidur cukup, makan bergizi, dan membatasi konten yang membuatmu cemas, dilakukan rutin.", true, "Tepat. Self-care adalah kebiasaan dasar yang dilakukan dengan sadar untuk menjaga fisik dan mental."],
       ["Membatalkan semua kewajiban selama sebulan.", false, "Itu menghindar, bukan merawat diri secara berkelanjutan."],
-      ["Liburan sekali setahun saja sudah cukup.", false, "Self-care yang efektif bersifat rutin, bukan sesekali."]] },
+      ["Liburan sekali setahun saja sudah cukup.", false, "Self-care yang berhasil itu dilakukan rutin, bukan sesekali."]] },
     { t: "dua", bag: 3, s: "Mana rencana self-care yang lebih mungkin bertahan?", o: [["Olahraga 2 jam setiap hari mulai besok", false], ["Jalan kaki 15 menit setiap pagi", true]], r: [
       ["Kebiasaan kecil yang rutin lebih mudah dijaga daripada rencana besar yang cepat ditinggalkan.", true, "Benar. Mulai dari 1–2 kebiasaan kecil, lalu jalankan setiap hari."],
       ["Karena olahraga berat berbahaya untuk kesehatan.", false, "Bukan soal bahaya. Rencana yang terlalu berat biasanya cepat ditinggalkan."],
@@ -118,10 +118,10 @@ window.GLUJI_DATA = {
       ["Emotion-focused: tarik napas dalam beberapa menit untuk menenangkan diri, lalu kerjakan bertahap.", true, "Tepat. Saat sumber masalah belum bisa diubah, tenangkan emosi dulu agar bisa berpikir jernih."],
       ["Mengabaikan laporan sampai paniknya hilang sendiri.", false, "Menghindar justru menambah tekanan menjelang tenggat."],
       ["Begadang tanpa istirahat sampai selesai.", false, "Itu menguras energi dan bisa memperparah stres."]] },
-    { t: "dua", bag: 3, s: "Atasan memintamu mengambil tugas tambahan, padahal bebanmu sudah melebihi kapasitas. Respons mana yang lebih sehat?", o: [["“Saya ingin membantu, tapi minggu ini saya sedang mengejar laporan A. Boleh kita bahas prioritasnya?”", true], ["“Siap, Pak,” lalu begadang setiap malam", false]], r: [
+    { t: "dua", bag: 3, s: "Atasan memintamu mengambil tugas tambahan, padahal bebanmu sudah penuh. Respons mana yang lebih sehat?", o: [["“Saya ingin membantu, tapi minggu ini saya sedang mengejar laporan A. Boleh kita bahas prioritasnya?”", true], ["“Siap, Pak,” lalu begadang setiap malam", false]], r: [
       ["Menetapkan batasan dengan tegas tapi sopan melindungi energi, dan tetap menghargai atasan.", true, "Benar. Berani bilang tidak dengan cara yang baik adalah bagian dari manajemen energi."],
       ["Karena menolak atasan selalu menunjukkan profesionalisme.", false, "Bukan soal menolak, tapi menyampaikan batasan dan mendiskusikan prioritas."],
-      ["Karena tugas tambahan selalu tidak penting.", false, "Tugasnya bisa saja penting. Masalahnya ada pada kapasitas yang sudah penuh."]] },
+      ["Karena tugas tambahan selalu tidak penting.", false, "Tugasnya bisa saja penting. Masalahnya, bebanmu sudah penuh."]] },
     { t: "jelas", bag: 1, s: "Sebutkan satu pemicu stres dari luar dan satu dari dalam dirimu, lalu satu gejala awal yang biasa kamu rasakan.", m: "Dari luar: tenggat tugas yang menumpuk di minggu yang sama. Dari dalam: aku perfeksionis, jadi lama menyelesaikan sesuatu. Gejala awalku: sakit kepala dan jadi gampang tersinggung.", p: ["Menyebut pemicu dari luar (beban, tenggat, konflik, lingkungan)", "Menyebut pemicu dari dalam (perfeksionis, overthinking, pesimis)", "Menyebut gejala awal fisik, emosi, atau perilaku"] }
   ],
   "1-2": [
