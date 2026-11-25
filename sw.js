@@ -1,13 +1,13 @@
 /* 2026-11-24: service worker PWA. GrowthLab bisa dipasang sebagai aplikasi dan dibuka tanpa internet.
-   tools/build-pages.sh mengganti 13dd506 dengan commit dan membuat precache.json (daftar file yang diunduh saat pemasangan).
+   tools/build-pages.sh mengganti 9f7db64 dengan commit dan membuat precache.json (daftar file yang diunduh saat pemasangan).
    - Halaman: ambil dari jaringan dulu, kalau gagal pakai salinan tersimpan.
    - File lain dari situs ini: salinan tersimpan dulu (nama css/js memuat ?v=<commit>, jadi selalu versi yang cocok).
    - Video (.mp4) dan permintaan ke server lain tidak disimpan; video butuh internet.
-   Saat dijalankan dari folder sumber (13dd506 belum diganti), semua permintaan lewat jaringan dulu supaya perubahan langsung terlihat.
+   Saat dijalankan dari folder sumber (9f7db64 belum diganti), semua permintaan lewat jaringan dulu supaya perubahan langsung terlihat.
    2026-11-24 (versi beku): salinan versi lama ada di versi/<nama>/ dengan service worker sendiri (tools/bekukan-versi.sh).
    Karena itu nama cache memuat scope, setiap service worker hanya membaca dan menghapus cache miliknya,
    dan service worker utama tidak melayani alamat di bawah versi/. */
-const V = "13dd506", DEV = V === "__" + "V__";
+const V = "9f7db64", DEV = V === "__" + "V__";
 const SC = new URL(self.registration.scope).pathname;          /* mis. /GrowthLab/ atau /GrowthLab/versi/pertemuan-12/ */
 const UTAMA = !/\/versi\/[^/]+\/$/.test(SC);
 const P = "gl:" + SC + ":", C = P + V;
