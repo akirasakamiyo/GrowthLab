@@ -393,7 +393,7 @@ Atas permintaan Rifa dan dosen, laporan pengembangan ditampilkan di dalam produk
 Dosen ingin membandingkan produk antartahap pengumpulan (kolom SPS: Pertemuan 12, After Konsultasi Ahli Media, Final Produk Multimedia). Karena itu setiap tahap dibekukan sebagai salinan tersendiri:
 
 - **Versi terbaru:** https://akirasakamiyo.github.io/GrowthLab/ (terus dikembangkan sampai final, 9 Desember 2026).
-- **Pertemuan 12:** https://akirasakamiyo.github.io/GrowthLab/versi/pertemuan-12/ (dibekukan 24 November 2026, tag git `pertemuan-12`).
+- **Pertemuan 12:** https://akirasakamiyo.github.io/GrowthLab/versi/pertemuan-12/ (dibekukan ulang 25 November 2026 dengan video promo baru, tag git `pertemuan-12`).
 
 Cara membekukan versi baru: tambahkan baris di `DAFTAR` pada `js/46-versi.js`, commit, jalankan `./tools/bekukan-versi.sh <slug>`, lalu `./tools/build-pages.sh --push`, dan beri tag git dengan nama yang sama. Folder versi yang sudah ada tidak ditimpa.
 
