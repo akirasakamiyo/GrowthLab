@@ -139,7 +139,7 @@ Halaman **Laporan pengembangan** di dalam produk merangkum proses pengembangan G
 | Versi | Alamat |
 |---|---|
 | Versi terbaru (menuju produk final, 9 Desember 2026) | https://akirasakamiyo.github.io/GrowthLab/ |
-| Pertemuan 12 (24 November 2026) | https://akirasakamiyo.github.io/GrowthLab/versi/pertemuan-12/ |
+| Pertemuan 12 (25 November 2026) | https://akirasakamiyo.github.io/GrowthLab/versi/pertemuan-12/ |
 
 **Repositori.** Kode sumber berada pada cabang [`kode`](https://github.com/akirasakamiyo/GrowthLab/tree/kode). Cabang `main` berisi versi situs yang ditayangkan. Versi yang dikumpulkan ditandai dengan *tag*, misalnya [`pertemuan-12`](https://github.com/akirasakamiyo/GrowthLab/tree/pertemuan-12).
 

@@ -9,7 +9,7 @@
    ================================================================== */
 window.GLVERSI = (() => {
   const DAFTAR = [
-    { slug: "pertemuan-12", nama: "Pertemuan 12", tgl: "24 November 2026",
+    { slug: "pertemuan-12", nama: "Pertemuan 12", tgl: "25 November 2026",
       ket: "Produk setelah revisi masukan dosen Pertemuan 11, dikumpulkan di kolom SPS Pertemuan 12." }
   ];
   const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
